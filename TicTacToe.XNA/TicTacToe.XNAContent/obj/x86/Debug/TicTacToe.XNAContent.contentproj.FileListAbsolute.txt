@@ -1,0 +1,3 @@
+F:\TicTacToe\TicTacToe\TicTacToe.XNA\TicTacToe.XNAContent\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\TicTacToe\TicTacToe\TicTacToe.XNA\TicTacToe.XNAContent\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Martin\TicTacToe\trunk\TicTacToe.XNA\TicTacToe.XNAContent\obj\x86\Debug\ResolveAssemblyReference.cache
