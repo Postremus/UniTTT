@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 
+
 namespace UniTTT.Konsole.Games
 {
     class Game
