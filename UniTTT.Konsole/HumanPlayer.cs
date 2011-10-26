@@ -15,7 +15,7 @@ namespace UniTTT.Konsole
             Console.WriteLine();
             int zeile = abfragexy("Zeile", brett);
 
-            if (brett.IsFieldEmpty(zeile, spalte))
+            if (brett.IsFieldEmpty(spalte, zeile))
                 brett.Setzen(Spieler, new Logik.Vector(spalte, zeile));
             else
             {
