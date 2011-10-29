@@ -10,15 +10,10 @@ namespace UniTTT.Logik.KI
         #region Fields
         protected List<int> Wertungen;
         protected List<string> SitCodes;
-        protected int FelderAnzahl { get { return Breite * Hoehe; } }
-        protected GewinnPrüfer pruefer;
         #endregion
 
-        protected Recursive(int b, int h)
+        protected Recursive(int b, int h) : base('O', b, h)
         {
-            Breite = b;
-            Hoehe = h;
-            pruefer = new GewinnPrüfer(Hoehe < Breite ? Hoehe : Breite);
             Wertungen = new List<int>();
             SitCodes = new List<string>();
         }

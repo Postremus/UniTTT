@@ -39,7 +39,7 @@ namespace UniTTT.Konsole
         static void kom_parameter(string[] args)
         {
             args = new string[1];
-            args[0] = "/ki:4";
+            args[0] = "/ki:3";
 
             foreach (var arg in args)
             {
@@ -53,8 +53,6 @@ namespace UniTTT.Konsole
                     learn = true;
                 if (arg.Contains("/kigame"))
                     kigame = true;
-                if (true)
-                {}
             }
         }
     }

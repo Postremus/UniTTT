@@ -23,6 +23,8 @@ namespace UniTTT.Logik.Player
                 KI = new KILike(breite, hoehe);
             else if (kiZahl == 5)
                 KI = new KIRandom(breite, hoehe);
+            else if (kiZahl == 6)
+                KI = new KIMiniMax(breite, hoehe, 'O');
         }
 
         public override Brett Spiele(Brett brett)
@@ -43,6 +45,8 @@ namespace UniTTT.Logik.Player
 
         class KIStack : KI.AbstractKI
         {
+            public KIStack(char spieler, int b, int h) : base(spieler, b, h) { }
+
             public override void Lernen()
             {
                 throw new NotImplementedException();
@@ -64,14 +68,10 @@ namespace UniTTT.Logik.Player
             #region Fields
             private int felder_anzahl { get { return Breite * Hoehe; } }
             private Brett brett;
-            private char kispieler;
             #endregion
 
-            public KIMiniMax(int b, int h, char spieler)
+            public KIMiniMax(int b, int h, char spieler) : base(spieler, b, h)
             {
-                Breite = b;
-                Hoehe = h;
-                kispieler = spieler;
                 brett = new Brett(Breite, Hoehe);
             }
 
@@ -122,7 +122,7 @@ namespace UniTTT.Logik.Player
                         wertungen[i, 1] = Bewertung(mom_sit_code_edited, i, kispieler); // KISpieler Gewonnen
                         wertungen[i, 2] = Bewertung(mom_sit_code_edited, i, SpielerTausch(kispieler)); // MenschGegner Gewonnen
 
-                        Felder[i] = (wertungen[i,0]*500.0 + wertungen[i, 1]) - (wertungen[i,2]*500.0);
+                        Felder[i] = (wertungen[i, 0] * 20.0) + (wertungen[i, 0] * 10.0) - (wertungen[i, 2] * 50.0);
                         if (Felder[i] == 0.0)
                         {
                             Feldertmp = ZugWertungBerechnen(mom_sit_code_edited, SpielerTausch(spieler));
@@ -156,7 +156,7 @@ namespace UniTTT.Logik.Player
 
         class KIReinforcement : KI.AbstractKI
         {
-            public KIReinforcement()
+            public KIReinforcement() : base('O', 3, 3)
             {
                 rnd = new Random();
                 db = new DB("KI_Reinforcement");
@@ -677,11 +677,7 @@ namespace UniTTT.Logik.Player
 
         class KIBot : KI.AbstractKI
         {
-            public KIBot(int breite, int hoehe)
-            {
-                Breite = breite;
-                Hoehe = hoehe;
-            }
+            public KIBot(int breite, int hoehe, char spieler) : base(spieler, breite, hoehe) {}
 
             public override void Lernen()
             {
@@ -693,6 +689,17 @@ namespace UniTTT.Logik.Player
                 return base.Spielen(brett, spieler);
             }
 
+            private bool TestOneWin(string sitcode)
+            {
+                string momsitcode;
+                for (int playerpos = 0; playerpos < sitcode.Length; playerpos++)
+                {
+                    momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, kispieler.ToString());
+                    
+                }
+                return false;
+            }
+
             public override string ToString()
             {
                 return "Bot";
@@ -701,10 +708,8 @@ namespace UniTTT.Logik.Player
 
         class KIRandom : KI.AbstractKI
         {
-            public KIRandom(int breite, int hoehe)
+            public KIRandom(int breite, int hoehe) : base('O', breite, hoehe)
             {
-                Breite = breite;
-                Hoehe = hoehe;
                 rnd = new Random();
             }
 

@@ -125,7 +125,7 @@
       <Project>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</Project>
       <Name>UniTTT.Logik</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TicTacToe.XNAContent\UniTTT.XNAContent.contentproj">
+    <ProjectReference Include="..\UniTTT.XNAContent\UniTTT.XNAContent.contentproj">
       <Name>UniTTT.XNAContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
       <Project>{7EC70813-3C4F-4315-B123-8A0709116351}</Project>

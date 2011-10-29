@@ -7,7 +7,9 @@ namespace UniTTT.Logik
 {
     public class GewinnPrüfer
     {
-        int GewinnBedingung;
+        #region Fields
+        private int GewinnBedingung;
+        #endregion
         public GewinnPrüfer(int bedingung)
         {
             GewinnBedingung = bedingung;

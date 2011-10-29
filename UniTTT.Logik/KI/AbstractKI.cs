@@ -7,6 +7,12 @@ namespace UniTTT.Logik.KI
 {
     public class AbstractKI
     {
+        protected AbstractKI(char spieler, int b, int h)
+        {
+            pruefer = new GewinnPrüfer(Hoehe < Breite ? Hoehe : Breite);
+            kispieler = spieler;
+        }
+
         public virtual void Lernen()
         {
             throw new NotImplementedException();
@@ -19,6 +25,9 @@ namespace UniTTT.Logik.KI
 
         public int Breite { get; protected set; }
         public int Hoehe { get; protected set; }
+        public int FelderAnzahl { get { return Breite * Hoehe; } }
+        public GewinnPrüfer pruefer { get; protected set; }
+        public char kispieler { get; private set; }
 
         public override string ToString()
         {
