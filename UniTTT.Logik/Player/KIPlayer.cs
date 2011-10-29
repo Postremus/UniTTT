@@ -679,6 +679,8 @@ namespace UniTTT.Logik.Player
         {
             public KIBot(int breite, int hoehe, char spieler) : base(spieler, breite, hoehe) {}
 
+            private Random rnd;
+
             public override void Lernen()
             {
                 base.Lernen();
@@ -686,18 +688,35 @@ namespace UniTTT.Logik.Player
 
             public override int Spielen(char[,] brett, char spieler)
             {
-                return base.Spielen(brett, spieler);
+                string sitcode = SitCodeHelper.Berechnen(brett);
+
             }
 
-            private bool TestOneWin(string sitcode)
+            private int TestOneWin(string sitcode)
             {
                 string momsitcode;
-                for (int playerpos = 0; playerpos < sitcode.Length; playerpos++)
+                int win_zug = -1;
+                for (int playerpos = 0; (playerpos < sitcode.Length) && (win_zug == -1); playerpos++)
                 {
                     momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, kispieler.ToString());
-                    
+                    if ((pruefer.Pruefe(kispieler, SitCodeHelper.ToBrett(momsitcode, Breite, Hoehe))) && (win_zug == -1))
+                        win_zug = playerpos;
                 }
-                return false;
+                return win_zug;
+            }
+
+            private int TestHumanBlock(string sitcode)
+            {
+                string momsitcode;
+                int block_zug = -1;
+                char humanplayer = SitCodeHelper.PlayertoSitCode(kispieler);
+                for (int playerpos = 0; (playerpos < sitcode.Length) && (win_zug == -1); playerpos++)
+                {
+                    momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, humanplayer.ToString());
+                    if ((pruefer.Pruefe(humanplayer, SitCodeHelper.ToBrett(momsitcode, Breite, Hoehe))) && (win_zug == -1))
+                        block_zug = playerpos;
+                }
+                return block_zug;
             }
 
             public override string ToString()
