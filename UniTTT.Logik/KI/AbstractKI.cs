@@ -9,8 +9,11 @@ namespace UniTTT.Logik.KI
     {
         protected AbstractKI(char spieler, int b, int h)
         {
-            pruefer = new GewinnPrüfer(Hoehe < Breite ? Hoehe : Breite);
             kispieler = spieler;
+            Breite = b;
+            Hoehe = h;
+            pruefer = new GewinnPrüfer(Hoehe < Breite ? Hoehe : Breite);
+            Rnd = new Random();
         }
 
         public virtual void Lernen()
@@ -28,6 +31,7 @@ namespace UniTTT.Logik.KI
         public int FelderAnzahl { get { return Breite * Hoehe; } }
         public GewinnPrüfer pruefer { get; protected set; }
         public char kispieler { get; private set; }
+        public Random Rnd { get; private set; }
 
         public override string ToString()
         {
@@ -37,6 +41,16 @@ namespace UniTTT.Logik.KI
         protected char SpielerTausch(char spieler)
         {
             return spieler == '2' ? '3' : '2';
+        }
+
+        public int GetRandomZug(string sitcode)
+        {
+            int zug = -1;
+            do
+            {
+                zug = Rnd.Next(0, 9);
+            } while (sitcode[zug] != '1');
+            return zug;
         }
 
         protected static class SitCodeHelper
@@ -58,12 +72,17 @@ namespace UniTTT.Logik.KI
                 return spieler == 'X' ? '2' : '3';
             }
 
+            public static char ToPlayer(char spieler)
+            {
+                return spieler == '2' ? 'X' : 'O';
+            }
+
             public static char[,] ToBrett(string sitCode, int breite, int hoehe)
             {
                 char[,] brett = new char[breite, hoehe];
                 for (int x = 0; x < breite; x++)
                     for (int y = 0; y < hoehe; y++)
-                        brett[x, y] = sitCode[(x + 1) * (y + 1) - 1] == '1' ? ' ' : sitCode[(x + 1) * (y + 1) - 1];
+                        brett[x, y] = sitCode[((x) * 3) + (y + 1) - 1] == '1' ? ' ' : sitCode[((x) * 3) + (y + 1) - 1];
                 return brett;
             }
 

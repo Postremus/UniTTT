@@ -10,6 +10,8 @@ namespace UniTTT.Logik.Player
     public class KIPlayer : AbstractPlayer
     {
         public KI.AbstractKI KI { get; private set; }
+        public int Breite { get; private set; }
+        public int Hoehe { get; private set; }
 
         public KIPlayer(int kiZahl, int breite, int hoehe, char kispieler) : base(kispieler)
         {
@@ -24,13 +26,15 @@ namespace UniTTT.Logik.Player
             else if (kiZahl == 5)
                 KI = new KIRandom(breite, hoehe);
             else if (kiZahl == 6)
-                KI = new KIMiniMax(breite, hoehe, 'O');
+                KI = new KIBot(breite, hoehe, 'O');
+
+            Breite = breite;
+            Hoehe = hoehe;
         }
 
-        public override Brett Spiele(Brett brett)
+        public override Vector Spiele(Brett brett)
         {
-            brett.Setzen(KI.Spielen(brett.VarBrett, Spieler), Spieler);
-            return brett;
+            return BrettHelper.ZugToVector(KI.Spielen(brett.VarBrett, Spieler), Breite, Hoehe);
         }
 
         public void Lerne()
@@ -66,7 +70,6 @@ namespace UniTTT.Logik.Player
         class KIMiniMax : KI.AbstractKI
         {
             #region Fields
-            private int felder_anzahl { get { return Breite * Hoehe; } }
             private Brett brett;
             #endregion
 
@@ -82,9 +85,8 @@ namespace UniTTT.Logik.Player
 
             public override int Spielen(char[,] brett, char spieler)
             {
-                double[] Felder = new double[felder_anzahl];
                 string mom_sit_code = SitCodeHelper.Berechnen(brett);
-                Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
+                double[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
                 return BestenZugAuswaehlen(Felder, mom_sit_code);
             }
 
@@ -92,7 +94,7 @@ namespace UniTTT.Logik.Player
             {
                 int zug = 0;
                 double count = double.MinValue + 0.1;
-                for (int i = 0; i < felder_anzahl; i++)
+                for (int i = 0; i < FelderAnzahl; i++)
                 {
                     if (mom_sit_code[i] == '1')
                     {
@@ -109,15 +111,14 @@ namespace UniTTT.Logik.Player
             private double[] ZugWertungBerechnen(string mom_sit_code, char spieler)
             {
                 string mom_sit_code_edited;
-                double[] Felder = new double[felder_anzahl];
-                double[] Feldertmp = new double[felder_anzahl];
-                double[,] wertungen = new double[felder_anzahl, 3];
-                for (int i = 0; i < felder_anzahl; i++)
+                double[] Felder = new double[FelderAnzahl];
+                double[] Feldertmp = new double[FelderAnzahl];
+                double[,] wertungen = new double[FelderAnzahl, 3];
+                for (int i = 0; i < FelderAnzahl; i++)
                 {
-                    mom_sit_code_edited = mom_sit_code;
                     if (mom_sit_code[i] == '1')
                     {
-                        mom_sit_code_edited = mom_sit_code_edited.Remove(i, 1).Insert(i, spieler.ToString());
+                        mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, spieler.ToString());
                         wertungen[i, 0] = Bewertung(mom_sit_code_edited, i, '1'); // Unentschieden
                         wertungen[i, 1] = Bewertung(mom_sit_code_edited, i, kispieler); // KISpieler Gewonnen
                         wertungen[i, 2] = Bewertung(mom_sit_code_edited, i, SpielerTausch(kispieler)); // MenschGegner Gewonnen
@@ -126,7 +127,7 @@ namespace UniTTT.Logik.Player
                         if (Felder[i] == 0.0)
                         {
                             Feldertmp = ZugWertungBerechnen(mom_sit_code_edited, SpielerTausch(spieler));
-                            for (int y = 0; y < felder_anzahl; y++)
+                            for (int y = 0; y < FelderAnzahl; y++)
                                 Felder[i] += Feldertmp[y];
                         }
                         else
@@ -158,13 +159,11 @@ namespace UniTTT.Logik.Player
         {
             public KIReinforcement() : base('O', 3, 3)
             {
-                rnd = new Random();
                 db = new DB("KI_Reinforcement");
             }
 
             #region Fields
             private DB db;
-            private Random rnd;
             #endregion
 
             private int Rundefrage()
@@ -193,7 +192,7 @@ namespace UniTTT.Logik.Player
                     {
                         player = SpielerTausch(player);
                         sit_codes[a, i] = momsitcode;
-                        zug = random_zug(sit_codes[a, i]);
+                        zug = GetRandomZug(sit_codes[a, i]);
                         zuege[a, i] = zug;
 
                         momsitcode = momsitcode.Remove(zug, 1).Insert(zug, player.ToString());
@@ -224,22 +223,11 @@ namespace UniTTT.Logik.Player
 
             public override int Spielen(char[,] brett, char spieler)
             {
-                string mom_sit_code = SitCodeHelper.Berechnen(brett);
-                int zug = db.Lesen(mom_sit_code);
+                string sitcode = SitCodeHelper.Berechnen(brett);
+                int zug = db.Lesen(sitcode);
                 if (zug == -1)
-                    zug = random_zug(mom_sit_code);
+                    zug = GetRandomZug(sitcode);
                 return zug;
-            }
-
-            // Zufahlszahl erstellen
-            private int random_zug(string sit_code)
-            {
-                int number;
-                do
-                {
-                    number = rnd.Next(0, 9);
-                } while (sit_code[number] != '1');
-                return number;
             }
 
             public override string ToString()
@@ -677,9 +665,7 @@ namespace UniTTT.Logik.Player
 
         class KIBot : KI.AbstractKI
         {
-            public KIBot(int breite, int hoehe, char spieler) : base(spieler, breite, hoehe) {}
-
-            private Random rnd;
+            public KIBot(int breite, int hoehe, char spieler) : base(spieler, breite, hoehe) { }
 
             public override void Lernen()
             {
@@ -689,7 +675,16 @@ namespace UniTTT.Logik.Player
             public override int Spielen(char[,] brett, char spieler)
             {
                 string sitcode = SitCodeHelper.Berechnen(brett);
+                int win_zug = TestOneWin(sitcode);
+                int block_zug = TestHumanBlock(sitcode);
+                int zug = GetRandomZug(sitcode);
 
+                if (win_zug != -1)
+                    return win_zug;
+                else if (block_zug != -1)
+                    return block_zug;
+                else
+                    return zug;
             }
 
             private int TestOneWin(string sitcode)
@@ -698,9 +693,12 @@ namespace UniTTT.Logik.Player
                 int win_zug = -1;
                 for (int playerpos = 0; (playerpos < sitcode.Length) && (win_zug == -1); playerpos++)
                 {
-                    momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, kispieler.ToString());
-                    if ((pruefer.Pruefe(kispieler, SitCodeHelper.ToBrett(momsitcode, Breite, Hoehe))) && (win_zug == -1))
-                        win_zug = playerpos;
+                    if (sitcode[playerpos] == '1')
+                    {
+                        momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, SitCodeHelper.PlayertoSitCode(kispieler).ToString());
+                        if ((pruefer.Pruefe(SitCodeHelper.PlayertoSitCode(kispieler), SitCodeHelper.ToBrett(momsitcode, Breite, Hoehe))) && (win_zug == -1))
+                            win_zug = playerpos;
+                    }
                 }
                 return win_zug;
             }
@@ -709,12 +707,15 @@ namespace UniTTT.Logik.Player
             {
                 string momsitcode;
                 int block_zug = -1;
-                char humanplayer = SitCodeHelper.PlayertoSitCode(kispieler);
-                for (int playerpos = 0; (playerpos < sitcode.Length) && (win_zug == -1); playerpos++)
+                char humanplayer = SitCodeHelper.PlayertoSitCode(kispieler) == '3' ? '2' : '3';
+                for (int playerpos = 0; (playerpos < sitcode.Length) && (block_zug == -1); playerpos++)
                 {
-                    momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, humanplayer.ToString());
-                    if ((pruefer.Pruefe(humanplayer, SitCodeHelper.ToBrett(momsitcode, Breite, Hoehe))) && (win_zug == -1))
-                        block_zug = playerpos;
+                    if (sitcode[playerpos] == '1')
+                    {
+                        momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, humanplayer.ToString());
+                        if ((pruefer.Pruefe(humanplayer, SitCodeHelper.ToBrett(momsitcode, Breite, Hoehe))) && (block_zug == -1))
+                            block_zug = playerpos;
+                    }
                 }
                 return block_zug;
             }
@@ -727,12 +728,7 @@ namespace UniTTT.Logik.Player
 
         class KIRandom : KI.AbstractKI
         {
-            public KIRandom(int breite, int hoehe) : base('O', breite, hoehe)
-            {
-                rnd = new Random();
-            }
-
-            private Random rnd;
+            public KIRandom(int breite, int hoehe) : base('O', breite, hoehe) { }
 
             public override void Lernen()
             {
@@ -742,11 +738,7 @@ namespace UniTTT.Logik.Player
             public override int Spielen(char[,] brett, char spieler)
             {
                 string sitcode = SitCodeHelper.Berechnen(brett);
-                int zug = 0;
-                do
-                {
-                    zug = rnd.Next(0, brett.Length);
-                } while (sitcode[zug] != '1');
+                int zug = GetRandomZug(sitcode);
                 return zug;
             }
 

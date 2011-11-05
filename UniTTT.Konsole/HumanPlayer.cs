@@ -9,21 +9,21 @@ namespace UniTTT.Konsole
     {
         public HumanPlayer(char startspieler) : base(startspieler) { }
 
-        public override Logik.Brett Spiele(Logik.Brett brett)
+        public override Logik.Vector Spiele(Logik.Brett brett)
         {
             int spalte = abfragexy("Spalte", brett);
             Console.WriteLine();
             int zeile = abfragexy("Zeile", brett);
 
             if (brett.IsFieldEmpty(spalte, zeile))
-                brett.Setzen(Spieler, new Logik.Vector(spalte, zeile));
+               return new Logik.Vector(spalte, zeile);
             else
             {
                 Console.WriteLine("Feld bereits besetzt. (Taste drücken)");
                 Console.ReadLine();
                 Spiele(brett);
             }
-            return brett;
+            return null;
         }
 
         //Zeile und Spalte abfragen.

@@ -36,10 +36,12 @@ namespace UniTTT.Konsole
         //ki:2 = Recursion
         //ki:3 = Minimax
         //ki:4 = Like
+        //ki:5 = Random
+        //ki:6 = Bot
         static void kom_parameter(string[] args)
         {
             args = new string[1];
-            args[0] = "/ki:3";
+            args[0] = "/ki:6";
 
             foreach (var arg in args)
             {

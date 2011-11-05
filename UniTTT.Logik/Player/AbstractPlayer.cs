@@ -11,12 +11,13 @@ namespace UniTTT.Logik.Player
         protected AbstractPlayer(char startspieler) 
         {
             Spieler = startspieler;
+            WinCounter = 0;
         }
 
         public char Spieler { get; set; }
         public int WinCounter { get; set; }
 
-        public virtual Brett Spiele(Brett brett)
+        public virtual Vector Spiele(Brett brett)
         {
             throw new NotImplementedException();
         }

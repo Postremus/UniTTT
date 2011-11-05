@@ -11,7 +11,6 @@ namespace UniTTT.Logik
         private int m_hoehe;
         private int m_breite;
         private GewinnPrüfer pruefer;
-        private BrettHelper helper;
         #endregion
 
         #region Methods
@@ -30,7 +29,6 @@ namespace UniTTT.Logik
             VarBrett = new char[Breite, Hoehe];
             BrettArraySetzen();
             pruefer = new GewinnPrüfer(hoehe < breite ? hoehe : breite);
-            helper = new BrettHelper();
         }
 
         public int Length
@@ -107,7 +105,7 @@ namespace UniTTT.Logik
 
             if (gewbl)
                 state = GameStates.Gewonnen;
-            if ((!gewbl) && (!helper.HasEmptyFields(brett)))
+            if ((!gewbl) && (!BrettHelper.HasEmptyFields(brett)))
                 state = GameStates.Unentschieden;
             return state;
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik
 {
-    public class BrettHelper
+    public static class BrettHelper
     {
         public enum GameStates
         {
@@ -14,7 +14,7 @@ namespace UniTTT.Logik
             Laufend
         }
 
-        public int GetFullFields(char[,] brett)
+        public static int GetFullFields(char[,] brett)
         {
             int count = 0;
             foreach (char field in brett)
@@ -23,7 +23,7 @@ namespace UniTTT.Logik
             return count;
         }
 
-        public List<int> GetBrettDimensions(char[,] brett)
+        public static List<int> GetBrettDimensions(char[,] brett)
         {
             List<int> dimensions = new List<int>();
             dimensions.Add(brett.GetUpperBound(0));
@@ -31,7 +31,7 @@ namespace UniTTT.Logik
             return dimensions;
         }
 
-        public List<char> GetAllPlayerSymbols(char[,] brett)
+        public static List<char> GetAllPlayerSymbols(char[,] brett)
         {
             List<char> playersymbols = new List<char>();
             foreach (char field in brett)
@@ -40,12 +40,26 @@ namespace UniTTT.Logik
             return playersymbols;
         }
 
-        public bool HasEmptyFields(char[,] brett)
+        public static bool HasEmptyFields(char[,] brett)
         {
             foreach (char field in brett)
                 if (field == ' ')
                     return true;
             return false;
+        }
+
+        public static Vector ZugToVector(int zug, int breite, int hoehe)
+        {
+            Vector vect = null;
+            for (int x = 0; x < breite; x++)
+            {
+                for (int y = 0; y < hoehe; y++)
+                {
+                    if (x + y == zug)
+                        vect = new Vector(x, y);
+                }
+            }
+            return vect;
         }
     }
 }

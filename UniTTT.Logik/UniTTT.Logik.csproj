@@ -65,7 +65,8 @@
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="IGraphicalBrettDarsteller.cs" />
     <Compile Include="KI\AbstractKI.cs" />
-    <Compile Include="KI\Recursive.cs" />
+    <Compile Include="AbstractGame.cs" />
+    <Compile Include="Player\Recursive.cs" />
     <Compile Include="Player\AbstractPlayer.cs" />
     <Compile Include="Player\KIPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

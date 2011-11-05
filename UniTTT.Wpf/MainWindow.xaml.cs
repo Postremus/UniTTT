@@ -25,6 +25,7 @@ namespace UniTTT.Wpf
         HumanPlayer player1 = new HumanPlayer('X');
         Logik.Player.AbstractPlayer player2 = new HumanPlayer('O');
         BrettDarsteller darsteller;
+        Game g;
 
         public MainWindow()
         {

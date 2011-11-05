@@ -52,14 +52,14 @@ namespace UniTTT.Logik
             return false;
         }
 
-        public int DoCheck(char[,] brett, Directories dir, char spieler, Vector vect, Vector to)
+        public int DoCheck(char[,] brett, Directories dir, char spieler, Vector from, Vector to)
         {
             int counter = 0;
             for (int a = 0; a < GewinnBedingung; a++)
             {
-                if (brett[vect.X, vect.Y] == spieler)
+                if (brett[from.X, from.Y] == spieler)
                     counter++;
-                vect = NextField(dir, vect);
+                from = NextField(dir, from);
             }
 
             return counter;
