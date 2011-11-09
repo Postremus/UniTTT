@@ -64,10 +64,13 @@
     <Compile Include="GewinnPrüfer.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="IGraphicalBrettDarsteller.cs" />
+    <Compile Include="IOutputDarsteller.cs" />
     <Compile Include="KI\AbstractKI.cs" />
-    <Compile Include="AbstractGame.cs" />
-    <Compile Include="Player\Recursive.cs" />
+    <Compile Include="NormalGame.cs" />
+    <Compile Include="KI\Recursive.cs" />
+    <Compile Include="Parameters.cs" />
     <Compile Include="Player\AbstractPlayer.cs" />
+    <Compile Include="Player\HumanPlayer.cs" />
     <Compile Include="Player\KIPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector.cs" />

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TicTacToe.Wpf.Properties
+namespace UniTTT.Wpf.Properties
 {
 
 

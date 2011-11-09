@@ -55,7 +55,7 @@ namespace UniTTT.Logik
             {
                 for (int y = 0; y < hoehe; y++)
                 {
-                    if (x + y == zug)
+                    if (((x) * 3) + (y + 1) - 1 == zug)
                         vect = new Vector(x, y);
                 }
             }

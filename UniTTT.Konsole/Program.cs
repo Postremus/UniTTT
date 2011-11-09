@@ -9,28 +9,6 @@ namespace UniTTT.Konsole
 {
     class Program
     {
-        #region fields
-        private static int hoehe = 3, breite = 3, ki_zahl;
-        private static bool learn, kigame;
-        #endregion
-
-        static void Main(string[] args)
-        {
-            kom_parameter(args);
-            if (learn)
-            {
-                Logik.Player.KIPlayer kiplayer = new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O');
-                Console.Title = string.Format(CultureInfo.CurrentCulture, "TicTacToe - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.KI.ToString());
-                kiplayer.KI.Lernen();
-            }
-            else
-            {
-                Games.Game game = (!kigame) && (ki_zahl == 0) ? new Games.Game(breite, hoehe, new HumanPlayer('X'), new HumanPlayer('O'))
-                    : ki_zahl > 0 ? new Games.Game(breite, hoehe, new HumanPlayer('X'), new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O'))
-                    : new Games.Game(3, 3, new Logik.Player.KIPlayer(2, 3, 3, 'X'), new Logik.Player.KIPlayer(3, 3, 3, 'O'));
-                game.Start();
-            }
-        }
 
         //ki:1 = Reinforcement
         //ki:2 = Recursion
@@ -38,23 +16,44 @@ namespace UniTTT.Konsole
         //ki:4 = Like
         //ki:5 = Random
         //ki:6 = Bot
-        static void kom_parameter(string[] args)
+        static void Main(string[] args)
         {
-            args = new string[1];
-            args[0] = "/ki:6";
+            Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
-            foreach (var arg in args)
+            int breite = parameters.GetInt("/breite");
+            int hoehe = parameters.GetInt("/hoehe");
+            int ki_zahl = parameters.GetInt("/ki:");
+
+            if (breite == -1)
+                breite = 3;
+            if (hoehe == -1)
+                hoehe = 3;
+
+            if (parameters.GetBool("/learn"))
             {
-                if (arg.Contains("/hoehe:"))
-                    hoehe = int.Parse(arg.Replace("/hoehe:", ""), CultureInfo.CurrentCulture);
-                if (arg.Contains("/breite:"))
-                    breite = int.Parse(arg.Replace("/breite:", ""), CultureInfo.CurrentCulture);
-                if (arg.Contains("/ki:"))
-                    ki_zahl = int.Parse(arg.Replace("/ki:", ""), CultureInfo.CurrentCulture);
-                if (arg.Contains("/learn"))
-                    learn = true;
-                if (arg.Contains("/kigame"))
-                    kigame = true;
+                Logik.Player.KIPlayer kiplayer = new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O');
+                Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.KI.ToString());
+                kiplayer.KI.Lernen();
+            }
+            else
+            {
+                Games.Game game;
+                if (!parameters.GetBool("/kigame"))
+                {
+                    if (parameters.GetInt("/ki:") > 0)
+                    {
+                        game = new Games.Game(breite, hoehe, new HumanPlayer('X'), new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O'));
+                    }
+                    else
+                    {
+                        game = new Games.Game(breite, hoehe, new HumanPlayer('X'), new HumanPlayer('O'));
+                    }
+                }
+                else
+                {
+                    game = new Games.Game(3, 3, new Logik.Player.KIPlayer(ki_zahl, 3, 3, 'X'), new Logik.Player.KIPlayer(ki_zahl, 3, 3, 'O'));
+                }
+                game.Start();
             }
         }
     }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("TicTacToe.Logik")]
-[assembly: AssemblyDescription("Logik für die TicTacToe Programme")]
+[assembly: AssemblyTitle("UniTTT.Logik")]
+[assembly: AssemblyDescription("Logik für die UniTTT Programme")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Martin Panzer")]
-[assembly: AssemblyProduct("TicTacToe.Logik")]
+[assembly: AssemblyProduct("UniTTT.Logik")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

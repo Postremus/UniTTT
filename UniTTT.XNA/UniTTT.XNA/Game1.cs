@@ -22,9 +22,10 @@ namespace UniTTT.XNA
         Logik.Brett brett;
         MouseState MState;
         Logik.Player.AbstractPlayer player;
-        HumanPlayer player1 = new HumanPlayer('X');
-        Logik.Player.AbstractPlayer player2 = new HumanPlayer('O');
+        Logik.Player.HumanPlayer player1 = new Logik.Player.HumanPlayer('X');
+        Logik.Player.AbstractPlayer player2 = new Logik.Player.HumanPlayer('O');
         Logik.GewinnPrüfer pruefer;
+        Logik.NormalGame g;
 
         public Game1()
         {
@@ -52,6 +53,7 @@ namespace UniTTT.XNA
             this.IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = graphics.PreferredBackBufferWidth = 152;
             graphics.ApplyChanges();
+            g = new Logik.NormalGame(3, 3, new Logik.Player.HumanPlayer('X'), new Logik.Player.HumanPlayer('O'), new BrettDarsteller(ref spriteBatch, graphics.GraphicsDevice, Content), new OutputDarsteller());
         }
 
         /// <summary>
@@ -94,19 +96,14 @@ namespace UniTTT.XNA
                         if (brett.IsFieldEmpty(x, y))
                             if (darsteller.Fields[x, y].Contains(new Point(MState.X, MState.Y)))
                             {
-                                if (darsteller.AllowUpdate)
-                                {
-                                    brett.Setzen(player.Spieler, new Logik.Vector(x, y));
-                                    darsteller.Update(brett.VarBrett);
+                                brett.Setzen(player.Spieler, new Logik.Vector(x, y));
+                                darsteller.Update(brett.VarBrett);
 
-                                    Logik.Brett.GameStates state = brett.GetGameState(brett.VarBrett, player.Spieler);
-                                    if (state != Logik.Brett.GameStates.Laufend)
-                                    {
-                                        darsteller.Sperren();
-                                    }
-                                    else if (state == Logik.Brett.GameStates.Laufend)
-                                        SpielerTausch();
-                                }
+                                Logik.BrettHelper.GameStates state = brett.GetGameState(brett.VarBrett, player.Spieler);
+                                if (state != Logik.BrettHelper.GameStates.Laufend)
+                                    darsteller.Sperren();
+                                else if (state == Logik.BrettHelper.GameStates.Laufend)
+                                    SpielerTausch();
                             }
             base.Update(gameTime);
         }

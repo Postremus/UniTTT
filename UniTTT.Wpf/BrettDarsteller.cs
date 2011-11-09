@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 
 namespace UniTTT.Wpf
 {
-    public class BrettDarsteller : Logik.IBrettDarsteller
+    public class BrettDarsteller : Logik.IGraphicalBrettDarsteller
     {
         public BrettDarsteller(int breite, int hoehe, ref MainWindow mainwindow)
         {
@@ -41,7 +41,6 @@ namespace UniTTT.Wpf
 
         public void Draw()
         {
-            throw new NotImplementedException();
         }
 
         public void Erstellen()

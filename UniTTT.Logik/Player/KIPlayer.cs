@@ -140,11 +140,11 @@ namespace UniTTT.Logik.Player
             private double Bewertung(string sit_code, int x, char spieler)
             {
                 double wertung = 0.0;
-                Brett.GameStates state = brett.GetGameState(SitCodeHelper.ToBrett(sit_code, Breite, Hoehe), spieler);
+                BrettHelper.GameStates state = brett.GetGameState(SitCodeHelper.ToBrett(sit_code, Breite, Hoehe), spieler);
 
-                if (state == Brett.GameStates.Gewonnen)
+                if (state == BrettHelper.GameStates.Gewonnen)
                     wertung = 10.0 / Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
-                else if (state == Brett.GameStates.Unentschieden)
+                else if (state == BrettHelper.GameStates.Unentschieden)
                     wertung = Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
                 return wertung;
             }

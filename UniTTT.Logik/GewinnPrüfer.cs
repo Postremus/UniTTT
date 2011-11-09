@@ -61,7 +61,6 @@ namespace UniTTT.Logik
                     counter++;
                 from = NextField(dir, from);
             }
-
             return counter;
         }
 

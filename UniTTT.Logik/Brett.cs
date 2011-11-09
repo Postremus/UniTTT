@@ -14,13 +14,6 @@ namespace UniTTT.Logik
         #endregion
 
         #region Methods
-        public enum GameStates
-        {
-            Gewonnen,
-            Unentschieden,
-            Laufend
-        }
-
         // Konstruktor
         public Brett(int breite, int hoehe)
         {
@@ -60,7 +53,7 @@ namespace UniTTT.Logik
         }
 
         // Brett mittels zug(int) Setzen
-        public void Setzen(int zug, char spieler)
+        public void Setzen(char spieler, int zug)
         {
             int wert = 0;
             for (int x = 0; x < Breite; x++)
@@ -98,15 +91,15 @@ namespace UniTTT.Logik
             return VarBrett[spalte, zeile] == ' ';
         }
 
-        public GameStates GetGameState(char[,] brett, char spieler)
+        public BrettHelper.GameStates GetGameState(char[,] brett, char spieler)
         {
-            GameStates state = GameStates.Laufend;
+            BrettHelper.GameStates state = BrettHelper.GameStates.Laufend;
             bool gewbl = pruefer.Pruefe(spieler, brett);
 
             if (gewbl)
-                state = GameStates.Gewonnen;
+                state = BrettHelper.GameStates.Gewonnen;
             if ((!gewbl) && (!BrettHelper.HasEmptyFields(brett)))
-                state = GameStates.Unentschieden;
+                state = BrettHelper.GameStates.Unentschieden;
             return state;
         }
         #endregion

@@ -20,23 +20,13 @@ namespace UniTTT.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        Brett b = new Brett(3, 3);
-        Logik.Player.AbstractPlayer player;
-        HumanPlayer player1 = new HumanPlayer('X');
-        Logik.Player.AbstractPlayer player2 = new HumanPlayer('O');
-        BrettDarsteller darsteller;
-        Game g;
+        private Logik.NormalGame g { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            darsteller = new BrettDarsteller(3, 3, ref mainwindow);
-            player1 = new HumanPlayer('X');
-            player2 = new HumanPlayer('O');
-            SpielerTausch();
-            lbl_1.Content = player.Ausgabe();
-
-            Title = "TicTacToe - " + this.ToString();
+            g = new NormalGame(3, 3, new Logik.Player.HumanPlayer('X'), new Logik.Player.KIPlayer(6, 3, 3, 'O'), new BrettDarsteller(3, 3, ref mainwindow), new OutputDarsteller(ref mainwindow));
+            g.ODarsteller.PlayerAusgabe(g.player1.Ausgabe());
         }
 
         private void Beenden(object sender, RoutedEventArgs e)
@@ -44,25 +34,10 @@ namespace UniTTT.Wpf
             Close();
         }
 
-        private void WinMessage()
-        {
-            Brett.GameStates state = b.GetGameState(b.VarBrett, player.Spieler);
-            string title = state.ToString();
-            string message = state == Brett.GameStates.Gewonnen ?
-                string.Format("Spieler {0} hat Gewonnen.", player.Spieler) :
-                "Keiner hat Gewonnen, Unentschieden.";
-            MessageBox.Show(message, title);
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void Neuespiel(object sender, RoutedEventArgs e)
         {
-            b = new Brett(3, 3);
-            lbl_1.Content = player.Ausgabe();
-            darsteller = new BrettDarsteller(3, 3, ref mainwindow);
+            g.ODarsteller.PlayerAusgabe(g.player1.Ausgabe());
+            g.NewGame();
         }
 
         public void Btn_Click(object sender, RoutedEventArgs e)
@@ -75,30 +50,15 @@ namespace UniTTT.Wpf
 
                 if (!btnsender.HasContent)
                 {
-                    b.Setzen(field, player.Spieler);
-                    darsteller.Update(b.VarBrett);
-                    if (b.GetGameState(b.VarBrett, player.Spieler) != Brett.GameStates.Laufend)
+                    g.Logik(field);
+                    if (g.HasEnd())
                     {
-                        WinMessage();
-                        darsteller.Sperren();
-                    }
-                    else
-                    {
-                        SpielerTausch();
-                        lbl_1.Content = player.Ausgabe();
+                        g.ODarsteller.WinMessage(g.player.Spieler, g.brett.GetGameState(g.brett.VarBrett, g.player.Spieler));
+                        ((Logik.IGraphicalBrettDarsteller)g.BDarsteller).Sperren();
+                        g.WinCounter();
                     }
                 }
             }
-        }
-
-        private void SpielerTausch()
-        {
-            player = player1 == player ? player2 : player1;
-        }
-
-        public override string ToString()
-        {
-            return (player1 is Logik.Player.KIPlayer) && (player2 is Logik.Player.KIPlayer) ? "KiGame" : "HumanGame";
         }
     }
 }

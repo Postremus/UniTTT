@@ -47,6 +47,7 @@ namespace UniTTT.Konsole
 
         public void Draw()
         {
+            Console.Clear();
             for (int y = 0; y < spielfeld.GetUpperBound(1)+1; y++)
             {
                 for (int x = 0; x < spielfeld.GetUpperBound(0)+1; x++)
