@@ -24,7 +24,7 @@ namespace UniTTT.XNA
         Logik.Player.AbstractPlayer player;
         Logik.Player.HumanPlayer player1 = new Logik.Player.HumanPlayer('X');
         Logik.Player.AbstractPlayer player2 = new Logik.Player.HumanPlayer('O');
-        Logik.GewinnPrüfer pruefer;
+        Logik.GewinnPruefer pruefer;
         Logik.NormalGame g;
 
         public Game1()
@@ -48,7 +48,7 @@ namespace UniTTT.XNA
 
             darsteller = new BrettDarsteller(ref spriteBatch, graphics.GraphicsDevice, Content);
             brett = new Logik.Brett(3, 3);
-            pruefer = new Logik.GewinnPrüfer(3);
+            pruefer = new Logik.GewinnPruefer(3);
 
             this.IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = graphics.PreferredBackBufferWidth = 152;
@@ -96,12 +96,12 @@ namespace UniTTT.XNA
                         if (brett.IsFieldEmpty(x, y))
                             if (darsteller.Fields[x, y].Contains(new Point(MState.X, MState.Y)))
                             {
-                                brett.Setzen(player.Spieler, new Logik.Vector(x, y));
+                                brett.Setzen(player.Spieler, new Logik.Vector2i(x, y));
                                 darsteller.Update(brett.VarBrett);
 
                                 Logik.BrettHelper.GameStates state = brett.GetGameState(brett.VarBrett, player.Spieler);
                                 if (state != Logik.BrettHelper.GameStates.Laufend)
-                                    darsteller.Sperren();
+                                    darsteller.Lock();
                                 else if (state == Logik.BrettHelper.GameStates.Laufend)
                                     SpielerTausch();
                             }

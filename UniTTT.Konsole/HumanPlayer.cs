@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniTTT;
 
 namespace UniTTT.Konsole
 {
@@ -9,14 +10,14 @@ namespace UniTTT.Konsole
     {
         public HumanPlayer(char startspieler) : base(startspieler) { }
 
-        public override Logik.Vector Spiele(Logik.Brett brett)
+        public override Logik.Vector2i Spiele(Logik.Brett brett)
         {
             int spalte = abfragexy("Spalte", brett);
             Console.WriteLine();
             int zeile = abfragexy("Zeile", brett);
 
             if (brett.IsFieldEmpty(spalte, zeile))
-               return new Logik.Vector(spalte, zeile);
+               return new Logik.Vector2i(spalte, zeile);
             else
             {
                 Console.WriteLine("Feld bereits besetzt. (Taste drücken)");

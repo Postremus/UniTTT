@@ -23,12 +23,13 @@ namespace UniTTT.Logik
             return count;
         }
 
-        public static List<int> GetBrettDimensions(char[,] brett)
+        public static Vector2i GetBrettDimensions(char[,] brett)
         {
-            List<int> dimensions = new List<int>();
-            dimensions.Add(brett.GetUpperBound(0));
-            dimensions.Add(brett.GetUpperBound(1));
-            return dimensions;
+            Vector2i ret;
+            int x = brett.GetUpperBound(0);
+            int y = brett.GetUpperBound(1);
+            ret = new Vector2i(x, y);
+            return ret;
         }
 
         public static List<char> GetAllPlayerSymbols(char[,] brett)
@@ -48,15 +49,15 @@ namespace UniTTT.Logik
             return false;
         }
 
-        public static Vector ZugToVector(int zug, int breite, int hoehe)
+        public static Vector2i ZugToVector(int zug, int breite, int hoehe)
         {
-            Vector vect = null;
+            Vector2i vect = null;
             for (int x = 0; x < breite; x++)
             {
                 for (int y = 0; y < hoehe; y++)
                 {
                     if (((x) * 3) + (y + 1) - 1 == zug)
-                        vect = new Vector(x, y);
+                        vect = new Vector2i(x, y);
                 }
             }
             return vect;

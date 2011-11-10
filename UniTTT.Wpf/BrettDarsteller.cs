@@ -16,18 +16,18 @@ namespace UniTTT.Wpf
 {
     public class BrettDarsteller : Logik.IGraphicalBrettDarsteller
     {
-        public BrettDarsteller(int breite, int hoehe, ref MainWindow mainwindow)
+        public BrettDarsteller(int width, int height, ref MainWindow mainwindow)
         {
-            Breite = breite;
-            Hoehe = hoehe;
-            btn = new Button[breite, hoehe];
+            Width = width;
+            Height = height;
+            btn = new Button[width, height];
             MWindow = mainwindow;
-            Erstellen();
+            Create();
         }
 
         #region Fields
-        public int Breite { get; private set; }
-        public int Hoehe { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
         public Button[,] btn { get; private set; }
         private MainWindow MWindow;
         #endregion 
@@ -43,7 +43,7 @@ namespace UniTTT.Wpf
         {
         }
 
-        public void Erstellen()
+        public void Create()
         {
             Thickness margin = new Thickness();
             margin.Left = 148;
@@ -74,13 +74,13 @@ namespace UniTTT.Wpf
             MWindow.Content = MWindow.grid;
         }
 
-        public void Sperren()
+        public void Lock()
         {
             foreach (var button in btn)
                 button.IsEnabled = false;
         }
 
-        public void EntSperren()
+        public void DeLock()
         {
             foreach (var button in btn)
                 button.IsEnabled = true;

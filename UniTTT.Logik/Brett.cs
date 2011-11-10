@@ -10,7 +10,7 @@ namespace UniTTT.Logik
         private char[,] m_brett;
         private int m_hoehe;
         private int m_breite;
-        private GewinnPrüfer pruefer;
+        private GewinnPruefer pruefer;
         #endregion
 
         #region Methods
@@ -21,7 +21,7 @@ namespace UniTTT.Logik
             Breite = breite;
             VarBrett = new char[Breite, Hoehe];
             BrettArraySetzen();
-            pruefer = new GewinnPrüfer(hoehe < breite ? hoehe : breite);
+            pruefer = new GewinnPruefer(hoehe < breite ? hoehe : breite);
         }
 
         public int Length
@@ -47,7 +47,7 @@ namespace UniTTT.Logik
             private set { m_brett = value; }
         }
 
-        public void Setzen(char spieler, Vector vect)
+        public void Setzen(char spieler, Vector2i vect)
         {
             VarBrett[vect.X, vect.Y] = spieler;
         }

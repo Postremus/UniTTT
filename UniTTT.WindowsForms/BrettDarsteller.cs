@@ -3,7 +3,7 @@
 //using System.Linq;
 //using System.Text;
 
-//namespace TicTacToe.WindowsForms
+//namespace UniTTT.WindowsForms
 //{
 //    class BrettDarsteller : Logik.IGraphicalBrettDarsteller
 //    {

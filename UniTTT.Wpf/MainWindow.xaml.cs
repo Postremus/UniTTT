@@ -34,7 +34,7 @@ namespace UniTTT.Wpf
             Close();
         }
 
-        private void Neuespiel(object sender, RoutedEventArgs e)
+        private void NewGame(object sender, RoutedEventArgs e)
         {
             g.ODarsteller.PlayerAusgabe(g.player1.Ausgabe());
             g.NewGame();
@@ -54,7 +54,7 @@ namespace UniTTT.Wpf
                     if (g.HasEnd())
                     {
                         g.ODarsteller.WinMessage(g.player.Spieler, g.brett.GetGameState(g.brett.VarBrett, g.player.Spieler));
-                        ((Logik.IGraphicalBrettDarsteller)g.BDarsteller).Sperren();
+                        ((Logik.IGraphicalBrettDarsteller)g.BDarsteller).Lock();
                         g.WinCounter();
                     }
                 }

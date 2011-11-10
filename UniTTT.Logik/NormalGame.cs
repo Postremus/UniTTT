@@ -59,8 +59,8 @@ namespace UniTTT.Logik
             player = null;
             if (BDarsteller is Logik.IGraphicalBrettDarsteller)
             {
-                ((Logik.IGraphicalBrettDarsteller)BDarsteller).EntSperren();
-                ((Logik.IGraphicalBrettDarsteller)BDarsteller).Erstellen();
+                ((Logik.IGraphicalBrettDarsteller)BDarsteller).DeLock();
+                ((Logik.IGraphicalBrettDarsteller)BDarsteller).Lock();
             }
         }
 

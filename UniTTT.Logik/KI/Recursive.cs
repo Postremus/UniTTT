@@ -31,7 +31,7 @@ namespace UniTTT.Logik.KI
                     Wertungen.Add(1);
                 return;
             }
-            spieler = SpielerTausch(spieler);
+            spieler = PlayerChange(spieler);
             for (int i = 0; i < 9; i++)
             {
                 if (sitcode[i] == '1')
@@ -44,7 +44,7 @@ namespace UniTTT.Logik.KI
             }
         }
 
-        protected int BestenZugAuswaehlen(int[] felder, string momsitcode)
+        protected int SelectBestZug(int[] felder, string momsitcode)
         {
             int zug = 0, count = int.MinValue + 1;
             for (int i = 0; i < FelderAnzahl; i++)

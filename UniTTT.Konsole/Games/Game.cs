@@ -26,7 +26,7 @@ namespace UniTTT.Konsole.Games
             ODarsteller.WinMessage(player.Spieler, brett.GetGameState(brett.VarBrett, player.Spieler));
             WinCounter();
 
-            if (NeuesSpielFrage())
+            if (NewGameQuestion())
             {
                 NewGame();
                 Console.Clear();
@@ -40,7 +40,7 @@ namespace UniTTT.Konsole.Games
         }
 
         // Fragen, ob eine neue Partie gespielt werden soll
-        private bool NeuesSpielFrage()
+        private bool NewGameQuestion()
         {
             Console.WriteLine("Wollen Sie eine neue Partie spielen? (J/N)");
             return Console.ReadLine().Trim().ToUpper(CultureInfo.CurrentCulture) == "J";

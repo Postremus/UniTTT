@@ -7,8 +7,8 @@ namespace UniTTT.Logik
 {
     public interface IBrettDarsteller
     {
-        int Breite { get; }
-        int Hoehe { get; }
+        int Width { get; }
+        int Height { get; }
 
         void Update(char[,] brett);
         void Draw();

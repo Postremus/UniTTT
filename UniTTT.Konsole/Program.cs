@@ -33,7 +33,7 @@ namespace UniTTT.Konsole
             {
                 Logik.Player.KIPlayer kiplayer = new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O');
                 Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.KI.ToString());
-                kiplayer.KI.Lernen();
+                kiplayer.KI.Learn();
             }
             else
             {

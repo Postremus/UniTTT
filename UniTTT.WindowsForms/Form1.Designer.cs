@@ -1,4 +1,4 @@
-﻿namespace TicTacToe.WindowsForms
+﻿namespace UniTTT.WindowsForms
 {
     partial class Form1
     {

@@ -18,20 +18,20 @@ namespace UniTTT.XNA
         {
             Batch = b;
             Graphics = graphic;
-            Breite = Hoehe = 3;
+            Width = Height = 3;
             BrettLines = new List<Rectangle>();
-            FieldTextures = new Texture2D[Breite, Hoehe];
-            Fields = new Rectangle[Breite, Hoehe];
+            FieldTextures = new Texture2D[Width, Height];
+            Fields = new Rectangle[Width, Height];
             Content = content;
             AllowUpdate = true;
             BrettLineTextur = new Texture2D(Graphics, 1, 1);
             BrettLineTextur.SetData<Color>(new Color[] { Color.Gray });
-            Erstellen();
+            Create();
         }
         
         #region Fields
-        public int Breite { get; private set; }
-        public int Hoehe { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
         private List<Rectangle> BrettLines { get; set; }
         private Texture2D BrettLineTextur { get; set; }
         private GraphicsDevice Graphics { get; set; }
@@ -46,9 +46,9 @@ namespace UniTTT.XNA
         {
             if (AllowUpdate)
             {
-                for (int x = 0; x < Breite; x++)
+                for (int x = 0; x < Width; x++)
                 {
-                    for (int y = 0; y < Hoehe; y++)
+                    for (int y = 0; y < Height; y++)
                     {
                         FieldTextures[x, y] = brett[x, y] == 'X' ?
                             Content.Load<Texture2D>("PlayerSymbols\\X") :
@@ -65,33 +65,33 @@ namespace UniTTT.XNA
             foreach (var line in BrettLines)
                 Batch.Draw(BrettLineTextur, line, Color.Black);
 
-            for (int x = 0; x < Breite; x++)
-                for (int y = 0; y < Hoehe; y++)
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
                     Batch.Draw(FieldTextures[x, y], Fields[x, y], Color.White);
         }
 
-        public void Erstellen()
+        public void Create()
         {
             // Alle Linien Senkrecht
-            for (int x = 0; x < Breite-1; x++)
-                BrettLines.Add(new Rectangle((x + 1) * 50, 0, 1, Hoehe * 50 + Hoehe - 1));
+            for (int x = 0; x < Width-1; x++)
+                BrettLines.Add(new Rectangle((x + 1) * 50, 0, 1, Height * 50 + Height - 1));
 
             // Alle Linen Horizontal
-            for (int y = 0; y < Hoehe-1; y++)
-                BrettLines.Add(new Rectangle(0, (y + 1) * 50, Breite * 50 + Breite - 1, 1));
+            for (int y = 0; y < Height-1; y++)
+                BrettLines.Add(new Rectangle(0, (y + 1) * 50, Width * 50 + Width - 1, 1));
 
-            for (int x = 0; x < Breite; x++)
-                for (int y = 0; y < Hoehe; y++)
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
                     Fields[x, y] = new Rectangle(x * 50 + x, y * 50 + y, 50, 50);
             Update(new char[3, 3]);
         }
 
-        public void EntSperren() 
+        public void DeLock() 
         {
             AllowUpdate = true;
         }
 
-        public void Sperren() 
+        public void Lock() 
         {
             AllowUpdate = false;
         }

@@ -5,12 +5,12 @@ using System.Text;
 
 namespace UniTTT.Logik
 {
-    public class Vector
+    public class Vector2i
     {
         public int X { get; set; }
         public int Y { get; set; }
 
-        public Vector(int x, int y)
+        public Vector2i(int x, int y)
         {
             X = x;
             Y = y;

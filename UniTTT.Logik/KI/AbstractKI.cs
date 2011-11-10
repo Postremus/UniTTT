@@ -9,19 +9,19 @@ namespace UniTTT.Logik.KI
     {
         protected AbstractKI(char spieler, int b, int h)
         {
-            kispieler = spieler;
+            kiplayer = spieler;
             Breite = b;
             Hoehe = h;
-            pruefer = new GewinnPrüfer(Hoehe < Breite ? Hoehe : Breite);
+            pruefer = new GewinnPruefer(Hoehe < Breite ? Hoehe : Breite);
             Rnd = new Random();
         }
 
-        public virtual void Lernen()
+        public virtual void Learn()
         {
             throw new NotImplementedException();
         }
 
-        public virtual int Spielen(char[,] brett, char spieler)
+        public virtual int Play(char[,] brett, char spieler)
         {
             throw new NotImplementedException();
         }
@@ -29,8 +29,8 @@ namespace UniTTT.Logik.KI
         public int Breite { get; protected set; }
         public int Hoehe { get; protected set; }
         public int FelderAnzahl { get { return Breite * Hoehe; } }
-        public GewinnPrüfer pruefer { get; protected set; }
-        public char kispieler { get; private set; }
+        public GewinnPruefer pruefer { get; protected set; }
+        public char kiplayer { get; private set; }
         public Random Rnd { get; private set; }
 
         public override string ToString()
@@ -38,7 +38,7 @@ namespace UniTTT.Logik.KI
             return "KI";
         }
 
-        protected char SpielerTausch(char spieler)
+        protected char PlayerChange(char spieler)
         {
             return spieler == '2' ? '3' : '2';
         }
