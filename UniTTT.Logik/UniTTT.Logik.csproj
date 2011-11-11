@@ -62,6 +62,8 @@
     <Compile Include="BrettHelper.cs" />
     <Compile Include="Database\DB.cs" />
     <Compile Include="Database\Connection.cs" />
+    <Compile Include="Database\IDatabase.cs" />
+    <Compile Include="Database\SQLite.cs" />
     <Compile Include="GewinnPruefer.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="IGraphicalBrettDarsteller.cs" />

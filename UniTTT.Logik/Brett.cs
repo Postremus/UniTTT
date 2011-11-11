@@ -91,6 +91,11 @@ namespace UniTTT.Logik
             return VarBrett[spalte, zeile] == ' ';
         }
 
+        public bool IsFieldEmpty(Vector2i vect)
+        {
+            return VarBrett[vect.X, vect.Y] == ' ';
+        }
+
         public BrettHelper.GameStates GetGameState(char[,] brett, char spieler)
         {
             BrettHelper.GameStates state = BrettHelper.GameStates.Laufend;

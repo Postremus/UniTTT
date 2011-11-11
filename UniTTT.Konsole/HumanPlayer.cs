@@ -12,36 +12,26 @@ namespace UniTTT.Konsole
 
         public override Logik.Vector2i Spiele(Logik.Brett brett)
         {
-            int spalte = abfragexy("Spalte", brett);
-            Console.WriteLine();
-            int zeile = abfragexy("Zeile", brett);
-
-            if (brett.IsFieldEmpty(spalte, zeile))
-               return new Logik.Vector2i(spalte, zeile);
-            else
+            Logik.Vector2i ret;
+            do
             {
-                Console.WriteLine("Feld bereits besetzt. (Taste drücken)");
-                Console.ReadLine();
-                Spiele(brett);
-            }
-            return null;
+                ret = abfragexy();
+                if (brett.IsFieldEmpty(ret))
+                    return ret;
+                else
+                {
+                    Console.WriteLine("Feld bereits besetzt. (Taste drücken)");
+                    Console.ReadLine();
+
+                }
+            } while (true);
         }
 
         //Zeile und Spalte abfragen.
-        private int abfragexy(string bezeichner, Logik.Brett b)
+        private Logik.Vector2i abfragexy()
         {
-            int position = 0;
-
-            Console.WriteLine("In welcher {0} soll das {1} gesetzt werden? (1 - {2})", bezeichner, Spieler, b.Breite > b.Hoehe ? b.Breite : b.Hoehe);
-            position = Convert.ToInt32(Console.ReadLine(), System.Globalization.CultureInfo.CurrentCulture) - 1;
-            if ((position > -1) && (position < (b.Hoehe | b.Breite)))
-                return position;
-            else
-            {
-                Console.WriteLine("Fehlerhafte Eingabe ({0}).",
-                   position < 0 ? "Eingabe zu klein" : position > (b.Breite | b.Hoehe) ? "Eingabe zu Groß" : "Unbekannter Fehler.");
-                return abfragexy(bezeichner, b);
-            }
+            Console.WriteLine("In welcher Zeile und Spalte soll das {0} gesetzt werden? (z.B. 0.0)", Spieler);
+            return Logik.Vector2i.GetVectorOfString(Console.ReadLine());
         }
 
         public override string ToString()
