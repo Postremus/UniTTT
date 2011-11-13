@@ -18,7 +18,7 @@ namespace UniTTT.Logik
 
         public static Vector2i GetVectorOfString(string value)
         {
-            int idx = value.IndexOf('.') != -1 ? value.IndexOf('.') : value.IndexOf(',') != -1 ? value.IndexOf(',') : return null;
+            int idx = value.IndexOf('.') != -1 ? value.IndexOf('.') : value.IndexOf(',');
             if (idx == -1)
             {
                 idx = value.IndexOf(',');

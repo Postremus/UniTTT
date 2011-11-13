@@ -1,37 +1,40 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-//namespace UniTTT.WindowsForms
-//{
-//    class BrettDarsteller : Logik.IGraphicalBrettDarsteller
-//    {
-//        public BrettDarsteller() { }
+namespace UniTTT.WindowsForms
+{
+    class BrettDarsteller : Logik.IGraphicalBrettDarsteller
+    {
+        public BrettDarsteller() 
+        {
+            
+        }
 
-//        #region Fields
-//        public int Breite { get; private set; }
-//        public int Hoehe { get; private set; }
-//        #endregion
+        #region Fields
+        public int Height { get; private set; }
+        public int Width { get; private set; }
+        #endregion
 
-//        public void Update()
-//        {
-//        }
+        public void Update(char[,] brett)
+        {
+        }
 
-//        public void Draw()
-//        {
-//        }
+        public void Draw()
+        {
+        }
 
-//        public void Sperren()
-//        {
-//        }
+        public void Lock()
+        {
+        }
 
-//        public void Entsperren()
-//        {
-//        }
+        public void DeLock()
+        {
+        }
 
-//        public void Erstellen()
-//        {
-//        }
-//    }
-//}
+        public void Create()
+        {
+        }
+    }
+}

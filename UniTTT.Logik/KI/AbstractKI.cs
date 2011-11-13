@@ -16,6 +16,14 @@ namespace UniTTT.Logik.KI
             Rnd = new Random();
         }
 
+
+        public int Breite { get; protected set; }
+        public int Hoehe { get; protected set; }
+        public int FelderAnzahl { get { return Breite * Hoehe; } }
+        public GewinnPruefer pruefer { get; protected set; }
+        public char kiplayer { get; private set; }
+        public Random Rnd { get; private set; }
+
         public virtual void Learn()
         {
             throw new NotImplementedException();
@@ -25,13 +33,6 @@ namespace UniTTT.Logik.KI
         {
             throw new NotImplementedException();
         }
-
-        public int Breite { get; protected set; }
-        public int Hoehe { get; protected set; }
-        public int FelderAnzahl { get { return Breite * Hoehe; } }
-        public GewinnPruefer pruefer { get; protected set; }
-        public char kiplayer { get; private set; }
-        public Random Rnd { get; private set; }
 
         public override string ToString()
         {

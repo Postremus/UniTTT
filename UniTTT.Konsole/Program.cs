@@ -18,6 +18,8 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
+            args = new string[1];
+            args[0] = "Ki:4";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int breite = parameters.GetInt("/breite");
@@ -28,6 +30,9 @@ namespace UniTTT.Konsole
                 breite = 3;
             if (hoehe == -1)
                 hoehe = 3;
+
+            if (parameters.GetBool("--help") || parameters.GetBool("--h") || parameters.GetBool("?"))
+                //Help();
 
             if (parameters.GetBool("/learn"))
             {
@@ -56,5 +61,11 @@ namespace UniTTT.Konsole
                 game.Start();
             }
         }
+
+        //static void Help()
+        //{
+        //    Console.WriteLine("--help");
+        //    Console.WriteLine("/breite");
+        //}
     }
 }
