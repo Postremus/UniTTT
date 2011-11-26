@@ -10,31 +10,27 @@ namespace UniTTT.Logik.Player
     public class KIPlayer : AbstractPlayer
     {
         public KI.AbstractKI KI { get; private set; }
-        public int Breite { get; private set; }
-        public int Hoehe { get; private set; }
 
-        public KIPlayer(int kiZahl, int breite, int hoehe, char kispieler) : base(kispieler)
+        public KIPlayer(int kiZahl, int breite, int hoehe, char kispieler)
+            : base(kispieler)
         {
             if (kiZahl == 1)
                 KI = new KIReinforcement();
             else if (kiZahl == 2)
                 KI = new KIRecursion(breite, hoehe);
             else if (kiZahl == 3)
-                KI = new KIMiniMax(breite, hoehe, 'O');
+                KI = new KIMiniMax(breite, hoehe, kispieler);
             else if (kiZahl == 4)
                 KI = new KILike(breite, hoehe);
             else if (kiZahl == 5)
                 KI = new KIRandom(breite, hoehe);
             else if (kiZahl == 6)
-                KI = new KIBot(breite, hoehe, 'O');
-
-            Breite = breite;
-            Hoehe = hoehe;
+                KI = new KIBot(breite, hoehe, kispieler);
         }
 
-        public override Vector2i Spiele(Brett brett)
+        public override Vector2i Play(Fields.IField Field)
         {
-            return BrettHelper.ZugToVector(KI.Play(brett.VarBrett, Spieler), Breite, Hoehe);
+            return Vector2i.IndexToVector(KI.Play(Field, Spieler), Field.Width, Field.Height);
         }
 
         public void Lerne()
@@ -47,45 +43,18 @@ namespace UniTTT.Logik.Player
             return "KIPlayer";
         }
 
-        class KIStack : KI.AbstractKI
-        {
-            public KIStack(char spieler, int b, int h) : base(spieler, b, h) { }
-
-            public override void Learn()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override int Play(char[,] brett, char spieler)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override string ToString()
-            {
-                return "Stack";
-            }
-        }
-
         class KIMiniMax : KI.AbstractKI
         {
-            #region Fields
-            private Brett brett;
-            #endregion
-
-            public KIMiniMax(int b, int h, char spieler) : base(spieler, b, h)
-            {
-                brett = new Brett(Breite, Hoehe);
-            }
+            public KIMiniMax(int b, int h, char spieler) : base(spieler, b, h) { }
 
             public override void Learn()
             {
-                throw new NotImplementedException();
+                base.Learn();
             }
 
-            public override int Play(char[,] brett, char spieler)
+            public override int Play(Fields.IField field, char spieler)
             {
-                string mom_sit_code = SitCodeHelper.Berechnen(brett);
+                string mom_sit_code = SitCodeHelper.Berechnen(field);
                 double[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
                 return BestenZugAuswaehlen(Felder, mom_sit_code);
             }
@@ -140,11 +109,11 @@ namespace UniTTT.Logik.Player
             private double Bewertung(string sit_code, int x, char spieler)
             {
                 double wertung = 0.0;
-                BrettHelper.GameStates state = brett.GetGameState(SitCodeHelper.ToBrett(sit_code, Breite, Hoehe), spieler);
+                FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sit_code, Width, height), spieler);
 
-                if (state == BrettHelper.GameStates.Gewonnen)
+                if (state == FieldHelper.GameStates.Gewonnen)
                     wertung = 10.0 / Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
-                else if (state == BrettHelper.GameStates.Unentschieden)
+                else if (state == FieldHelper.GameStates.Unentschieden)
                     wertung = Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
                 return wertung;
             }
@@ -157,7 +126,8 @@ namespace UniTTT.Logik.Player
 
         class KIReinforcement : KI.AbstractKI
         {
-            public KIReinforcement() : base('O', 3, 3)
+            public KIReinforcement()
+                : base('O', 3, 3)
             {
                 db = new DB("KI_Reinforcement");
             }
@@ -177,7 +147,6 @@ namespace UniTTT.Logik.Player
             {
                 #region Fields
                 char player = 'X';
-                GewinnPruefer pruefer = new GewinnPruefer(3);
                 int runden = Rundefrage(), zug;
                 string momsitcode = SitCodeHelper.Lerrsetzen(9);
                 string[,] sit_codes = new string[runden, 9];
@@ -197,7 +166,7 @@ namespace UniTTT.Logik.Player
 
                         momsitcode = momsitcode.Remove(zug, 1).Insert(zug, player.ToString());
 
-                        gewonnen = pruefer.Pruefe(player, SitCodeHelper.ToBrett(momsitcode, 3, 3));
+                        gewonnen = Logik.GewinnPruefer.Pruefe(player, Fields.SitCode.GetInstance(momsitcode, Width, height));
 
                         // Wertungen
                         // Aufwerten
@@ -221,9 +190,9 @@ namespace UniTTT.Logik.Player
                 db.Speichern();
             }
 
-            public override int Play(char[,] brett, char spieler)
+            public override int Play(Fields.IField Field, char spieler)
             {
-                string sitcode = SitCodeHelper.Berechnen(brett);
+                string sitcode = SitCodeHelper.Berechnen(Field);
                 int zug = db.Lesen(sitcode);
                 if (zug == -1)
                     zug = GetRandomZug(sitcode);
@@ -238,14 +207,14 @@ namespace UniTTT.Logik.Player
             class DB
             {
                 private SQLiteConnection conn = new SQLiteConnection();
-                private Datenbank.Connection verb;
+                private Database.Connection verb;
                 public int[,] Zuege;
                 public string[,] Sit_Code;
                 public int[] Wertung;
 
                 public DB(string dbname)
                 {
-                    verb = new Datenbank.Connection(dbname);
+                    verb = new Database.Connection(dbname);
                 }
 
                 public void Speichern()
@@ -260,25 +229,22 @@ namespace UniTTT.Logik.Player
                                 for (int x = 0; x < Wertung.Length; x++)
                                 {
                                     runde_ausgabe(x);
-                                    for (int i = 0; i < 9; i++)
+                                    for (int i = 0; i < 9 && !string.IsNullOrEmpty(Sit_Code[x, i]); i++)
                                     {
-                                        if (!string.IsNullOrEmpty(Sit_Code[x, i]))
+                                        sql.CommandText = "SELECT COUNT(ID) FROM test WHERE Sit_Code=" + Sit_Code[x, i];
+                                        using (SQLiteDataReader reader = sql.ExecuteReader())
                                         {
-                                            sql.CommandText = "SELECT COUNT(ID) FROM test WHERE Sit_Code=" + Sit_Code[x, i];
-                                            using (SQLiteDataReader reader = sql.ExecuteReader())
+                                            if (Convert.ToInt32(reader[0], CultureInfo.CurrentCulture) > 0)
                                             {
-                                                if (Convert.ToInt32(reader[0], CultureInfo.CurrentCulture) > 0)
-                                                {
-                                                    reader.Close();
-                                                    sql.CommandText = "UPDATE test SET A" + Zuege[x, i] + "=A" + Zuege[x, i] + "+" + Wertung[x] + " WHERE Sit_Code=" + Sit_Code[x, i];
-                                                }
-                                                else if ((Convert.ToInt32(reader[0], CultureInfo.CurrentCulture) == 0))
-                                                {
-                                                    reader.Close();
-                                                    sql.CommandText = "INSERT INTO test (Sit_Code, A" + Zuege[x, i] + ") VALUES (" + Sit_Code[x, i] + ", " + Wertung[x] + ")";
-                                                }
-                                                sql.ExecuteNonQuery();
+                                                reader.Close();
+                                                sql.CommandText = "UPDATE test SET A" + Zuege[x, i] + "=A" + Zuege[x, i] + "+" + Wertung[x] + " WHERE Sit_Code=" + Sit_Code[x, i];
                                             }
+                                            else if ((Convert.ToInt32(reader[0], CultureInfo.CurrentCulture) == 0))
+                                            {
+                                                reader.Close();
+                                                sql.CommandText = "INSERT INTO test (Sit_Code, A" + Zuege[x, i] + ") VALUES (" + Sit_Code[x, i] + ", " + Wertung[x] + ")";
+                                            }
+                                            sql.ExecuteNonQuery();
                                         }
                                     }
                                 }
@@ -299,7 +265,7 @@ namespace UniTTT.Logik.Player
                     #endregion
 
                     // Verbindung Herstellen
-                    if (verb.Close(ref conn))
+                    if (verb.Connect(ref conn))
                     {
                         using (SQLiteTransaction traction = conn.BeginTransaction())
                         {
@@ -345,7 +311,7 @@ namespace UniTTT.Logik.Player
                 {
                     tabname = "test";
                     bool rt_bll = false;
-                    if (verb.Close(ref conn))
+                    if (verb.Connect(ref conn))
                     {
                         using (SQLiteTransaction traction = conn.BeginTransaction())
                         {
@@ -421,10 +387,10 @@ namespace UniTTT.Logik.Player
             }
 
             // TODO: Überarbeiten
-            public override int Play(char[,] brett, char spieler)
+            public override int Play(Fields.IField Field, char spieler)
             {
                 int[] Felder = new int[FelderAnzahl];
-                string mom_sit_code = SitCodeHelper.Berechnen(brett);
+                string mom_sit_code = SitCodeHelper.Berechnen(Field);
                 Felder = WertungenBerechnen(mom_sit_code, spieler);
 
                 return SelectBestZug(Felder, mom_sit_code);
@@ -441,9 +407,9 @@ namespace UniTTT.Logik.Player
                     if (mom_sit_code[i] == '1')
                     {
                         mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
-                        wertungen[i, 0] = db.Lesen(Datenbank.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), '1', "Felder_" + FelderAnzahl); // Unentschieden
-                        wertungen[i, 1] = db.Lesen(Datenbank.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), SitCodeHelper.PlayertoSitCode(spieler), "Felder_" + FelderAnzahl); // Spieler Gewonnen
-                        wertungen[i, 2] = db.Lesen(Datenbank.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)), "Felder_" + FelderAnzahl); // Gegner
+                        wertungen[i, 0] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), '1', "Felder_" + FelderAnzahl); // Unentschieden
+                        wertungen[i, 1] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), SitCodeHelper.PlayertoSitCode(spieler), "Felder_" + FelderAnzahl); // Spieler Gewonnen
+                        wertungen[i, 2] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)), "Felder_" + FelderAnzahl); // Gegner
 
                         Felder[i] = (wertungen[i, 0] + wertungen[i, 1]) - (wertungen[i, 2] * 5);
                     }
@@ -460,7 +426,7 @@ namespace UniTTT.Logik.Player
             {
                 public List<string> Sit_Code { get; set; }
                 public List<int> Wertung { get; set; }
-                public Datenbank.Connection verb;
+                public Database.Connection verb;
                 private SQLiteConnection conn = new SQLiteConnection();
 
                 // Konstruktor
@@ -468,7 +434,7 @@ namespace UniTTT.Logik.Player
                 {
                     Wertung = new List<int>();
                     Sit_Code = new List<string>();
-                    verb = new Datenbank.Connection(dbname);
+                    verb = new Database.Connection(dbname);
                 }
 
                 public void Speichern(string tabname)
@@ -508,7 +474,7 @@ namespace UniTTT.Logik.Player
                 public int Lesen(string mom_sit_code, char bedingung, string tabname)
                 {
                     #region Fields
-                    int rt_int = 0;
+                    int ret = 0;
                     SQLiteDataReader reader;
                     #endregion
 
@@ -521,15 +487,15 @@ namespace UniTTT.Logik.Player
                             {
                                 sql.CommandText = string.Format(CultureInfo.InvariantCulture, "SELECT COUNT(*) FROM {0} WHERE Sit_Code LIKE '{1}' AND Wertung={2}", tabname, mom_sit_code, bedingung);
                                 reader = sql.ExecuteReader();
-                                rt_int = int.Parse(reader[0].ToString(), CultureInfo.CurrentCulture);
+                                ret = int.Parse(reader[0].ToString(), CultureInfo.CurrentCulture);
                                 reader.Close();
                                 reader.Dispose();
                             }
                             traction.Commit();
                         }
-                        verb.Connect(ref conn);
+                        verb.Close(ref conn);
                     }
-                    return rt_int;
+                    return ret;
                 }
 
                 public bool TabelleExistent(string name)
@@ -584,11 +550,12 @@ namespace UniTTT.Logik.Player
                 }
             }
         }
-        
+
         class KILike : KI.Recursive
         {
 
-            public KILike(int b, int h) : base(b, h) 
+            public KILike(int b, int h)
+                : base(b, h)
             {
                 Recursion(FelderAnzahl, SitCodeHelper.Lerrsetzen(FelderAnzahl), '3');
                 Recursion(FelderAnzahl, SitCodeHelper.Lerrsetzen(FelderAnzahl), '2');
@@ -597,13 +564,13 @@ namespace UniTTT.Logik.Player
             // KI
             public override void Learn()
             {
-                throw new NotImplementedException();
+                base.Learn();
             }
 
             // TODO: Überarbeiten
-            public override int Play(char[,] brett, char spieler)
+            public override int Play(Fields.IField Field, char spieler)
             {
-                string mom_sit_code = SitCodeHelper.Berechnen(brett);
+                string mom_sit_code = SitCodeHelper.Berechnen(Field);
                 int[] Felder = new int[FelderAnzahl];
 
                 Felder = WertungenBerechnen(mom_sit_code, spieler);
@@ -647,9 +614,9 @@ namespace UniTTT.Logik.Player
                     if (mom_sit_code[i] == '1')
                     {
                         mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
-                        wertungen[i, 0] = WertungenZugZuordnen(Datenbank.DB.Like(SitCodes, Datenbank.DB.ToVBLike(mom_sit_code_edited)), '1' - 48); // unentschieden
-                        wertungen[i, 1] = WertungenZugZuordnen(Datenbank.DB.Like(SitCodes, Datenbank.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayertoSitCode(spieler) - 48); // Spieler Gewonnen
-                        wertungen[i, 2] = WertungenZugZuordnen(Datenbank.DB.Like(SitCodes, Datenbank.DB.ToVBLike(mom_sit_code_edited)), PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)) - 48); // Gegner
+                        wertungen[i, 0] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), '1' - 48); // unentschieden
+                        wertungen[i, 1] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayertoSitCode(spieler) - 48); // Spieler Gewonnen
+                        wertungen[i, 2] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)) - 48); // Gegner
 
                         Felder[i] = (wertungen[i, 0] + wertungen[i, 1]) - (wertungen[i, 2] * 5);
                     }
@@ -672,9 +639,9 @@ namespace UniTTT.Logik.Player
                 base.Learn();
             }
 
-            public override int Play(char[,] brett, char spieler)
+            public override int Play(Fields.IField Field, char spieler)
             {
-                string sitcode = SitCodeHelper.Berechnen(brett);
+                string sitcode = SitCodeHelper.Berechnen(Field);
                 int win_zug = TestOneWin(sitcode);
                 int block_zug = TestHumanBlock(sitcode);
                 int zug = GetRandomZug(sitcode);
@@ -696,7 +663,7 @@ namespace UniTTT.Logik.Player
                     if (sitcode[playerpos] == '1')
                     {
                         momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, SitCodeHelper.PlayertoSitCode(kiplayer).ToString());
-                        if ((pruefer.Pruefe(SitCodeHelper.PlayertoSitCode(kiplayer), SitCodeHelper.ToBrett(momsitcode, Breite, Hoehe))) && (win_zug == -1))
+                        if ((Logik.GewinnPruefer.Pruefe(SitCodeHelper.PlayertoSitCode(kiplayer), Fields.SitCode.GetInstance(momsitcode, Width, height))) && (win_zug == -1))
                             win_zug = playerpos;
                     }
                 }
@@ -713,7 +680,7 @@ namespace UniTTT.Logik.Player
                     if (sitcode[playerpos] == '1')
                     {
                         momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, humanplayer.ToString());
-                        if ((pruefer.Pruefe(humanplayer, SitCodeHelper.ToBrett(momsitcode, Breite, Hoehe))) && (block_zug == -1))
+                        if ((Logik.GewinnPruefer.Pruefe(humanplayer, Fields.SitCode.GetInstance(momsitcode, Width, height))) && (block_zug == -1))
                             block_zug = playerpos;
                     }
                 }
@@ -735,9 +702,9 @@ namespace UniTTT.Logik.Player
                 base.Learn();
             }
 
-            public override int Play(char[,] brett, char spieler)
+            public override int Play(Fields.IField Field, char spieler)
             {
-                string sitcode = SitCodeHelper.Berechnen(brett);
+                string sitcode = SitCodeHelper.Berechnen(Field);
                 int zug = GetRandomZug(sitcode);
                 return zug;
             }

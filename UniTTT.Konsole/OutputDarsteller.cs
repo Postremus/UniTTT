@@ -15,9 +15,9 @@ namespace UniTTT.Konsole
             }
         }
 
-        public void WinMessage(char player, Logik.BrettHelper.GameStates state)
+        public void WinMessage(char player, Logik.FieldHelper.GameStates state)
         {
-            if (state == Logik.BrettHelper.GameStates.Gewonnen)
+            if (state == Logik.FieldHelper.GameStates.Gewonnen)
                 Console.WriteLine("Spieler {0} hat Gewonnen", player);
             else
                 Console.WriteLine(state);

@@ -10,7 +10,7 @@ namespace UniTTT.Konsole
     {
         public HumanPlayer(char startspieler) : base(startspieler) { }
 
-        public override Logik.Vector2i Spiele(Logik.Brett brett)
+        public override Logik.Vector2i Play(Logik.Fields.IField brett)
         {
             Logik.Vector2i ret;
             do
@@ -22,7 +22,6 @@ namespace UniTTT.Konsole
                 {
                     Console.WriteLine("Feld bereits besetzt. (Taste drücken)");
                     Console.ReadLine();
-
                 }
             } while (true);
         }

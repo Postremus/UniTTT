@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik
 {
-    public static class BrettHelper
+    public static class FieldHelper
     {
         public enum GameStates
         {
@@ -14,12 +14,14 @@ namespace UniTTT.Logik
             Laufend
         }
 
-        public static int GetFullFields(char[,] brett)
+        public static int GetFullFields(Fields.IField Field)
         {
             int count = 0;
-            foreach (char field in brett)
-                if (field != ' ')
+            for (int i = 0; i < Field.Length; i++)
+            {
+                if (Field.IsFieldEmpty(i))
                     count++;
+            }
             return count;
         }
 
@@ -41,26 +43,26 @@ namespace UniTTT.Logik
             return playersymbols;
         }
 
-        public static bool HasEmptyFields(char[,] brett)
+        public static bool HasEmptyFields(Fields.IField Field)
         {
-            foreach (char field in brett)
-                if (field == ' ')
+            for (int i = 0; i < Field.Length; i++)
+            {
+                if (Field.IsFieldEmpty(i))
                     return true;
+            }
             return false;
         }
 
-        public static Vector2i ZugToVector(int zug, int breite, int hoehe)
+        public static FieldHelper.GameStates GetGameState(Fields.IField Field, char spieler)
         {
-            Vector2i vect = null;
-            for (int x = 0; x < breite; x++)
-            {
-                for (int y = 0; y < hoehe; y++)
-                {
-                    if (((x) * 3) + (y + 1) - 1 == zug)
-                        vect = new Vector2i(x, y);
-                }
-            }
-            return vect;
+            FieldHelper.GameStates state = FieldHelper.GameStates.Laufend;
+            bool gewbl = GewinnPruefer.Pruefe(spieler, Field);
+
+            if (gewbl)
+                state = FieldHelper.GameStates.Gewonnen;
+            if ((!gewbl) && (!FieldHelper.HasEmptyFields(Field)))
+                state = FieldHelper.GameStates.Unentschieden;
+            return state;
         }
     }
 }

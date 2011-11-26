@@ -9,7 +9,6 @@ namespace UniTTT.Konsole
 {
     class Program
     {
-
         //ki:1 = Reinforcement
         //ki:2 = Recursion
         //ki:3 = Minimax
@@ -18,23 +17,18 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            args = new string[1];
-            args[0] = "Ki:4";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
-            int breite = parameters.GetInt("/breite");
-            int hoehe = parameters.GetInt("/hoehe");
-            int ki_zahl = parameters.GetInt("/ki:");
+            int breite = parameters.GetInt("breite");
+            int hoehe = parameters.GetInt("hoehe");
+            int ki_zahl = parameters.GetInt("Ki");
 
             if (breite == -1)
                 breite = 3;
             if (hoehe == -1)
                 hoehe = 3;
 
-            if (parameters.GetBool("--help") || parameters.GetBool("--h") || parameters.GetBool("?"))
-                //Help();
-
-            if (parameters.GetBool("/learn"))
+            if (parameters.GetBool("learn"))
             {
                 Logik.Player.KIPlayer kiplayer = new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O');
                 Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.KI.ToString());
@@ -43,9 +37,9 @@ namespace UniTTT.Konsole
             else
             {
                 Games.Game game;
-                if (!parameters.GetBool("/kigame"))
+                if (!parameters.GetBool("kigame"))
                 {
-                    if (parameters.GetInt("/ki:") > 0)
+                    if (parameters.GetInt("ki:") > 0)
                     {
                         game = new Games.Game(breite, hoehe, new HumanPlayer('X'), new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O'));
                     }
@@ -61,11 +55,5 @@ namespace UniTTT.Konsole
                 game.Start();
             }
         }
-
-        //static void Help()
-        //{
-        //    Console.WriteLine("--help");
-        //    Console.WriteLine("/breite");
-        //}
     }
 }

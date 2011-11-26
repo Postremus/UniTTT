@@ -55,14 +55,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brett.cs" />
-    <Compile Include="BrettHelper.cs" />
+    <Compile Include="Fields\Brett.cs" />
+    <Compile Include="FieldHelper.cs" />
     <Compile Include="Database\DB.cs" />
     <Compile Include="Database\Connection.cs" />
-    <Compile Include="Database\IDatabase.cs" />
-    <Compile Include="Database\SQLite.cs" />
     <Compile Include="GewinnPruefer.cs" />
     <Compile Include="IBrettDarsteller.cs" />
+    <Compile Include="Fields\IField.cs" />
     <Compile Include="IGraphicalBrettDarsteller.cs" />
     <Compile Include="IOutputDarsteller.cs" />
     <Compile Include="KI\AbstractKI.cs" />
@@ -73,6 +72,8 @@
     <Compile Include="Player\HumanPlayer.cs" />
     <Compile Include="Player\KIPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Fields\SitCode.cs" />
+    <Compile Include="SitCodeHelper.cs" />
     <Compile Include="Vector2i.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

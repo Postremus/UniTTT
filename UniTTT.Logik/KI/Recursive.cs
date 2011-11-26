@@ -21,11 +21,11 @@ namespace UniTTT.Logik.KI
         protected void Recursion(int tiefe, string sitcode, char spieler)
         {
             string momsitcodeedited;
-            if ((tiefe == 0) || (pruefer.Pruefe(spieler, SitCodeHelper.ToBrett(sitcode, Breite, Hoehe))))
+            if ((tiefe == 0) || (Logik.GewinnPruefer.Pruefe(spieler, Fields.SitCode.GetInstance(sitcode, Width, height))))
             {
                 SitCodes.Add("END");
 
-                if (pruefer.Pruefe(spieler, SitCodeHelper.ToBrett(sitcode, Breite, Hoehe)))
+                if (Logik.GewinnPruefer.Pruefe(spieler, Fields.SitCode.GetInstance(sitcode, Width, height)))
                     Wertungen.Add(spieler - 48);
                 else
                     Wertungen.Add(1);

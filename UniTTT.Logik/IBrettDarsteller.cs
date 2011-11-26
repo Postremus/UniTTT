@@ -10,7 +10,7 @@ namespace UniTTT.Logik
         int Width { get; }
         int Height { get; }
 
-        void Update(char[,] brett);
+        void Update(Fields.IField Field);
         void Draw();
     }
 }

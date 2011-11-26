@@ -17,7 +17,7 @@ namespace UniTTT.Logik.Player
         public char Spieler { get; set; }
         public int WinCounter { get; set; }
 
-        public virtual Vector2i Spiele(Brett brett)
+        public virtual Vector2i Play(Fields.IField Field)
         {
             throw new NotImplementedException();
         }

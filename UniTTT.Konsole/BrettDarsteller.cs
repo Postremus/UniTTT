@@ -20,7 +20,7 @@ namespace UniTTT.Konsole
         private char[,] spielfeld;
         #endregion
 
-        public void Update(char[,] brett)
+        public void Update(Logik.Fields.IField Field)
         {
             int i = 0, f = 0;
 
@@ -35,7 +35,7 @@ namespace UniTTT.Konsole
                 {
                     for (int a = 0; a < Height + (Height - 1); a++)
                     {
-                        spielfeld[x, a] = a % 2 == 1 ? '-' : brett[i, f];
+                        spielfeld[x, a] = a % 2 == 1 ? '-' : Field.GetField(new Logik.Vector2i(i, f));
                         if (a % 2 == 0)
                             f++;
                     }

@@ -5,15 +5,11 @@ using System.Text;
 
 namespace UniTTT.Logik
 {
-    public class GewinnPruefer
+    public static class GewinnPruefer
     {
         #region Fields
-        private int GewinnBedingung;
+        private static int GewinnBedingung;
         #endregion
-        public GewinnPruefer(int bedingung)
-        {
-            GewinnBedingung = bedingung;
-        }
 
         public enum Directories
         {
@@ -27,44 +23,43 @@ namespace UniTTT.Logik
             RightDown
         }
 
-        public bool Pruefe(char spieler, char[,] brett)
+        public static bool Pruefe(char spieler, Fields.IField Field)
         {
-            int width = brett.GetUpperBound(0)+1;
-            int heigth = brett.GetUpperBound(1)+1;
+            GewinnBedingung = Field.Width > Field.Height ? Field.Width : Field.Height;
             //Horizontal
-            for (int y = 0; y < heigth; y++)
-                if (DoCheck(brett, Directories.Right, spieler, new Vector2i(0, y), new Vector2i(width - 1, y)) == GewinnBedingung)
+            for (int y = 0; y < Field.Height; y++)
+                if (DoCheck(Field, Directories.Right, spieler, new Vector2i(0, y), new Vector2i(Field.Width - 1, y)) == GewinnBedingung)
                     return true;
 
             //Vertikal
-            for (int x = 0; x < width; x++)
-                if (DoCheck(brett, Directories.Down, spieler, new Vector2i(x, 0), new Vector2i(x, heigth-1)) == GewinnBedingung)
+            for (int x = 0; x < Field.Width; x++)
+                if (DoCheck(Field, Directories.Down, spieler, new Vector2i(x, 0), new Vector2i(x, Field.Height - 1)) == GewinnBedingung)
                     return true;
 
             // Diagonal
             // Oben Links zu unten Rechts
-            if (DoCheck(brett, Directories.RightDown, spieler, new Vector2i(0, 0), new Vector2i(width - 1, heigth - 1)) == GewinnBedingung)
+            if (DoCheck(Field, Directories.RightDown, spieler, new Vector2i(0, 0), new Vector2i(Field.Width - 1, Field.Height - 1)) == GewinnBedingung)
                 return true;
 
             // Oben Rechts zu unten Links
-            if (DoCheck(brett, Directories.LeftDown, spieler, new Vector2i(width-1, 0), new Vector2i(0, heigth - 1)) == GewinnBedingung)
+            if (DoCheck(Field, Directories.LeftDown, spieler, new Vector2i(Field.Width - 1, 0), new Vector2i(0, Field.Height - 1)) == GewinnBedingung)
                 return true;
             return false;
         }
 
-        public int DoCheck(char[,] brett, Directories dir, char spieler, Vector2i from, Vector2i to)
+        public static int DoCheck(Fields.IField Field, Directories dir, char spieler, Vector2i from, Vector2i to)
         {
             int counter = 0;
             for (int a = 0; a < GewinnBedingung; a++)
             {
-                if (brett[from.X, from.Y] == spieler)
+                if (Field.GetField(from) == spieler)
                     counter++;
                 from = NextField(dir, from);
             }
             return counter;
         }
 
-        public Vector2i NextField(Directories dir, Vector2i vect)
+        public static Vector2i NextField(Directories dir, Vector2i vect)
         {
             if (dir == Directories.Right)
                 vect.X++;
