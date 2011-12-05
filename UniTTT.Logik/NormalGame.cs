@@ -7,18 +7,26 @@ namespace UniTTT.Logik
 {
     public class NormalGame
     {
-        public NormalGame(int b, int h, Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field)
+        public NormalGame(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field)
+        {
+            Initialize(p1, p2, bdar, odar, field);
+        }
+
+        public void Initialize(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field)
         {
             Field = field;
             BDarsteller = bdar;
             ODarsteller = odar;
-            player1 = p1;
-            player2 = p2;
+            Player1 = p1;
+            Player2 = p2;
+            Initialize();
+        }
 
+        public void Initialize()
+        {
             if (ODarsteller != null)
             {
                 ODarsteller.Title = "UniTTT" + this.ToString();
-                //ODarsteller.ThrowMessage();
             }
             if (BDarsteller != null)
             {
@@ -28,11 +36,10 @@ namespace UniTTT.Logik
         }
 
         #region Fields
-        public Player.AbstractPlayer player { get; private set; }
-        public Player.AbstractPlayer player1 { get; private set; }
-        public Player.AbstractPlayer player2 { get; private set; }
-        public Fields.IField Field { get; private set; }
-        
+        public Player.AbstractPlayer Player { get; private set; }
+        public Player.AbstractPlayer Player1 { get; private set; }
+        public Player.AbstractPlayer Player2 { get; private set; }
+        public Fields.IField Field { get; private set; }       
         public Logik.IBrettDarsteller BDarsteller { get; private set; }
         public Logik.IOutputDarsteller ODarsteller { get; private set; }
         #endregion
@@ -42,8 +49,8 @@ namespace UniTTT.Logik
         {
             PlayerChange();
             if (ODarsteller != null)
-                ODarsteller.PlayerAusgabe(player.Ausgabe());
-            Field.SetField(player.Play(Field), player.Spieler);
+                ODarsteller.PlayerAusgabe(Player.Ausgabe());
+            Field.SetField(Player.Play(Field), Player.Spieler);
             if (BDarsteller != null)
             {
                 BDarsteller.Update(Field);
@@ -55,8 +62,8 @@ namespace UniTTT.Logik
         {
             PlayerChange();
             if (ODarsteller != null)
-                ODarsteller.PlayerAusgabe(player == player2 ? player1.Ausgabe() : player2.Ausgabe());
-            Field.SetField(zug, player.Spieler);
+                ODarsteller.PlayerAusgabe(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
+            Field.SetField(zug, Player.Spieler);
             if (BDarsteller != null)
             {
                 BDarsteller.Update(Field);
@@ -72,41 +79,43 @@ namespace UniTTT.Logik
             } while (!HasEnd());
         }
 
+
         public void PlayerChange()
         {
-            player = player1 == player ? player2 : player1;
+            Player = Player1 == Player ? Player2 : Player1;
         }
 
         public void NewGame()
         {
             Field.Initialize();
-            player = null;
+            Player = null;
             if (BDarsteller is Logik.IGraphicalBrettDarsteller)
             {
                 ((Logik.IGraphicalBrettDarsteller)BDarsteller).DeLock();
-                BDarsteller.Update(Field);
             }
+            BDarsteller.Update(Field);
+            BDarsteller.Draw();
         }
 
         public bool HasEnd()
         {
-            if (FieldHelper.GetGameState(Field, player.Spieler) != UniTTT.Logik.FieldHelper.GameStates.Laufend)
+            if (FieldHelper.GetGameState(Field, Player.Spieler) != UniTTT.Logik.FieldHelper.GameStates.Laufend)
                 return true;
             return false;
         }
 
         public void WinCounter()
         {
-            if (FieldHelper.GetGameState(Field, player.Spieler) == FieldHelper.GameStates.Gewonnen)
+            if (FieldHelper.GetGameState(Field, Player.Spieler) == FieldHelper.GameStates.Gewonnen)
             {
-                player1.WinCounter = player == player1 ? +1 : 0;
-                player2.WinCounter = player == player2 ? +1 : 0;
+                Player1.WinCounter = Player == Player1 ? +1 : 0;
+                Player2.WinCounter = Player == Player2 ? +1 : 0;
             }
         }
 
         public override string ToString()
         {
-            return (player1 is Logik.Player.KIPlayer) && (player2 is Logik.Player.KIPlayer) ? "KiGame" : "HumanGame";
+            return (Player1 is Logik.Player.KIPlayer) && (Player2 is Logik.Player.KIPlayer) ? "KiGame" : "HumanGame";
         }
         #endregion
     }

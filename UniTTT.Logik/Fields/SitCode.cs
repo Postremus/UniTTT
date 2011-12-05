@@ -26,12 +26,13 @@ namespace UniTTT.Logik.Fields
 
         public void Initialize()
         {
-            VarField = SitCodeHelper.Lerrsetzen(Length);
+            VarField = SitCodeHelper.SetEmpty(Length);
         }
 
         public char GetField(int idx)
         {
             return SitCodeHelper.ToPlayer(VarField[idx]);
+            //return VarField[idx];
         }
 
         public char GetField(Vector2i vect)

@@ -17,11 +17,13 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
+            args = new string[1];
+            args[0] = "/ki:4";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int breite = parameters.GetInt("breite");
             int hoehe = parameters.GetInt("hoehe");
-            int ki_zahl = parameters.GetInt("Ki");
+            int ki_zahl = parameters.GetInt("ki");
 
             if (breite == -1)
                 breite = 3;
@@ -39,7 +41,7 @@ namespace UniTTT.Konsole
                 Games.Game game;
                 if (!parameters.GetBool("kigame"))
                 {
-                    if (parameters.GetInt("ki:") > 0)
+                    if (ki_zahl > 0)
                     {
                         game = new Games.Game(breite, hoehe, new HumanPlayer('X'), new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O'));
                     }

@@ -9,24 +9,22 @@ namespace UniTTT.Konsole.Games
 {
     class Game : Logik.NormalGame
     {
-        public Game(int b, int h, Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2) : base(b, h, p1, p2, new BrettDarsteller(b, h), new OutputDarsteller(), new Logik.Fields.SitCode(b, h)) { }
+        public Game(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2) : base(p1, p2, new BrettDarsteller(width, height), new OutputDarsteller(), new Logik.Fields.SitCode(width, height)) { }
 
         public void Start()
         {
             LogikLoop();
             AfterGameActions();
-            Console.ReadLine();
         }
 
         private void AfterGameActions()
         {
-            ODarsteller.WinMessage(player.Spieler, UniTTT.Logik.FieldHelper.GetGameState(Field, player.Spieler));
+            ODarsteller.WinMessage(Player.Spieler, UniTTT.Logik.FieldHelper.GetGameState(Field, Player.Spieler));
             WinCounter();
 
             if (NewGameQuestion())
             {
                 NewGame();
-                Console.Clear();
                 Start();
             }
             else

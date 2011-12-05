@@ -8,11 +8,11 @@ namespace UniTTT.Logik.KI
     public class Recursive : AbstractKI
     {
         #region Fields
-        protected List<int> Wertungen;
-        protected List<string> SitCodes;
+        protected List<int> Wertungen { get; private set; }
+        protected List<string> SitCodes { get; private set; }
         #endregion
 
-        protected Recursive(int b, int h) : base('O', b, h)
+        protected Recursive(int width, int height) : base('O', width, height)
         {
             Wertungen = new List<int>();
             SitCodes = new List<string>();
@@ -21,11 +21,11 @@ namespace UniTTT.Logik.KI
         protected void Recursion(int tiefe, string sitcode, char spieler)
         {
             string momsitcodeedited;
-            if ((tiefe == 0) || (Logik.GewinnPruefer.Pruefe(spieler, Fields.SitCode.GetInstance(sitcode, Width, height))))
+            if ((tiefe == 0) || (Logik.WinChecker.Pruefe(spieler, Fields.SitCode.GetInstance(sitcode, Width, Height))))
             {
                 SitCodes.Add("END");
 
-                if (Logik.GewinnPruefer.Pruefe(spieler, Fields.SitCode.GetInstance(sitcode, Width, height)))
+                if (Logik.WinChecker.Pruefe(spieler, Fields.SitCode.GetInstance(sitcode, Width, Height)))
                     Wertungen.Add(spieler - 48);
                 else
                     Wertungen.Add(1);

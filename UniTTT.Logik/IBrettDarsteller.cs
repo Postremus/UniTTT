@@ -8,9 +8,9 @@ namespace UniTTT.Logik
     public interface IBrettDarsteller
     {
         int Width { get; }
-        int Height { get; }
+        int Heigth { get; }
 
-        void Update(Fields.IField Field);
+        void Update(Fields.IField field);
         void Draw();
     }
 }

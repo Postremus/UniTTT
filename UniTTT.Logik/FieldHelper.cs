@@ -14,53 +14,48 @@ namespace UniTTT.Logik
             Laufend
         }
 
-        public static int GetFullFields(Fields.IField Field)
+        public static int GetFullFields(Fields.IField field)
         {
             int count = 0;
-            for (int i = 0; i < Field.Length; i++)
+            for (int i = 0; i < field.Length; i++)
             {
-                if (Field.IsFieldEmpty(i))
+                if (field.IsFieldEmpty(i))
                     count++;
             }
             return count;
         }
 
-        public static Vector2i GetBrettDimensions(char[,] brett)
-        {
-            Vector2i ret;
-            int x = brett.GetUpperBound(0);
-            int y = brett.GetUpperBound(1);
-            ret = new Vector2i(x, y);
-            return ret;
-        }
-
-        public static List<char> GetAllPlayerSymbols(char[,] brett)
+        public static List<char> GetAllPlayerSymbols(Fields.IField field)
         {
             List<char> playersymbols = new List<char>();
-            foreach (char field in brett)
-                if ((!playersymbols.Contains(field)) && (field != ' '))
-                    playersymbols.Add(field);
+            for (int i = 0; i < field.Length; i++)
+            {
+                if (!playersymbols.Contains(field.GetField(i)))
+                {
+                    playersymbols.Add(field.GetField(i));
+                }
+            }
             return playersymbols;
         }
 
-        public static bool HasEmptyFields(Fields.IField Field)
+        public static bool HasEmptyFields(Fields.IField field)
         {
-            for (int i = 0; i < Field.Length; i++)
+            for (int i = 0; i < field.Length; i++)
             {
-                if (Field.IsFieldEmpty(i))
+                if (field.IsFieldEmpty(i))
                     return true;
             }
             return false;
         }
 
-        public static FieldHelper.GameStates GetGameState(Fields.IField Field, char spieler)
+        public static FieldHelper.GameStates GetGameState(Fields.IField field, char spieler)
         {
             FieldHelper.GameStates state = FieldHelper.GameStates.Laufend;
-            bool gewbl = GewinnPruefer.Pruefe(spieler, Field);
+            bool gewbl = WinChecker.Pruefe(spieler, field);
 
             if (gewbl)
                 state = FieldHelper.GameStates.Gewonnen;
-            if ((!gewbl) && (!FieldHelper.HasEmptyFields(Field)))
+            if ((!gewbl) && (!FieldHelper.HasEmptyFields(field)))
                 state = FieldHelper.GameStates.Unentschieden;
             return state;
         }

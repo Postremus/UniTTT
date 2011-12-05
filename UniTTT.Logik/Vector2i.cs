@@ -30,6 +30,58 @@ namespace UniTTT.Logik
             return new Vector2i(x, y);
         }
 
+        public static Vector2i operator *(Vector2i vect1, Vector2i vect2)
+        {
+            int x = vect1.X * vect2.X;
+            int y = vect1.Y * vect2.Y;
+            return new Vector2i(x, y);
+        }
+
+        public static bool operator ==(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1.X == vect2.X && vect2.Y == vect2.Y;
+        }
+
+        public static bool operator !=(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1.X != vect2.X || vect1.Y != vect2.Y;
+        }
+
+        public static bool operator <=(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1.X <= vect2.X && vect1.Y <= vect2.Y;
+        }
+
+        public static bool operator <(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1.X < vect2.X && vect1.Y < vect2.Y;
+        }
+
+        public static bool operator >=(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1.X >= vect2.X && vect1.Y >= vect2.Y;
+        }
+
+        public static bool operator >(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1.X > vect2.X && vect1.Y > vect2.Y;
+        }
+
+        public static Vector2i Add(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1 + vect2;
+        }
+
+        public static Vector2i Subtract(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1 - vect2;
+        }
+
+        public static Vector2i Multiply(Vector2i vect1, Vector2i vect2)
+        {
+            return vect1 * vect2;
+        }
+
         public static Vector2i GetVectorOfString(string value)
         {
             int idx = value.IndexOf('.') != -1 ? value.IndexOf('.') : value.IndexOf(',');

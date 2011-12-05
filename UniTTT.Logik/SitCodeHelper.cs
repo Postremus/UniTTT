@@ -7,13 +7,13 @@ namespace UniTTT.Logik
 {
     public class SitCodeHelper
     {
-        public static string Berechnen(Fields.IField Field)
+        public static string Calculate(Fields.IField field)
         {
             string ret = null;
             char c;
-            for (int i = 0; i < Field.Length; i++)
+            for (int i = 0; i < field.Length; i++)
             {
-                c = Field.GetField(i);
+                c = field.GetField(i);
                 c = c == 'X' ? '2' : c == 'O' ? '3' : c == ' ' ? '1' : c;
                 ret += c;
             }
@@ -30,7 +30,7 @@ namespace UniTTT.Logik
             return spieler == '2' ? 'X' : spieler == '3' ? 'O' : spieler == '1' ? ' ' : spieler;
         }
 
-        public static string Lerrsetzen(int felderAnzahl)
+        public static string SetEmpty(int felderAnzahl)
         {
             string sit_code = string.Empty;
             while (sit_code.Length < felderAnzahl)

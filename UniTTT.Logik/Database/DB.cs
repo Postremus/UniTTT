@@ -15,7 +15,7 @@ namespace UniTTT.Logik.Database
         /// <param name="sit_code">Der Sit_code, der in der Db gesucht werden soll.</param>
         /// <param name="felder_anzahl">Die Größe des Sit_Codes</param>
         /// <returns></returns>
-        public static string ToDBLike(string sit_code, int felder_anzahl)
+        public static string ToDBLike(string sit_code)
         {
             string ret = null;
             foreach (char field in sit_code)
@@ -25,14 +25,14 @@ namespace UniTTT.Logik.Database
             {
                 do
                 {
-                    ret.Remove(1);
+                    ret = ret.Remove(1);
                 } while (ret[1] == '_');
             }
             if (ret[ret.Length - 1] == '_')
             {
                 do
                 {
-                    ret.Remove(ret.Length - 2);
+                    ret = ret.Remove(ret.Length - 2);
                 } while (ret[ret.Length - 2] == '_');
             }
             return ret;

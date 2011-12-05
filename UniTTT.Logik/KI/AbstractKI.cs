@@ -7,19 +7,19 @@ namespace UniTTT.Logik.KI
 {
     public class AbstractKI
     {
-        protected AbstractKI(char spieler, int b, int h)
+        protected AbstractKI(char spieler, int width, int height)
         {
-            kiplayer = spieler;
-            Width = b;
-            height = h;
+            Kiplayer = spieler;
+            Width = width;
+            Height = height;
             Rnd = new Random();
         }
 
 
         public int Width { get; protected set; }
-        public int height { get; protected set; }
-        public int FelderAnzahl { get { return Width * height; } }
-        public char kiplayer { get; private set; }
+        public int Height { get; protected set; }
+        public int FelderAnzahl { get { return Width * Height; } }
+        public char Kiplayer { get; private set; }
         public Random Rnd { get; private set; }
 
         public virtual void Learn()
@@ -27,7 +27,7 @@ namespace UniTTT.Logik.KI
             throw new NotImplementedException();
         }
 
-        public virtual int Play(Fields.IField Field, char spieler)
+        public virtual int Play(Fields.IField field, char spieler)
         {
             throw new NotImplementedException();
         }

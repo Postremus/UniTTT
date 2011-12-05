@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik
 {
-    public static class GewinnPruefer
+    public static class WinChecker
     {
         #region Fields
         private static int GewinnBedingung;
@@ -23,37 +23,54 @@ namespace UniTTT.Logik
             RightDown
         }
 
-        public static bool Pruefe(char spieler, Fields.IField Field)
+        public static bool Pruefe(char spieler, Fields.IField field)
         {
-            GewinnBedingung = Field.Width > Field.Height ? Field.Width : Field.Height;
+            GewinnBedingung = field.Width > field.Height ? field.Width : field.Height;
             //Horizontal
-            for (int y = 0; y < Field.Height; y++)
-                if (DoCheck(Field, Directories.Right, spieler, new Vector2i(0, y), new Vector2i(Field.Width - 1, y)) == GewinnBedingung)
+            for (int y = 0; y < field.Height; y++)
+                if (DoCheck(field, Directories.Right, spieler, new Vector2i(0, y), new Vector2i(field.Width, y)) == GewinnBedingung)
                     return true;
 
             //Vertikal
-            for (int x = 0; x < Field.Width; x++)
-                if (DoCheck(Field, Directories.Down, spieler, new Vector2i(x, 0), new Vector2i(x, Field.Height - 1)) == GewinnBedingung)
+            for (int x = 0; x < field.Width; x++)
+                if (DoCheck(field, Directories.Down, spieler, new Vector2i(x, 0), new Vector2i(x, field.Height)) == GewinnBedingung)
                     return true;
 
             // Diagonal
             // Oben Links zu unten Rechts
-            if (DoCheck(Field, Directories.RightDown, spieler, new Vector2i(0, 0), new Vector2i(Field.Width - 1, Field.Height - 1)) == GewinnBedingung)
+            if (DoCheck(field, Directories.RightDown, spieler, new Vector2i(0, 0), new Vector2i(field.Width, field.Height)) == GewinnBedingung)
                 return true;
 
             // Oben Rechts zu unten Links
-            if (DoCheck(Field, Directories.LeftDown, spieler, new Vector2i(Field.Width - 1, 0), new Vector2i(0, Field.Height - 1)) == GewinnBedingung)
+            if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(field.Width - 1, 0), new Vector2i(0, field.Height)) == GewinnBedingung)
                 return true;
             return false;
         }
 
-        public static int DoCheck(Fields.IField Field, Directories dir, char spieler, Vector2i from, Vector2i to)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="field">Das Spielfeld</param>
+        /// <param name="dir">Die Richtung, in die überprüft werden soll.</param>
+        /// <param name="spieler"></param>
+        /// <param name="from">Der inklusive untere Vector der Startposition.</param>
+        /// <param name="to">Der exklusive untere Vector der Startposition.</param>
+        /// <returns></returns>
+        public static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from, Vector2i to)
         {
             int counter = 0;
-            for (int a = 0; a < GewinnBedingung; a++)
+            //for (int a = 0; a < GewinnBedingung; a++)
+            //{
+            //    if (field.GetField(from) == spieler)
+            //        counter++;
+            //    else break;
+            //    from = NextField(dir, from);
+            //}
+            while (from != to)
             {
-                if (Field.GetField(from) == spieler)
+                if (field.GetField(from) == spieler)
                     counter++;
+                else break;
                 from = NextField(dir, from);
             }
             return counter;

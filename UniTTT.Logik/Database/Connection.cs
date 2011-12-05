@@ -16,17 +16,17 @@ namespace UniTTT.Logik.Database
             DbName = dname;
         }
 
-        public bool Connect(ref SQLiteConnection Conn)
+        public bool Connect(ref SQLiteConnection conn)
         {
-            Conn.ConnectionString = string.Format(CultureInfo.InvariantCulture, "Data Source= {0}.db", DbName);
-            Conn.Open();
-            return Conn.ResultCode() == 0;
+            conn.ConnectionString = string.Format(CultureInfo.InvariantCulture, "Data Source= {0}.db", DbName);
+            conn.Open();
+            return conn.ResultCode() == 0;
         }
 
-        public bool Close(ref SQLiteConnection Conn)
+        public bool Close(ref SQLiteConnection conn)
         {
-            Conn.Close();
-            Conn.Dispose();
+            conn.Close();
+            conn.Dispose();
             return true;
         }
     }

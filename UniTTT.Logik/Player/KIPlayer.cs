@@ -11,29 +11,28 @@ namespace UniTTT.Logik.Player
     {
         public KI.AbstractKI KI { get; private set; }
 
-        public KIPlayer(int kiZahl, int breite, int hoehe, char kispieler)
-            : base(kispieler)
+        public KIPlayer(int kiZahl, int width, int height, char kispieler) : base(kispieler)
         {
             if (kiZahl == 1)
                 KI = new KIReinforcement();
             else if (kiZahl == 2)
-                KI = new KIRecursion(breite, hoehe);
+                KI = new KIRecursion(width, height);
             else if (kiZahl == 3)
-                KI = new KIMiniMax(breite, hoehe, kispieler);
+                KI = new KIMiniMax(width, height, kispieler);
             else if (kiZahl == 4)
-                KI = new KILike(breite, hoehe);
+                KI = new KILike(width, height);
             else if (kiZahl == 5)
-                KI = new KIRandom(breite, hoehe);
+                KI = new KIRandom(width, height);
             else if (kiZahl == 6)
-                KI = new KIBot(breite, hoehe, kispieler);
+                KI = new KIBot(width, height, kispieler);
         }
 
-        public override Vector2i Play(Fields.IField Field)
+        public override Vector2i Play(Fields.IField field)
         {
-            return Vector2i.IndexToVector(KI.Play(Field, Spieler), Field.Width, Field.Height);
+            return Vector2i.IndexToVector(KI.Play(field, Spieler), field.Width, field.Height);
         }
 
-        public void Lerne()
+        public void Learn()
         {
             KI.Learn();
         }
@@ -45,7 +44,7 @@ namespace UniTTT.Logik.Player
 
         class KIMiniMax : KI.AbstractKI
         {
-            public KIMiniMax(int b, int h, char spieler) : base(spieler, b, h) { }
+            public KIMiniMax(int width, int height, char spieler) : base(spieler, width, height) { }
 
             public override void Learn()
             {
@@ -54,7 +53,7 @@ namespace UniTTT.Logik.Player
 
             public override int Play(Fields.IField field, char spieler)
             {
-                string mom_sit_code = SitCodeHelper.Berechnen(field);
+                string mom_sit_code = SitCodeHelper.Calculate(field);
                 double[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
                 return BestenZugAuswaehlen(Felder, mom_sit_code);
             }
@@ -89,8 +88,8 @@ namespace UniTTT.Logik.Player
                     {
                         mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, spieler.ToString());
                         wertungen[i, 0] = Bewertung(mom_sit_code_edited, i, '1'); // Unentschieden
-                        wertungen[i, 1] = Bewertung(mom_sit_code_edited, i, kiplayer); // KISpieler Gewonnen
-                        wertungen[i, 2] = Bewertung(mom_sit_code_edited, i, PlayerChange(kiplayer)); // MenschGegner Gewonnen
+                        wertungen[i, 1] = Bewertung(mom_sit_code_edited, i, Kiplayer); // KISpieler Gewonnen
+                        wertungen[i, 2] = Bewertung(mom_sit_code_edited, i, PlayerChange(Kiplayer)); // MenschGegner Gewonnen
 
                         Felder[i] = (wertungen[i, 0] * 20.0) + (wertungen[i, 0] * 10.0) - (wertungen[i, 2] * 50.0);
                         if (Felder[i] == 0.0)
@@ -109,7 +108,7 @@ namespace UniTTT.Logik.Player
             private double Bewertung(string sit_code, int x, char spieler)
             {
                 double wertung = 0.0;
-                FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sit_code, Width, height), spieler);
+                FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sit_code, Width, Height), spieler);
 
                 if (state == FieldHelper.GameStates.Gewonnen)
                     wertung = 10.0 / Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
@@ -148,7 +147,7 @@ namespace UniTTT.Logik.Player
                 #region Fields
                 char player = 'X';
                 int runden = Rundefrage(), zug;
-                string momsitcode = SitCodeHelper.Lerrsetzen(9);
+                string momsitcode = SitCodeHelper.SetEmpty(9);
                 string[,] sit_codes = new string[runden, 9];
                 int[,] zuege = new int[runden, 9];
                 int[] wertungen = new int[runden];
@@ -166,7 +165,7 @@ namespace UniTTT.Logik.Player
 
                         momsitcode = momsitcode.Remove(zug, 1).Insert(zug, player.ToString());
 
-                        gewonnen = Logik.GewinnPruefer.Pruefe(player, Fields.SitCode.GetInstance(momsitcode, Width, height));
+                        gewonnen = Logik.WinChecker.Pruefe(player, Fields.SitCode.GetInstance(momsitcode, Width, Height));
 
                         // Wertungen
                         // Aufwerten
@@ -178,7 +177,7 @@ namespace UniTTT.Logik.Player
                         // Ist Spiel Zu Ende?
                         if ((gewonnen) || (i == 8))
                         {
-                            momsitcode = SitCodeHelper.Lerrsetzen(9);
+                            momsitcode = SitCodeHelper.SetEmpty(9);
                             i = 9;
                             player = 'X';
                         }
@@ -190,9 +189,9 @@ namespace UniTTT.Logik.Player
                 db.Speichern();
             }
 
-            public override int Play(Fields.IField Field, char spieler)
+            public override int Play(Fields.IField field, char spieler)
             {
-                string sitcode = SitCodeHelper.Berechnen(Field);
+                string sitcode = SitCodeHelper.Calculate(field);
                 int zug = db.Lesen(sitcode);
                 if (zug == -1)
                     zug = GetRandomZug(sitcode);
@@ -260,7 +259,6 @@ namespace UniTTT.Logik.Player
                 {
                     #region Fields
                     int zug = -1;
-                    int[] x = new int[9];
                     SQLiteDataReader reader;
                     #endregion
 
@@ -348,7 +346,7 @@ namespace UniTTT.Logik.Player
             private DB db = new DB("KI_Recursion");
             #endregion
 
-            public KIRecursion(int b, int h) : base(b, h) { }
+            public KIRecursion(int width, int height) : base(width, height) { }
 
             // KI
             public override void Learn()
@@ -364,8 +362,8 @@ namespace UniTTT.Logik.Player
                     System.Threading.Thread.Sleep(2500);
                     Console.Clear();
                     Console.WriteLine("Beginne mit dem Berechnen..");
-                    Recursion(FelderAnzahl, SitCodeHelper.Lerrsetzen(FelderAnzahl), '3');
-                    Recursion(FelderAnzahl, SitCodeHelper.Lerrsetzen(FelderAnzahl), '2');
+                    Recursion(FelderAnzahl, SitCodeHelper.SetEmpty(FelderAnzahl), '3');
+                    Recursion(FelderAnzahl, SitCodeHelper.SetEmpty(FelderAnzahl), '2');
                     db.Sit_Code = SitCodes;
                     db.Wertung = Wertungen;
                     Console.WriteLine();
@@ -387,10 +385,10 @@ namespace UniTTT.Logik.Player
             }
 
             // TODO: Überarbeiten
-            public override int Play(Fields.IField Field, char spieler)
+            public override int Play(Fields.IField field, char spieler)
             {
                 int[] Felder = new int[FelderAnzahl];
-                string mom_sit_code = SitCodeHelper.Berechnen(Field);
+                string mom_sit_code = SitCodeHelper.Calculate(field);
                 Felder = WertungenBerechnen(mom_sit_code, spieler);
 
                 return SelectBestZug(Felder, mom_sit_code);
@@ -407,9 +405,9 @@ namespace UniTTT.Logik.Player
                     if (mom_sit_code[i] == '1')
                     {
                         mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
-                        wertungen[i, 0] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), '1', "Felder_" + FelderAnzahl); // Unentschieden
-                        wertungen[i, 1] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), SitCodeHelper.PlayertoSitCode(spieler), "Felder_" + FelderAnzahl); // Spieler Gewonnen
-                        wertungen[i, 2] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited, FelderAnzahl), PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)), "Felder_" + FelderAnzahl); // Gegner
+                        wertungen[i, 0] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), '1', "Felder_" + FelderAnzahl); // Unentschieden
+                        wertungen[i, 1] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), SitCodeHelper.PlayertoSitCode(spieler), "Felder_" + FelderAnzahl); // Spieler Gewonnen
+                        wertungen[i, 2] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)), "Felder_" + FelderAnzahl); // Gegner
 
                         Felder[i] = (wertungen[i, 0] + wertungen[i, 1]) - (wertungen[i, 2] * 5);
                     }
@@ -554,11 +552,10 @@ namespace UniTTT.Logik.Player
         class KILike : KI.Recursive
         {
 
-            public KILike(int b, int h)
-                : base(b, h)
+            public KILike(int width, int height) : base(width, height)
             {
-                Recursion(FelderAnzahl, SitCodeHelper.Lerrsetzen(FelderAnzahl), '3');
-                Recursion(FelderAnzahl, SitCodeHelper.Lerrsetzen(FelderAnzahl), '2');
+                Recursion(FelderAnzahl, SitCodeHelper.SetEmpty(FelderAnzahl), '3');
+                Recursion(FelderAnzahl, SitCodeHelper.SetEmpty(FelderAnzahl), '2');
             }
 
             // KI
@@ -568,9 +565,9 @@ namespace UniTTT.Logik.Player
             }
 
             // TODO: Überarbeiten
-            public override int Play(Fields.IField Field, char spieler)
+            public override int Play(Fields.IField field, char spieler)
             {
-                string mom_sit_code = SitCodeHelper.Berechnen(Field);
+                string mom_sit_code = SitCodeHelper.Calculate(field);
                 int[] Felder = new int[FelderAnzahl];
 
                 Felder = WertungenBerechnen(mom_sit_code, spieler);
@@ -632,18 +629,18 @@ namespace UniTTT.Logik.Player
 
         class KIBot : KI.AbstractKI
         {
-            public KIBot(int breite, int hoehe, char spieler) : base(spieler, breite, hoehe) { }
+            public KIBot(int width, int height, char spieler) : base(spieler, width, height) { }
 
             public override void Learn()
             {
                 base.Learn();
             }
 
-            public override int Play(Fields.IField Field, char spieler)
+            public override int Play(Fields.IField field, char spieler)
             {
-                string sitcode = SitCodeHelper.Berechnen(Field);
-                int win_zug = TestOneWin(sitcode);
-                int block_zug = TestHumanBlock(sitcode);
+                string sitcode = SitCodeHelper.Calculate(field);
+                int win_zug = TestForOneWin(sitcode);
+                int block_zug = TestForHumanBlock(sitcode);
                 int zug = GetRandomZug(sitcode);
 
                 if (win_zug != -1)
@@ -654,7 +651,7 @@ namespace UniTTT.Logik.Player
                     return zug;
             }
 
-            private int TestOneWin(string sitcode)
+            private int TestForOneWin(string sitcode)
             {
                 string momsitcode;
                 int win_zug = -1;
@@ -662,29 +659,36 @@ namespace UniTTT.Logik.Player
                 {
                     if (sitcode[playerpos] == '1')
                     {
-                        momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, SitCodeHelper.PlayertoSitCode(kiplayer).ToString());
-                        if ((Logik.GewinnPruefer.Pruefe(SitCodeHelper.PlayertoSitCode(kiplayer), Fields.SitCode.GetInstance(momsitcode, Width, height))) && (win_zug == -1))
+                        momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, SitCodeHelper.PlayertoSitCode(Kiplayer).ToString());
+                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.PlayertoSitCode(Kiplayer), Fields.SitCode.GetInstance(momsitcode, Width, Height))) && (win_zug == -1))
                             win_zug = playerpos;
                     }
                 }
                 return win_zug;
             }
 
-            private int TestHumanBlock(string sitcode)
+            private int TestForHumanBlock(string sitcode)
             {
                 string momsitcode;
                 int block_zug = -1;
-                char humanplayer = SitCodeHelper.PlayertoSitCode(kiplayer) == '3' ? '2' : '3';
+                char humanplayer = SitCodeHelper.PlayertoSitCode(Kiplayer) == '3' ? '2' : '3';
                 for (int playerpos = 0; (playerpos < sitcode.Length) && (block_zug == -1); playerpos++)
                 {
                     if (sitcode[playerpos] == '1')
                     {
                         momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, humanplayer.ToString());
-                        if ((Logik.GewinnPruefer.Pruefe(humanplayer, Fields.SitCode.GetInstance(momsitcode, Width, height))) && (block_zug == -1))
+                        if ((Logik.WinChecker.Pruefe(humanplayer, Fields.SitCode.GetInstance(momsitcode, Width, Height))) && (block_zug == -1))
                             block_zug = playerpos;
                     }
                 }
                 return block_zug;
+            }
+
+            private int TestForBestPosition(string sitcode)
+            {
+                int best_zug;
+                
+                return 0;
             }
 
             public override string ToString()
@@ -695,16 +699,16 @@ namespace UniTTT.Logik.Player
 
         class KIRandom : KI.AbstractKI
         {
-            public KIRandom(int breite, int hoehe) : base('O', breite, hoehe) { }
+            public KIRandom(int width, int height) : base('O', width, height) { }
 
             public override void Learn()
             {
                 base.Learn();
             }
 
-            public override int Play(Fields.IField Field, char spieler)
+            public override int Play(Fields.IField field, char spieler)
             {
-                string sitcode = SitCodeHelper.Berechnen(Field);
+                string sitcode = SitCodeHelper.Calculate(field);
                 int zug = GetRandomZug(sitcode);
                 return zug;
             }
