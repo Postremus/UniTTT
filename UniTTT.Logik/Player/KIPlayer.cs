@@ -9,18 +9,18 @@ namespace UniTTT.Logik.Player
 {
     public class KIPlayer : AbstractPlayer
     {
-        public KI.AbstractKI KI { get; private set; }
+        public KI.IKI KI { get; private set; }
 
         public KIPlayer(int kiZahl, int width, int height, char kispieler) : base(kispieler)
         {
             if (kiZahl == 1)
                 KI = new KIReinforcement();
-            else if (kiZahl == 2)
-                KI = new KIRecursion(width, height);
+            //else if (kiZahl == 2)
+                //KI = new KIRecursion(kispieler, width, height);
             else if (kiZahl == 3)
                 KI = new KIMiniMax(width, height, kispieler);
-            else if (kiZahl == 4)
-                KI = new KILike(width, height);
+            //else if (kiZahl == 4)
+            //    KI = new KILike(width, height);
             else if (kiZahl == 5)
                 KI = new KIRandom(width, height);
             else if (kiZahl == 6)
@@ -29,104 +29,30 @@ namespace UniTTT.Logik.Player
 
         public override Vector2i Play(Fields.IField field)
         {
-            return Vector2i.IndexToVector(KI.Play(field, Spieler), field.Width, field.Height);
+            if (KI is KI.IPlayableKI)
+            {
+                return Vector2i.IndexToVector(((UniTTT.Logik.KI.IPlayableKI)KI).Play(field, Spieler), field.Width, field.Height);
+            }
+            else
+                return new Vector2i(-1, -1);
         }
 
         public void Learn()
         {
-            KI.Learn();
+            if (KI is KI.ILearnableKI)
+            {
+                ((Logik.KI.ILearnableKI)KI).Learn();
+            }
         }
 
         public override string ToString()
         {
-            return "KIPlayer";
+            return KI.ToString();
         }
 
-        class KIMiniMax : KI.AbstractKI
+        class KIReinforcement : KI.AbstractKI, KI.IPlayableKI, KI.ILearnableKI
         {
-            public KIMiniMax(int width, int height, char spieler) : base(spieler, width, height) { }
-
-            public override void Learn()
-            {
-                base.Learn();
-            }
-
-            public override int Play(Fields.IField field, char spieler)
-            {
-                string mom_sit_code = SitCodeHelper.Calculate(field);
-                double[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
-                return BestenZugAuswaehlen(Felder, mom_sit_code);
-            }
-
-            private int BestenZugAuswaehlen(double[] Felder, string mom_sit_code)
-            {
-                int zug = 0;
-                double count = double.MinValue + 0.1;
-                for (int i = 0; i < FelderAnzahl; i++)
-                {
-                    if (mom_sit_code[i] == '1')
-                    {
-                        if (Felder[i] > count)
-                        {
-                            count = Felder[i];
-                            zug = i;
-                        }
-                    }
-                }
-                return zug;
-            }
-
-            private double[] ZugWertungBerechnen(string mom_sit_code, char spieler)
-            {
-                string mom_sit_code_edited;
-                double[] Felder = new double[FelderAnzahl];
-                double[] Feldertmp = new double[FelderAnzahl];
-                double[,] wertungen = new double[FelderAnzahl, 3];
-                for (int i = 0; i < FelderAnzahl; i++)
-                {
-                    if (mom_sit_code[i] == '1')
-                    {
-                        mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, spieler.ToString());
-                        wertungen[i, 0] = Bewertung(mom_sit_code_edited, i, '1'); // Unentschieden
-                        wertungen[i, 1] = Bewertung(mom_sit_code_edited, i, Kiplayer); // KISpieler Gewonnen
-                        wertungen[i, 2] = Bewertung(mom_sit_code_edited, i, PlayerChange(Kiplayer)); // MenschGegner Gewonnen
-
-                        Felder[i] = (wertungen[i, 0] * 20.0) + (wertungen[i, 0] * 10.0) - (wertungen[i, 2] * 50.0);
-                        if (Felder[i] == 0.0)
-                        {
-                            Feldertmp = ZugWertungBerechnen(mom_sit_code_edited, PlayerChange(spieler));
-                            for (int y = 0; y < FelderAnzahl; y++)
-                                Felder[i] += Feldertmp[y];
-                        }
-                        else
-                            return Felder;
-                    }
-                }
-                return Felder;
-            }
-
-            private double Bewertung(string sit_code, int x, char spieler)
-            {
-                double wertung = 0.0;
-                FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sit_code, Width, Height), spieler);
-
-                if (state == FieldHelper.GameStates.Gewonnen)
-                    wertung = 10.0 / Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
-                else if (state == FieldHelper.GameStates.Unentschieden)
-                    wertung = Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
-                return wertung;
-            }
-
-            public override string ToString()
-            {
-                return "MiniMax";
-            }
-        }
-
-        class KIReinforcement : KI.AbstractKI
-        {
-            public KIReinforcement()
-                : base('O', 3, 3)
+            public KIReinforcement(): base('O', 3, 3)
             {
                 db = new DB("KI_Reinforcement");
             }
@@ -142,7 +68,7 @@ namespace UniTTT.Logik.Player
             }
 
             // KI
-            public override void Learn()
+            public void Learn()
             {
                 #region Fields
                 char player = 'X';
@@ -158,9 +84,9 @@ namespace UniTTT.Logik.Player
                 {
                     for (int i = 0; i < 9; i++)
                     {
-                        player = PlayerChange(player);
+                        player = SitCodeHelper.PlayerChange(player);
                         sit_codes[a, i] = momsitcode;
-                        zug = GetRandomZug(sit_codes[a, i]);
+                        zug = SitCodeHelper.GetRandomZug(sit_codes[a, i]);
                         zuege[a, i] = zug;
 
                         momsitcode = momsitcode.Remove(zug, 1).Insert(zug, player.ToString());
@@ -189,12 +115,12 @@ namespace UniTTT.Logik.Player
                 db.Speichern();
             }
 
-            public override int Play(Fields.IField field, char spieler)
+            public int Play(Fields.IField field, char spieler)
             {
-                string sitcode = SitCodeHelper.Calculate(field);
+                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
                 int zug = db.Lesen(sitcode);
                 if (zug == -1)
-                    zug = GetRandomZug(sitcode);
+                    zug = SitCodeHelper.GetRandomZug(sitcode);
                 return zug;
             }
 
@@ -220,7 +146,6 @@ namespace UniTTT.Logik.Player
                 {
                     if (TabelleErstellen() && verb.Connect(ref conn))
                     {
-
                         using (SQLiteTransaction traction = conn.BeginTransaction())
                         {
                             using (SQLiteCommand sql = new SQLiteCommand(conn))
@@ -340,308 +265,136 @@ namespace UniTTT.Logik.Player
             }
         }
 
-        class KIRecursion : KI.Recursive
+        //class KIRecursion : KI.Recursive, KI.IPlayableKI
+        //{
+        //    #region Fields
+        //    #endregion
+
+        //    public KIRecursion(char kispieler, int width, int height) : base(width, height) {}
+
+        //    // TODO: Überarbeiten
+        //    public int Play(Fields.IField field, char spieler)
+        //    {
+        //        int[] Felder = new int[Length];
+        //        string mom_sit_code = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
+        //        Felder = WertungenBerechnen(mom_sit_code, spieler);
+
+        //        return SelectBestZug(Felder, mom_sit_code);
+        //    }
+
+        //    private int[] WertungenBerechnen(string mom_sit_code, char spieler)
+        //    {
+        //        int[,] wertungen = new int[Length, 3];
+        //        int[] Felder = new int[Length];
+        //        string mom_sit_code_edited = mom_sit_code;
+
+        //        for (int i = 0; i < Length; i++)
+        //        {
+        //            if (mom_sit_code[i] == '1')
+        //            {
+        //                mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
+        //                //wertungen[i, 0] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), '1', "Felder_" + Length); // Unentschieden
+        //                //wertungen[i, 1] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), SitCodeHelper.PlayertoSitCode(spieler), "Felder_" + Length); // Spieler Gewonnen
+        //                //wertungen[i, 2] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)), "Felder_" + Length); // Gegner
+
+        //                Felder[i] = (wertungen[i, 0] + wertungen[i, 1]) - (wertungen[i, 2] * 5);
+        //            }
+        //        }
+        //        return Felder;
+        //    }
+
+        //    public override string ToString()
+        //    {
+        //        return "Recursion";
+        //    }
+        //}
+
+        class KIMiniMax : KI.AbstractKI, KI.IPlayableKI
         {
-            #region Fields
-            private DB db = new DB("KI_Recursion");
-            #endregion
+            public KIMiniMax(int width, int height, char spieler) : base(spieler, width, height) { }
 
-            public KIRecursion(int width, int height) : base(width, height) { }
-
-            // KI
-            public override void Learn()
+            public int Play(Fields.IField field, char spieler)
             {
-                Console.WriteLine("Prüfe, ob Tabelle existiert..");
-                if (!db.TabelleExistent("Felder_" + FelderAnzahl))
-                {
-                    Console.WriteLine("Keine Tabelle gefunden, dh. Berechnen Sinvoll.");
-                    Console.WriteLine("Erstelle die DatenTabelle..");
-                    db.TabelleErstellen("Felder_" + FelderAnzahl); // TODO: Fehlerüberprüfung einbauen
-                    Console.WriteLine();
-                    Console.WriteLine("Fertig mit dem Erstellen der Tabelle.");
-                    System.Threading.Thread.Sleep(2500);
-                    Console.Clear();
-                    Console.WriteLine("Beginne mit dem Berechnen..");
-                    Recursion(FelderAnzahl, SitCodeHelper.SetEmpty(FelderAnzahl), '3');
-                    Recursion(FelderAnzahl, SitCodeHelper.SetEmpty(FelderAnzahl), '2');
-                    db.Sit_Code = SitCodes;
-                    db.Wertung = Wertungen;
-                    Console.WriteLine();
-                    Console.WriteLine("Fertig mit dem Berechnen.");
-                    System.Threading.Thread.Sleep(3000);
-                    Console.Clear();
-                    Console.WriteLine("Beginne mit den Abspeichern der Werte..");
-                    db.Speichern("Felder_" + FelderAnzahl);
-                    System.Threading.Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("Fertig mit den Abspeichern der Werte.");
-                }
-                else
-                {
-                    Console.WriteLine("Tabelle existent, keine Neuschreibung notwendig..");
-                }
-                Console.WriteLine("Programm wird Beendet. (Taste drücken)");
-                Console.ReadKey();
+                string mom_sit_code = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
+                double[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
+                return BestenZugAuswaehlen(Felder, mom_sit_code);
             }
 
-            // TODO: Überarbeiten
-            public override int Play(Fields.IField field, char spieler)
+            private int BestenZugAuswaehlen(double[] Felder, string mom_sit_code)
             {
-                int[] Felder = new int[FelderAnzahl];
-                string mom_sit_code = SitCodeHelper.Calculate(field);
-                Felder = WertungenBerechnen(mom_sit_code, spieler);
-
-                return SelectBestZug(Felder, mom_sit_code);
-            }
-
-            private int[] WertungenBerechnen(string mom_sit_code, char spieler)
-            {
-                int[,] wertungen = new int[FelderAnzahl, 3];
-                int[] Felder = new int[FelderAnzahl];
-                string mom_sit_code_edited = mom_sit_code;
-
-                for (int i = 0; i < FelderAnzahl; i++)
+                int zug = 0;
+                double count = double.MinValue + 0.1;
+                for (int i = 0; i < Length; i++)
                 {
                     if (mom_sit_code[i] == '1')
                     {
-                        mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
-                        wertungen[i, 0] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), '1', "Felder_" + FelderAnzahl); // Unentschieden
-                        wertungen[i, 1] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), SitCodeHelper.PlayertoSitCode(spieler), "Felder_" + FelderAnzahl); // Spieler Gewonnen
-                        wertungen[i, 2] = db.Lesen(Database.DB.ToDBLike(mom_sit_code_edited), PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)), "Felder_" + FelderAnzahl); // Gegner
+                        if (Felder[i] > count)
+                        {
+                            count = Felder[i];
+                            zug = i;
+                        }
+                    }
+                }
+                return zug;
+            }
 
-                        Felder[i] = (wertungen[i, 0] + wertungen[i, 1]) - (wertungen[i, 2] * 5);
+            private double[] ZugWertungBerechnen(string mom_sit_code, char spieler)
+            {
+                string mom_sit_code_edited;
+                double[] Felder = new double[Length];
+                double[] Feldertmp = new double[Length];
+                double[,] wertungen = new double[Length, 3];
+                for (int i = 0; i < Length; i++)
+                {
+                    if (mom_sit_code[i] == '1')
+                    {
+                        mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, spieler.ToString());
+                        wertungen[i, 0] = Bewertung(mom_sit_code_edited, i, '1'); // Unentschieden
+                        wertungen[i, 1] = Bewertung(mom_sit_code_edited, i, KIPlayer); // KISpieler Gewonnen
+                        wertungen[i, 2] = Bewertung(mom_sit_code_edited, i, SitCodeHelper.PlayerChange(KIPlayer)); // MenschGegner Gewonnen
+
+                        Felder[i] = (wertungen[i, 0] * 20.0) + (wertungen[i, 0] * 10.0) - (wertungen[i, 2] * 50.0);
+                        if (Felder[i] == 0.0)
+                        {
+                            Feldertmp = ZugWertungBerechnen(mom_sit_code_edited, SitCodeHelper.PlayerChange(spieler));
+                            for (int y = 0; y < Length; y++)
+                                Felder[i] += Feldertmp[y];
+                        }
+                        else
+                            return Felder;
                     }
                 }
                 return Felder;
             }
 
-            public override string ToString()
+            private double Bewertung(string sit_code, int x, char spieler)
             {
-                return "Recursion";
-            }
+                double wertung = 0.0;
+                FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sit_code, Width, Height), spieler);
 
-            class DB
-            {
-                public List<string> Sit_Code { get; set; }
-                public List<int> Wertung { get; set; }
-                public Database.Connection verb;
-                private SQLiteConnection conn = new SQLiteConnection();
-
-                // Konstruktor
-                public DB(string dbname)
-                {
-                    Wertung = new List<int>();
-                    Sit_Code = new List<string>();
-                    verb = new Database.Connection(dbname);
-                }
-
-                public void Speichern(string tabname)
-                {
-                    int count = 0;
-                    if (verb.Connect(ref conn))
-                    {
-                        using (SQLiteTransaction traction = conn.BeginTransaction())
-                        {
-                            using (SQLiteCommand sql = new SQLiteCommand(conn))
-                            {
-                                for (int x = 0; x < Wertung.Count; x++, count++)
-                                {
-                                    RundeAusgabe(x);
-                                    for (; (count < Sit_Code.Count) && (Sit_Code[count] != "END"); count++)
-                                    {
-                                        sql.CommandText = string.Format(CultureInfo.InvariantCulture, "Select Count(ID) From {0} Where Sit_Code='{1}' AND Wertung={2}", tabname, Sit_Code[count], Wertung[x]);
-                                        using (SQLiteDataReader reader = sql.ExecuteReader())
-                                        {
-                                            if (int.Parse(reader[0].ToString(), CultureInfo.CurrentCulture) == 0)
-                                            {
-                                                reader.Close();
-                                                sql.CommandText = string.Format(CultureInfo.InvariantCulture, "Insert Into {0} (Sit_Code, Wertung) Values ('{1}', {2})", tabname, Sit_Code[count], Wertung[x]);
-                                                sql.ExecuteNonQuery();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            traction.Commit();
-                        }
-                        // Verbindung trennen
-                        verb.Close(ref conn);
-                    }
-                }
-
-                public int Lesen(string mom_sit_code, char bedingung, string tabname)
-                {
-                    #region Fields
-                    int ret = 0;
-                    SQLiteDataReader reader;
-                    #endregion
-
-                    // Verbindung Herstellen
-                    if (verb.Connect(ref conn))
-                    {
-                        using (SQLiteTransaction traction = conn.BeginTransaction())
-                        {
-                            using (SQLiteCommand sql = new SQLiteCommand(conn))
-                            {
-                                sql.CommandText = string.Format(CultureInfo.InvariantCulture, "SELECT COUNT(*) FROM {0} WHERE Sit_Code LIKE '{1}' AND Wertung={2}", tabname, mom_sit_code, bedingung);
-                                reader = sql.ExecuteReader();
-                                ret = int.Parse(reader[0].ToString(), CultureInfo.CurrentCulture);
-                                reader.Close();
-                                reader.Dispose();
-                            }
-                            traction.Commit();
-                        }
-                        verb.Close(ref conn);
-                    }
-                    return ret;
-                }
-
-                public bool TabelleExistent(string name)
-                {
-                    bool rt_bool = false;
-                    if (verb.Connect(ref conn))
-                    {
-                        using (SQLiteTransaction traction = conn.BeginTransaction())
-                        {
-                            using (SQLiteCommand sql = new SQLiteCommand(conn))
-                            {
-                                sql.CommandText = string.Format(CultureInfo.InvariantCulture, "Select count(*) From 'sqlite_master' where name='{0}'", name);
-                                SQLiteDataReader reader = sql.ExecuteReader();
-                                rt_bool = int.Parse(reader[0].ToString(), CultureInfo.CurrentCulture) > 0;
-                            }
-                            traction.Commit();
-                        }
-                        verb.Close(ref conn);
-                    }
-                    return rt_bool;
-                }
-
-                public bool TabelleErstellen(string tabname)
-                {
-                    bool rt_bll = false;
-                    if (verb.Connect(ref conn))
-                    {
-                        using (SQLiteTransaction traction = conn.BeginTransaction())
-                        {
-                            using (SQLiteCommand sql = new SQLiteCommand(conn))
-                            {
-                                sql.CommandText = string.Format(CultureInfo.InvariantCulture, "CREATE TABLE IF NOT EXISTS {0} ( ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Sit_Code Varchar(100), Wertung Varchar(10));", tabname);
-                                sql.ExecuteNonQuery();
-                                rt_bll = conn.ResultCode() == 0;
-                            }
-                            traction.Commit();
-                        }
-                        verb.Close(ref conn);
-                    }
-                    return rt_bll;
-                }
-
-                private void RundeAusgabe(int runde)
-                {
-                    if ((runde + 1) % 500 == 0)
-                        Console.WriteLine(runde + 1);
-                }
-
-                public override string ToString()
-                {
-                    return "DB_Recursion";
-                }
-            }
-        }
-
-        class KILike : KI.Recursive
-        {
-
-            public KILike(int width, int height) : base(width, height)
-            {
-                Recursion(FelderAnzahl, SitCodeHelper.SetEmpty(FelderAnzahl), '3');
-                Recursion(FelderAnzahl, SitCodeHelper.SetEmpty(FelderAnzahl), '2');
-            }
-
-            // KI
-            public override void Learn()
-            {
-                base.Learn();
-            }
-
-            // TODO: Überarbeiten
-            public override int Play(Fields.IField field, char spieler)
-            {
-                string mom_sit_code = SitCodeHelper.Calculate(field);
-                int[] Felder = new int[FelderAnzahl];
-
-                Felder = WertungenBerechnen(mom_sit_code, spieler);
-
-                return SelectBestZug(Felder, mom_sit_code);
-            }
-
-            private int WertungenZugZuordnen(List<int> list, int bedingung)
-            {
-                int rt_int = 0, count = 0;
-                for (int i = 0; i < Wertungen.Count; i++, count++)
-                {
-                    for (; count < (SitCodes.Count) && (SitCodes[count] != "END"); count++)
-                    {
-                        if (count == list[0])
-                        {
-                            list.RemoveAt(0);
-                            if (Wertungen[i] == bedingung)
-                                rt_int++;
-                            else
-                                break;
-                            if (list.Count == 0)
-                            {
-                                i = Wertungen.Count;
-                                break;
-                            }
-                        }
-                    }
-                }
-                return rt_int;
-            }
-
-            private int[] WertungenBerechnen(string mom_sit_code, char spieler)
-            {
-                int[,] wertungen = new int[FelderAnzahl, 3];
-                int[] Felder = new int[FelderAnzahl];
-                string mom_sit_code_edited = mom_sit_code;
-
-                for (int i = 0; i < FelderAnzahl; i++)
-                {
-                    if (mom_sit_code[i] == '1')
-                    {
-                        mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
-                        wertungen[i, 0] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), '1' - 48); // unentschieden
-                        wertungen[i, 1] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayertoSitCode(spieler) - 48); // Spieler Gewonnen
-                        wertungen[i, 2] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)) - 48); // Gegner
-
-                        Felder[i] = (wertungen[i, 0] + wertungen[i, 1]) - (wertungen[i, 2] * 5);
-                    }
-                }
-                return Felder;
+                if (state == FieldHelper.GameStates.Gewonnen)
+                    wertung = 10.0 / Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
+                else if (state == FieldHelper.GameStates.Unentschieden)
+                    wertung = Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
+                return wertung;
             }
 
             public override string ToString()
             {
-                return "Like";
+                return "MiniMax";
             }
         }
 
-        class KIBot : KI.AbstractKI
+        class KIBot : KI.AbstractKI, KI.IPlayableKI
         {
             public KIBot(int width, int height, char spieler) : base(spieler, width, height) { }
 
-            public override void Learn()
+            public int Play(Fields.IField field, char spieler)
             {
-                base.Learn();
-            }
-
-            public override int Play(Fields.IField field, char spieler)
-            {
-                string sitcode = SitCodeHelper.Calculate(field);
+                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
                 int win_zug = TestForOneWin(sitcode);
                 int block_zug = TestForHumanBlock(sitcode);
-                int zug = GetRandomZug(sitcode);
+                int zug = SitCodeHelper.GetRandomZug(sitcode);
 
                 if (win_zug != -1)
                     return win_zug;
@@ -659,8 +412,8 @@ namespace UniTTT.Logik.Player
                 {
                     if (sitcode[playerpos] == '1')
                     {
-                        momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, SitCodeHelper.PlayertoSitCode(Kiplayer).ToString());
-                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.PlayertoSitCode(Kiplayer), Fields.SitCode.GetInstance(momsitcode, Width, Height))) && (win_zug == -1))
+                        momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, SitCodeHelper.PlayertoSitCode(KIPlayer).ToString());
+                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.PlayertoSitCode(KIPlayer), Fields.SitCode.GetInstance(momsitcode, Width, Height))) && (win_zug == -1))
                             win_zug = playerpos;
                     }
                 }
@@ -671,7 +424,7 @@ namespace UniTTT.Logik.Player
             {
                 string momsitcode;
                 int block_zug = -1;
-                char humanplayer = SitCodeHelper.PlayertoSitCode(Kiplayer) == '3' ? '2' : '3';
+                char humanplayer = SitCodeHelper.PlayertoSitCode(KIPlayer) == '3' ? '2' : '3';
                 for (int playerpos = 0; (playerpos < sitcode.Length) && (block_zug == -1); playerpos++)
                 {
                     if (sitcode[playerpos] == '1')
@@ -697,20 +450,14 @@ namespace UniTTT.Logik.Player
             }
         }
 
-        class KIRandom : KI.AbstractKI
+        class KIRandom : KI.AbstractKI, KI.IPlayableKI
         {
             public KIRandom(int width, int height) : base('O', width, height) { }
 
-            public override void Learn()
+            public int Play(Fields.IField field, char spieler)
             {
-                base.Learn();
-            }
-
-            public override int Play(Fields.IField field, char spieler)
-            {
-                string sitcode = SitCodeHelper.Calculate(field);
-                int zug = GetRandomZug(sitcode);
-                return zug;
+                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
+                return SitCodeHelper.GetRandomZug(sitcode);
             }
 
             public override string ToString()

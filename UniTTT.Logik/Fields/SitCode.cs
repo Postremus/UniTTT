@@ -15,7 +15,7 @@ namespace UniTTT.Logik.Fields
         public int Width { get; set; }
         public int Height { get; set; }
         public int Length { get { return Width * Height; } }
-        private string VarField;
+        private string VarField { get; set; }
 
         public void Initialize(int width, int height)
         {
@@ -32,12 +32,11 @@ namespace UniTTT.Logik.Fields
         public char GetField(int idx)
         {
             return SitCodeHelper.ToPlayer(VarField[idx]);
-            //return VarField[idx];
         }
 
         public char GetField(Vector2i vect)
         {
-            return GetField(Vector2i.VectorToIndex(vect));
+            return GetField(Vector2i.VectorToIndex(vect, Width));
         }
 
         public void SetField(int idx, char value)
@@ -47,12 +46,12 @@ namespace UniTTT.Logik.Fields
 
         public void SetField(Vector2i vect, char value)
         {
-            SetField(Vector2i.VectorToIndex(vect), value);
+            SetField(Vector2i.VectorToIndex(vect, Width), value);
         }
 
         public bool IsFieldEmpty(Vector2i vect)
         {
-            return IsFieldEmpty(Vector2i.VectorToIndex(vect));
+            return IsFieldEmpty(Vector2i.VectorToIndex(vect, Width));
         }
 
         public bool IsFieldEmpty(int idx)
@@ -65,6 +64,11 @@ namespace UniTTT.Logik.Fields
             SitCode ret = new SitCode(width, height);
             ret.VarField = sitcode;
             return ret;
+        }
+
+        public override string ToString()
+        {
+            return FieldHelper.Calculate(this);
         }
     }
 } 

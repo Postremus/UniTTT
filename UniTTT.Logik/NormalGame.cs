@@ -14,7 +14,14 @@ namespace UniTTT.Logik
 
         public void Initialize(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field)
         {
-            Field = field;
+            if (field == null)
+            {
+                Field = new Fields.Brett(bdar.Width, bdar.Height);
+            }
+            else
+            {
+                Field = field;
+            }
             BDarsteller = bdar;
             ODarsteller = odar;
             Player1 = p1;
@@ -24,11 +31,11 @@ namespace UniTTT.Logik
 
         public void Initialize()
         {
-            if (ODarsteller != null)
+            if (IsODarstellerValid())
             {
                 ODarsteller.Title = "UniTTT" + this.ToString();
             }
-            if (BDarsteller != null)
+            if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
                 BDarsteller.Draw();
@@ -48,10 +55,12 @@ namespace UniTTT.Logik
         public void Logik()
         {
             PlayerChange();
-            if (ODarsteller != null)
+            if (IsODarstellerValid())
+            {
                 ODarsteller.PlayerAusgabe(Player.Ausgabe());
+            }
             Field.SetField(Player.Play(Field), Player.Spieler);
-            if (BDarsteller != null)
+            if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
                 BDarsteller.Draw();
@@ -61,10 +70,12 @@ namespace UniTTT.Logik
         public void Logik(int zug)
         {
             PlayerChange();
-            if (ODarsteller != null)
+            if (IsODarstellerValid())
+            {
                 ODarsteller.PlayerAusgabe(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
+            }
             Field.SetField(zug, Player.Spieler);
-            if (BDarsteller != null)
+            if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
                 BDarsteller.Draw();
@@ -89,7 +100,7 @@ namespace UniTTT.Logik
         {
             Field.Initialize();
             Player = null;
-            if (BDarsteller is Logik.IGraphicalBrettDarsteller)
+            if (IsBDarstellerGraphical())
             {
                 ((Logik.IGraphicalBrettDarsteller)BDarsteller).DeLock();
             }
@@ -116,6 +127,26 @@ namespace UniTTT.Logik
         public override string ToString()
         {
             return (Player1 is Logik.Player.KIPlayer) && (Player2 is Logik.Player.KIPlayer) ? "KiGame" : "HumanGame";
+        }
+
+        public bool IsBDarstellerValid()
+        {
+            return BDarsteller != null;
+        }
+
+        public bool IsODarstellerValid()
+        {
+            return ODarsteller != null;
+        }
+
+        public bool IsFieldValid()
+        {
+            return Field != null;
+        }
+
+        public bool IsBDarstellerGraphical()
+        {
+            return BDarsteller is IGraphicalBrettDarsteller;
         }
         #endregion
     }

@@ -29,8 +29,19 @@ namespace UniTTT.Konsole
         //Zeile und Spalte abfragen.
         private Logik.Vector2i abfragexy()
         {
-            Console.WriteLine("In welcher Zeile und Spalte soll das {0} gesetzt werden? (z.B. 0.0)", Spieler);
-            return Logik.Vector2i.GetVectorOfString(Console.ReadLine());
+            Logik.Vector2i ret = null;
+            do
+            {
+                try
+                {
+                    Console.WriteLine("In welcher Zeile und Spalte (Nullbasierend) soll das {0} gesetzt werden? (z.B. 0.0)", Spieler);
+                    return Logik.Vector2i.GetVectorOfString(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Irgendetwas wurde falsch eingegeben..");
+                }
+            } while (true);
         }
 
         public override string ToString()

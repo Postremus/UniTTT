@@ -59,6 +59,9 @@
     <Compile Include="FieldHelper.cs" />
     <Compile Include="Database\DB.cs" />
     <Compile Include="Database\Connection.cs" />
+    <Compile Include="KI\IKI.cs" />
+    <Compile Include="KI\ILearnableKI.cs" />
+    <Compile Include="KI\IPlayableKI.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="Fields\IField.cs" />

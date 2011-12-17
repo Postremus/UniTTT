@@ -10,37 +10,50 @@ namespace UniTTT.Konsole
         public BrettDarsteller(int width, int height)
         {
             Width = width;
-            Heigth = height;
-            spielfeld = new char[Width + (Width - 1), Heigth + (Heigth - 1)];
+            Height = height;
+            spielfeld = new char[Width + (Width - 1), Height + (Height - 1)];
         }
 
         #region Fields
         public int Width { get; private set; }
-        public int Heigth { get; private set; }
+        public int Height { get; private set; }
         private char[,] spielfeld;
         #endregion
 
         public void Update(Logik.Fields.IField field)
         {
-            int i = 0, f = 0;
-
-            for (int x = 0; x < Width + (Width - 1); x++)
+            int x = 0;
+            int y = 0;
+            for (int Spielfeldy = 0; Spielfeldy < Height + (Height-1); Spielfeldy++)
             {
-                // Die ZwischenReihen 
-                if (x % 2 == 1)
-                    for (int c = 0; c < Heigth + (Heigth - 1); c++)
-                        spielfeld[x, c] = c % 2 == 1 ? '+' : '|';
-                // Die Hauptreihen
-                else if (x % 2 == 0)
+                //Hauptreihen
+                if (Spielfeldy % 2 == 0)
                 {
-                    for (int a = 0; a < Heigth + (Heigth - 1); a++)
+                    for (int Spielfeldx = 0; Spielfeldx < Width + (Width - 1); Spielfeldx++)
                     {
-                        spielfeld[x, a] = a % 2 == 1 ? '-' : field.GetField(new Logik.Vector2i(i, f));
-                        if (a % 2 == 0)
-                            f++;
+                        if (Spielfeldx % 2 == 0)
+                        {
+                            spielfeld[Spielfeldx, Spielfeldy] = field.GetField(new Logik.Vector2i(x, y));
+                        }
+                        else
+                        {
+                            spielfeld[Spielfeldx, Spielfeldy] = '|';
+                        }
+                        if (Spielfeldx % 2 == 0)
+                        {
+                            x++;
+                        }
                     }
-                    i++;
-                    f = 0;
+                    y++;
+                    x = 0;
+                }
+                //Zwischenreihen
+                else
+                {
+                    for (int Spielfeldx = 0; Spielfeldx < Width + (Width - 1); Spielfeldx++)
+                    {
+                        spielfeld[Spielfeldx, Spielfeldy] = Spielfeldx % 2 == 0 ? '-' : '+';
+                    }
                 }
             }
         }
@@ -48,13 +61,16 @@ namespace UniTTT.Konsole
         public void Draw()
         {
             Console.Clear();
-            for (int y = 0; y < spielfeld.GetUpperBound(1)+1; y++)
+            string toWrite = null;
+            for (int y = 0; y < Height+(Height-1); y++)
             {
-                for (int x = 0; x < spielfeld.GetUpperBound(0)+1; x++)
-                    Console.Write(spielfeld[x, y]);
-                Console.Write(System.Environment.NewLine);
+                for (int x = 0; x < Width + (Width - 1); x++)
+                {
+                    toWrite += spielfeld[x, y];
+                }
+                Console.WriteLine(toWrite);
+                toWrite = null;
             }
-
             Console.WriteLine();
             Console.WriteLine();
         }

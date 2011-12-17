@@ -6,22 +6,10 @@ using System.Text;
 namespace UniTTT.Logik
 {
     public class SitCodeHelper
-    {
-        public static string Calculate(Fields.IField field)
-        {
-            string ret = null;
-            char c;
-            for (int i = 0; i < field.Length; i++)
-            {
-                c = field.GetField(i);
-                c = c == 'X' ? '2' : c == 'O' ? '3' : c == ' ' ? '1' : c;
-                ret += c;
-            }
-            return ret;
-        }
-         
+    {    
         public static char PlayertoSitCode(char spieler)
         {
+   
             return spieler == 'X' ? '2' : spieler == 'O' ? '3' : spieler == ' ' ? '1' : spieler;
         }
 
@@ -36,6 +24,33 @@ namespace UniTTT.Logik
             while (sit_code.Length < felderAnzahl)
                 sit_code += "1";
             return sit_code;
+        }
+
+        public static string StringToSitCode(string var)
+        {
+            string ret = null;
+            foreach (char x in var)
+            {
+                ret += PlayertoSitCode(x);
+            }
+            return ret;
+        }
+
+        public static char PlayerChange(char spieler)
+        {
+            return spieler == '2' ? '3' : '2';
+        }
+
+        public static Random Rnd = new Random();
+
+        public static int GetRandomZug(string sitcode)
+        {
+            int zug = -1;
+            do
+            {
+                zug = Rnd.Next(0, 9);
+            } while (sitcode[zug] != '1');
+            return zug;
         }
     }
 }

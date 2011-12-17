@@ -9,7 +9,7 @@ namespace UniTTT.Konsole.Games
 {
     class Game : Logik.NormalGame
     {
-        public Game(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2) : base(p1, p2, new BrettDarsteller(width, height), new OutputDarsteller(), new Logik.Fields.SitCode(width, height)) { }
+        public Game(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2) : base(p1, p2, new BrettDarsteller(width, height), new OutputDarsteller(), null) { }
 
         public void Start()
         {
@@ -19,9 +19,11 @@ namespace UniTTT.Konsole.Games
 
         private void AfterGameActions()
         {
-            ODarsteller.WinMessage(Player.Spieler, UniTTT.Logik.FieldHelper.GetGameState(Field, Player.Spieler));
-            WinCounter();
-
+            if (IsODarstellerValid())
+            {
+                ODarsteller.WinMessage(Player.Spieler, UniTTT.Logik.FieldHelper.GetGameState(Field, Player.Spieler));
+                WinCounter();
+            }
             if (NewGameQuestion())
             {
                 NewGame();

@@ -5,7 +5,6 @@ using System.Text;
 
 namespace UniTTT.Logik
 {
-    
     public sealed class Parameters
     {
         private Dictionary<string, object> dic;

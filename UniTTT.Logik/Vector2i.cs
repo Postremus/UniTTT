@@ -67,33 +67,23 @@ namespace UniTTT.Logik
             return vect1.X > vect2.X && vect1.Y > vect2.Y;
         }
 
-        public static Vector2i Add(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1 + vect2;
-        }
-
-        public static Vector2i Subtract(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1 - vect2;
-        }
-
-        public static Vector2i Multiply(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1 * vect2;
-        }
-
         public static Vector2i GetVectorOfString(string value)
         {
+            Vector2i ret = null;
             int idx = value.IndexOf('.') != -1 ? value.IndexOf('.') : value.IndexOf(',');
             if (idx == -1)
             {
                 idx = value.IndexOf(',');
             }
-            int x;
-            int y;
-            int.TryParse(value.Substring(0, idx), out x);
-            int.TryParse(value.Substring(idx +1), out y);
-            return new Vector2i(x, y);
+            if (idx > -1)
+            {
+                int x;
+                int y;
+                int.TryParse(value.Substring(0, idx), out x);
+                int.TryParse(value.Substring(idx + 1), out y);
+                ret = new Vector2i(x, y);
+            }
+            return ret;
         }
 
         public static Vector2i IndexToVector(int zug, int width, int height)
@@ -110,9 +100,19 @@ namespace UniTTT.Logik
             return vect;
         }
 
-        public static int VectorToIndex(Vector2i vect)
+        public static int VectorToIndex(Vector2i vect, int width)
         {
-            return ((vect.X) * 3) + (vect.Y + 1) - 1;
+            return ((vect.X) * width) + (vect.Y + 1) - 1;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -59,5 +59,15 @@ namespace UniTTT.Logik
                 state = FieldHelper.GameStates.Unentschieden;
             return state;
         }
+
+        public static string Calculate(Fields.IField field)
+        {
+            string ret = string.Empty;
+            for (int i = 0; i < field.Length; i++)
+            {
+                ret += field.GetField(i);
+            }
+            return ret;
+        }
     }
 }

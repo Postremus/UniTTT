@@ -29,7 +29,7 @@ namespace UniTTT.Logik.Fields
         public int Height { get; private set; }
         public int Width { get; private set; }
         public int Length { get { return Width * Height; } }
-        private char[,] VarField;
+        private char[,] VarField { get; set; }
 
         private void BrettInit()
         {
@@ -55,9 +55,7 @@ namespace UniTTT.Logik.Fields
 
         public void SetField(Vector2i vect, char value)
         {
-            char[,] x = (char[,])VarField;
-            x[vect.X, vect.Y] = value;
-            VarField = x;
+            VarField[vect.X, vect.Y] = value;
         }
 
         public bool IsFieldEmpty(Vector2i vect)
@@ -68,6 +66,11 @@ namespace UniTTT.Logik.Fields
         public bool IsFieldEmpty(int idx)
         {
             return GetField(idx) == ' ';
+        }
+
+        public override string ToString()
+        {
+            return FieldHelper.Calculate(this);
         }
         #endregion
     }
