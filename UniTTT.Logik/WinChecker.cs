@@ -42,7 +42,7 @@ namespace UniTTT.Logik
                 return true;
 
             // Oben Rechts zu unten Links
-            if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(field.Width - 1, 0), new Vector2i(0, field.Height)) == GewinnBedingung)
+            if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(field.Width - 1, 0), new Vector2i(0, field.Height - 1)) == GewinnBedingung)
                 return true;
             return false;
         }
@@ -54,7 +54,7 @@ namespace UniTTT.Logik
         /// <param name="dir">Die Richtung, in die überprüft werden soll.</param>
         /// <param name="spieler"></param>
         /// <param name="from">Der inklusive untere Vector der Startposition.</param>
-        /// <param name="to">Der exklusive untere Vector der Startposition.</param>
+        /// <param name="to">Der exklusive untere Vector der Endposition.</param>
         /// <returns></returns>
         public static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from, Vector2i to)
         {
