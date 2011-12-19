@@ -37,7 +37,7 @@ namespace UniTTT.Konsole
                     Console.WriteLine("In welcher Zeile und Spalte (Nullbasierend) soll das {0} gesetzt werden? (z.B. 0.0)", Spieler);
                     return Logik.Vector2i.GetVectorOfString(Console.ReadLine());
                 }
-                catch
+                catch (Exception)
                 {
                     Console.WriteLine("Irgendetwas wurde falsch eingegeben..");
                 }

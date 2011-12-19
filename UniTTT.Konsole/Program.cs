@@ -17,9 +17,6 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            args = new string[2];
-            args[0] = "/breite:3";
-            args[1] = "/hoehe:3";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int breite = parameters.GetInt("breite");
@@ -34,7 +31,7 @@ namespace UniTTT.Konsole
             {
                 Help();
             }
-            if (parameters.GetBool("learn"))
+            else if (parameters.GetBool("learn"))
             {
                 Logik.Player.KIPlayer kiplayer = new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O');
                 Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.ToString());
@@ -65,10 +62,10 @@ namespace UniTTT.Konsole
         private static void Help()
         {
             Console.WriteLine("/help");
+            Console.WriteLine("/kigame");
             Console.WriteLine("/breite:");
             Console.WriteLine("/hoehe:");
             Console.WriteLine("/ki:");
-            Console.WriteLine("/kigame");
             Console.WriteLine();
             Console.WriteLine();
         }

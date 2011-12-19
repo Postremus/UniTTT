@@ -69,6 +69,8 @@ namespace UniTTT.Logik
 
         public static Vector2i GetVectorOfString(string value)
         {
+            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+                throw new NullReferenceException();
             Vector2i ret = null;
             int idx = value.IndexOf('.') != -1 ? value.IndexOf('.') : value.IndexOf(',');
             if (idx == -1)
