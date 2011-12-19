@@ -61,11 +61,11 @@ namespace UniTTT.Konsole
 
         private static void Help()
         {
-            Console.WriteLine("/help");
-            Console.WriteLine("/kigame");
-            Console.WriteLine("/breite:");
-            Console.WriteLine("/hoehe:");
-            Console.WriteLine("/ki:");
+            Console.WriteLine("/help        Gibt diese Hilfe aus");
+            Console.WriteLine("/kigame      Startet ein Spiel zwischen zwei KIs. /ki: ist benötigt");
+            Console.WriteLine("/breite:     Breite des Spielfeldes");
+            Console.WriteLine("/hoehe:      Hoehe des Spielfeldes");
+            Console.WriteLine("/ki:         KI");
             Console.WriteLine();
             Console.WriteLine();
         }

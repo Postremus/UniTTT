@@ -42,41 +42,41 @@ namespace UniTTT.Logik
                 return true;
 
             // Oben Rechts zu unten Links
-            if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(field.Width - 1, 0), new Vector2i(0, field.Height - 1)) == GewinnBedingung)
+            if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(field.Width - 1, 0), new Vector2i(0, field.Height)) == GewinnBedingung)
                 return true;
             return false;
         }
 
         /// <summary>
-        /// 
+        /// TODO: verbessern
         /// </summary>
         /// <param name="field">Das Spielfeld</param>
         /// <param name="dir">Die Richtung, in die überprüft werden soll.</param>
         /// <param name="spieler"></param>
         /// <param name="from">Der inklusive untere Vector der Startposition.</param>
-        /// <param name="to">Der exklusive untere Vector der Endposition.</param>
+        /// <param name="to">Der inklusive untere Vector der Endposition. (Unwichtig, null reicht auch)</param>
         /// <returns></returns>
-        public static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from, Vector2i to)
+        private static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from, Vector2i to)
         {
             int counter = 0;
-            //for (int a = 0; a < GewinnBedingung; a++)
-            //{
-            //    if (field.GetField(from) == spieler)
-            //        counter++;
-            //    else break;
-            //    from = NextField(dir, from);
-            //}
-            while (from != to)
+            for (int a = 0; a < GewinnBedingung; a++)
             {
                 if (field.GetField(from) == spieler)
                     counter++;
                 else break;
                 from = NextField(dir, from);
             }
+            //while (from != to)
+            //{
+            //    if (field.GetField(from) == spieler)
+            //        counter++;
+            //    else break;
+            //    from = NextField(dir, from);
+            //}
             return counter;
         }
 
-        public static Vector2i NextField(Directories dir, Vector2i vect)
+        private static Vector2i NextField(Directories dir, Vector2i vect)
         {
             if (dir == Directories.Right)
                 vect.X++;
