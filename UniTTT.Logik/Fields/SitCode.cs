@@ -31,7 +31,14 @@ namespace UniTTT.Logik.Fields
 
         public char GetField(int idx)
         {
-            return SitCodeHelper.ToPlayer(VarField[idx]);
+            if (IsEntryPointInTheSize(idx))
+            {
+                return SitCodeHelper.ToPlayer(VarField[idx]);
+            }
+            else
+            {
+                return 'n';
+            }
         }
 
         public char GetField(Vector2i vect)
@@ -41,7 +48,10 @@ namespace UniTTT.Logik.Fields
 
         public void SetField(int idx, char value)
         {
-            VarField = VarField.Remove(idx, 1).Insert(idx, SitCodeHelper.PlayertoSitCode(value).ToString());
+            if (IsEntryPointInTheSize(idx))
+            {
+                VarField = VarField.Remove(idx, 1).Insert(idx, SitCodeHelper.PlayertoSitCode(value).ToString());
+            }
         }
 
         public void SetField(Vector2i vect, char value)
@@ -64,6 +74,11 @@ namespace UniTTT.Logik.Fields
             SitCode ret = new SitCode(width, height);
             ret.VarField = sitcode;
             return ret;
+        }
+
+        private bool IsEntryPointInTheSize(int idx)
+        {
+            return idx > -1 && idx < Length;
         }
 
         public override string ToString()

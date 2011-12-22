@@ -10,11 +10,11 @@ namespace UniTTT.Logik.Player
     {
         protected AbstractPlayer(char startspieler) 
         {
-            Spieler = startspieler;
+            Symbol = startspieler;
             WinCounter = 0;
         }
 
-        public char Spieler { get; set; }
+        public char Symbol { get; set; }
         public int WinCounter { get; set; }
 
         public virtual Vector2i Play(Fields.IField field)
@@ -22,10 +22,15 @@ namespace UniTTT.Logik.Player
             throw new NotImplementedException();
         }
 
+        public virtual void Learn()
+        {
+            throw new NotImplementedException();
+        }
+
         //Ausgeben, wer momentan dran ist.
         public string Ausgabe()
         {
-            return string.Format(CultureInfo.CurrentCulture, "Spieler {0} ist an der Reihe.", Spieler);
+            return string.Format(CultureInfo.CurrentCulture, "Spieler {0} ist an der Reihe.", Symbol);
         }
 
         public override string ToString()

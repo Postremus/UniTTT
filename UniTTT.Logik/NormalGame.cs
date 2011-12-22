@@ -26,6 +26,7 @@ namespace UniTTT.Logik
             ODarsteller = odar;
             Player1 = p1;
             Player2 = p2;
+            OutputManager.Odarsteller = ODarsteller;
             Initialize();
         }
 
@@ -59,7 +60,7 @@ namespace UniTTT.Logik
             {
                 ODarsteller.PlayerAusgabe(Player.Ausgabe());
             }
-            Field.SetField(Player.Play(Field), Player.Spieler);
+            Field.SetField(Player.Play(Field), Player.Symbol);
             if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
@@ -74,7 +75,7 @@ namespace UniTTT.Logik
             {
                 ODarsteller.PlayerAusgabe(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
             }
-            Field.SetField(zug, Player.Spieler);
+            Field.SetField(zug, Player.Symbol);
             if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
@@ -110,14 +111,14 @@ namespace UniTTT.Logik
 
         public bool HasEnd()
         {
-            if (FieldHelper.GetGameState(Field, Player.Spieler) != UniTTT.Logik.FieldHelper.GameStates.Laufend)
+            if (FieldHelper.GetGameState(Field, Player.Symbol) != UniTTT.Logik.FieldHelper.GameStates.Laufend)
                 return true;
             return false;
         }
 
         public void WinCounter()
         {
-            if (FieldHelper.GetGameState(Field, Player.Spieler) == FieldHelper.GameStates.Gewonnen)
+            if (FieldHelper.GetGameState(Field, Player.Symbol) == FieldHelper.GameStates.Gewonnen)
             {
                 Player1.WinCounter = Player == Player1 ? +1 : 0;
                 Player2.WinCounter = Player == Player2 ? +1 : 0;
@@ -133,7 +134,6 @@ namespace UniTTT.Logik
         {
             return BDarsteller != null;
         }
-
         public bool IsODarstellerValid()
         {
             return ODarsteller != null;

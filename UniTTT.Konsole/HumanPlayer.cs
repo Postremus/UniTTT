@@ -26,18 +26,28 @@ namespace UniTTT.Konsole
             } while (true);
         }
 
+        public override void Learn()
+        {
+            Console.WriteLine("Brettspiel");
+            Console.WriteLine("3 in einer Reihe zum Gewinnen.");
+            Console.WriteLine("Abwechselnd gespielt.");
+            Console.WriteLine("Spieler werden durch Symbole dargestellt");
+            Console.WriteLine("Meistens X und O");
+            Console.WriteLine("Taste drücken zum Beenden");
+            Console.ReadLine();
+        }
+
         //Zeile und Spalte abfragen.
         private Logik.Vector2i abfragexy()
         {
-            Logik.Vector2i ret = null;
             do
             {
                 try
                 {
-                    Console.WriteLine("In welcher Zeile und Spalte (Nullbasierend) soll das {0} gesetzt werden? (z.B. 0.0)", Spieler);
+                    Console.WriteLine("In welcher Nullbasierenden Zeile und Spalte, soll das {0} gesetzt werden? (X.Y)", Symbol);
                     return Logik.Vector2i.GetVectorOfString(Console.ReadLine());
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     Console.WriteLine("Irgendetwas wurde falsch eingegeben..");
                 }

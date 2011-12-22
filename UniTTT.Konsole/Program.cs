@@ -17,6 +17,10 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
+
+            args = new string[2];
+            //args[0] = "/learn";
+            //args[1] = "/human";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int breite = parameters.GetInt("breite");
@@ -33,9 +37,18 @@ namespace UniTTT.Konsole
             }
             else if (parameters.GetBool("learn"))
             {
-                Logik.Player.KIPlayer kiplayer = new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O');
-                Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.ToString());
-                kiplayer.Learn();
+                if (parameters.GetBool("human"))
+                {
+                    new HumanPlayer('X').Learn();
+                }
+                else
+                {
+                    Logik.OutputManager.Odarsteller = new OutputDarsteller();
+                    Logik.Player.KIPlayer kiplayer = new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O');
+                    Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.ToString());
+                    kiplayer.Learn();
+                    Logik.OutputManager.Stop();
+                }
             }
             else
             {
@@ -62,7 +75,7 @@ namespace UniTTT.Konsole
         private static void Help()
         {
             Console.WriteLine("/help        Gibt diese Hilfe aus");
-            Console.WriteLine("/kigame      Startet ein Spiel zwischen zwei KIs. /ki: ist benötigt");
+            Console.WriteLine("/kigame      Startet ein Spiel zwischen zwei KIs.");
             Console.WriteLine("/breite:     Breite des Spielfeldes");
             Console.WriteLine("/hoehe:      Hoehe des Spielfeldes");
             Console.WriteLine("/ki:         KI");

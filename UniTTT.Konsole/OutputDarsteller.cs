@@ -29,10 +29,9 @@ namespace UniTTT.Konsole
             Console.WriteLine();
         }
 
-        public void ThrowMessage(string message)
+        public void ShowMessage(string message)
         {
             Console.WriteLine(message);
-            Console.WriteLine();
         }
     }
 }

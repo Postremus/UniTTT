@@ -10,6 +10,6 @@ namespace UniTTT.Logik
         string Title { set; }
         void WinMessage(char player, FieldHelper.GameStates state);
         void PlayerAusgabe(string message);
-        void ThrowMessage(string message);
+        void ShowMessage(string message);
     }
 }

@@ -61,15 +61,15 @@ namespace UniTTT.Konsole
         public void Draw()
         {
             Console.Clear();
-            string toWrite = null;
+            string tooutput = null;
             for (int y = 0; y < Height+(Height-1); y++)
             {
                 for (int x = 0; x < Width + (Width - 1); x++)
                 {
-                    toWrite += spielfeld[x, y];
+                    tooutput += spielfeld[x, y];
                 }
-                Console.WriteLine(toWrite);
-                toWrite = null;
+                Console.WriteLine(tooutput);
+                tooutput = null;
             }
             Console.WriteLine();
             Console.WriteLine();

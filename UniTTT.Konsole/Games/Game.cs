@@ -21,7 +21,7 @@ namespace UniTTT.Konsole.Games
         {
             if (IsODarstellerValid())
             {
-                ODarsteller.WinMessage(Player.Spieler, UniTTT.Logik.FieldHelper.GetGameState(Field, Player.Spieler));
+                ODarsteller.WinMessage(Player.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player.Symbol));
                 WinCounter();
             }
             if (NewGameQuestion())
