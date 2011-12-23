@@ -37,7 +37,7 @@ namespace UniTTT.Logik.Player
                 return new Vector2i(-1, -1);
         }
 
-        public void Learn()
+        public override void Learn()
         {
             if (KI is KI.ILearnableKI)
             {
@@ -52,8 +52,7 @@ namespace UniTTT.Logik.Player
 
         class KIReinforcement : KI.AbstractKI, KI.IPlayableKI, KI.ILearnableKI
         {
-            public KIReinforcement()
-                : base('O', 3, 3)
+            public KIReinforcement(): base('O', 3, 3)
             {
                 db = new WriterReader("KI_Reinforcement");
             }
@@ -64,10 +63,23 @@ namespace UniTTT.Logik.Player
 
             private int Rundefrage()
             {
-
-                Console.WriteLine("Wie viele Runden sollen durchlaufen werden? (als Zahl)");
-                string str = Console.ReadLine();
-                return int.Parse(str, CultureInfo.CurrentCulture);
+                int ret = new int();
+                do
+                {
+                    Console.WriteLine("Wie viele Runden sollen durchlaufen werden? (als Zahl)");
+                    if (int.TryParse(Console.ReadLine(), out ret))
+                    {
+                        return ret;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Irgendetwas wurde falsch eingegeben.");
+                        Console.WriteLine("Eventuell eine Lerrzeichen, oder ein anderes nicht Zahl Zeichen");
+                        Console.WriteLine("Taste drücken für einen neuen Versuch");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
+                } while (true);
             }
 
             // KI
@@ -138,7 +150,6 @@ namespace UniTTT.Logik.Player
                 public string[,] Sit_Code;
                 public int[] Wertung;
                 public string FileName { get; set; }
-
                 public WriterReader(string filename)
                 {
                     FileName = filename;

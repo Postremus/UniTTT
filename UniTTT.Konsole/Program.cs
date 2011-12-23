@@ -18,9 +18,9 @@ namespace UniTTT.Konsole
         static void Main(string[] args)
         {
 
-            args = new string[2];
+            //args = new string[2];
             //args[0] = "/learn";
-            //args[1] = "/human";
+            //args[1] = "/ki:1";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int breite = parameters.GetInt("breite");

@@ -33,5 +33,28 @@ namespace UniTTT.Konsole
         {
             Console.WriteLine(message);
         }
+
+        public void Wait()
+        {
+            Console.ReadLine();
+        }
+
+        public int Choice()
+        {
+            int ret = new int();
+            if (!int.TryParse(Console.ReadLine(), out ret))
+            {
+                throw new FormatException();
+            }
+            else 
+            {
+                return ret;
+            }
+        }
+
+        public bool Choice(string answerTrue, string answerFalse)
+        {
+            return Console.ReadLine() == answerTrue;
+        }
     }
 }
