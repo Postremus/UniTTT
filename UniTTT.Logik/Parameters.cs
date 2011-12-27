@@ -8,6 +8,12 @@ namespace UniTTT.Logik
     public sealed class Parameters
     {
         private Dictionary<string, object> dic;
+
+        public int Count()
+        {
+            return dic.Count;
+        }
+
         public Parameters()
         {
             dic = new Dictionary<string, object>();

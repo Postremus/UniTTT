@@ -93,43 +93,39 @@ namespace UniTTT.Logik
                 {
                     int x;
                     int y;
-                    int.TryParse(value.Substring(0, idx), out x);
-                    int.TryParse(value.Substring(idx + 1), out y);
-                    ret = new Vector2i(x, y);
+                    if (int.TryParse(value.Substring(0, idx), out x) && int.TryParse(value.Substring(idx + 1), out y))
+                    {
+                        ret = new Vector2i(x, y);
+                    }
+                    else
+                    {
+                        throw new FormatException();
+                    }
                 }
             }
             else
             {
-                int count = new int();
+                int count = 0;
+                string str = null;
                 if (value.Contains(".") || value.Contains(","))
                 {
-                    if (int.TryParse(value.Substring(0, value.Length - 1), out count))
-                    {
-                        if (count < 0)
-                        {
-                            throw new NullReferenceException();
-                        }
-                        ret = new Vector2i(count, count);
-                    }
-                    else
-                    {
-                        throw new NullReferenceException();
-                    }
+                    str = value.Substring(0, value.Length - 1);
                 }
                 else
                 {
-                    if (int.TryParse(value.Substring(0, value.Length), out count))
-                    {
-                        ret = new Vector2i(count, count);
-                        if (count < 0)
-                        {
-                            throw new NullReferenceException();
-                        }
-                    }
-                    else
+                    str = value.Substring(0, value.Length);
+                }
+                if (int.TryParse(str, out count))
+                {
+                    if (count < 0)
                     {
                         throw new NullReferenceException();
                     }
+                    ret = new Vector2i(count, count);
+                }
+                else
+                {
+                    throw new FormatException();
                 }
             }
             return ret;

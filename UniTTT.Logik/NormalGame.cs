@@ -26,7 +26,6 @@ namespace UniTTT.Logik
             ODarsteller = odar;
             Player1 = p1;
             Player2 = p2;
-            OutputManager.Odarsteller = ODarsteller;
             Initialize();
         }
 
@@ -34,7 +33,7 @@ namespace UniTTT.Logik
         {
             if (IsODarstellerValid())
             {
-                ODarsteller.Title = "UniTTT" + this.ToString();
+                ODarsteller.Title = "UniTTT - " + this.ToString();
             }
             if (IsBDarstellerValid())
             {

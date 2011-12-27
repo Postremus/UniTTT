@@ -51,7 +51,13 @@ namespace UniTTT.Logik.Database
             return ret;
         }
 
-        public static List<int> Like(List<string> elements, string mom_sit_code)
+        /// <summary>
+        /// Gibt eine Liste mit den Indezes der ähnlichen Zeichenketten zurück.
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static List<int> Like(List<string> elements, string value)
         {
             List<int> ret = new List<int>();
             bool insert = true;
@@ -62,7 +68,7 @@ namespace UniTTT.Logik.Database
                 {
                     if (elements[x][i] != ('_' | '*'))
                     {
-                        if (elements[x][i] != mom_sit_code[i] && insert)
+                        if (elements[x][i] != value[i] && insert)
                             insert = false;
                     }
                 }
@@ -72,6 +78,26 @@ namespace UniTTT.Logik.Database
                 }
             }
 
+            return ret;
+        }
+
+        public static bool Like(string searchstr, string str2)
+        {
+            bool ret = false;
+            for (int i = 0; i < Math.Ceiling(((double)searchstr.Length + str2.Length)/2); i++)
+            {
+                if (searchstr[i] != '*')
+                {
+                    if (searchstr[i] == str2[i])
+                    {
+                        ret = true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
             return ret;
         }
     }

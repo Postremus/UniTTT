@@ -14,6 +14,7 @@ namespace UniTTT.Logik.KI
 
         protected Recursive(int width, int height) : base('O', width, height)
         {
+            SitCodes = new List<string>();
             Wertungen = new List<int>();
         }
 

@@ -17,23 +17,36 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-
             //args = new string[2];
-            //args[0] = "/learn";
-            //args[1] = "/ki:1";
+            //args[0] = "/ki:Reinforcement";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int breite = parameters.GetInt("breite");
             int hoehe = parameters.GetInt("hoehe");
-            int ki_zahl = parameters.GetInt("ki");
+
 
             if (breite == -1)
                 breite = 3;
             if (hoehe == -1)
                 hoehe = 3;
+
+            Logik.Player.AbstractPlayer kiplayer = null;
+            if (parameters.GetInt("ki") > 0)
+            {
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), breite, hoehe, 'O', new OutputDarsteller());
+            }
+            else if (Enum.IsDefined(typeof(Logik.Player.KIPlayer.KISystems), parameters.GetString("ki")))
+            {
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), breite, hoehe, 'O', new OutputDarsteller());
+            }
+
+
             if (parameters.GetBool("help"))
             {
-                Help();
+                if (parameters.Count() == 1)
+                {
+                    Help();
+                }
             }
             else if (parameters.GetBool("learn"))
             {
@@ -43,11 +56,9 @@ namespace UniTTT.Konsole
                 }
                 else
                 {
-                    Logik.OutputManager.Odarsteller = new OutputDarsteller();
-                    Logik.Player.KIPlayer kiplayer = new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O');
+                    if (kiplayer == null) throw new FormatException();
                     Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.ToString());
                     kiplayer.Learn();
-                    Logik.OutputManager.Stop();
                 }
             }
             else
@@ -55,9 +66,9 @@ namespace UniTTT.Konsole
                 Games.Game game;
                 if (!parameters.GetBool("kigame"))
                 {
-                    if (ki_zahl > 0)
+                    if (kiplayer != null)
                     {
-                        game = new Games.Game(breite, hoehe, new HumanPlayer('X'), new Logik.Player.KIPlayer(ki_zahl, breite, hoehe, 'O'));
+                        game = new Games.Game(breite, hoehe, new HumanPlayer('X'), kiplayer);
                     }
                     else
                     {
@@ -66,7 +77,7 @@ namespace UniTTT.Konsole
                 }
                 else
                 {
-                    game = new Games.Game(3, 3, new Logik.Player.KIPlayer(ki_zahl, 3, 3, 'X'), new Logik.Player.KIPlayer(ki_zahl, 3, 3, 'O'));
+                    game = new Games.Game(3, 3, kiplayer, kiplayer);
                 }
                 game.Start();
             }
@@ -78,8 +89,8 @@ namespace UniTTT.Konsole
             Console.WriteLine("/kigame      Startet ein Spiel zwischen zwei KIs.");
             Console.WriteLine("/breite:     Breite des Spielfeldes");
             Console.WriteLine("/hoehe:      Hoehe des Spielfeldes");
-            Console.WriteLine("/ki:         KI");
-            Console.WriteLine();
+            Console.WriteLine("/ki:         KI als Ganzzahl (1-6, oder als Wort.");
+            Console.WriteLine("/human       Ruft eine kleine Anleitung zum Spiel ab. (benötigt /learn)");
             Console.WriteLine();
         }
     }

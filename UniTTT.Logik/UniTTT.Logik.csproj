@@ -39,13 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionMhethods.cs" />
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
     <Compile Include="Database\DB.cs" />
     <Compile Include="KI\IKI.cs" />
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
-    <Compile Include="OutputManager.cs" />
+    <Compile Include="Player\NetworkPlayer.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="Fields\IField.cs" />
