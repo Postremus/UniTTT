@@ -6,11 +6,13 @@ UniTTT
 	/human			Der Menschliche Spieler		
 	/ki:			Die KI, gegen die gespielt werden soll (siehe 2.). 
 				Sie kann als Zahl, oder mit ihrem Namen angegeben werden.
-	/learn			Ruft einen Lehrmodus auf. Funktioniert nur mit /ki: und /human
+	/learn			Ruft einen Lehrmodus auf. Funktioniert nur mit /ki: oder /human
 	/breite:		Die Breite des Spielfeldes als Ganzzahl, also z.B: 1, 2, 3...
-	/hoehe:		Die Hoehe des Spielfeldes als Ganzzahl, also z.B: 1, 2, 3...
-	/kigame		Startet ein Spiel zwischen zwei KIs
+	/hoehe:			Die Hoehe des Spielfeldes als Ganzzahl, also z.B: 1, 2, 3...
+	/kigame			Startet ein Spiel zwischen zwei KIs
 	/help			Gibt eine Hilfe aus, die die Befehle beinhaltet
+	/Field:			Die Speichervariante (siehe 3.). Nicht erforderlich, Standard ist Array.
+	/log			Speichert Informationen zum Spiel ab.
 
 2) Die KI Systeme
 
@@ -19,4 +21,9 @@ UniTTT
 	/ki:3			MiniMax
 	/ki:4			Like
 	/ki:5			Random
-	/ki:6			Bot	
+	/ki:6			Bot
+
+3) Die Speichersysteme
+
+	/Field:array		Das Spielfeld wird direkt in einer Tabellenform abgespeichert.
+	/Field:string		Schreibt und liest das Spielfeld aus/in einer Seichenkette.

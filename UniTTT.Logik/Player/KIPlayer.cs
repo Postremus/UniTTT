@@ -134,30 +134,32 @@ namespace UniTTT.Logik.Player
                 decimal runden = Rundefrage();
                 int zug;
                 string momsitcode = SitCodeHelper.SetEmpty(9);
-                string[,] sit_codes = new string[(int)runden, 9];
+                int[,] sit_codes = new int[(int)runden, 9];
                 int[,] zuege = new int[(int)runden, 9];
                 int[] wertungen = new int[(int)runden];
                 bool gewonnen;
                 #endregion
                 ODarsteller.ShowMessage("Berrechne Daten..");
-                for (int a = 0; a < runden; a++)
+                for (int currround = 0; currround < runden; currround++)
                 {
                     for (int i = 0; i < 9; i++)
                     {
                         player = SitCodeHelper.PlayerChange(player);
-                        sit_codes[a, i] = momsitcode;
+                        sit_codes[currround, i] = (int)(object)momsitcode;
                         zug = SitCodeHelper.GetRandomZug(momsitcode);
-                        zuege[a, i] = zug;
+                        zuege[currround, i] = zug;
 
                         momsitcode = momsitcode.Remove(zug, 1).Insert(zug, player.ToString());
 
                         gewonnen = Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(player), Fields.SitCode.GetInstance(momsitcode, Width, Height));
                         // Wertungen
                         // Aufwerten
-                        if ((gewonnen))
-                            wertungen[a] = 2;
+                        if ((gewonnen) && (player != KIPlayer))
+                            wertungen[currround] = 1;
+                        else if ((gewonnen) && (player == KIPlayer))
+                            wertungen[currround] = -1;
                         else if ((i == 8) && (!gewonnen))
-                            wertungen[a] = 1;
+                            wertungen[currround] = 0;
 
                         // Ist Spiel Zu Ende?
                         if ((gewonnen) || (i == 8))
@@ -167,9 +169,9 @@ namespace UniTTT.Logik.Player
                             player = 'X';
                         }
                     }
-                    if (a % 100 == 0)
+                    if (currround % 100 == 0)
                     {
-                        ODarsteller.ShowMessage("Spielrunde Nr." + a);
+                        ODarsteller.ShowMessage("Spielrunde Nr." + currround);
                     }
                 }
                 ODarsteller.ShowMessage("Fertig mit dem Berrechnen der Daten.");
@@ -201,13 +203,13 @@ namespace UniTTT.Logik.Player
                     FileName = filename;
                 }
 
-                public void Write(int[,] Zuege, string[,] Sit_Code, int[] Wertung)
+                public void Write(int[,] Zuege, int[,] Sit_Code, int[] Wertung)
                 {
                     BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName));
                     string towrite = null;
                     for (int x = 0; x < Wertung.Length; x++)
                     {
-                        for (int i = 0; i < 9 && !string.IsNullOrEmpty(Sit_Code[x, i]); i++)
+                        for (int i = 0; i < 9 && Sit_Code[x, i] != 0; i++)
                         {
                             // Sitcode field_id Wertung
                             towrite = string.Format(CultureInfo.CurrentCulture, "{0} {1} {2}", Sit_Code[x, i], Zuege[x, i], Wertung[x]);
@@ -217,12 +219,17 @@ namespace UniTTT.Logik.Player
                     binwriter.Close();
                 }
 
+                private string[] lines = null;
+
                 public int Read(string sitcode)
                 {
                     int ret = -1;
                     if (File.Exists(FileName))
                     {
-                        string[] lines = File.ReadAllLines(FileName, Encoding.Default);
+                        if (lines == null)
+                        {
+                            lines = File.ReadAllLines(FileName, Encoding.Default);
+                        }
                         int[] fields = new int[9];
                         List<string> substrs;
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Konsole", "UniTTT.Ko
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.WinForms", "UniTTT.WinForms\UniTTT.WinForms.csproj", "{B2DCFDB3-8303-4ED8-9FAE-C4E6A34256E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.XNA", "..\..\Desktop\UniTTT.XNA\UniTTT.XNA\UniTTT.XNA.csproj", "{271B1C78-2CA2-4EF7-959A-961BD8597360}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{B2DCFDB3-8303-4ED8-9FAE-C4E6A34256E4}.Release|Mixed Platforms.Build.0 = Release|x86
 		{B2DCFDB3-8303-4ED8-9FAE-C4E6A34256E4}.Release|x86.ActiveCfg = Release|x86
 		{B2DCFDB3-8303-4ED8-9FAE-C4E6A34256E4}.Release|x86.Build.0 = Release|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Debug|x86.ActiveCfg = Debug|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Debug|x86.Build.0 = Debug|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Release|Any CPU.ActiveCfg = Release|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Release|Mixed Platforms.Build.0 = Release|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Release|x86.ActiveCfg = Release|x86
+		{271B1C78-2CA2-4EF7-959A-961BD8597360}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

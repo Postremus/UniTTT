@@ -46,6 +46,7 @@
     <Compile Include="KI\IKI.cs" />
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Player\NetworkPlayer.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
