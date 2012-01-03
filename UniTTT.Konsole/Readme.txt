@@ -26,4 +26,4 @@ UniTTT
 3) Die Speichersysteme
 
 	/Field:array		Das Spielfeld wird direkt in einer Tabellenform abgespeichert.
-	/Field:string		Schreibt und liest das Spielfeld aus/in einer Seichenkette.
+	/Field:string		Schreibt und liest das Spielfeld aus/in einer Zeichenkette.

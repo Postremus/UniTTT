@@ -32,8 +32,8 @@ namespace UniTTT.Logik.Player
                 KI = new KIRecursion(kispieler, width, height);
             else if (kiZahl == 3)
                 KI = new KIMiniMax(width, height, kispieler);
-            //else if (kiZahl == 4)
-            //    KI = new KILike(width, height);
+            else if (kiZahl == 4)
+                KI = new KILike(width, height);
             else if (kiZahl == 5)
                 KI = new KIRandom(width, height);
             else if (kiZahl == 6)
@@ -53,8 +53,8 @@ namespace UniTTT.Logik.Player
                     KI = new KIRecursion(kispieler, width, height);
                 else if (kiZahl == 3)
                     KI = new KIMiniMax(width, height, kispieler);
-                //else if (kiZahl == 4)
-                //    KI = new KILike(width, height);
+                else if (kiZahl == 4)
+                    KI = new KILike(width, height);
                 else if (kiZahl == 5)
                     KI = new KIRandom(width, height);
                 else if (kiZahl == 6)
@@ -139,13 +139,13 @@ namespace UniTTT.Logik.Player
                 int[] wertungen = new int[(int)runden];
                 bool gewonnen;
                 #endregion
-                ODarsteller.ShowMessage("Berrechne Daten..");
+                ODarsteller.ShowMessage("Berechne Daten..");
                 for (int currround = 0; currround < runden; currround++)
                 {
                     for (int i = 0; i < 9; i++)
                     {
                         player = SitCodeHelper.PlayerChange(player);
-                        sit_codes[currround, i] = (int)(object)momsitcode;
+                        sit_codes[currround, i] = int.Parse(momsitcode);
                         zug = SitCodeHelper.GetRandomZug(momsitcode);
                         zuege[currround, i] = zug;
 
@@ -174,7 +174,7 @@ namespace UniTTT.Logik.Player
                         ODarsteller.ShowMessage("Spielrunde Nr." + currround);
                     }
                 }
-                ODarsteller.ShowMessage("Fertig mit dem Berrechnen der Daten.");
+                ODarsteller.ShowMessage("Fertig mit dem Berechnen der Daten.");
                 ODarsteller.ShowMessage("Speichere Daten");
                 writerreader.Write(zuege, sit_codes, wertungen);
                 ODarsteller.ShowMessage("Fertig, Taste drücken zum Beenden");
@@ -205,7 +205,7 @@ namespace UniTTT.Logik.Player
 
                 public void Write(int[,] Zuege, int[,] Sit_Code, int[] Wertung)
                 {
-                    BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName));
+                    BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName), Encoding.UTF8);
                     string towrite = null;
                     for (int x = 0; x < Wertung.Length; x++)
                     {
@@ -228,7 +228,7 @@ namespace UniTTT.Logik.Player
                     {
                         if (lines == null)
                         {
-                            lines = File.ReadAllLines(FileName, Encoding.Default);
+                            lines = File.ReadAllLines(FileName, Encoding.UTF8);
                         }
                         int[] fields = new int[9];
                         List<string> substrs;
@@ -266,9 +266,9 @@ namespace UniTTT.Logik.Player
 
             public void Learn()
             {
-                Console.WriteLine("Berrechne Daten - Teil 1..");
+                Console.WriteLine("Berechne Daten - Teil 1..");
                 Recursion(Width * Height, SitCodeHelper.SetEmpty(Width * Height), '2');
-                Console.WriteLine("Berrechne Daten - Teil 2..");
+                Console.WriteLine("Berechne Daten - Teil 2..");
                 Recursion(Width * Height, SitCodeHelper.SetEmpty(Width * Height), '3');
                 Console.WriteLine("Speicher Daten..");
                 writerreader.Write(base.SitCodes, base.Wertungen);
@@ -326,7 +326,7 @@ namespace UniTTT.Logik.Player
                     List<string> towrite = new List<string>();
                     string str = null;
                     int count = 0;
-                    BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName));
+                    BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName), Encoding.UTF8);
                     for (int x = 0; x < Wertung.Count; x++, count++)
                     {
                         for (; (count < Sit_Code.Count) && (Sit_Code[count] != "END"); count++)
@@ -344,7 +344,7 @@ namespace UniTTT.Logik.Player
 
                 public int Read(string sitcode, char bedingung)
                 {
-                    string[] lines = File.ReadAllLines(FileName, Encoding.Default);
+                    string[] lines = File.ReadAllLines(FileName, Encoding.UTF8);
                     int ret = 0;
                     List<string> substrs;
 
@@ -520,14 +520,13 @@ namespace UniTTT.Logik.Player
                 string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
                 int win_zug = TestForOneWin(sitcode);
                 int block_zug = TestForHumanBlock(sitcode);
-                int zug = SitCodeHelper.GetRandomZug(sitcode);
 
                 if (win_zug != -1)
                     return win_zug;
                 else if (block_zug != -1)
                     return block_zug;
                 else
-                    return zug;
+                    return SitCodeHelper.GetRandomZug(sitcode);
             }
 
             private int TestForOneWin(string sitcode)

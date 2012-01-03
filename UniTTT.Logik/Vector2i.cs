@@ -44,6 +44,7 @@ namespace UniTTT.Logik
 
         public static bool operator !=(Vector2i vect1, Vector2i vect2)
         {
+            if (vect2 == null) return false;
             return vect1.X != vect2.X || vect1.Y != vect2.Y;
         }
 

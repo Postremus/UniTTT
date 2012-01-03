@@ -18,10 +18,10 @@ namespace UniTTT.Logik
             return spieler == '2' ? 'X' : spieler == '3' ? 'O' : spieler == '1' ? ' ' : spieler;
         }
 
-        public static string SetEmpty(int felderAnzahl)
+        public static string SetEmpty(int length)
         {
             string sit_code = string.Empty;
-            while (sit_code.Length < felderAnzahl)
+            while (sit_code.Length < length)
                 sit_code += "1";
             return sit_code;
         }

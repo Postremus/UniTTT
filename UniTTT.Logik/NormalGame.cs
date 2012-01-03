@@ -133,6 +133,7 @@ namespace UniTTT.Logik
         {
             return BDarsteller != null;
         }
+
         public bool IsODarstellerValid()
         {
             return ODarsteller != null;
