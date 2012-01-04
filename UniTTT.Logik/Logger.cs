@@ -61,7 +61,7 @@ namespace UniTTT.Logik
 
         public void Save()
         {
-            BinaryWriter binwriter = new BinaryWriter(File.OpenWrite("Log"));
+            BinaryWriter binwriter = new BinaryWriter(File.OpenWrite("Log"), Encoding.UTF8);
             binwriter.Write("Maximaler RAM Verbrauch (in MB): " + MaxMemorySizeInMB);
             binwriter.Write("Ausführungsdauer: " + NeededTime);
             binwriter.Close();

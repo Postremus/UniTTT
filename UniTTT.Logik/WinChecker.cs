@@ -38,12 +38,24 @@ namespace UniTTT.Logik
 
             // Diagonal
             // Oben Links zu unten Rechts
-            if (DoCheck(field, Directories.RightDown, spieler, new Vector2i(0, 0), new Vector2i(field.Width, field.Height)) == GewinnBedingung)
-                return true;
+            for (int x = 0; x < field.Width; x++)
+            {
+                for (int y = 0; y < field.Height; y++)
+                {
+                    if (DoCheck(field, Directories.RightDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Width - 1), y + (field.Height - 1))) == GewinnBedingung)
+                        return true;
+                }
+            }
 
             // Oben Rechts zu unten Links
-            if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(field.Width - 1, 0), new Vector2i(0, field.Height)) == GewinnBedingung)
-                return true;
+            for (int x = 0; x < field.Width; x++)
+            {
+                for (int y = 0; y < field.Height; y++)
+                {
+                    if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Height -1), y + (field.Height - 1))) == GewinnBedingung)
+                        return true;
+                }
+            }
             return false;
         }
 
