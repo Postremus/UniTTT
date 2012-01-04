@@ -17,9 +17,9 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            //args = new string[3];
-            //args[0] = "/ki:1";
-            //args[1] = "/learn";
+            args = new string[3];
+            args[0] = "/ki:1";
+            args[1] = "/learn";
             //args[2] = "/human";
             //args[2] = "/log";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
