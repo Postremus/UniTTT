@@ -24,13 +24,13 @@ namespace UniTTT.Konsole
             //args[2] = "/log";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
-            int breite = parameters.GetInt("breite");
-            int hoehe = parameters.GetInt("hoehe");
+            int width = parameters.GetInt("breite");
+            int height = parameters.GetInt("hoehe");
 
-            if (breite == -1)
-                breite = 3;
-            if (hoehe == -1)
-                hoehe = 3;
+            if (width == -1)
+                width = 3;
+            if (height == -1)
+                height = 3;
 
             Logik.Logger l = null;
             if (parameters.GetBool("log"))
@@ -42,13 +42,13 @@ namespace UniTTT.Konsole
             Logik.Player.AbstractPlayer kiplayer = null;
             if (parameters.GetInt("ki") > 0)
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), breite, hoehe, 'O', new OutputDarsteller());
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), width, height, 'O', new OutputDarsteller());
             }
             else if (parameters.GetString("ki") != null)
             {
                 if (Enum.IsDefined(typeof(Logik.Player.KIPlayer.KISystems), parameters.GetString("ki")))
                 {
-                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), breite, hoehe, 'O', new OutputDarsteller());
+                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, 'O', new OutputDarsteller());
                 }
             }
             if (parameters.GetBool("help"))
@@ -77,25 +77,25 @@ namespace UniTTT.Konsole
                 Logik.Fields.IField field;
                 if (parameters.GetString("field") ==  "string")
                 {
-                    field = new Logik.Fields.SitCode(breite, hoehe);
+                    field = new Logik.Fields.SitCode(width, height);
                 }
                 else if (parameters.GetString("field") == "array")
                 {
-                    field = new Logik.Fields.Brett(breite, hoehe);
+                    field = new Logik.Fields.Brett(width, height);
                 }
                 else
                 {
-                    field = new Logik.Fields.Brett(breite, hoehe);
+                    field = new Logik.Fields.Brett(width, height);
                 }
                 if (!parameters.GetBool("kigame"))
                 {
                     if (kiplayer != null)
                     {
-                        game = new Games.Game(breite, hoehe, new HumanPlayer('X'), kiplayer, field);
+                        game = new Games.Game(width, height, new HumanPlayer('X'), kiplayer, field);
                     }
                     else
                     {
-                        game = new Games.Game(breite, hoehe, new HumanPlayer('X'), new HumanPlayer('O'), field);
+                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), field);
                     }
                 }
                 else
