@@ -7,15 +7,14 @@ namespace UniTTT.Logik
 {
     public class SitCodeHelper
     {    
-        public static char PlayertoSitCode(char spieler)
+        public static char PlayertoSitCode(char value)
         {
-   
-            return spieler == 'X' ? '2' : spieler == 'O' ? '3' : spieler == ' ' ? '1' : spieler;
+            return value == 'X' ? '2' : value == 'O' ? '3' : value == ' ' ? '1' : value;
         }
 
-        public static char ToPlayer(char spieler)
+        public static char ToPlayer(char value)
         {
-            return spieler == '2' ? 'X' : spieler == '3' ? 'O' : spieler == '1' ? ' ' : spieler;
+            return value == '2' ? 'X' : value == '3' ? 'O' : value == '1' ? ' ' : value;
         }
 
         public static string SetEmpty(int length)

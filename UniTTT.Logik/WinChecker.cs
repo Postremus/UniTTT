@@ -25,7 +25,7 @@ namespace UniTTT.Logik
 
         public static bool Pruefe(char spieler, Fields.IField field)
         {
-            GewinnBedingung = field.Width > field.Height ? field.Width : field.Height;
+            GewinnBedingung = field.Width > field.Height ? field.Height : field.Width;
             //Horizontal
             for (int y = 0; y < field.Height; y++)
                 if (DoCheck(field, Directories.Right, spieler, new Vector2i(0, y), new Vector2i(field.Width, y)) == GewinnBedingung)
@@ -42,8 +42,11 @@ namespace UniTTT.Logik
             {
                 for (int y = 0; y < field.Height; y++)
                 {
-                    if (DoCheck(field, Directories.RightDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Width - 1), y + (field.Height - 1))) == GewinnBedingung)
-                        return true;
+                    if (x + (GewinnBedingung - 1) < field.Width && y + (GewinnBedingung - 1) < field.Height)
+                    {
+                        if (DoCheck(field, Directories.RightDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Width - 1), y + (field.Height - 1))) == GewinnBedingung)
+                            return true;
+                    }
                 }
             }
 
@@ -52,7 +55,7 @@ namespace UniTTT.Logik
             {
                 for (int y = 0; y < field.Height; y++)
                 {
-                    if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Height -1), y + (field.Height - 1))) == GewinnBedingung)
+                    if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Height - 1), y + (field.Height - 1))) == GewinnBedingung)
                         return true;
                 }
             }
