@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniTTT.Logik.Fields;
+using UniTTT.Logik.Player;
 
 namespace UniTTT.Logik
 {

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
-using System.Diagnostics;
-using System.Windows;
+using UniTTT.Logik;
 
 namespace UniTTT.Konsole
 {
@@ -73,7 +72,7 @@ namespace UniTTT.Konsole
             }
             else
             {
-                Games.Game game;
+                Game game;
                 Logik.Fields.IField field;
                 if (parameters.GetString("field") ==  "string")
                 {
@@ -91,16 +90,16 @@ namespace UniTTT.Konsole
                 {
                     if (kiplayer != null)
                     {
-                        game = new Games.Game(width, height, new HumanPlayer('X'), kiplayer, field);
+                        game = new Game(width, height, new HumanPlayer('X'), kiplayer, field);
                     }
                     else
                     {
-                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), field);
+                        game = new Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), field);
                     }
                 }
                 else
                 {
-                    game = new Games.Game(3, 3, kiplayer, kiplayer, field);
+                    game = new Game(3, 3, kiplayer, kiplayer, field);
                 }
                 game.Start();
             }

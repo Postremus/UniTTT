@@ -19,10 +19,7 @@ namespace UniTTT.Logik
 
         public static string SetEmpty(int length)
         {
-            string sit_code = string.Empty;
-            while (sit_code.Length < length)
-                sit_code += "1";
-            return sit_code;
+            return new string('1', length);
         }
 
         public static string StringToSitCode(string var)
