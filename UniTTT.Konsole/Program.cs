@@ -16,11 +16,15 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            //args = new string[3];
+            args = new string[4];
             //args[0] = "/breite:3";
             //args[1] = "/hoehe:5";
             //args[2] = "/human";
             //args[2] = "/log";
+            //args[0] = "/win:3";
+            //args[1] = "/breite:6";
+            //args[2] = "/hoehe:6";
+            //args[3] = "/log";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int width = parameters.GetInt("breite");
@@ -74,6 +78,10 @@ namespace UniTTT.Konsole
             {
                 Game game;
                 Logik.Fields.IField field;
+                if (parameters.GetInt("win") != -1)
+                {
+                    WinChecker.GewinnBedingung = parameters.GetInt("win");
+                }
                 if (parameters.GetString("field") ==  "string")
                 {
                     field = new Logik.Fields.SitCode(width, height);
@@ -117,6 +125,7 @@ namespace UniTTT.Konsole
             Console.WriteLine("/human       Ruft eine kleine Anleitung zum Spiel ab. (benötigt /learn)");
             Console.WriteLine("/field:      Die Speicher Variante des Spielfeldes.");
             Console.WriteLine("/log         Speichert ein paar Infos.");
+            Console.WriteLine("/win:        Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinader,.. an.");
         }
     }
 }

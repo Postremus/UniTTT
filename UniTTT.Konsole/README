@@ -16,6 +16,7 @@ Der Name ist eine Anspielung auf "UniOS".
 	/help			Gibt eine Hilfe aus, die die Befehle beinhaltet
 	/Field:			Die Speichervariante (siehe 3.). Nicht erforderlich, Standard ist Array.
 	/log			Speichert Informationen zum Spiel ab.
+	/win:			Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinader,.. an.
 
 2) Die KI Systeme
 

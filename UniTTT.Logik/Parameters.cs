@@ -33,6 +33,11 @@ namespace UniTTT.Logik
                 return false;
         }
 
+        /// <summary>
+        /// Hohlt einen Int. Wenn nciht vorhanden, wird -1 zurückgegeben.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public int GetInt(string key)
         {
             int ret;
