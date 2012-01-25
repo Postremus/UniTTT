@@ -15,5 +15,6 @@ namespace UniTTT.Logik
         void Wait();
         int Choice();
         bool Choice(string answerTrue, string answerFalse);
+        void Clear();
     }
 }

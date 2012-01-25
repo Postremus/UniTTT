@@ -157,7 +157,7 @@ namespace UniTTT.Logik
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            return this.X == ((Vector2i)obj).X && this.Y == ((Vector2i)obj).Y;
         }
 
         public override int GetHashCode()

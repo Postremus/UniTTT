@@ -56,5 +56,10 @@ namespace UniTTT.Konsole
         {
             return Console.ReadLine() == answerTrue;
         }
+
+        public void Clear()
+        {
+            Console.Clear();
+        }
     }
 }

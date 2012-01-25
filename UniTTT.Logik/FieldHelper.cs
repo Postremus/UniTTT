@@ -63,7 +63,7 @@ namespace UniTTT.Logik
 
         public static string Calculate(Fields.IField field)
         {
-            string ret = string.Empty;
+            string ret = null;
             for (int i = 0; i < field.Length; i++)
             {
                 ret += field.GetField(i);

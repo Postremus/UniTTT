@@ -6,12 +6,26 @@ namespace UniTTT.Logik.Fields
 {
     public class Brett : IField
     {
-        #region Methods
-        // Konstruktor
+        #region Privates
+        private int _width;
+        private int _height;
+        private char[,] VarField;
+        #endregion
+
+        #region interface Propertys
+        public int Height { get; private set; }
+        public int Width { get; private set; }
+        public int Length { get { return Width * Height; } }
+        #endregion
+
+        #region Constructor
         public Brett(int width, int height)
         {
             Initialize(width, height);
         }
+        #endregion
+
+        #region Interface Methods
 
         public void Initialize(int width, int height)
         {
@@ -25,11 +39,6 @@ namespace UniTTT.Logik.Fields
             VarField = new char[Width, Height];
             BrettInit();
         }
-
-        public int Height { get; private set; }
-        public int Width { get; private set; }
-        public int Length { get { return Width * Height; } }
-        private char[,] VarField { get; set; }
 
         private void BrettInit()
         {
@@ -78,14 +87,16 @@ namespace UniTTT.Logik.Fields
             return GetField(idx) == ' ';
         }
 
-        private bool IsEntryPointInTheSize(Vector2i vect)
-        {
-            return vect > -1 && vect.X < Width && vect.Y < Height;
-        }
-
         public override string ToString()
         {
             return FieldHelper.Calculate(this);
+        }
+        #endregion
+
+        #region Methods
+        private bool IsEntryPointInTheSize(Vector2i vect)
+        {
+            return vect > -1 && vect.X < Width && vect.Y < Height;
         }
         #endregion
     }

@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Logik", "UniTTT.Logik\UniTTT.Logik.csproj", "{780D5F11-6414-4E55-A0C3-E3832DC3FA05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Konsole", "UniTTT.Konsole\UniTTT.Konsole.csproj", "{7244EDB5-5D80-44D9-931F-F91A74483DE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.TestXNA", "UniTTT.TestXNA\UniTTT.TestXNA.csproj", "{BA64D8BB-6231-407F-834D-CAE11DEB9031}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,19 +20,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Default|Any CPU.ActiveCfg = Debug|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Default|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Default|x86.ActiveCfg = Debug|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|Any CPU.Build.0 = Release|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|x86.ActiveCfg = Release|Any CPU
 		{7244EDB5-5D80-44D9-931F-F91A74483DE8}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{7244EDB5-5D80-44D9-931F-F91A74483DE8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{7244EDB5-5D80-44D9-931F-F91A74483DE8}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -44,11 +33,39 @@ Global
 		{7244EDB5-5D80-44D9-931F-F91A74483DE8}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7244EDB5-5D80-44D9-931F-F91A74483DE8}.Release|x86.ActiveCfg = Release|x86
 		{7244EDB5-5D80-44D9-931F-F91A74483DE8}.Release|x86.Build.0 = Release|x86
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Default|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Default|x86.ActiveCfg = Debug|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{780D5F11-6414-4E55-A0C3-E3832DC3FA05}.Release|x86.ActiveCfg = Release|Any CPU
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Debug|x86.ActiveCfg = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Debug|x86.Build.0 = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Default|Any CPU.ActiveCfg = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Default|Mixed Platforms.ActiveCfg = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Default|Mixed Platforms.Build.0 = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Default|x86.ActiveCfg = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Default|x86.Build.0 = Debug|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Release|Any CPU.ActiveCfg = Release|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Release|x86.ActiveCfg = Release|x86
+		{BA64D8BB-6231-407F-834D-CAE11DEB9031}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = UniTTT.TestXNA\UniTTT.TestXNA.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = UniTTT.Konsole\UniTTT.Konsole.csproj
 	EndGlobalSection
 EndGlobal

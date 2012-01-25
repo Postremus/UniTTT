@@ -4,18 +4,26 @@ namespace UniTTT.Konsole
 {
     class BrettDarsteller : Logik.IBrettDarsteller
     {
+        #region Constructor
         public BrettDarsteller(int width, int height)
         {
             Width = width;
             Height = height;
             spielfeld = new char[Width + (Width - 1), Height + (Height - 1)];
         }
+        #endregion
 
         #region Fields
         public int Width { get; private set; }
         public int Height { get; private set; }
         private char[,] spielfeld;
         #endregion
+
+        public void Initialize(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
 
         public void Update(Logik.Fields.IField field)
         {
@@ -31,14 +39,11 @@ namespace UniTTT.Konsole
                         if (Spielfeldx % 2 == 0)
                         {
                             spielfeld[Spielfeldx, Spielfeldy] = field.GetField(new Logik.Vector2i(x, y));
+                            x++;
                         }
                         else
                         {
                             spielfeld[Spielfeldx, Spielfeldy] = '|';
-                        }
-                        if (Spielfeldx % 2 == 0)
-                        {
-                            x++;
                         }
                     }
                     y++;

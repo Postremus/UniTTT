@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO.Compression;
 
 namespace UniTTT.Logik.Player
 {
@@ -121,7 +120,7 @@ namespace UniTTT.Logik.Player
                         ODarsteller.ShowMessage("Eventuell eine Lerrzeichen, oder ein anderes nicht Zahl Zeichen");
                         ODarsteller.ShowMessage("Taste drücken für einen neuen Versuch");
                         ODarsteller.Wait();
-                        Console.Clear();
+                        ODarsteller.Clear();
                     }
                 } while (true);
             }
@@ -238,15 +237,7 @@ namespace UniTTT.Logik.Player
                             substrs = item.GetSubstrs();
                             fields[int.Parse(substrs[1])] += int.Parse(substrs[2]);
                         }
-
-                        int idx = 0;
-                        for (int i = 0; i < fields.Length; i++)
-                        {
-                            if (fields[i] > fields[idx])
-                            {
-                                ret = idx = i;
-                            }
-                        }
+                        ret = fields.GetHighestIndex();
                     }
                     return ret;
                 }
@@ -448,20 +439,18 @@ namespace UniTTT.Logik.Player
 
             private int BestenZugAuswaehlen(double[] Felder, string mom_sit_code)
             {
-                int zug = 0;
-                double count = double.MinValue + 0.1;
+                int ret = 0;
                 for (int i = 0; i < Length; i++)
                 {
                     if (mom_sit_code[i] == '1')
                     {
-                        if (Felder[i] > count)
+                        if (Felder[i] > Felder[ret])
                         {
-                            count = Felder[i];
-                            zug = i;
+                            ret = i;
                         }
                     }
                 }
-                return zug;
+                return ret;
             }
 
             private double[] ZugWertungBerechnen(string mom_sit_code, char spieler)

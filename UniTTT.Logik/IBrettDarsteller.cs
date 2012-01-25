@@ -13,5 +13,6 @@ namespace UniTTT.Logik
 
         void Update(Fields.IField field);
         void Draw();
+        void Initialize(int width, int height);
     }
 }

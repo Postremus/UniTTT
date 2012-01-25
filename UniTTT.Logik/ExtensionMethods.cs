@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO.Compression;
 using System.IO;
 
 namespace UniTTT.Logik
@@ -22,6 +21,19 @@ namespace UniTTT.Logik
                 }
             }
             ret.Add(value.Substring(lastidx, value.Length - lastidx));
+            return ret;
+        }
+
+        public static int GetHighestIndex(this int[] value)
+        {
+            int ret = 0;
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (value[i] > value[ret])
+                {
+                    ret = i;
+                }
+            }
             return ret;
         }
     }
