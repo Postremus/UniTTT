@@ -432,19 +432,19 @@ namespace UniTTT.Logik.Player
 
             public int Play(Fields.IField field, char spieler)
             {
-                string mom_sit_code = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
-                double[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
-                return BestenZugAuswaehlen(Felder, mom_sit_code);
+                string mom_sit_code = SitCodeHelper.StringToSitCode(field.ToString());
+                int[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
+                return GetHighestIdx(Felder, mom_sit_code);
             }
 
-            private int BestenZugAuswaehlen(double[] Felder, string mom_sit_code)
+            private int GetHighestIdx(int[] value, string sitcode)
             {
                 int ret = 0;
-                for (int i = 0; i < Length; i++)
+                for (int i = 0; i < value.Length; i++)
                 {
-                    if (mom_sit_code[i] == '1')
+                    if (sitcode[i] == '1')
                     {
-                        if (Felder[i] > Felder[ret])
+                        if (value[i] > value[ret])
                         {
                             ret = i;
                         }
@@ -453,12 +453,12 @@ namespace UniTTT.Logik.Player
                 return ret;
             }
 
-            private double[] ZugWertungBerechnen(string mom_sit_code, char spieler)
+            private int[] ZugWertungBerechnen(string mom_sit_code, char spieler)
             {
                 string mom_sit_code_edited;
-                double[] Felder = new double[Length];
-                double[] Feldertmp = new double[Length];
-                double[,] wertungen = new double[Length, 3];
+                int[] Felder = new int[Length];
+                int[] Feldertmp = new int[Length];
+                int[,] wertungen = new int[Length, 3];
                 for (int i = 0; i < Length; i++)
                 {
                     if (mom_sit_code[i] == '1')
@@ -468,7 +468,7 @@ namespace UniTTT.Logik.Player
                         wertungen[i, 1] = Bewertung(mom_sit_code_edited, i, KIPlayer); // KISpieler Gewonnen
                         wertungen[i, 2] = Bewertung(mom_sit_code_edited, i, SitCodeHelper.PlayerChange(KIPlayer)); // MenschGegner Gewonnen
 
-                        Felder[i] = (wertungen[i, 0] * 20.0) + (wertungen[i, 0] * 10.0) - (wertungen[i, 2] * 50.0);
+                        Felder[i] = (wertungen[i, 0] * 20) + (wertungen[i, 0] * 10) - (wertungen[i, 2] * 50);
                         if (Felder[i] == 0.0)
                         {
                             Feldertmp = ZugWertungBerechnen(mom_sit_code_edited, SitCodeHelper.PlayerChange(spieler));
@@ -482,15 +482,13 @@ namespace UniTTT.Logik.Player
                 return Felder;
             }
 
-            private double Bewertung(string sit_code, int x, char spieler)
+            private int Bewertung(string sit_code, int fieldidx, char spieler)
             {
-                double wertung = 0.0;
+                int wertung = 0;
                 FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sit_code, Width, Height), spieler);
 
                 if (state == FieldHelper.GameStates.Gewonnen)
-                    wertung = 10.0 / Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
-                else if (state == FieldHelper.GameStates.Unentschieden)
-                    wertung = Convert.ToDouble(x, System.Globalization.CultureInfo.InvariantCulture);
+                    wertung = 1;
                 return wertung;
             }
 
