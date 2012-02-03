@@ -9,9 +9,12 @@ namespace UniTTT.Logik
     {
         private Dictionary<string, object> dic;
 
-        public int Count()
+        public int Count
         {
-            return dic.Count;
+            get
+            {
+                return dic.Count;
+            }
         }
 
         public Parameters()
@@ -34,7 +37,7 @@ namespace UniTTT.Logik
         }
 
         /// <summary>
-        /// Hohlt einen Int. Wenn nciht vorhanden, wird -1 zurückgegeben.
+        /// Holt einen Int. Wenn nicht vorhanden, wird -1 zurückgegeben.
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>

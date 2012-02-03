@@ -28,15 +28,15 @@ namespace UniTTT.Logik
 
         public static List<char> GetAllPlayerSymbols(Fields.IField field)
         {
-            List<char> playersymbols = new List<char>();
+            List<char> ret = new List<char>();
             for (int i = 0; i < field.Length; i++)
             {
-                if (!playersymbols.Contains(field.GetField(i)))
+                if (!ret.Contains(field.GetField(i)))
                 {
-                    playersymbols.Add(field.GetField(i));
+                    ret.Add(field.GetField(i));
                 }
             }
-            return playersymbols;
+            return ret;
         }
 
         public static bool HasEmptyFields(Fields.IField field)

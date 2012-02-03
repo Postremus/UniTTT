@@ -16,15 +16,6 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            args = new string[4];
-            //args[0] = "/breite:3";
-            //args[1] = "/hoehe:5";
-            //args[2] = "/human";
-            //args[2] = "/log";
-            //args[0] = "/win:3";
-            //args[1] = "/breite:6";
-            //args[2] = "/hoehe:6";
-            //args[3] = "/log";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int width = parameters.GetInt("breite");
@@ -56,7 +47,7 @@ namespace UniTTT.Konsole
             }
             if (parameters.GetBool("help"))
             {
-                if (parameters.Count() == 1)
+                if (parameters.Count == 1)
                 {
                     Help();
                 }

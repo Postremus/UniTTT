@@ -7,16 +7,47 @@ namespace UniTTT.Logik.Fields
 {
     public class SitCode : IField
     {
+
+        #region Privates
+        private int _width;
+        private int _height;
+        private string VarField { get; set; }
+        #endregion
+
+        #region Interface Propertys
+        public int Width 
+        {
+            get
+            {
+                return _width;
+            }
+            private set
+            {
+                _width = value;
+            }
+        }
+        public int Height 
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+            }
+        }
+        public int Length { get { return Width * Height; } }
+        #endregion
+
+        #region Constructor
         public SitCode(int width, int height)
         {
             Initialize(width, height);
         }
+        #endregion
 
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int Length { get { return Width * Height; } }
-        private string VarField { get; set; }
-
+        #region interface Methods
         public void Initialize(int width, int height)
         {
             Width = width;
@@ -68,6 +99,7 @@ namespace UniTTT.Logik.Fields
         {
             return VarField[idx] == '1';
         }
+        #endregion
 
         public static SitCode GetInstance(string sitcode, int width, int height)
         {
@@ -76,6 +108,7 @@ namespace UniTTT.Logik.Fields
             return ret;
         }
 
+        #region Methods
         private bool IsEntryPointInTheSize(int idx)
         {
             return idx > -1 && idx < Length;
@@ -85,5 +118,6 @@ namespace UniTTT.Logik.Fields
         {
             return FieldHelper.Calculate(this);
         }
+        #endregion
     }
 } 

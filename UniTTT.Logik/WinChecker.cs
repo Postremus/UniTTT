@@ -86,13 +86,6 @@ namespace UniTTT.Logik
                 else break;
                 from = NextField(dir, from);
             }
-            //while (from != to)
-            //{
-            //    if (field.GetField(from) == spieler)
-            //        counter++;
-            //    else break;
-            //    from = NextField(dir, from);
-            //}
             return counter;
         }
 

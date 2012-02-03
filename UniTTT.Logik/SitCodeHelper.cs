@@ -37,7 +37,7 @@ namespace UniTTT.Logik
             return spieler == '2' ? '3' : '2';
         }
 
-        public static Random Rnd = new Random();
+        private static Random Rnd = new Random();
 
         public static int GetRandomZug(string sitcode)
         {
