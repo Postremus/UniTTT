@@ -20,7 +20,7 @@ namespace UniTTT.Logik
             int count = 0;
             for (int i = 0; i < field.Length; i++)
             {
-                if (field.IsFieldEmpty(i))
+                if (!field.IsFieldEmpty(i))
                     count++;
             }
             return count;
