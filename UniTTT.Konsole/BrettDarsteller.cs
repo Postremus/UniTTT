@@ -7,9 +7,7 @@ namespace UniTTT.Konsole
         #region Constructor
         public BrettDarsteller(int width, int height)
         {
-            Width = width;
-            Height = height;
-            spielfeld = new char[Width + (Width - 1), Height + (Height - 1)];
+            Initialize(width, height);
         }
         #endregion
 
@@ -23,6 +21,7 @@ namespace UniTTT.Konsole
         {
             Width = width;
             Height = height;
+            spielfeld = new char[Width + (Width - 1), Height + (Height - 1)];
         }
 
         public void Update(Logik.Fields.IField field)

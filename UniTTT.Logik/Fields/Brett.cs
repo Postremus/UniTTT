@@ -12,9 +12,29 @@ namespace UniTTT.Logik.Fields
         private char[,] VarField;
         #endregion
 
-        #region interface Propertys
-        public int Height { get; private set; }
-        public int Width { get; private set; }
+        #region Interface Propertys
+        public int Width
+        {
+            get
+            {
+                return _width;
+            }
+            private set
+            {
+                _width = value;
+            }
+        }
+        public int Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+            }
+        }
         public int Length { get { return Width * Height; } }
         #endregion
 
@@ -86,17 +106,17 @@ namespace UniTTT.Logik.Fields
         {
             return GetField(idx) == ' ';
         }
-
-        public override string ToString()
-        {
-            return FieldHelper.Calculate(this);
-        }
         #endregion
 
         #region Methods
         private bool IsEntryPointInTheSize(Vector2i vect)
         {
             return vect > -1 && vect.X < Width && vect.Y < Height;
+        }
+
+        public override string ToString()
+        {
+            return FieldHelper.Calculate(this);
         }
         #endregion
     }

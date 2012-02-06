@@ -46,6 +46,7 @@ namespace UniTTT.Logik.Player
             if (Enum.IsDefined(typeof(KISystems), ki))
             {
                 int kiZahl = (int)Enum.Parse(typeof(KISystems), ki);
+
                 if (kiZahl == 1)
                     KI = new KIReinforcement(odarsteller);
                 else if (kiZahl == 2)
