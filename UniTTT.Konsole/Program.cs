@@ -16,6 +16,12 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
+            //args = new string[4];
+            //args[0] = "/network";
+            //args[1] = "/ip:127.0.0.1";
+            //args[2] = "/port:4518";
+            //args[3] = "/player:X";
+
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int width = parameters.GetInt("breite");
@@ -65,15 +71,23 @@ namespace UniTTT.Konsole
                     kiplayer.Learn();
                 }
             }
+            else if (parameters.GetBool("network"))
+            {
+                Games.NetworkGame game;
+                string ip = parameters.GetString("ip");
+                int port = parameters.GetInt("port");
+                game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), null, ip, port);
+                game.Run();
+            }
             else
             {
-                Game game;
+                Games.Game game;
                 Logik.Fields.IField field;
                 if (parameters.GetInt("win") != -1)
                 {
                     WinChecker.GewinnBedingung = parameters.GetInt("win");
                 }
-                if (parameters.GetString("field") ==  "string")
+                if (parameters.GetString("field") == "string")
                 {
                     field = new Logik.Fields.SitCode(width, height);
                 }
@@ -89,16 +103,16 @@ namespace UniTTT.Konsole
                 {
                     if (kiplayer != null)
                     {
-                        game = new Game(width, height, new HumanPlayer('X'), kiplayer, field);
+                        game = new Games.Game(width, height, new HumanPlayer('X'), kiplayer, field);
                     }
                     else
                     {
-                        game = new Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), field);
+                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), field);
                     }
                 }
                 else
                 {
-                    game = new Game(3, 3, kiplayer, kiplayer, field);
+                    game = new Games.Game(3, 3, kiplayer, kiplayer, field);
                 }
                 game.Start();
             }
@@ -112,11 +126,15 @@ namespace UniTTT.Konsole
             Console.WriteLine("/kigame      Startet ein Spiel zwischen zwei KIs.");
             Console.WriteLine("/breite:     Breite des Spielfeldes");
             Console.WriteLine("/hoehe:      Hoehe des Spielfeldes");
-            Console.WriteLine("/ki:         KI als Ganzzahl (1-6, oder als Wort.");
+            Console.WriteLine("/ki:         KI als Ganzzahl (1-6, oder als Wort).");
             Console.WriteLine("/human       Ruft eine kleine Anleitung zum Spiel ab. (benötigt /learn)");
             Console.WriteLine("/field:      Die Speicher Variante des Spielfeldes.");
             Console.WriteLine("/log         Speichert ein paar Infos.");
             Console.WriteLine("/win:        Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinader,.. an.");
+            Console.WriteLine("/network     Startet ein Netzwerkspiel (/ip, /port und /player wird benötigt).");
+            Console.WriteLine("/ip          Verbindungs-IP für das Netzwerkspiel, funktioniert nur mit /network.");
+            Console.WriteLine("/port        Verbindungs-Port für das Netzwerkspiel, funktioniert nur mit /network.");
+            Console.WriteLine("/player      Spieler für das Netzwerkspiel, fuktioniert nur mit /network.");
         }
     }
 }

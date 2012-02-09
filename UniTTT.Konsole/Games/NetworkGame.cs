@@ -5,15 +5,15 @@ using System.Text;
 using System.Globalization;
 using UniTTT.Logik;
 
-namespace UniTTT.Konsole
+namespace UniTTT.Konsole.Games
 {
-    class Game : Logik.NormalGame
+    public class NetworkGame : UniTTT.Logik.NetworkGame
     {
-        public Game(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.Fields.IField field) : base(p1, p2, new BrettDarsteller(width, height), new OutputDarsteller(), field) { }
+        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port) : base(p1, new BrettDarsteller(width, height), new OutputDarsteller(), field, ip, port) { }
 
-        public void Start()
+        public void Run()
         {
-            LogikLoop();
+            base.LogikLoop();
             AfterGameActions();
         }
 
@@ -21,13 +21,13 @@ namespace UniTTT.Konsole
         {
             if (IsODarstellerValid())
             {
-                ODarsteller.WinMessage(Player.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player.Symbol));
+                ODarsteller.WinMessage(Player.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player1.Symbol));
                 WinCounter();
             }
             if (NewGameQuestion())
             {
                 NewGame();
-                Start();
+                Run();
             }
             else
             {

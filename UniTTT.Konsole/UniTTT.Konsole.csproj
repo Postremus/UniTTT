@@ -81,7 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrettDarsteller.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Games\Game.cs" />
+    <Compile Include="Games\NetworkGame.cs" />
     <Compile Include="HumanPlayer.cs" />
     <Compile Include="OutputDarsteller.cs" />
     <Compile Include="Program.cs" />

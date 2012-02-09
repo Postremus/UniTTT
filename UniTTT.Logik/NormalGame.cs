@@ -54,7 +54,7 @@ namespace UniTTT.Logik
         #endregion
 
         #region Methods
-        public void Logik()
+        public virtual void Logik()
         {
             PlayerChange();
             if (IsODarstellerValid())
@@ -84,7 +84,7 @@ namespace UniTTT.Logik
             }
         }
 
-        public void LogikLoop()
+        public virtual void LogikLoop()
         {
             do
             {
