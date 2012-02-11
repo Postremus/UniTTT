@@ -21,8 +21,7 @@ namespace UniTTT.Konsole.Games
         {
             if (IsODarstellerValid())
             {
-                ODarsteller.WinMessage(Player.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player1.Symbol));
-                WinCounter();
+                ODarsteller.WinMessage(Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player1.Symbol));
             }
             if (NewGameQuestion())
             {
@@ -31,7 +30,7 @@ namespace UniTTT.Konsole.Games
             }
             else
             {
-                Console.WriteLine("Das Spiel ist beendet.");
+                //Console.WriteLine("Das Spiel ist beendet.");
                 Console.ReadLine();
             }
         }

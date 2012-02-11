@@ -17,7 +17,7 @@ namespace UniTTT.Logik.Network
         private int port;
         #endregion
 
-        public TCPClient(string ip, int port=5500)
+        public TCPClient(string ip, int port = 5500)
         {
             this.ip = ip;
             this.port = port;
@@ -40,19 +40,19 @@ namespace UniTTT.Logik.Network
             s.Close();
         }
 
-        public Vector2i Receive()
+        public object Receive()
         {
             if (!client.Connected)
             {
                 client = new TcpClient();
                 client.Connect(ip, port);
             }
-            Stream s = client.GetStream();
             byte[] buffer = new byte[100000];
+            Stream s = client.GetStream();
             s.Read(buffer, 0, buffer.Length);
             s.Flush();
             s.Close();
-            return (Vector2i)buffer.GetObject();
+            return buffer.GetObject();
         }
     }
 }

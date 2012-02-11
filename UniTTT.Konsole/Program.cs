@@ -16,12 +16,6 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            //args = new string[4];
-            //args[0] = "/network";
-            //args[1] = "/ip:127.0.0.1";
-            //args[2] = "/port:4518";
-            //args[3] = "/player:X";
-
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int width = parameters.GetInt("breite");
@@ -51,6 +45,19 @@ namespace UniTTT.Konsole
                     kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, 'O', new OutputDarsteller());
                 }
             }
+            Logik.Fields.IField field;
+            if (parameters.GetString("field") == "string")
+            {
+                field = new Logik.Fields.SitCode(width, height);
+            }
+            else if (parameters.GetString("field") == "array")
+            {
+                field = new Logik.Fields.Brett(width, height);
+            }
+            else
+            {
+                field = new Logik.Fields.Brett(width, height);
+            }
             if (parameters.GetBool("help"))
             {
                 if (parameters.Count == 1)
@@ -76,29 +83,12 @@ namespace UniTTT.Konsole
                 Games.NetworkGame game;
                 string ip = parameters.GetString("ip");
                 int port = parameters.GetInt("port");
-                game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), null, ip, port);
+                game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), field, ip, port);
                 game.Run();
             }
             else
             {
                 Games.Game game;
-                Logik.Fields.IField field;
-                if (parameters.GetInt("win") != -1)
-                {
-                    WinChecker.GewinnBedingung = parameters.GetInt("win");
-                }
-                if (parameters.GetString("field") == "string")
-                {
-                    field = new Logik.Fields.SitCode(width, height);
-                }
-                else if (parameters.GetString("field") == "array")
-                {
-                    field = new Logik.Fields.Brett(width, height);
-                }
-                else
-                {
-                    field = new Logik.Fields.Brett(width, height);
-                }
                 if (!parameters.GetBool("kigame"))
                 {
                     if (kiplayer != null)

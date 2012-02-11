@@ -13,11 +13,14 @@ namespace UniTTT.Logik.Network
         #region privates
         private TcpListener listener;
         private TcpClient client;
+        private int port;
         #endregion
 
 
         public TCPServer(int port=5500)
         {
+            this.port = port;
+
             listener = new TcpListener(IPAddress.Any, port);
             listener.Start();
             client = listener.AcceptTcpClient();
@@ -29,25 +32,25 @@ namespace UniTTT.Logik.Network
             {
                 client = listener.AcceptTcpClient();
             }
-
             Stream s = client.GetStream();
             s.Write(obj.GetBytes(), 0, obj.GetBytes().Length);
             s.Flush();
             s.Close();
         }
 
-        public Vector2i Receive()
+
+        public object Receive()
         {
             if (!client.Connected)
             {
                 client = listener.AcceptTcpClient();
             }
-            Stream s = client.GetStream();
             byte[] buffer = new byte[100000];
+            Stream s = client.GetStream();
             s.Read(buffer, 0, buffer.Length);
             s.Flush();
             s.Close();
-            return (Vector2i)buffer.GetObject();
+            return buffer.GetObject();
         }
     }
 }

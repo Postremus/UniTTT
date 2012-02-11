@@ -15,12 +15,14 @@ namespace UniTTT.Logik
         private bool isSending;
         private bool isClient;
         private UniTTT.Logik.Player.AbstractPlayer dumie;
+        private const string connectionString = "UniTTT";
         #endregion
 
         public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field, string ip, int port) : base(p1, null, bdar, odar, field)
         {
             this.ip = ip;
             this.port = port;
+
             dumie = new Player.HumanPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(Player1.Symbol))));
             if (ip == "127.0.0.1")
             {
@@ -34,6 +36,8 @@ namespace UniTTT.Logik
                 isSending = false;
                 isClient = true;
             }
+            CheckClientsConnectionString();
+            CheckFieldSizes();
         }
 
         public override void Logik()
@@ -49,6 +53,7 @@ namespace UniTTT.Logik
                     ODarsteller.PlayerAusgabe(dumie.Ausgabe());
                 }
             }
+            CheckClientsConnectionString();
             Vector2i vect;
 
             char symbol;
@@ -84,11 +89,11 @@ namespace UniTTT.Logik
             Vector2i vect;
             if (isClient)
             {
-                vect = client.Receive();
+                vect = (Vector2i)client.Receive();
             }
             else
             {
-                vect = server.Receive();
+                vect = (Vector2i)server.Receive();
             }
             isSending = true;
             return vect;
@@ -120,5 +125,37 @@ namespace UniTTT.Logik
                 return true;
             return false;
         }
+
+        public void CheckClientsConnectionString()
+        {
+            if (server != null)
+            {
+                if ((string)server.Receive() != connectionString)
+                {
+                    throw new Exception("No UniTTT Client.");
+                }
+            }
+            else if (client != null)
+            {
+                client.Send(connectionString);
+            }
+        }
+
+        public void CheckFieldSizes()
+        {
+            if (server != null)
+            {
+                Fields.IField field = (Fields.IField)server.Receive();
+                if ((Field.Width != field.Width) && (Field.Height != field.Height))
+                {
+                    throw new Exception("Field sizes do not equal.");
+                }
+            }
+            if (client != null)
+            {
+                client.Send(this.Field);
+            }
+        }
     }
 }
+

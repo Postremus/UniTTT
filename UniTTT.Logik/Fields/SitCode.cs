@@ -5,6 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik.Fields
 {
+    [Serializable()]
     public class SitCode : IField
     {
 
