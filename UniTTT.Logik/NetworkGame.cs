@@ -5,26 +5,39 @@ using System.Text;
 
 namespace UniTTT.Logik
 {
-    public class NetworkGame : NormalGame
+    public class NetworkGame
     {
         #region privates
         private string ip;
         private int port;
         private Network.TCPServer server;
-        private Network.TCPClient client;
+        private Network.INetwork client;
         private bool isSending;
         private bool isClient;
-        private UniTTT.Logik.Player.AbstractPlayer dumie;
         private const string connectionString = "UniTTT";
+        private event Network.NewVector2iReceivedHandler newVector2iReceivedEvent;
+        private bool isNewVector2iReceivedEventRaised;
         #endregion
 
-        public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field, string ip, int port) : base(p1, null, bdar, odar, field)
+        #region Propertys
+        public Fields.IField Field
+        {
+            get;
+            set;
+        }
+        public Logik.IBrettDarsteller BDarsteller { get; private set; }
+        public Logik.IOutputDarsteller ODarsteller { get; private set; }
+        public Player.AbstractPlayer Player { get; private set; }
+        public Player.AbstractPlayer Player1 { get; private set; }
+        public Player.AbstractPlayer Player2 { get; private set; }
+        #endregion
+
+        public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field, string ip, int port, bool isServer)
         {
             this.ip = ip;
             this.port = port;
 
-            dumie = new Player.HumanPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(Player1.Symbol))));
-            if (ip == "127.0.0.1")
+            if (isServer)
             {
                 server = new Network.TCPServer(port);
                 isClient = false;
@@ -32,51 +45,39 @@ namespace UniTTT.Logik
             }
             else
             {
-                client = new Network.TCPClient(ip, port);
-                isSending = false;
+                client = new Network.IRCClient(ip, port);
+                client.NewMassegeReceivedEvent += ReceiveVector;
+                isSending = true;
                 isClient = true;
             }
-            CheckClientsConnectionString();
-            CheckFieldSizes();
+            newVector2iReceivedEvent += SetVectorOnField;
+
+            Initialize(p1, new Player.HumanPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol)))), bdar, odar, field);
         }
 
-        public override void Logik()
+        public void Initialize(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field)
         {
-            if (IsODarstellerValid())
+            if (field == null)
             {
-                if (isSending)
-                {
-                    ODarsteller.PlayerAusgabe(Player1.Ausgabe());
-                }
-                else
-                {
-                    ODarsteller.PlayerAusgabe(dumie.Ausgabe());
-                }
-            }
-            CheckClientsConnectionString();
-            Vector2i vect;
-
-            char symbol;
-            if (isSending)
-            {
-                vect = Player1.Play(Field);
-                SendVector(vect);
-                isSending = false;
-                symbol = Player1.Symbol;
+                Field = new Fields.Brett(bdar.Width, bdar.Height);
             }
             else
             {
-                vect = ReceiveVector();
-                isSending = true;
-                symbol = dumie.Symbol;
+                Field = field;
             }
+            BDarsteller = bdar;
+            ODarsteller = odar;
+            Player1 = p1;
+            Player2 = p2;
+            Initialize();
+        }
 
-            if (!Field.IsFieldEmpty(vect))
+        public void Initialize()
+        {
+            if (IsODarstellerValid())
             {
-                throw new ArgumentException();
+                ODarsteller.Title = "UniTTT - " + this.ToString();
             }
-
-            Field.SetField(vect, symbol);
             if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
@@ -84,34 +85,70 @@ namespace UniTTT.Logik
             }
         }
 
-        private Vector2i ReceiveVector()
+        public void Logik()
         {
-            Vector2i vect;
-            if (isClient)
+            PlayerChange();
+            if (IsODarstellerValid())
             {
-                vect = (Vector2i)client.Receive();
+                ODarsteller.PlayerAusgabe(Player.Ausgabe());
+            }
+
+            if (isSending)
+            {
+                Vector2i vect = Player.Play(Field);
+                SendVector(vect);
+                isSending = false;
+                SetVectorOnField(vect);
             }
             else
             {
-                vect = (Vector2i)server.Receive();
+                while (!isNewVector2iReceivedEventRaised) { }
+                isSending = true;
+                isNewVector2iReceivedEventRaised = false;
             }
-            isSending = true;
-            return vect;
+
+            if (IsBDarstellerValid())
+            {
+                BDarsteller.Update(Field);
+                BDarsteller.Draw();
+            }
+        }
+
+        public void SetVectorOnField(Vector2i vect)
+        {
+            if (Field.IsFieldEmpty(vect))
+            {
+                Field.SetField(vect, Player.Symbol);
+            }
+        }
+
+        private void ReceiveVector(string value)
+        {
+            //UNITTT!X:5|Y:1
+            Vector2i vect = null;
+            if (!value.Contains("UniTTT!"))
+            {
+                return;
+            }
+            List<string> subs = value.GetSubstrs();
+            vect = Vector2i.StringToVector(subs[subs.Count-1].Replace(":UniTTT!", null), true);
+            OnNewVector2iReceivedEvent(vect);
         }
 
         private void SendVector(Vector2i vect)
         {
+            string sendStr = string.Format("UniTTT!X:{0}|Y:{1}", vect.X, vect.Y);
             if (isClient)
             {
-                client.Send(vect);
+                client.Send(sendStr);
             }
             else
             {
-                server.Send(vect);
+                server.Send(sendStr);
             }
         }
 
-        public override void LogikLoop()
+        public void LogikLoop()
         {
             do
             {
@@ -126,36 +163,52 @@ namespace UniTTT.Logik
             return false;
         }
 
-        public void CheckClientsConnectionString()
+        public void OnNewVector2iReceivedEvent(Vector2i vect)
         {
-            if (server != null)
+            isNewVector2iReceivedEventRaised = false;
+            Network.NewVector2iReceivedHandler vector2iReceivedEvent = newVector2iReceivedEvent;
+            if (vector2iReceivedEvent != null)
             {
-                if ((string)server.Receive() != connectionString)
-                {
-                    throw new Exception("No UniTTT Client.");
-                }
-            }
-            else if (client != null)
-            {
-                client.Send(connectionString);
+                vector2iReceivedEvent(vect);
+                isNewVector2iReceivedEventRaised = true;
             }
         }
 
-        public void CheckFieldSizes()
+        public bool IsBDarstellerValid()
         {
-            if (server != null)
+            return BDarsteller != null;
+        }
+
+        public bool IsODarstellerValid()
+        {
+            return ODarsteller != null;
+        }
+
+        public bool IsFieldValid()
+        {
+            return Field != null;
+        }
+
+        public void PlayerChange()
+        {
+            Player = Player1 == Player ? Player2 : Player1;
+        }
+
+        public void NewGame()
+        {
+            Field.Initialize();
+            Player = null;
+            if (IsBDarstellerGraphical())
             {
-                Fields.IField field = (Fields.IField)server.Receive();
-                if ((Field.Width != field.Width) && (Field.Height != field.Height))
-                {
-                    throw new Exception("Field sizes do not equal.");
-                }
+                ((Logik.IGraphicalBrettDarsteller)BDarsteller).DeLock();
             }
-            if (client != null)
-            {
-                client.Send(this.Field);
-            }
+            BDarsteller.Update(Field);
+            BDarsteller.Draw();
+        }
+
+        public bool IsBDarstellerGraphical()
+        {
+            return BDarsteller is IGraphicalBrettDarsteller;
         }
     }
 }
-

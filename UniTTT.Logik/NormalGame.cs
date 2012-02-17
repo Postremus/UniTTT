@@ -92,7 +92,6 @@ namespace UniTTT.Logik
             } while (!HasEnd());
         }
 
-
         public void PlayerChange()
         {
             Player = Player1 == Player ? Player2 : Player1;

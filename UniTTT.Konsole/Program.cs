@@ -16,6 +16,11 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
+            args = new string[4];
+            args[0] = "/network";
+            args[1] = "/ip:wolfe.freenode.net";
+            args[2] = "/port:6665";
+            args[3] = "/player:X";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int width = parameters.GetInt("breite");
@@ -122,9 +127,9 @@ namespace UniTTT.Konsole
             Console.WriteLine("/log         Speichert ein paar Infos.");
             Console.WriteLine("/win:        Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinader,.. an.");
             Console.WriteLine("/network     Startet ein Netzwerkspiel (/ip, /port und /player wird benötigt).");
-            Console.WriteLine("/ip          Verbindungs-IP für das Netzwerkspiel, funktioniert nur mit /network.");
-            Console.WriteLine("/port        Verbindungs-Port für das Netzwerkspiel, funktioniert nur mit /network.");
-            Console.WriteLine("/player      Spieler für das Netzwerkspiel, fuktioniert nur mit /network.");
+            Console.WriteLine("/ip:         Verbindungs-IP für das Netzwerkspiel, funktioniert nur mit /network.");
+            Console.WriteLine("/port:       Verbindungs-Port für das Netzwerkspiel, funktioniert nur mit /network.");
+            Console.WriteLine("/player:     Spieler für das Netzwerkspiel, fuktioniert nur mit /network.");
         }
     }
 }

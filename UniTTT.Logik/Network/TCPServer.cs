@@ -8,7 +8,7 @@ using System.IO;
 
 namespace UniTTT.Logik.Network
 {
-    public class TCPServer
+    public class TCPServer : INetwork
     {
         #region privates
         private TcpListener listener;
@@ -26,31 +26,41 @@ namespace UniTTT.Logik.Network
             client = listener.AcceptTcpClient();
         }
 
-        public void Send(object obj)
+        public void Send(string message)
         {
             if (!client.Connected)
             {
                 client = listener.AcceptTcpClient();
             }
             Stream s = client.GetStream();
-            s.Write(obj.GetBytes(), 0, obj.GetBytes().Length);
+            s.Write(message.GetBytes(), 0, message.Length);
             s.Flush();
             s.Close();
         }
 
-
-        public object Receive()
+        public void Receive()
         {
             if (!client.Connected)
             {
                 client = listener.AcceptTcpClient();
             }
-            byte[] buffer = new byte[100000];
-            Stream s = client.GetStream();
-            s.Read(buffer, 0, buffer.Length);
-            s.Flush();
-            s.Close();
-            return buffer.GetObject();
+            throw new NotImplementedException();
+        }
+
+        int Port
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public event NewMassageReceivedHandler NewMassegeReceivedEvent;
+
+        public void OnNewMassageReceivedEvent(string value)
+        {
+            NewMassageReceivedHandler newMassageReceivedEvent = NewMassegeReceivedEvent;
+            if (newMassageReceivedEvent != null)
+            {
+                NewMassegeReceivedEvent(value);
+            }
         }
     }
 }
