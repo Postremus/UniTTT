@@ -41,6 +41,7 @@
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
     <Compile Include="Database\DB.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="KI\IKI.cs" />
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
@@ -49,9 +50,8 @@
     <Compile Include="Network\Delegates.cs" />
     <Compile Include="Network\INetwork.cs" />
     <Compile Include="Network\IRCClient.cs" />
-    <Compile Include="Network\IRCPing.cs" />
     <Compile Include="Network\TCPClient.cs" />
-    <Compile Include="Network\TCPServer.cs" />
+    <Compile Include="Network\P2P.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="Fields\IField.cs" />

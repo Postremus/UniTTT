@@ -16,11 +16,6 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            args = new string[4];
-            args[0] = "/network";
-            args[1] = "/ip:wolfe.freenode.net";
-            args[2] = "/port:6665";
-            args[3] = "/player:X";
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
 
             int width = parameters.GetInt("breite");
@@ -88,7 +83,7 @@ namespace UniTTT.Konsole
                 Games.NetworkGame game;
                 string ip = parameters.GetString("ip");
                 int port = parameters.GetInt("port");
-                game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), field, ip, port);
+                game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), field, ip, port, parameters.GetBool("server"));
                 game.Run();
             }
             else

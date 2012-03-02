@@ -20,8 +20,7 @@ namespace UniTTT.Konsole
                     return ret;
                 else
                 {
-                    Console.WriteLine("Feld bereits besetzt. (Taste drücken)");
-                    Console.ReadLine();
+                    Console.WriteLine("Feld bereits besetzt.");
                 }
             } while (true);
         }
