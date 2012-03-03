@@ -52,6 +52,7 @@
     <Compile Include="Network\IRCClient.cs" />
     <Compile Include="Network\TCPClient.cs" />
     <Compile Include="Network\P2P.cs" />
+    <Compile Include="Network\TCPServer.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="Fields\IField.cs" />

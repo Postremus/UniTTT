@@ -81,9 +81,33 @@ namespace UniTTT.Konsole
             else if (parameters.GetBool("network"))
             {
                 Games.NetworkGame game;
+                Logik.Network.INetwork client;
                 string ip = parameters.GetString("ip");
                 int port = parameters.GetInt("port");
-                game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), field, ip, port, parameters.GetBool("server"));
+                if (parameters.GetBool("irc"))
+                {
+                    client = new Logik.Network.IRCClient(ip, port, parameters.GetString("channel"), parameters.GetString("nick"));
+                }
+                else if (parameters.GetBool("p2p"))
+                {
+                    client = new Logik.Network.P2P(ip, port);
+                }
+                else if (parameters.GetBool("tcp"))
+                {
+                    if (parameters.GetBool("server"))
+                    {
+                        client = new Logik.Network.TCPServer(ip, port);
+                    }
+                    else
+                    {
+                        client = new Logik.Network.TCPClient(ip, port);
+                    }
+                }
+                else
+                {
+                    client = new Logik.Network.TCPServer(ip, port);
+                }
+                game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), field, ip, port, client);
                 game.Run();
             }
             else

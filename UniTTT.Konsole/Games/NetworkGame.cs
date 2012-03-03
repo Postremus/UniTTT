@@ -9,7 +9,7 @@ namespace UniTTT.Konsole.Games
 {
     public class NetworkGame : UniTTT.Logik.NetworkGame
     {
-        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port, bool isServer) : base(p1, new BrettDarsteller(width, height), new OutputDarsteller(), field, ip, port, isServer) { }
+        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port, Logik.Network.INetwork client) : base(p1, new BrettDarsteller(width, height), new OutputDarsteller(), field, ip, port, client) { }
 
         public void Run()
         {
@@ -30,7 +30,7 @@ namespace UniTTT.Konsole.Games
             }
             else
             {
-                //Console.WriteLine("Das Spiel ist beendet.");
+                Console.WriteLine("Das Spiel ist beendet.");
                 Console.ReadLine();
             }
         }

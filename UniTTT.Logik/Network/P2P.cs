@@ -5,15 +5,18 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Threading;
 
 namespace UniTTT.Logik.Network
 {
-    public class TCPClient : INetwork
+    public class P2P : INetwork
     {
         #region privates
-        private TcpClient _client;
-        private string _hostname;
-        private int _port;
+        private TcpListener listener;
+        private TcpClient client_reader;
+        private TcpClient client_sender;
+        private int port;
+        private string ip;
         private Stream _stream;
         private StreamReader _reader;
         private StreamWriter _writer;
@@ -25,35 +28,37 @@ namespace UniTTT.Logik.Network
         public Stream sTream { get { return _stream; } set { _stream = value; } }
         public StreamReader Reader { get { return _reader; } set { _reader = value; } }
         public StreamWriter Writer { get { return _writer; } set { _writer = value; } }
-        public TcpClient Client { get { return _client; } set { _client = value; } }
-        public string Hostname { get { return _hostname; } set { _hostname = value; } }
-        public int Port { get { return _port; } set { _port = value; } }
         #endregion
 
-        public TCPClient(string ip, int port)
+        public P2P(string ip, int port)
         {
-            Hostname = ip;
-            Port = port;
+            this.port = port;
+            this.ip = ip;
 
-            Client = new TcpClient();
-            Client.Connect(ip, port);
-            sTream = Client.GetStream();
-            Writer = new StreamWriter(sTream);
-            Reader = new StreamReader(sTream);
+
+            listener = new TcpListener(IPAddress.Any, port);
+            listener.Start();
+
+            new Thread(ConnecttoClient).Start();
+            client_sender = new TcpClient(ip, port);
+            while (client_reader == null) ;
+            Reader = new StreamReader(client_reader.GetStream());
+            Writer = new StreamWriter(client_sender.GetStream());
+            new Thread(Receive).Start();
         }
 
-        public virtual void Send(string message)
+        private void ConnecttoClient()
         {
-            if (!Client.Connected)
-            {
-                Client = new TcpClient();
-                Client.Connect(Hostname, Port);
-            }
-            Writer.WriteLine(message);
+            client_reader = listener.AcceptTcpClient();
+        }
+
+        public void Send(string message)
+        {
+            Writer.Write(message);
             Writer.Flush();
         }
 
-        public virtual void Receive()
+        public void Receive()
         {
             string str = null;
             do

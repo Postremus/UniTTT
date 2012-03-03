@@ -19,24 +19,17 @@ namespace UniTTT.Logik
         private bool isNewVector2iReceivedEventRaised;
         #endregion
 
-        public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field, string ip, int port, bool isServer)
+        public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field, string ip, int port, Network.INetwork client)
         {
             this.ip = ip;
             this.port = port;
+            this.client = client;
 
-            if (isServer)
-            {
-                client = new Network.P2P(port, ip);
-            }
-            else
-            {
-                client = new Network.IRCClient(ip, port);
-            }
             client.NewMassegeReceivedEvent += ReceiveVector;
             client.NewMassegeReceivedEvent += ReceiveField;
             client.NewMassegeReceivedEvent += ReceiveNewGame;
             newVector2iReceivedEvent += SetVectorOnField;
-            //newFieldReceivedEvent += EqualFieldSizes;
+            newFieldReceivedEvent += EqualFieldSizes;
             newGameStartedEvent += NewGame;
             newGameStartedEvent += SendNewGame;
 
@@ -48,7 +41,7 @@ namespace UniTTT.Logik
             {
                 PlayerChange();
             }
-            //client.Send(Field.GetBytes().ToString());
+            client.Send(Field.GetBytes().ToString());
         }
 
         public void Logik()

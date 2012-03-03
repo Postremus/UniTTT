@@ -16,14 +16,14 @@ namespace UniTTT.Logik.Network
         private string channel;
         private string connectingFrom;
 
-        public IRCClient(string server, int port) : base(server, port)
+        public IRCClient(string server, int port, string channel, string nick) : base(server, port)
         {
             Hostname = server;
             Port = port;
 
-            this.nick = "UniTTT" + DateTime.Now.Millisecond;
+            this.nick = nick;
             this.user = "UniTTT UniTTT UniTTT UniTTT";
-            this.channel = "#UniTTT";
+            this.channel = channel;
 
             ConnectToChannel();
             NewMassegeReceivedEvent += SetConnectingFrom;
