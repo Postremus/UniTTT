@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace UniTTT.Logik
 {
@@ -35,6 +36,63 @@ namespace UniTTT.Logik
                 }
             }
             return ret;
+        }
+
+        public static byte[] GetBytes(this object obj)
+        {
+            if (obj == null)
+                return null;
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, obj);
+            return ms.ToArray();
+        }
+
+        public static byte[] GetBytes(this string value)
+        {
+            if (value == null)
+                return null;
+            int t;
+            if (!int.TryParse(value, out t))
+            {
+                return null;
+            }
+
+            byte[] ret = new byte[value.Length];
+            for (int i = 0; i < value.Length; i++)
+            {
+                ret[i] = (byte)value[i];
+            }
+            return ret;
+        }
+
+        public static object GetObject(this byte[] value)
+        {
+            MemoryStream memStream = new MemoryStream();
+            BinaryFormatter binForm = new BinaryFormatter();
+            memStream.Write(value, 0, value.Length);
+            memStream.Seek(0, SeekOrigin.Begin);
+            Object obj = null;
+            try
+            {
+                obj = (Object)binForm.Deserialize(memStream);
+            }
+            catch (System.Runtime.Serialization.SerializationException)
+            {
+
+                
+            }
+            return obj;
+        }
+
+        public static object GetObject(this string value)
+        {
+            byte[] b = value.GetBytes();
+            if (b == null)
+            {
+                return value;
+            }
+            return b.GetObject();
         }
     }
 }

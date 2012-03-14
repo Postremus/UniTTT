@@ -11,7 +11,9 @@
     <RootNamespace>UniTTT.Logik</RootNamespace>
     <AssemblyName>UniTTT.Logik</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,17 +35,24 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
     <Compile Include="Database\DB.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="KI\IKI.cs" />
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="NetworkGame.cs" />
+    <Compile Include="Network\Delegates.cs" />
+    <Compile Include="Network\HolePuncher.cs" />
+    <Compile Include="Network\Network.cs" />
+    <Compile Include="Network\IRCClient.cs" />
+    <Compile Include="Network\TCPClient.cs" />
+    <Compile Include="Network\TCPServer.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="Fields\IField.cs" />
@@ -60,6 +69,9 @@
     <Compile Include="Fields\SitCode.cs" />
     <Compile Include="SitCodeHelper.cs" />
     <Compile Include="Vector2i.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

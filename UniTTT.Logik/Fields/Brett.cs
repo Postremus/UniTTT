@@ -4,6 +4,7 @@ using System.Text;
 
 namespace UniTTT.Logik.Fields
 {
+    [Serializable()]
     public class Brett : IField
     {
         #region Privates

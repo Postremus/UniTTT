@@ -20,8 +20,7 @@ namespace UniTTT.Konsole
                     return ret;
                 else
                 {
-                    Console.WriteLine("Feld bereits besetzt. (Taste drücken)");
-                    Console.ReadLine();
+                    Console.WriteLine("Feld bereits besetzt.");
                 }
             } while (true);
         }
@@ -45,7 +44,7 @@ namespace UniTTT.Konsole
                 try
                 {
                     Console.WriteLine("In welcher Nullbasierenden Zeile und Spalte, soll das {0} gesetzt werden? (X.Y)", Symbol);
-                    return Logik.Vector2i.GetVectorOfString(Console.ReadLine());
+                    return Logik.Vector2i.StringToVector(Console.ReadLine(), false);
                 }
                 catch
                 {

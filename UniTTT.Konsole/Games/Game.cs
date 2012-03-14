@@ -5,7 +5,7 @@ using System.Text;
 using System.Globalization;
 using UniTTT.Logik;
 
-namespace UniTTT.Konsole
+namespace UniTTT.Konsole.Games
 {
     class Game : Logik.NormalGame
     {
