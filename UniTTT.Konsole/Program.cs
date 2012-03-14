@@ -81,31 +81,23 @@ namespace UniTTT.Konsole
             else if (parameters.GetBool("network"))
             {
                 Games.NetworkGame game;
-                Logik.Network.INetwork client;
+                Logik.Network.Network client;
                 string ip = parameters.GetString("ip");
                 int port = parameters.GetInt("port");
-                if (parameters.GetBool("irc"))
+                if (parameters.GetString("protokoll") == "irc")
                 {
                     client = new Logik.Network.IRCClient(ip, port, parameters.GetString("channel"), parameters.GetString("nick"));
                 }
-                else if (parameters.GetBool("p2p"))
-                {
-                    client = new Logik.Network.P2P(ip, port);
-                }
-                else if (parameters.GetBool("tcp"))
+                else
                 {
                     if (parameters.GetBool("server"))
                     {
-                        client = new Logik.Network.TCPServer(ip, port);
+                        client = new Logik.Network.TCPServer(ip, port, parameters.GetString("nick"), parameters.GetString("othernick"), parameters.GetBool("allowholepunching"));
                     }
                     else
                     {
-                        client = new Logik.Network.TCPClient(ip, port);
+                        client = new Logik.Network.TCPClient(ip, port, parameters.GetString("nick"), parameters.GetString("othernick"), parameters.GetBool("allowholepunching"));
                     }
-                }
-                else
-                {
-                    client = new Logik.Network.TCPServer(ip, port);
                 }
                 game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), field, ip, port, client);
                 game.Run();
@@ -149,6 +141,7 @@ namespace UniTTT.Konsole
             Console.WriteLine("/ip:         Verbindungs-IP für das Netzwerkspiel, funktioniert nur mit /network.");
             Console.WriteLine("/port:       Verbindungs-Port für das Netzwerkspiel, funktioniert nur mit /network.");
             Console.WriteLine("/player:     Spieler für das Netzwerkspiel, fuktioniert nur mit /network.");
+            Console.WriteLine("/protokoll:  Das zu verwendende Protokoll in einem Netzwerkspiel. Standard ist tcp");
         }
     }
 }

@@ -5,74 +5,40 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Threading;
 
 namespace UniTTT.Logik.Network
 {
-    public class TCPClient : INetwork
+    public class TCPClient : Network
     {
-        #region privates
-        private TcpClient _client;
-        private string _hostname;
-        private int _port;
-        private Stream _stream;
-        private StreamReader _reader;
-        private StreamWriter _writer;
-        #endregion
-
-        public event NewMassageReceivedHandler NewMassegeReceivedEvent;
-
-        #region Propertys
-        public Stream sTream { get { return _stream; } set { _stream = value; } }
-        public StreamReader Reader { get { return _reader; } set { _reader = value; } }
-        public StreamWriter Writer { get { return _writer; } set { _writer = value; } }
-        public TcpClient Client { get { return _client; } set { _client = value; } }
-        public string Hostname { get { return _hostname; } set { _hostname = value; } }
-        public int Port { get { return _port; } set { _port = value; } }
-        #endregion
-
-        public TCPClient(string ip, int port)
+        public TCPClient(string ip, int port, string nick, string otherNick, bool allowHolePunching)
         {
             Hostname = ip;
-            Port = port;
+            TargetPort = port;
 
-            Client = new TcpClient();
-            Client.Connect(ip, port);
+            if (allowHolePunching)
+            {
+                try
+                {
+                    Client = new TcpClient(ip, port);
+                    Writer = new StreamWriter(Client.GetStream());
+                    base.Send("*klopf klopf*");
+                }
+                catch (SocketException)
+                {
+                    HolePuncher p = new HolePuncher(this, nick, otherNick);
+                    p.Punche();
+                }
+            }
+            else
+            {
+                Client = new TcpClient(ip, port);
+            }
+
             sTream = Client.GetStream();
             Writer = new StreamWriter(sTream);
             Reader = new StreamReader(sTream);
-        }
-
-        public virtual void Send(string message)
-        {
-            if (!Client.Connected)
-            {
-                Client = new TcpClient();
-                Client.Connect(Hostname, Port);
-            }
-            Writer.WriteLine(message);
-            Writer.Flush();
-        }
-
-        public virtual void Receive()
-        {
-            string str = null;
-            do
-            {
-                if (str != null)
-                {
-                    OnNewMassageReceivedEvent(str);
-                }
-                str = Reader.ReadLine();
-            } while (true);
-        }
-
-        public void OnNewMassageReceivedEvent(string value)
-        {
-            NewMassageReceivedHandler newMassageReceivedEvent = NewMassegeReceivedEvent;
-            if (newMassageReceivedEvent != null)
-            {
-                NewMassegeReceivedEvent(value);
-            }
+            new Thread(Receive).Start();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UniTTT.Logik
+namespace UniTTT.Logik.Game
 {
     public class NetworkGame : Game
     {

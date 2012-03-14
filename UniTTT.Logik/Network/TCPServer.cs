@@ -9,66 +9,41 @@ using System.Threading;
 
 namespace UniTTT.Logik.Network
 {
-    public class TCPServer : INetwork
+    public class TCPServer : Network
     {
-        #region privates
+        #region Privates
         private TcpListener listener;
-        private TcpClient client;
-        private int port;
-        private string ip;
-        private Stream _stream;
-        private StreamReader _reader;
-        private StreamWriter _writer;
         #endregion
 
-        public event NewMassageReceivedHandler NewMassegeReceivedEvent;
-
-        #region Propertys
-        public Stream sTream { get { return _stream; } set { _stream = value; } }
-        public StreamReader Reader { get { return _reader; } set { _reader = value; } }
-        public StreamWriter Writer { get { return _writer; } set { _writer = value; } }
-        #endregion
-
-        public TCPServer(string ip, int port)
+        public TCPServer(string ip, int port, string nick, string otherNick, bool allowHolePunching)
         {
-            this.ip = ip;
-            this.port = port;
+            Hostname = ip;
+            TargetPort = port;
 
-            listener = new TcpListener(IPAddress.Any, port);
-            listener.Start();
+            if (allowHolePunching)
+            {
+                try
+                {
+                    Client = new TcpClient(ip, port);
+                    Writer = new StreamWriter(Client.GetStream());
+                    base.Send("*klopf klopf*");
+                }
+                catch (SocketException)
+                {
+                    HolePuncher p = new HolePuncher(this, nick, otherNick);
+                    p.Punche();
+                }
+            }
+            else
+            {
+                listener = new TcpListener(IPAddress.Any, port);
+                listener.Start();
+                Client = listener.AcceptTcpClient();
+            }
 
-            client = listener.AcceptTcpClient();
-            sTream = client.GetStream();
+            sTream = Client.GetStream();
             Reader = new StreamReader(sTream);
             Writer = new StreamWriter(sTream);
-        }
-
-        public void Send(string message)
-        {
-            Writer.Write(message);
-            Writer.Flush();
-        }
-
-        public void Receive()
-        {
-            string str = null;
-            do
-            {
-                if (str != null)
-                {
-                    OnNewMassageReceivedEvent(str);
-                }
-                str = Reader.ReadLine();
-            } while (true);
-        }
-
-        public void OnNewMassageReceivedEvent(string value)
-        {
-            NewMassageReceivedHandler newMassageReceivedEvent = NewMassegeReceivedEvent;
-            if (newMassageReceivedEvent != null)
-            {
-                NewMassegeReceivedEvent(value);
-            }
         }
     }
 }

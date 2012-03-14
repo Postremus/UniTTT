@@ -15,20 +15,24 @@ namespace UniTTT.Logik.Network
         private string user;
         private string channel;
         private string connectingFrom;
+        private int _peopleCount;
+        private List<string> _people;
 
-        public IRCClient(string server, int port, string channel, string nick) : base(server, port)
+        public int PeopleCount { get { return _peopleCount; } set { _peopleCount = value; } }
+        public List<string> People { get { return _people; } set { _people = value; } }
+
+        public IRCClient(string server, int port, string channel, string nick) : base(server, port, null, null, false)
         {
-            Hostname = server;
-            Port = port;
 
             this.nick = nick;
             this.user = "UniTTT UniTTT UniTTT UniTTT";
             this.channel = channel;
 
             ConnectToChannel();
-            NewMassegeReceivedEvent += SetConnectingFrom;
-            NewMassegeReceivedEvent += Pong;
-            new Thread(Receive).Start();
+            NewMessageReceivedEvent += SetConnectingFrom;
+            NewMessageReceivedEvent += Pong;
+            NewMessageReceivedEvent += CountPeople;
+            NewMessageReceivedEvent += VisiblePeople;
         }
 
         public void ConnectToChannel()
@@ -46,6 +50,24 @@ namespace UniTTT.Logik.Network
         public override void Send(string message)
         {
             base.Send(string.Format("PRIVMSG {0} {1}", channel, message));
+        }
+
+        public void CountPeople(string message)
+        {
+            if (message.Contains("353"))
+            {
+                string value = message.Substring(message.LastIndexOf(':'));
+                PeopleCount = value.GetSubstrs().Count;
+            }
+        }
+
+        public void VisiblePeople(string message)
+        {
+            if (message.Contains("353"))
+            {
+                string value = message.Substring(message.LastIndexOf(':'));
+                People = value.GetSubstrs();
+            }
         }
 
         public void SetConnectingFrom(string message)

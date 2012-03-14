@@ -48,10 +48,10 @@
     <Compile Include="Logger.cs" />
     <Compile Include="NetworkGame.cs" />
     <Compile Include="Network\Delegates.cs" />
-    <Compile Include="Network\INetwork.cs" />
+    <Compile Include="Network\HolePuncher.cs" />
+    <Compile Include="Network\Network.cs" />
     <Compile Include="Network\IRCClient.cs" />
     <Compile Include="Network\TCPClient.cs" />
-    <Compile Include="Network\P2P.cs" />
     <Compile Include="Network\TCPServer.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
