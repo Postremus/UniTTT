@@ -216,6 +216,7 @@ namespace UniTTT.Logik.Player
                             binwriter.Write(towrite);
                         }
                     }
+                    binwriter.Flush();
                     binwriter.Close();
                 }
 
@@ -328,9 +329,11 @@ namespace UniTTT.Logik.Player
                             {
                                 towrite.Add(str);
                                 binwriter.Write(str);
+                                binwriter.Write(Environment.NewLine);
                             }
                         }
                     }
+                    binwriter.Flush();
                     binwriter.Close();
                 }
 
@@ -552,8 +555,7 @@ namespace UniTTT.Logik.Player
 
             private int TestForBestPosition(string sitcode)
             {
-                int best_zug;
-                
+                int best_zug = 0;
                 return 0;
             }
 
