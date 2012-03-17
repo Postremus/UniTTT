@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik.KI
 {
-    public class AbstractKI : IKI
+    public class AbstractKI
     {
         protected AbstractKI(char kispieler, int width, int height)
         {

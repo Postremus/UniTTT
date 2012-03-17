@@ -54,22 +54,17 @@ namespace UniTTT.Logik.Database
 
         public static bool Like(string searchstr, string str2)
         {
-            bool ret = false;
             for (int i = 0; i < Math.Ceiling(((double)searchstr.Length + str2.Length)/2); i++)
             {
                 if (searchstr[i] != '*')
                 {
-                    if (searchstr[i] == str2[i])
-                    {
-                        ret = true;
-                    }
-                    else
+                    if (searchstr[i] != str2[i])
                     {
                         return false;
                     }
                 }
             }
-            return ret;
+            return true; ;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace UniTTT.Logik.Player
 {
     public class KIPlayer : AbstractPlayer
     {
-        public KI.IKI KI { get; private set; }
+        public KI.AbstractKI KI { get; private set; }
 
         public enum KISystems
         {

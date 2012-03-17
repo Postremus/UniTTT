@@ -41,7 +41,6 @@
     <Compile Include="FieldHelper.cs" />
     <Compile Include="Database\DB.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="KI\IKI.cs" />
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
     <Compile Include="Logger.cs" />

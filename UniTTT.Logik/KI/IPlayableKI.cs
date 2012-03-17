@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik.KI
 {
-    public interface IPlayableKI : IKI
+    public interface IPlayableKI
     {
         int Play(Fields.IField field, char spieler);
     }
