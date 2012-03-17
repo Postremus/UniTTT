@@ -4,6 +4,8 @@ UniTTT
 UniTTT ist ein TicTacToe Programm, welches auf verschiedenen Plattformen (Windows, Linux, Mac spielbar ist.
 Der Name ist eine Anspielung auf "UniOS".
 
+Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benötigt.
+
 1) Die Befehle
 
 	/human			Der Menschliche Spieler		
