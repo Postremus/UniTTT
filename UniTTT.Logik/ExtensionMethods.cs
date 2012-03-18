@@ -38,6 +38,24 @@ namespace UniTTT.Logik
             return ret;
         }
 
+        public static int GetHighestIndex(this int[,] value)
+        {
+            int ret = 0;
+            int tmp = 0;
+            for (int i = 0; i < value.GetUpperBound(0) + 1; i++)
+            {
+                for (int a = 0; a < value.GetUpperBound(1) + 1; a++)
+                {
+                    if (value[i, a] > tmp)
+                    {
+                        ret = (i + 1) * (a + 1) - 1;
+                        tmp = value[i, a];
+                    }
+                }
+            }
+            return ret;
+        }
+
         public static byte[] GetBytes(this object obj)
         {
             if (obj == null)

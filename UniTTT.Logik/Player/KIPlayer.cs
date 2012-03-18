@@ -98,13 +98,13 @@ namespace UniTTT.Logik.Player
             private IOutputDarsteller ODarsteller;
             #endregion
 
-            private decimal Rundefrage()
+            private int Rundefrage()
             {
-                decimal ret = new int();
+                int ret = new int();
                 do
                 {
                     ODarsteller.ShowMessage("Wie viele Runden sollen durchlaufen werden? (als Zahl)");
-                    if (decimal.TryParse(Console.ReadLine(), out ret))
+                    if (int.TryParse(Console.ReadLine(), out ret))
                     {
                         if (ret < 0)
                         {
@@ -131,13 +131,13 @@ namespace UniTTT.Logik.Player
             {
                 #region Fields
                 char player = '2';
-                decimal runden = Rundefrage();
+                int runden = Rundefrage();
                 int zug;
                 string momsitcode = SitCodeHelper.SetEmpty(9);
                 int[,] sit_codes = new int[(int)runden, 9];
                 int[,] zuege = new int[(int)runden, 9];
                 int[] wertungen = new int[(int)runden];
-                bool gewonnen;
+                bool gewonnen = false;
                 #endregion
                 ODarsteller.ShowMessage("Berechne Daten..");
                 for (int currround = 0; currround < runden; currround++)
@@ -511,26 +511,30 @@ namespace UniTTT.Logik.Player
                 string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
                 int win_zug = TestForOneWin(sitcode);
                 int block_zug = TestForHumanBlock(sitcode);
+                int set_zug = TestForBestPosition(sitcode);
 
                 if (win_zug != -1)
                     return win_zug;
                 else if (block_zug != -1)
                     return block_zug;
+                else if (set_zug != -1)
+                    return set_zug;
                 else
                     return SitCodeHelper.GetRandomZug(sitcode);
             }
 
             private int TestForOneWin(string sitcode)
             {
-                string momsitcode;
                 int win_zug = -1;
+                Fields.IField field = Fields.SitCode.GetInstance(sitcode, Width, Height);
                 for (int playerpos = 0; (playerpos < sitcode.Length) && (win_zug == -1); playerpos++)
                 {
                     if (sitcode[playerpos] == '1')
                     {
-                        momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, SitCodeHelper.PlayertoSitCode(KIPlayer).ToString());
-                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.PlayertoSitCode(KIPlayer), Fields.SitCode.GetInstance(momsitcode, Width, Height))) && (win_zug == -1))
+                        field.SetField(playerpos, KIPlayer);
+                        if ((Logik.WinChecker.Pruefe(KIPlayer, field)) && (win_zug == -1))
                             win_zug = playerpos;
+                        field.SetField(playerpos, ' ');
                     }
                 }
                 return win_zug;
@@ -538,16 +542,17 @@ namespace UniTTT.Logik.Player
 
             private int TestForHumanBlock(string sitcode)
             {
-                string momsitcode;
                 int block_zug = -1;
-                char humanplayer = SitCodeHelper.PlayertoSitCode(KIPlayer) == '3' ? '2' : '3';
+                char humanplayer = SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(KIPlayer));
+                Fields.IField field = Fields.SitCode.GetInstance(sitcode, Width, Height);
                 for (int playerpos = 0; (playerpos < sitcode.Length) && (block_zug == -1); playerpos++)
                 {
                     if (sitcode[playerpos] == '1')
                     {
-                        momsitcode = sitcode.Remove(playerpos, 1).Insert(playerpos, humanplayer.ToString());
-                        if ((Logik.WinChecker.Pruefe(humanplayer, Fields.SitCode.GetInstance(momsitcode, Width, Height))) && (block_zug == -1))
+                        field.SetField(playerpos, humanplayer);
+                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(humanplayer), field)) && (block_zug == -1))
                             block_zug = playerpos;
+                        field.SetField(playerpos, ' ');
                     }
                 }
                 return block_zug;
@@ -555,8 +560,47 @@ namespace UniTTT.Logik.Player
 
             private int TestForBestPosition(string sitcode)
             {
-                int best_zug = 0;
-                return 0;
+                int[] posis = new int[Width * Height];
+                for (int x = 0; x < Width; x++)
+                {
+                    if (WinChecker.DoCheck(Fields.SitCode.GetInstance(sitcode, Width, Height), WinChecker.Directories.Down, ' ', new Vector2i(x, 0), Vector2i.Zero) == Width)
+                    {
+                        posis[(x + 1) * (0 + 1) - 1]++;
+                    }
+                }
+                for (int y = 0; y < Height; y++)
+                {
+                    if (WinChecker.DoCheck(Fields.SitCode.GetInstance(sitcode, Width, Height), WinChecker.Directories.Right, ' ', new Vector2i(0, y), Vector2i.Zero) == Height)
+                    {
+                        posis[(0 + 1) * (y + 1) - 1]++;
+                    }
+                }
+                for (int x = 0; x < Width; x++)
+                {
+                    for (int y = 0; y < Height; y++)
+                    {
+                        if (x + (Width - 1) < Width && y + (Width - 1) < Height)
+                        {
+                            if (WinChecker.DoCheck(Fields.SitCode.GetInstance(sitcode, Width, Height), WinChecker.Directories.RightDown, ' ', new Vector2i(x, y), Vector2i.Zero) == Width)
+                            {
+                                posis[(x + 1) * (y + 1) - 1]++;
+                            }
+                        }
+                    }
+                }
+                for (int x = 0; x < Width; x++)
+                {
+                    for (int y = 0; y < Height; y++)
+                    {
+                        if (WinChecker.DoCheck(Fields.SitCode.GetInstance(sitcode, Width, Height), WinChecker.Directories.LeftDown, ' ', new Vector2i(x, y), new Vector2i(x + (Height - 1), y + (Height - 1))) == Width)
+                        {
+                            posis[(x + 1) * (y + 1) - 1]++;
+                        }
+                    }
+                }
+                int ret = -1;
+                ret = posis.GetHighestIndex();
+                return ret;
             }
 
             public override string ToString()
