@@ -11,6 +11,7 @@ namespace UniTTT.Logik
         public enum GameStates
         {
             Gewonnen,
+            Verloren,
             Unentschieden,
             Laufend
         }
@@ -54,7 +55,7 @@ namespace UniTTT.Logik
             FieldHelper.GameStates state = FieldHelper.GameStates.Laufend;
             bool gewbl = WinChecker.Pruefe(spieler, field);
 
-            if (gewbl)
+            if ((gewbl) && (FieldHelper.HasEmptyFields(field)))
                 state = FieldHelper.GameStates.Gewonnen;
             if ((!gewbl) && (!FieldHelper.HasEmptyFields(field)))
                 state = FieldHelper.GameStates.Unentschieden;

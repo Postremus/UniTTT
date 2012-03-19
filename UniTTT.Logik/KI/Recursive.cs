@@ -10,6 +10,7 @@ namespace UniTTT.Logik.KI
         #region Fields
         protected List<int> Wertungen { get; private set; }
         protected List<string> SitCodes { get; private set; }
+        protected Dictionary<string, FieldHelper.GameStates> dic { get; set; }
         #endregion
 
         protected Recursive(int width, int height) : base('O', width, height)
@@ -44,17 +45,14 @@ namespace UniTTT.Logik.KI
             }
         }
 
-        protected int SelectBestZug(int[] felder, string momsitcode)
+        protected void Recursion2(int depth, string sitCode, char spieler)
         {
-            int idx = 0;
-            for (int i = 0; i < Length; i++)
+            string momSitCode;
+            FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sitCode, Width, Height), spieler);
+            if ((depth == 0) || state != FieldHelper.GameStates.Laufend)
             {
-                if ((momsitcode[i] == '1') && (felder[i] > felder[idx]))
-                {
-                    idx = i;
-                }
+                dic.Add(sitCode, state);
             }
-            return idx;
         }
     }
 }

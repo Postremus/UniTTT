@@ -438,23 +438,7 @@ namespace UniTTT.Logik.Player
             {
                 string mom_sit_code = SitCodeHelper.StringToSitCode(field.ToString());
                 int[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
-                return GetHighestIdx(Felder, mom_sit_code);
-            }
-
-            private int GetHighestIdx(int[] value, string sitcode)
-            {
-                int ret = 0;
-                for (int i = 0; i < value.Length; i++)
-                {
-                    if (sitcode[i] == '1')
-                    {
-                        if (value[i] > value[ret])
-                        {
-                            ret = i;
-                        }
-                    }
-                }
-                return ret;
+                return SelectBestZug(Felder, mom_sit_code);
             }
 
             private int[] ZugWertungBerechnen(string mom_sit_code, char spieler)
@@ -492,7 +476,13 @@ namespace UniTTT.Logik.Player
                 FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sit_code, Width, Height), spieler);
 
                 if (state == FieldHelper.GameStates.Gewonnen)
+                {
                     wertung = 1;
+                }
+                else if (state == FieldHelper.GameStates.Verloren)
+                {
+                    wertung = -1;
+                }
                 return wertung;
             }
 
@@ -504,14 +494,16 @@ namespace UniTTT.Logik.Player
 
         class KIBot : KI.AbstractKI, KI.IPlayableKI
         {
+            private Fields.IField field;
+
             public KIBot(int width, int height, char spieler) : base(spieler, width, height) { }
 
             public int Play(Fields.IField field, char spieler)
             {
-                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
-                int win_zug = TestForOneWin(sitcode);
-                int block_zug = TestForHumanBlock(sitcode);
-                int set_zug = TestForBestPosition(sitcode);
+                this.field = field;
+                int win_zug = TestForOneWin();
+                int block_zug = TestForHumanBlock();
+                int set_zug = TestForBestPosition();
 
                 if (win_zug != -1)
                     return win_zug;
@@ -520,16 +512,15 @@ namespace UniTTT.Logik.Player
                 else if (set_zug != -1)
                     return set_zug;
                 else
-                    return SitCodeHelper.GetRandomZug(sitcode);
+                    return SitCodeHelper.GetRandomZug(SitCodeHelper.StringToSitCode(field.ToString()));
             }
 
-            private int TestForOneWin(string sitcode)
+            private int TestForOneWin()
             {
                 int win_zug = -1;
-                Fields.IField field = Fields.SitCode.GetInstance(sitcode, Width, Height);
-                for (int playerpos = 0; (playerpos < sitcode.Length) && (win_zug == -1); playerpos++)
+                for (int playerpos = 0; (playerpos < field.Length) && (win_zug == -1); playerpos++)
                 {
-                    if (sitcode[playerpos] == '1')
+                    if (field.IsFieldEmpty(playerpos))
                     {
                         field.SetField(playerpos, KIPlayer);
                         if ((Logik.WinChecker.Pruefe(KIPlayer, field)) && (win_zug == -1))
@@ -540,14 +531,13 @@ namespace UniTTT.Logik.Player
                 return win_zug;
             }
 
-            private int TestForHumanBlock(string sitcode)
+            private int TestForHumanBlock()
             {
                 int block_zug = -1;
                 char humanplayer = SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(KIPlayer));
-                Fields.IField field = Fields.SitCode.GetInstance(sitcode, Width, Height);
-                for (int playerpos = 0; (playerpos < sitcode.Length) && (block_zug == -1); playerpos++)
+                for (int playerpos = 0; (playerpos < field.Length) && (block_zug == -1); playerpos++)
                 {
-                    if (sitcode[playerpos] == '1')
+                    if (field.IsFieldEmpty(playerpos))
                     {
                         field.SetField(playerpos, humanplayer);
                         if ((Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(humanplayer), field)) && (block_zug == -1))
@@ -558,19 +548,19 @@ namespace UniTTT.Logik.Player
                 return block_zug;
             }
 
-            private int TestForBestPosition(string sitcode)
+            private int TestForBestPosition()
             {
                 int[] posis = new int[Width * Height];
                 for (int x = 0; x < Width; x++)
                 {
-                    if (WinChecker.DoCheck(Fields.SitCode.GetInstance(sitcode, Width, Height), WinChecker.Directories.Down, ' ', new Vector2i(x, 0), Vector2i.Zero) == Width)
+                    if (WinChecker.DoCheck(field, WinChecker.Directories.Down, ' ', new Vector2i(x, 0), Vector2i.Zero) == Width)
                     {
                         posis[(x + 1) * (0 + 1) - 1]++;
                     }
                 }
                 for (int y = 0; y < Height; y++)
                 {
-                    if (WinChecker.DoCheck(Fields.SitCode.GetInstance(sitcode, Width, Height), WinChecker.Directories.Right, ' ', new Vector2i(0, y), Vector2i.Zero) == Height)
+                    if (WinChecker.DoCheck(field, WinChecker.Directories.Right, ' ', new Vector2i(0, y), Vector2i.Zero) == Height)
                     {
                         posis[(0 + 1) * (y + 1) - 1]++;
                     }
@@ -581,7 +571,7 @@ namespace UniTTT.Logik.Player
                     {
                         if (x + (Width - 1) < Width && y + (Width - 1) < Height)
                         {
-                            if (WinChecker.DoCheck(Fields.SitCode.GetInstance(sitcode, Width, Height), WinChecker.Directories.RightDown, ' ', new Vector2i(x, y), Vector2i.Zero) == Width)
+                            if (WinChecker.DoCheck(field, WinChecker.Directories.RightDown, ' ', new Vector2i(x, y), Vector2i.Zero) == Width)
                             {
                                 posis[(x + 1) * (y + 1) - 1]++;
                             }
@@ -592,7 +582,7 @@ namespace UniTTT.Logik.Player
                 {
                     for (int y = 0; y < Height; y++)
                     {
-                        if (WinChecker.DoCheck(Fields.SitCode.GetInstance(sitcode, Width, Height), WinChecker.Directories.LeftDown, ' ', new Vector2i(x, y), new Vector2i(x + (Height - 1), y + (Height - 1))) == Width)
+                        if (WinChecker.DoCheck(field, WinChecker.Directories.LeftDown, ' ', new Vector2i(x, y), new Vector2i(x + (Height - 1), y + (Height - 1))) == Width)
                         {
                             posis[(x + 1) * (y + 1) - 1]++;
                         }

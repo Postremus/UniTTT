@@ -19,6 +19,19 @@ namespace UniTTT.Logik.KI
         public int Length { get { return Width * Height; } }
         public char KIPlayer { get; private set; }
 
+        protected int SelectBestZug(int[] felder, string momsitcode)
+        {
+            int idx = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                if ((momsitcode[i] == '1') && (felder[i] > felder[idx]))
+                {
+                    idx = i;
+                }
+            }
+            return idx;
+        }
+
         public override string ToString()
         {
             return "KI";

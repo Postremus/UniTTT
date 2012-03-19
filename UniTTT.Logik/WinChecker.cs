@@ -76,7 +76,7 @@ namespace UniTTT.Logik
         /// <param name="from">Der inklusive untere Vector der Startposition.</param>
         /// <param name="to">Der inklusive untere Vector der Endposition. (Unwichtig, null reicht auch)</param>
         /// <returns></returns>
-        private static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from, Vector2i to)
+        public static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from, Vector2i to)
         {
             int counter = 0;
             for (int a = 0; a < GewinnBedingung; a++)
