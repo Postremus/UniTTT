@@ -53,7 +53,14 @@ namespace UniTTT.Konsole
                 {
                     for (int Spielfeldx = 0; Spielfeldx < Width + (Width - 1); Spielfeldx++)
                     {
-                        spielfeld[Spielfeldx, Spielfeldy] = Spielfeldx % 2 == 0 ? '-' : '+';
+                        if (Spielfeldx % 2 == 0)
+                        {
+                            spielfeld[Spielfeldx, Spielfeldy] = '-';
+                        }
+                        else
+                        {
+                            spielfeld[Spielfeldx, Spielfeldy] = '+';
+                        }
                     }
                 }
             }

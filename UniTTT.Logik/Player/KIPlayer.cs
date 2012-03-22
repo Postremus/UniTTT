@@ -370,11 +370,9 @@ namespace UniTTT.Logik.Player
             public int Play(Fields.IField field, char spieler)
             {
                 string mom_sit_code = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field)); 
-                int[] Felder = new int[Length];
 
-                Felder = WertungenBerechnen(mom_sit_code, spieler);
-
-                return SelectBestZug(Felder, mom_sit_code);
+                int[] Felder = WertungenBerechnen(mom_sit_code, spieler);
+                return Felder.GetHighestIndex();
             }
 
             private int WertungenZugZuordnen(List<int> list, int bedingung)
@@ -405,7 +403,7 @@ namespace UniTTT.Logik.Player
 
             private int[] WertungenBerechnen(string mom_sit_code, char spieler)
             {
-                int[,] wertungen = new int[Length, 3];
+                int[] wertungen = new int[3];
                 int[] Felder = new int[Length];
                 string mom_sit_code_edited = mom_sit_code;
 
@@ -414,11 +412,11 @@ namespace UniTTT.Logik.Player
                     if (mom_sit_code[i] == '1')
                     {
                         mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
-                        wertungen[i, 0] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), '1' - 48); // unentschieden
-                        wertungen[i, 1] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayertoSitCode(spieler) - 48); // Spieler Gewonnen
-                        wertungen[i, 2] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)) - 48); // Gegner
+                        wertungen[0] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), '1' - 48); // unentschieden
+                        wertungen[1] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayertoSitCode(spieler) - 48); // Spieler Gewonnen
+                        wertungen[2] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)) - 48); // Gegner
 
-                        Felder[i] = (wertungen[i, 0] + wertungen[i, 1]) - (wertungen[i, 2] * 5);
+                        Felder[i] = (wertungen[0] + wertungen[1]) - (wertungen[2] * 5);
                     }
                 }
                 return Felder;
@@ -446,17 +444,17 @@ namespace UniTTT.Logik.Player
                 string mom_sit_code_edited;
                 int[] Felder = new int[Length];
                 int[] Feldertmp = new int[Length];
-                int[,] wertungen = new int[Length, 3];
+                int[] wertungen = new int[3];
                 for (int i = 0; i < Length; i++)
                 {
                     if (mom_sit_code[i] == '1')
                     {
                         mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, spieler.ToString());
-                        wertungen[i, 0] = Bewertung(mom_sit_code_edited, i, '1'); // Unentschieden
-                        wertungen[i, 1] = Bewertung(mom_sit_code_edited, i, KIPlayer); // KISpieler Gewonnen
-                        wertungen[i, 2] = Bewertung(mom_sit_code_edited, i, SitCodeHelper.PlayerChange(KIPlayer)); // MenschGegner Gewonnen
+                        wertungen[0] = Bewertung(mom_sit_code_edited, i, '1'); // Unentschieden
+                        wertungen[1] = Bewertung(mom_sit_code_edited, i, KIPlayer); // KISpieler Gewonnen
+                        wertungen[2] = Bewertung(mom_sit_code_edited, i, SitCodeHelper.PlayerChange(KIPlayer)); // MenschGegner Gewonnen
 
-                        Felder[i] = (wertungen[i, 0] * 20) + (wertungen[i, 0] * 10) - (wertungen[i, 2] * 50);
+                        Felder[i] = (wertungen[0] * 20) + (wertungen[0] * 10) - (wertungen[2] * 50);
                         if (Felder[i] == 0.0)
                         {
                             Feldertmp = ZugWertungBerechnen(mom_sit_code_edited, SitCodeHelper.PlayerChange(spieler));
