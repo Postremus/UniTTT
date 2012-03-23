@@ -97,7 +97,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Properties\app.manifest" />
     <None Include="README" />
   </ItemGroup>
