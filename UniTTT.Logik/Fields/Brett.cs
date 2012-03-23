@@ -107,6 +107,50 @@ namespace UniTTT.Logik.Fields
         {
             return GetField(idx) == ' ';
         }
+
+        public List<FieldPanel> Row(int count)
+        {
+            List<FieldPanel> ret = new List<FieldPanel>();
+            for (int y = 0; y < Height; y++)
+            {
+                ret.Add(new FieldPanel((count + 1) * (y + 1) - 1, GetField(new Vector2i(count, y))));
+            }
+            return ret;
+        }
+
+        public List<FieldPanel> Column(int count)
+        {
+            List<FieldPanel> ret = new List<FieldPanel>();
+            for (int x = 0; x < Width; x++)
+            {
+                ret.Add(new FieldPanel((x + 1) * (count + 1) - 1, GetField(new Vector2i(x, count))));
+            }
+            return ret;
+        }
+
+        public List<FieldPanel> Diagonal(int count)
+        {
+            List<FieldPanel> ret = new List<FieldPanel>();
+            if (count == 0)
+            {
+                int y = 0;
+                for (int x = 0; x < Width; x++)
+                {
+                    ret.Add(new FieldPanel((x + 1) * (y + 1) - 1, GetField(new Vector2i(x, y))));
+                    y++;
+                }
+            }
+            else
+            {
+                int y = Height;
+                for (int x = Width; x > 0; x--)
+                {
+                    ret.Add(new FieldPanel(x * y - 1, GetField(new Vector2i(x - 1, y - 1))));
+                    y--;
+                }
+            }
+            return ret;
+        }
         #endregion
 
         #region Methods

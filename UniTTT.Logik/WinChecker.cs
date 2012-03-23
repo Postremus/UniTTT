@@ -89,7 +89,7 @@ namespace UniTTT.Logik
             return counter;
         }
 
-        private static Vector2i NextField(Directories dir, Vector2i vect)
+        public static Vector2i NextField(Directories dir, Vector2i vect)
         {
             if (dir == Directories.Right)
                 vect.X++;

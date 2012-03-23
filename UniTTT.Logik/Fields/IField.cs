@@ -17,6 +17,9 @@ namespace UniTTT.Logik.Fields
         char GetField(Vector2i vect);
         void SetField(int idx, char value);
         void SetField(Vector2i vect, char value);
+        List<FieldPanel> Row(int count);
+        List<FieldPanel> Column(int count);
+        List<FieldPanel> Diagonal(int count);
 
         bool IsFieldEmpty(int idx);
         bool IsFieldEmpty(Vector2i vect);
