@@ -37,6 +37,25 @@ namespace UniTTT.Logik.Fields
             }
         }
         public int Length { get { return Width * Height; } }
+
+        public List<FieldRegion> Panels
+        {
+            get
+            {
+                List<FieldRegion> ret = new List<FieldRegion>();
+                for (int y = 0; y < Height; y++)
+                {
+                    ret.Add(Row(y));
+                }
+                for (int x = 0; x < Width; x++)
+                {
+                    ret.Add(Column(x));
+                }
+                ret.Add(Diagonal(0));
+                ret.Add(Diagonal(1));
+                return ret;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -108,35 +127,35 @@ namespace UniTTT.Logik.Fields
             return GetField(idx) == ' ';
         }
 
-        public List<FieldPanel> Row(int count)
+        public FieldRegion Row(int count)
         {
-            List<FieldPanel> ret = new List<FieldPanel>();
+            FieldRegion ret = new FieldRegion();
             for (int y = 0; y < Height; y++)
             {
-                ret.Add(new FieldPanel((count + 1) * (y + 1) - 1, GetField(new Vector2i(count, y))));
+                ret.Add((count + 1) * (y + 1) - 1, GetField(new Vector2i(count, y)));
             }
             return ret;
         }
 
-        public List<FieldPanel> Column(int count)
+        public FieldRegion Column(int count)
         {
-            List<FieldPanel> ret = new List<FieldPanel>();
+            FieldRegion ret = new FieldRegion();
             for (int x = 0; x < Width; x++)
             {
-                ret.Add(new FieldPanel((x + 1) * (count + 1) - 1, GetField(new Vector2i(x, count))));
+                ret.Add((x + 1) * (count + 1) - 1, GetField(new Vector2i(x, count)));
             }
             return ret;
         }
 
-        public List<FieldPanel> Diagonal(int count)
+        public FieldRegion Diagonal(int count)
         {
-            List<FieldPanel> ret = new List<FieldPanel>();
+            FieldRegion ret = new FieldRegion();
             if (count == 0)
             {
                 int y = 0;
                 for (int x = 0; x < Width; x++)
                 {
-                    ret.Add(new FieldPanel((x + 1) * (y + 1) - 1, GetField(new Vector2i(x, y))));
+                    ret.Add((x + 1) * (y + 1) - 1, GetField(new Vector2i(x, y)));
                     y++;
                 }
             }
@@ -145,7 +164,7 @@ namespace UniTTT.Logik.Fields
                 int y = Height;
                 for (int x = Width; x > 0; x--)
                 {
-                    ret.Add(new FieldPanel(x * y - 1, GetField(new Vector2i(x - 1, y - 1))));
+                    ret.Add(x * y - 1, GetField(new Vector2i(x - 1, y - 1)));
                     y--;
                 }
             }

@@ -10,6 +10,7 @@ namespace UniTTT.Logik.KI
         protected AbstractKI(char kispieler, int width, int height)
         {
             KIPlayer = kispieler;
+            HumanPlayer = SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(KIPlayer)));
             Width = width;
             Height = height;
         }
@@ -18,6 +19,7 @@ namespace UniTTT.Logik.KI
         public int Height { get; protected set; }
         public int Length { get { return Width * Height; } }
         public char KIPlayer { get; private set; }
+        public char HumanPlayer { get; private set; }
 
         protected int SelectBestZug(int[] felder, string momsitcode)
         {

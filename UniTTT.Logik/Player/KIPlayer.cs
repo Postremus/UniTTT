@@ -432,56 +432,112 @@ namespace UniTTT.Logik.Player
         {
             public KIMiniMax(int width, int height, char spieler) : base(spieler, width, height) { }
 
+            private int bestZug;
+
             public int Play(Fields.IField field, char spieler)
             {
-                string mom_sit_code = SitCodeHelper.StringToSitCode(field.ToString());
-                int[] Felder = ZugWertungBerechnen(mom_sit_code, SitCodeHelper.PlayertoSitCode(spieler));
-                return SelectBestZug(Felder, mom_sit_code);
+                Max(field.Length - 1, field);
+                return bestZug;
             }
 
-            private int[] ZugWertungBerechnen(string mom_sit_code, char spieler)
+            private int Max(int depth, Fields.IField field)
             {
-                string mom_sit_code_edited;
-                int[] Felder = new int[Length];
-                int[] Feldertmp = new int[Length];
-                int[] wertungen = new int[3];
-                for (int i = 0; i < Length; i++)
+                int zugValue = 0;
+                int discovered = int.MinValue + 1;
+                for (int i = 0; i < field.Length; i++)
                 {
-                    if (mom_sit_code[i] == '1')
+                    if (field.IsFieldEmpty(i))
                     {
-                        mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, spieler.ToString());
-                        wertungen[0] = Bewertung(mom_sit_code_edited, i, '1'); // Unentschieden
-                        wertungen[1] = Bewertung(mom_sit_code_edited, i, KIPlayer); // KISpieler Gewonnen
-                        wertungen[2] = Bewertung(mom_sit_code_edited, i, SitCodeHelper.PlayerChange(KIPlayer)); // MenschGegner Gewonnen
-
-                        Felder[i] = (wertungen[0] * 20) + (wertungen[0] * 10) - (wertungen[2] * 50);
-                        if (Felder[i] == 0.0)
+                        field.SetField(i, HumanPlayer);
+                        if (depth <= 1)
                         {
-                            Feldertmp = ZugWertungBerechnen(mom_sit_code_edited, SitCodeHelper.PlayerChange(spieler));
-                            for (int y = 0; y < Length; y++)
-                                Felder[i] += Feldertmp[y];
+                            zugValue = Valuation(field, HumanPlayer);
                         }
                         else
-                            return Felder;
+                        {
+                            zugValue = Mini(depth - 1, field);
+                        }
+                        field.SetField(i, ' ');
+                        if (zugValue > discovered)
+                        {
+                            discovered = zugValue;
+                        }
                     }
                 }
-                return Felder;
+                return discovered;
             }
 
-            private int Bewertung(string sit_code, int fieldidx, char spieler)
+            private int Mini(int depth, Fields.IField field)
             {
-                int wertung = 0;
-                FieldHelper.GameStates state = FieldHelper.GetGameState(Fields.SitCode.GetInstance(sit_code, Width, Height), spieler);
+                int zugValue = 0;
+                int discovered = int.MaxValue -1;
+                for (int i = 0; i < field.Length; i++)
+                {
+                    if (field.IsFieldEmpty(i))
+                    {
+                        field.SetField(i, KIPlayer);
+                        if (depth <= 1)
+                        {
+                            zugValue = Valuation(field, KIPlayer);
+                        }
+                        else
+                        {
+                            zugValue = Max(depth - 1, field);
+                        }
+                        field.SetField(i, ' ');
+                        if (zugValue < discovered)
+                        {
+                            discovered = zugValue;
+                            bestZug = i;
+                        }
+                    }
+                }
+                return discovered;
+            }
 
-                if (state == FieldHelper.GameStates.Gewonnen)
+            private int Valuation(Fields.IField field, char player)
+            {
+                List<Fields.FieldRegion> fPanel = field.Panels;
+                int ret = 0;
+                foreach (Fields.FieldRegion region in fPanel)
                 {
-                    wertung = 1;
+                    int xCount = 0;
+                    int oCount = 0;
+                    foreach (Fields.FieldPlaceData placeData in region)
+                    {
+                        if (placeData.FieldValue == 'X')
+                        {
+                            xCount++;
+                        }
+                        else if (placeData.FieldValue == 'O')
+                        {
+                            xCount++;
+                        }
+                    }
+                    int multi = 1;
+                    if (xCount == 0)
+                    {
+                        if (player == HumanPlayer)
+                            multi = 3;
+                        ret += -(int)Math.Pow(10, oCount) * multi;
+                    }
+                    else if (oCount == 0)
+                    {
+                        if (player == KIPlayer)
+                            multi = 3;
+                        ret += (int)Math.Pow(10, xCount) * multi;
+                    }
+                    else
+                    {
+                        ret += 0;
+                    }
                 }
-                else if (state == FieldHelper.GameStates.Verloren)
-                {
-                    wertung = -1;
-                }
-                return wertung;
+                return ret;
+            }
+
+            private char PlayerChange(char player)
+            {
+                return SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(player)));
             }
 
             public override string ToString()

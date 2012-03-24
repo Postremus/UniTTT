@@ -40,7 +40,8 @@
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
     <Compile Include="Database\DB.cs" />
-    <Compile Include="Fields\FieldPanel.cs" />
+    <Compile Include="Fields\FieldPlaceData.cs" />
+    <Compile Include="Fields\FieldRegion.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
