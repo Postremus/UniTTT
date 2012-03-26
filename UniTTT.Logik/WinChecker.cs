@@ -60,8 +60,11 @@ namespace UniTTT.Logik
             {
                 for (int y = 0; y < field.Height; y++)
                 {
-                    if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Height - 1), y + (field.Height - 1))) == GewinnBedingung)
-                        return true;
+                    if ((x - GewinnBedingung >= 0) && y - GewinnBedingung >= 0)
+                    {
+                        if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Height - 1), y + (field.Height - 1))) == GewinnBedingung)
+                            return true;
+                    }
                 }
             }
             return false;

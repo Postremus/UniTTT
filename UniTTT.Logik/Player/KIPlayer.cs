@@ -4,6 +4,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace UniTTT.Logik.Player
 {
@@ -37,6 +40,8 @@ namespace UniTTT.Logik.Player
                 KI = new KIRandom(width, height);
             else if (kiZahl == 6)
                 KI = new KIBot(width, height, kispieler);
+            else if (kiZahl == 7)
+                KI = new KIMiniMaxAlphaBeta(width, height, kispieler);
         }
 
         public KIPlayer(string ki, int width, int height, char kispieler, IOutputDarsteller odarsteller) : base(kispieler)
@@ -501,31 +506,32 @@ namespace UniTTT.Logik.Player
                 int ret = 0;
                 foreach (Fields.FieldRegion region in fPanel)
                 {
-                    int xCount = 0;
-                    int oCount = 0;
+                    int humanCount = 0;
+                    int kiCount = 0;
                     foreach (Fields.FieldPlaceData placeData in region)
                     {
-                        if (placeData.FieldValue == 'X')
+                        if (placeData.FieldValue == HumanPlayer)
                         {
-                            xCount++;
+                            humanCount++;
                         }
-                        else if (placeData.FieldValue == 'O')
+                        else if (placeData.FieldValue == KIPlayer)
                         {
-                            xCount++;
+                            kiCount++;
                         }
                     }
+                    
                     int multi = 1;
-                    if (xCount == 0)
+                    if (humanCount == 0)
                     {
                         if (player == HumanPlayer)
                             multi = 3;
-                        ret += -(int)Math.Pow(10, oCount) * multi;
+                        ret += -(int)Math.Pow(10, kiCount) * multi;
                     }
-                    else if (oCount == 0)
+                    else if (kiCount == 0)
                     {
                         if (player == KIPlayer)
                             multi = 3;
-                        ret += (int)Math.Pow(10, xCount) * multi;
+                        ret += (int)Math.Pow(10, humanCount) * multi;
                     }
                     else
                     {
@@ -533,11 +539,6 @@ namespace UniTTT.Logik.Player
                     }
                 }
                 return ret;
-            }
-
-            private char PlayerChange(char player)
-            {
-                return SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(player)));
             }
 
             public override string ToString()
@@ -666,6 +667,129 @@ namespace UniTTT.Logik.Player
             public override string ToString()
             {
                 return "Random";
+            }
+        }
+
+        class KIMiniMaxAlphaBeta : KI.AbstractKI, KI.IPlayableKI
+        {
+            public KIMiniMaxAlphaBeta(int width, int height, char spieler) : base(spieler, width, height) { }
+
+            private int bestZug;
+
+            public int Play(Fields.IField field, char spieler)
+            {
+                Max(field.Length - 1, int.MaxValue - 1, int.MinValue + 1, field);
+                return bestZug;
+            }
+
+            private int Max(int depth, int alpha, int beta, Fields.IField field)
+            {
+                if (depth == 0)
+                {
+                    return Valuation(field, HumanPlayer);
+                }
+                int localAlpha = int.MinValue + 1;
+                for (int i = 0; i < field.Length; i++)
+                {
+                    if (field.IsFieldEmpty(i))
+                    {
+                        field.SetField(i, HumanPlayer);
+                        int wert = Mini(depth - 1, alpha, beta, field);
+                        field.SetField(i, ' ');
+                        if (wert > localAlpha)
+                        {
+                            if (wert > beta)
+                            {
+                                bestZug = i;
+                                return wert;
+                            }
+                            localAlpha = wert;
+                            if (wert > alpha)
+                            {
+                                alpha = wert;
+                            }
+                        }
+                    }
+                }
+                return localAlpha;
+            }
+
+            private int Mini(int depth, int alpha, int beta, Fields.IField field)
+            {
+                if (depth == 0)
+                {
+                    return Valuation(field, KIPlayer);
+                }
+                int localBeta = int.MaxValue - 1;
+                for (int i = 0; i < field.Length; i++)
+                {
+                    if (field.IsFieldEmpty(i))
+                    {
+                        field.SetField(i, KIPlayer);
+                        int wert = Max(depth, alpha, beta, field);
+                        field.SetField(i, ' ');
+                        if (wert < localBeta)
+                        {
+                            if (wert < alpha)
+                            {
+                                bestZug = i;
+                                return wert;
+                            }
+                            localBeta = wert;
+                            if (wert < beta)
+                            {
+                                beta = wert;
+                            }
+                        }
+                    }
+                }
+                return localBeta;
+            }
+
+            private int Valuation(Fields.IField field, char player)
+            {
+                List<Fields.FieldRegion> fPanel = field.Panels;
+                int ret = 0;
+                foreach (Fields.FieldRegion region in fPanel)
+                {
+                    int humanCount = 0;
+                    int kiCount = 0;
+                    foreach (Fields.FieldPlaceData placeData in region)
+                    {
+                        if (placeData.FieldValue == HumanPlayer)
+                        {
+                            humanCount++;
+                        }
+                        else if (placeData.FieldValue == KIPlayer)
+                        {
+                            kiCount++;
+                        }
+                    }
+                    
+                    int multi = 1;
+                    if (humanCount == 0)
+                    {
+                        if (player == HumanPlayer)
+                            multi = 3;
+                        ret += -(int)Math.Pow(10, kiCount) * multi;
+                    }
+                    else if (kiCount == 0)
+                    {
+                        if (player == KIPlayer)
+                            multi = 3;
+                        ret += (int)Math.Pow(10, humanCount) * multi;
+                    }
+                    else
+                    {
+                        ret += 0;
+                    }
+                }
+                return ret;
+            }
+
+            public override string ToString()
+            {
+                return "MiniMax";
             }
         }
     }

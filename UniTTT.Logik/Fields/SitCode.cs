@@ -159,11 +159,11 @@ namespace UniTTT.Logik.Fields
             }
             else
             {
-                int y = Height;
+                int y = 0;
                 for (int x = Width; x > 0; x--)
                 {
                     ret.Add(x * y - 1, GetField(new Vector2i(x - 1, y - 1)));
-                    y--;
+                    y++;
                 }
             }
             return ret;

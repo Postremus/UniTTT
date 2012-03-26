@@ -31,7 +31,7 @@ namespace UniTTT.Logik
         }
 
         public void Logik(int zug)
-        {
+        { 
             if (!HastStarted)
             {
                 HastStarted = true;

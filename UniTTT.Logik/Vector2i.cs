@@ -141,7 +141,7 @@ namespace UniTTT.Logik
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (((x) * width) + (y + 1) - 1 == zug)
+                    if (x * width + y == zug)
                         vect = new Vector2i(x, y);
                 }
             }
@@ -150,7 +150,7 @@ namespace UniTTT.Logik
 
         public static int VectorToIndex(Vector2i vect, int width)
         {
-            return ((vect.X) * width) + (vect.Y + 1) - 1;
+            return vect.X * width + vect.Y;
         }
 
         public static Vector2i StringToVector(string value, bool containsCoordinate)

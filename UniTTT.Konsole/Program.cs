@@ -14,6 +14,7 @@ namespace UniTTT.Konsole
         //ki:4 = Like
         //ki:5 = Random
         //ki:6 = Bot
+        //ki:7 = KIMiniMax AlphaBeta
         static void Main(string[] args)
         {
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
