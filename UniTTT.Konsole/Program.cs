@@ -9,12 +9,10 @@ namespace UniTTT.Konsole
     class Program
     {
         //ki:1 = Reinforcement
-        //ki:2 = Recursion
-        //ki:3 = Minimax
-        //ki:4 = Like
-        //ki:5 = Random
-        //ki:6 = Bot
-        //ki:7 = KIMiniMax AlphaBeta
+        //ki:2 = Random
+        //ki:3 = Bot
+        //ki:4 = KIMiniMax AlphaBeta
+        //ki:5 = Minimax
         static void Main(string[] args)
         {
             Logik.Parameters parameters = Logik.Parameters.InterpretCommandLine(args);
@@ -37,13 +35,13 @@ namespace UniTTT.Konsole
             Logik.Player.AbstractPlayer kiplayer = null;
             if (parameters.GetInt("ki") > 0)
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), width, height, 'O', new OutputDarsteller());
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), width, height, 'O');
             }
             else if (parameters.GetString("ki") != null)
             {
                 if (Enum.IsDefined(typeof(Logik.Player.KIPlayer.KISystems), parameters.GetString("ki")))
                 {
-                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, 'O', new OutputDarsteller());
+                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, 'O');
                 }
             }
             Logik.Fields.IField field;

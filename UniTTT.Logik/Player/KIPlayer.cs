@@ -4,15 +4,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Diagnostics;
+using System.Reflection;
 
 namespace UniTTT.Logik.Player
 {
     public class KIPlayer : AbstractPlayer
     {
         public KI.AbstractKI KI { get; private set; }
+        private Type[] KITypes;
 
         public enum KISystems
         {
@@ -24,47 +23,26 @@ namespace UniTTT.Logik.Player
             Bot,
         }
 
-        public KIPlayer(int kiZahl, int width, int height, char kispieler, IOutputDarsteller odarsteller) : base(kispieler)
+        public KIPlayer(int kiZahl, int width, int height, char kispieler) : base(kispieler)
         {
-            if (odarsteller == null)
-                throw new NullReferenceException();
-            if (kiZahl == 1)
-                KI = new KIReinforcement(odarsteller);
-            else if (kiZahl == 2)
-                KI = new KIRecursion(kispieler, width, height);
-            else if (kiZahl == 3)
-                KI = new KIMiniMax(width, height, kispieler);
-            else if (kiZahl == 4)
-                KI = new KILike(width, height);
-            else if (kiZahl == 5)
-                KI = new KIRandom(width, height);
-            else if (kiZahl == 6)
-                KI = new KIBot(width, height, kispieler);
-            else if (kiZahl == 7)
-                KI = new KIMiniMaxAlphaBeta(width, height, kispieler);
+            Initialize(kiZahl, width, height, kispieler);
         }
 
-        public KIPlayer(string ki, int width, int height, char kispieler, IOutputDarsteller odarsteller) : base(kispieler)
+        public KIPlayer(string ki, int width, int height, char kispieler) : base(kispieler)
         {
-            if (odarsteller == null)
-                throw new NullReferenceException();
             if (Enum.IsDefined(typeof(KISystems), ki))
             {
-                int kiZahl = (int)Enum.Parse(typeof(KISystems), ki);
-
-                if (kiZahl == 1)
-                    KI = new KIReinforcement(odarsteller);
-                else if (kiZahl == 2)
-                    KI = new KIRecursion(kispieler, width, height);
-                else if (kiZahl == 3)
-                    KI = new KIMiniMax(width, height, kispieler);
-                else if (kiZahl == 4)
-                    KI = new KILike(width, height);
-                else if (kiZahl == 5)
-                    KI = new KIRandom(width, height);
-                else if (kiZahl == 6)
-                    KI = new KIBot(width, height, kispieler);
+                Type tmp = KITypes.GetEnumerator().GetType();
+                int kiZahl = (int)Enum.Parse(tmp, ki);
+                Initialize(kiZahl, width, height, kispieler);
             }
+        }
+
+        private void Initialize(int kiZahl, int width, int height, char kispieler)
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+            KITypes = asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))).ToArray();
+            KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl - 1], new object[] { width, height, kispieler });
         }
 
         public override Vector2i Play(Fields.IField field)
@@ -92,15 +70,13 @@ namespace UniTTT.Logik.Player
 
         class KIReinforcement : KI.AbstractKI, KI.IPlayableKI, KI.ILearnableKI
         {
-            public KIReinforcement(IOutputDarsteller odar): base('O', 3, 3)
+            public KIReinforcement(int width, int height, char kispieler) : base(kispieler, width, height)
             {
                 writerreader = new WriterReader("KI_Reinforcement");
-                ODarsteller = odar;
             }
 
             #region Fields
             private WriterReader writerreader;
-            private IOutputDarsteller ODarsteller;
             #endregion
 
             private int Rundefrage()
@@ -108,12 +84,12 @@ namespace UniTTT.Logik.Player
                 int ret = new int();
                 do
                 {
-                    ODarsteller.ShowMessage("Wie viele Runden sollen durchlaufen werden? (als Zahl)");
+                    Console.WriteLine("Wie viele Runden sollen durchlaufen werden? (als Zahl)");
                     if (int.TryParse(Console.ReadLine(), out ret))
                     {
                         if (ret < 0)
                         {
-                            ODarsteller.ShowMessage("Zahl zu klein.");
+                            Console.WriteLine("Zahl zu klein.");
                         }
                         else
                         {
@@ -122,11 +98,11 @@ namespace UniTTT.Logik.Player
                     }
                     else
                     {
-                        ODarsteller.ShowMessage("Irgendetwas wurde falsch eingegeben.");
-                        ODarsteller.ShowMessage("Eventuell eine Lerrzeichen, oder ein anderes nicht Zahl Zeichen");
-                        ODarsteller.ShowMessage("Taste drücken für einen neuen Versuch");
-                        ODarsteller.Wait();
-                        ODarsteller.Clear();
+                        Console.WriteLine("Irgendetwas wurde falsch eingegeben.");
+                        Console.WriteLine("Eventuell eine Lerrzeichen, oder ein anderes nicht Zahl Zeichen");
+                        Console.WriteLine("Taste drücken für einen neuen Versuch");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                 } while (true);
             }
@@ -144,7 +120,7 @@ namespace UniTTT.Logik.Player
                 int[] wertungen = new int[(int)runden];
                 bool gewonnen = false;
                 #endregion
-                ODarsteller.ShowMessage("Berechne Daten..");
+                Console.WriteLine("Berechne Daten..");
                 for (int currround = 0; currround < runden; currround++)
                 {
                     for (int i = 0; i < 9; i++)
@@ -176,14 +152,14 @@ namespace UniTTT.Logik.Player
                     }
                     if (currround % 100 == 0)
                     {
-                        ODarsteller.ShowMessage("Spielrunde Nr." + currround);
+                        Console.WriteLine("Spielrunde Nr." + currround);
                     }
                 }
-                ODarsteller.ShowMessage("Fertig mit dem Berechnen der Daten.");
-                ODarsteller.ShowMessage("Speichere Daten");
+                Console.WriteLine("Fertig mit dem Berechnen der Daten.");
+                Console.WriteLine("Speichere Daten");
                 writerreader.Write(zuege, sit_codes, wertungen);
-                ODarsteller.ShowMessage("Fertig, Taste drücken zum Beenden");
-                ODarsteller.Wait();
+                Console.WriteLine("Fertig, Taste drücken zum Beenden");
+                Console.ReadLine();
             }
 
             public int Play(Fields.IField field, char spieler)
@@ -251,302 +227,6 @@ namespace UniTTT.Logik.Player
             }
         }
 
-        class KIRecursion : KI.Recursive, KI.IPlayableKI, KI.ILearnableKI
-        {
-            #region Fields
-            private WriterReader writerreader;
-            #endregion
-
-            public KIRecursion(char kispieler, int width, int height) : base(width, height) 
-            {
-                writerreader = new WriterReader("KI_Recursion");
-            }
-
-            public void Learn()
-            {
-                Console.WriteLine("Berechne Daten - Teil 1..");
-                Recursion(Width * Height, SitCodeHelper.SetEmpty(Width * Height), '2');
-                Console.WriteLine("Berechne Daten - Teil 2..");
-                Recursion(Width * Height, SitCodeHelper.SetEmpty(Width * Height), '3');
-                Console.WriteLine("Speicher Daten..");
-                writerreader.Write(base.SitCodes, base.Wertungen);
-                Console.WriteLine("Fertig, Taste drücken zum beenden");
-                Console.ReadLine();
-            }
-
-            // TODO: Überarbeiten
-            public int Play(Fields.IField field, char spieler)
-            {
-                int[] Felder = new int[Length];
-                string mom_sit_code = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
-                Felder = WertungenBerechnen(mom_sit_code, spieler);
-
-                return SelectBestZug(Felder, mom_sit_code);
-            }
-
-            private int[] WertungenBerechnen(string mom_sit_code, char spieler)
-            {
-                int[,] wertungen = new int[Length, 3];
-                int[] Felder = new int[Length];
-                string mom_sit_code_edited = mom_sit_code;
-
-                for (int i = 0; i < Length; i++)
-                {
-                    if (mom_sit_code[i] == '1')
-                    {
-                        mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
-                        wertungen[i, 0] = writerreader.Read(Database.DB.ToVBLike(mom_sit_code_edited), '1'); // Unentschieden
-                        wertungen[i, 1] = writerreader.Read(Database.DB.ToVBLike(mom_sit_code_edited), SitCodeHelper.PlayertoSitCode(spieler)); // Spieler Gewonnen
-                        wertungen[i, 2] = writerreader.Read(Database.DB.ToVBLike(mom_sit_code_edited), SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(spieler))); // Gegner
-
-                        Felder[i] = (wertungen[i, 0] + wertungen[i, 1]) - (wertungen[i, 2] * 5);
-                    }
-                }
-                return Felder;
-            }
-
-            public override string ToString()
-            {
-                return "Recursion";
-            }
-
-            public class WriterReader
-            {
-                public WriterReader(string fname)
-                {
-                    FileName = fname;
-                }
-
-                public string FileName { get; private set; }
-
-                public void Write(List<string> Sit_Code, List<int> Wertung)
-                {
-                    List<string> towrite = new List<string>();
-                    string str = null;
-                    int count = 0;
-                    BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName), Encoding.UTF8);
-                    for (int x = 0; x < Wertung.Count; x++, count++)
-                    {
-                        for (; (count < Sit_Code.Count) && (Sit_Code[count] != "END"); count++)
-                        {
-                            str = string.Format(CultureInfo.CurrentCulture, "{0} {1}", Sit_Code[count], Wertung[x]);
-                            if (!towrite.Contains(str))
-                            {
-                                towrite.Add(str);
-                                binwriter.Write(str);
-                                binwriter.Write(Environment.NewLine);
-                            }
-                        }
-                    }
-                    binwriter.Flush();
-                    binwriter.Close();
-                }
-
-                public int Read(string sitcode, char bedingung)
-                {
-                    string[] lines = File.ReadAllLines(FileName, Encoding.UTF8);
-                    int ret = 0;
-                    List<string> substrs;
-
-                    foreach (string item in lines.Where<string>(f => f.Contains(bedingung)))
-                    {
-                        substrs = item.GetSubstrs();
-                        if (Database.DB.Like(sitcode, substrs[0]))
-                        {
-                            ret++;
-                        }
-                    }
-                    return ret;
-                }
-            }
-        }
-
-        class KILike : KI.Recursive, KI.IPlayableKI
-        {
-
-            public KILike(int width, int height)
-                : base(width, height)
-            {
-                Recursion(Length, SitCodeHelper.SetEmpty(Length), '3');
-                Recursion(Length, SitCodeHelper.SetEmpty(Length), '2');
-            }
-
-            // TODO: Überarbeiten
-            public int Play(Fields.IField field, char spieler)
-            {
-                string mom_sit_code = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field)); 
-
-                int[] Felder = WertungenBerechnen(mom_sit_code, spieler);
-                return Felder.GetHighestIndex();
-            }
-
-            private int WertungenZugZuordnen(List<int> list, int bedingung)
-            {
-                int rt_int = 0, count = 0;
-                for (int i = 0; i < Wertungen.Count; i++, count++)
-                {
-                    for (; count < (SitCodes.Count) && (SitCodes[count] != "END"); count++)
-                    {
-                        if (count == list[0])
-                        {
-                            list.RemoveAt(0);
-                            if (Wertungen[i] == bedingung)
-                    
-                                rt_int++;
-                            else
-                                break;
-                            if (list.Count == 0)
-                            {
-                                i = Wertungen.Count;
-                                break;
-                            }
-                        }
-                    }
-                }
-                return rt_int;
-            }
-
-            private int[] WertungenBerechnen(string mom_sit_code, char spieler)
-            {
-                int[] wertungen = new int[3];
-                int[] Felder = new int[Length];
-                string mom_sit_code_edited = mom_sit_code;
-
-                for (int i = 0; i < Length; i++)
-                {
-                    if (mom_sit_code[i] == '1')
-                    {
-                        mom_sit_code_edited = mom_sit_code.Remove(i, 1).Insert(i, SitCodeHelper.PlayertoSitCode(spieler).ToString());
-                        wertungen[0] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), '1' - 48); // unentschieden
-                        wertungen[1] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayertoSitCode(spieler) - 48); // Spieler Gewonnen
-                        wertungen[2] = WertungenZugZuordnen(Database.DB.Like(SitCodes, Database.DB.ToVBLike(mom_sit_code_edited)), SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(spieler)) - 48); // Gegner
-
-                        Felder[i] = (wertungen[0] + wertungen[1]) - (wertungen[2] * 5);
-                    }
-                }
-                return Felder;
-            }
-
-            public override string ToString()
-            {
-                return "Like";
-            }
-        }
-
-        class KIMiniMax : KI.AbstractKI, KI.IPlayableKI
-        {
-            public KIMiniMax(int width, int height, char spieler) : base(spieler, width, height) { }
-
-            private int bestZug;
-
-            public int Play(Fields.IField field, char spieler)
-            {
-                Max(field.Length - 1, field);
-                return bestZug;
-            }
-
-            private int Max(int depth, Fields.IField field)
-            {
-                int zugValue = 0;
-                int discovered = int.MinValue + 1;
-                for (int i = 0; i < field.Length; i++)
-                {
-                    if (field.IsFieldEmpty(i))
-                    {
-                        field.SetField(i, HumanPlayer);
-                        if (depth <= 1)
-                        {
-                            zugValue = Valuation(field, HumanPlayer);
-                        }
-                        else
-                        {
-                            zugValue = Mini(depth - 1, field);
-                        }
-                        field.SetField(i, ' ');
-                        if (zugValue > discovered)
-                        {
-                            discovered = zugValue;
-                        }
-                    }
-                }
-                return discovered;
-            }
-
-            private int Mini(int depth, Fields.IField field)
-            {
-                int zugValue = 0;
-                int discovered = int.MaxValue -1;
-                for (int i = 0; i < field.Length; i++)
-                {
-                    if (field.IsFieldEmpty(i))
-                    {
-                        field.SetField(i, KIPlayer);
-                        if (depth <= 1)
-                        {
-                            zugValue = Valuation(field, KIPlayer);
-                        }
-                        else
-                        {
-                            zugValue = Max(depth - 1, field);
-                        }
-                        field.SetField(i, ' ');
-                        if (zugValue < discovered)
-                        {
-                            discovered = zugValue;
-                            bestZug = i;
-                        }
-                    }
-                }
-                return discovered;
-            }
-
-            private int Valuation(Fields.IField field, char player)
-            {
-                List<Fields.FieldRegion> fPanel = field.Panels;
-                int ret = 0;
-                foreach (Fields.FieldRegion region in fPanel)
-                {
-                    int humanCount = 0;
-                    int kiCount = 0;
-                    foreach (Fields.FieldPlaceData placeData in region)
-                    {
-                        if (placeData.FieldValue == HumanPlayer)
-                        {
-                            humanCount++;
-                        }
-                        else if (placeData.FieldValue == KIPlayer)
-                        {
-                            kiCount++;
-                        }
-                    }
-                    
-                    int multi = 1;
-                    if (humanCount == 0)
-                    {
-                        if (player == HumanPlayer)
-                            multi = 3;
-                        ret += -(int)Math.Pow(10, kiCount) * multi;
-                    }
-                    else if (kiCount == 0)
-                    {
-                        if (player == KIPlayer)
-                            multi = 3;
-                        ret += (int)Math.Pow(10, humanCount) * multi;
-                    }
-                    else
-                    {
-                        ret += 0;
-                    }
-                }
-                return ret;
-            }
-
-            public override string ToString()
-            {
-                return "MiniMax";
-            }
-        }
-
         class KIBot : KI.AbstractKI, KI.IPlayableKI
         {
             private Fields.IField field;
@@ -589,13 +269,12 @@ namespace UniTTT.Logik.Player
             private int TestForHumanBlock()
             {
                 int block_zug = -1;
-                char humanplayer = SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(KIPlayer));
                 for (int playerpos = 0; (playerpos < field.Length) && (block_zug == -1); playerpos++)
                 {
                     if (field.IsFieldEmpty(playerpos))
                     {
-                        field.SetField(playerpos, humanplayer);
-                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(humanplayer), field)) && (block_zug == -1))
+                        field.SetField(playerpos, HumanPlayer);
+                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(HumanPlayer), field)) && (block_zug == -1))
                             block_zug = playerpos;
                         field.SetField(playerpos, ' ');
                     }
@@ -656,7 +335,7 @@ namespace UniTTT.Logik.Player
 
         class KIRandom : KI.AbstractKI, KI.IPlayableKI
         {
-            public KIRandom(int width, int height) : base('O', width, height) { }
+            public KIRandom(int width, int height, char spieler) : base(spieler, width, height) { }
 
             public int Play(Fields.IField field, char spieler)
             {
@@ -667,6 +346,120 @@ namespace UniTTT.Logik.Player
             public override string ToString()
             {
                 return "Random";
+            }
+        }
+
+        class KIMiniMax : KI.AbstractKI, KI.IPlayableKI
+        {
+            public KIMiniMax(int width, int height, char spieler) : base(spieler, width, height) { }
+
+            private int bestZug;
+
+            public int Play(Fields.IField field, char spieler)
+            {
+                Max(field.Length - 1, field);
+                return bestZug;
+            }
+
+            private int Max(int depth, Fields.IField field)
+            {
+                int zugValue = 0;
+                int discovered = int.MinValue + 1;
+                for (int i = 0; i < field.Length; i++)
+                {
+                    if (field.IsFieldEmpty(i))
+                    {
+                        field.SetField(i, HumanPlayer);
+                        if (depth <= 1)
+                        {
+                            zugValue = Valuation(field, HumanPlayer);
+                        }
+                        else
+                        {
+                            zugValue = Mini(depth - 1, field);
+                        }
+                        field.SetField(i, ' ');
+                        if (zugValue > discovered)
+                        {
+                            discovered = zugValue;
+                        }
+                    }
+                }
+                return discovered;
+            }
+
+            private int Mini(int depth, Fields.IField field)
+            {
+                int zugValue = 0;
+                int discovered = int.MaxValue - 1;
+                for (int i = 0; i < field.Length; i++)
+                {
+                    if (field.IsFieldEmpty(i))
+                    {
+                        field.SetField(i, KIPlayer);
+                        if (depth <= 1)
+                        {
+                            zugValue = Valuation(field, KIPlayer);
+                        }
+                        else
+                        {
+                            zugValue = Max(depth - 1, field);
+                        }
+                        field.SetField(i, ' ');
+                        if (zugValue < discovered)
+                        {
+                            discovered = zugValue;
+                            bestZug = i;
+                        }
+                    }
+                }
+                return discovered;
+            }
+
+            private int Valuation(Fields.IField field, char player)
+            {
+                List<Fields.FieldRegion> fPanel = field.Panels;
+                int ret = 0;
+                foreach (Fields.FieldRegion region in fPanel)
+                {
+                    int humanCount = 0;
+                    int kiCount = 0;
+                    foreach (Fields.FieldPlaceData placeData in region)
+                    {
+                        if (placeData.FieldValue == HumanPlayer)
+                        {
+                            humanCount++;
+                        }
+                        else if (placeData.FieldValue == KIPlayer)
+                        {
+                            kiCount++;
+                        }
+                    }
+
+                    int multi = 1;
+                    if (humanCount == 0)
+                    {
+                        if (player == HumanPlayer)
+                            multi = 3;
+                        ret += -(int)Math.Pow(10, kiCount) * multi;
+                    }
+                    else if (kiCount == 0)
+                    {
+                        if (player == KIPlayer)
+                            multi = 3;
+                        ret += (int)Math.Pow(10, humanCount) * multi;
+                    }
+                    else
+                    {
+                        ret += 0;
+                    }
+                }
+                return ret;
+            }
+
+            public override string ToString()
+            {
+                return "MiniMax";
             }
         }
 

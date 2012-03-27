@@ -26,12 +26,11 @@ Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benöt
     
 2) Die KI Systeme
 
-	/ki:1			Reinforcement
-	/ki:2			Recursion
-	/ki:3			MiniMax
-	/ki:4			Like
-	/ki:5			Random
-	/ki:6			Bot
+	/ki:1			KIReinforcement         http://de.wikipedia.org/wiki/Best%C3%A4rkendes_Lernen
+	/ki:2			KIRandom                Eine Zufallsbasierte KI.
+    /ki:3           KIBot                   Eine gescriptete KI. Sie lernt nicht, sie weiß muss alles vorher wissen-
+    /ki:4           KIMiniMax               Eine auf den MiniMax Algorythmus basierende KI.
+    /ki:5           KIMiniMaxAlphaBeta      Eine auf den MiniMax Algorythmus mit Alpha-Beta Pruning basierende KI. Sie ist deutlich performenter als die KIMiniMax.
 
 3) Die Speichersysteme
 
