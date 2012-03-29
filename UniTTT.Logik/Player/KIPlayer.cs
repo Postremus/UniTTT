@@ -441,18 +441,30 @@ namespace UniTTT.Logik.Player
                     {
                         if (player == HumanPlayer)
                             multi = 3;
-                        ret += -(int)Math.Pow(10, kiCount) * multi;
+                        ret += -Pow(10, kiCount) * multi;
                     }
                     else if (kiCount == 0)
                     {
                         if (player == KIPlayer)
                             multi = 3;
-                        ret += (int)Math.Pow(10, humanCount) * multi;
+                        ret += Pow(10, humanCount) * multi;
                     }
                     else
                     {
                         ret += 0;
                     }
+                }
+                return ret;
+            }
+
+            private int Pow(int x, int y)
+            {
+                if (y == 0)
+                    return 0;
+                int ret = 1;
+                for (int i = 0; i < y; i++)
+                {
+                    ret *= x;
                 }
                 return ret;
             }
@@ -564,18 +576,30 @@ namespace UniTTT.Logik.Player
                     {
                         if (player == HumanPlayer)
                             multi = 3;
-                        ret += -(int)Math.Pow(10, kiCount) * multi;
+                        ret += -Pow(10, kiCount) * multi;
                     }
                     else if (kiCount == 0)
                     {
                         if (player == KIPlayer)
                             multi = 3;
-                        ret += (int)Math.Pow(10, humanCount) * multi;
+                        ret += Pow(10, humanCount) * multi;
                     }
                     else
                     {
                         ret += 0;
                     }
+                }
+                return ret;
+            }
+
+            private int Pow(int x, int y)
+            {
+                if (y == 0)
+                    return 0;
+                int ret = 1;
+                for (int i = 0; i < y; i++)
+                {
+                    ret *= x;
                 }
                 return ret;
             }
