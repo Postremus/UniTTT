@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.CodeDom.Compiler;
 
 namespace UniTTT.Logik.Player
 {
@@ -42,7 +43,33 @@ namespace UniTTT.Logik.Player
         {
             Assembly asm = Assembly.GetExecutingAssembly();
             KITypes = asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))).ToArray();
+            CompileScripts(Directory.GetFiles("/scripts/ki"));
             KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl - 1], new object[] { width, height, kispieler });
+        }
+
+        private void CompileScripts(string[] scripts)
+        {
+            CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
+            CompilerParameters parameter = new CompilerParameters();
+            parameter.ReferencedAssemblies.Add("UniTTT.Logik.dll");
+            parameter.CompilerOptions = "/t:library";
+            parameter.GenerateInMemory = true;
+
+            Type[] types = new Type[scripts.Length];
+
+            for (int i = 0; i < scripts.Length; i++)
+            {
+                if (File.Exists(scripts[i]))
+                {
+                    CompilerResults result = provider.CompileAssemblyFromFile(parameter, scripts[i]);
+                    if (result.CompiledAssembly.GetTypes().Count(t => t.IsSubclassOf(typeof(KI.AbstractKI))) == 1)
+                    {
+                        types[i] = result.CompiledAssembly.GetTypes()[0];
+                    }
+                }
+            }
+            Array.Resize(ref KITypes, KITypes.Length + types.Length);
+            Array.Copy(types, KITypes, types.Length);
         }
 
         public override Vector2i Play(Fields.IField field)
