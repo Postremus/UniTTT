@@ -15,7 +15,9 @@ namespace UniTTT.ScreenSaver
         [STAThread]
         static void Main(string[] args)
         {
-            args = Environment.GetCommandLineArgs();
+            //args = new string[2];
+            //args[1] = "/c";
+            //args = Environment.GetCommandLineArgs();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             if (args.Length > 0)
@@ -43,6 +45,6 @@ namespace UniTTT.ScreenSaver
             {
                 Application.Run(new ScreenSaverForm(Color.Black));
             }
-        }
+        } 
     }
 }

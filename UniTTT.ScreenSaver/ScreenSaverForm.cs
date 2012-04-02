@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using UniTTT.Logik;
 using System.Diagnostics;
 using System.Threading;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace UniTTT.ScreenSaver
 {
@@ -21,6 +23,7 @@ namespace UniTTT.ScreenSaver
         private Random rnd;
         private int screenWidth;
         private int screenHeight;
+        private Config c;
 
         public ScreenSaverForm(Color backColor)
         {
@@ -41,7 +44,10 @@ namespace UniTTT.ScreenSaver
             this.Bounds = Screen.PrimaryScreen.Bounds;
             Cursor.Hide();
             TopMost = true;
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            this.TransparencyKey = SystemColors.Control;
             BackColor = backColor;
+            LoadConfig();
 
             ((BrettDarsteller)game.BDarsteller).DrawEvent += Draw;
             loopThread.Start();
@@ -60,7 +66,7 @@ namespace UniTTT.ScreenSaver
             bool locupdate = false;
             while (true)
             {
-                if (elapsed.Seconds != st.Elapsed.Seconds && st.Elapsed.Milliseconds % 500 == 0)
+                if (elapsed.Seconds != st.Elapsed.Seconds && st.Elapsed.Seconds % c.PlayVelocity / 2 == 0)
                 {
                     game.Logik();
                     if (game.HasEnd())
@@ -100,19 +106,19 @@ namespace UniTTT.ScreenSaver
             Point currLocation = pictureBox1.Location;
             if (pictureBox1.Location.X < moveTo.X)
             {
-                currLocation.X++;
+                currLocation.X += c.MoveVelocity;
             }
             else if (pictureBox1.Location.X > moveTo.Y)
             {
-                currLocation.X--;
+                currLocation.X -= c.MoveVelocity;
             }
             if (pictureBox1.Location.Y < moveTo.Y)
             {
-                currLocation.Y++;
+                currLocation.Y += c.MoveVelocity;
             }
             else if (pictureBox1.Location.Y > moveTo.Y)
             {
-                currLocation.Y--;
+                currLocation.Y -= c.MoveVelocity;
             }
             pictureBox1.Location = currLocation;
         }
@@ -132,6 +138,23 @@ namespace UniTTT.ScreenSaver
         private void DoWakeUp(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void LoadConfig()
+        {
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Config));
+                FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Open);
+                c = (Config)serializer.Deserialize(stream);
+                stream.Close();
+            }
+            catch
+            {
+                c = new Config();
+                c.PlayVelocity = 1;
+                c.MoveVelocity = 1;
+            }
         }
     }
 }
