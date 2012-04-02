@@ -38,6 +38,10 @@
   <PropertyGroup>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
@@ -75,6 +79,9 @@
     <Compile Include="Fields\SitCode.cs" />
     <Compile Include="SitCodeHelper.cs" />
     <Compile Include="Vector2i.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UniTTT.Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
