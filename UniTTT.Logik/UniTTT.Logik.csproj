@@ -32,26 +32,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <DelaySign>false</DelaySign>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
-    <Compile Include="Fields\FieldPlaceData.cs" />
-    <Compile Include="Fields\FieldRegion.cs" />
+    <Compile Include="Database\DB.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="KI\IKI.cs" />
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
     <Compile Include="Logger.cs" />
@@ -62,7 +53,6 @@
     <Compile Include="Network\IRCClient.cs" />
     <Compile Include="Network\TCPClient.cs" />
     <Compile Include="Network\TCPServer.cs" />
-    <Compile Include="ParameterInterpreter.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="Fields\IField.cs" />
@@ -70,6 +60,7 @@
     <Compile Include="IOutputDarsteller.cs" />
     <Compile Include="KI\AbstractKI.cs" />
     <Compile Include="NormalGame.cs" />
+    <Compile Include="KI\Recursive.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Player\AbstractPlayer.cs" />
     <Compile Include="Player\HumanPlayer.cs" />
@@ -78,9 +69,6 @@
     <Compile Include="Fields\SitCode.cs" />
     <Compile Include="SitCodeHelper.cs" />
     <Compile Include="Vector2i.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="UniTTT.Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

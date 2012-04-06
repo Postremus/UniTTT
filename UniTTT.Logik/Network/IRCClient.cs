@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace UniTTT.Logik.Network
 {
-    public class IRCClient : TCPClient
+    public class IRCClient : Network
     {
         private string nick;
         private string user;
@@ -21,25 +21,34 @@ namespace UniTTT.Logik.Network
         public int PeopleCount { get { return _peopleCount; } set { _peopleCount = value; } }
         public List<string> People { get { return _people; } set { _people = value; } }
 
-        public IRCClient(string server, int port, string channel, string nick) : base(server, port, null, null, false)
+        public IRCClient(string server, int port, string channel, string nick)
         {
 
             this.nick = nick;
             this.user = "UniTTT UniTTT UniTTT UniTTT";
             this.channel = channel;
 
+            Client = new TcpClient(server, port);
+
+            sTream = Client.GetStream();
+            Reader = new StreamReader(sTream);
+            Writer = new StreamWriter(sTream);
+
+            new Thread(Receive).Start();
+
             ConnectToChannel();
             NewMessageReceivedEvent += SetConnectingFrom;
             NewMessageReceivedEvent += Pong;
             NewMessageReceivedEvent += CountPeople;
             NewMessageReceivedEvent += VisiblePeople;
+            NewMessageReceivedEvent += Console.WriteLine;
         }
 
         public void ConnectToChannel()
         {
             SendCommand("USER " + user);
             SendCommand("NICK " + nick);
-            SendCommand("JOIN " + channel);
+            SendCommand("Join " + channel);
         }
 
         public void SendCommand(string message)
