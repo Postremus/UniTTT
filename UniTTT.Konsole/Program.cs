@@ -33,16 +33,30 @@ namespace UniTTT.Konsole
                 l.Start();
             }
 
+            HumanPlayer hPlayer;
+            char kisymb;
+
+            if (parameters.GetString("player") != null)
+            {
+                hPlayer = new HumanPlayer(parameters.GetString("player")[0]);
+                kisymb = parameters.GetString("player")[0] == 'X' ? 'O' : 'X';
+            }
+            else
+            {
+                hPlayer = new HumanPlayer('x');
+                kisymb = 'O';
+            }
+
             Logik.Player.AbstractPlayer kiplayer = null;
             if (parameters.GetInt("ki") > 0)
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), width, height, 'O', new OutputDarsteller());
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), width, height, kisymb, new OutputDarsteller());
             }
             else if (parameters.GetString("ki") != null)
             {
                 if (Enum.IsDefined(typeof(Logik.Player.KIPlayer.KISystems), parameters.GetString("ki")))
                 {
-                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, 'O', new OutputDarsteller());
+                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, kisymb, new OutputDarsteller());
                 }
             }
             Logik.Fields.IField field;
@@ -69,7 +83,7 @@ namespace UniTTT.Konsole
             {
                 if (parameters.GetBool("human"))
                 {
-                    new HumanPlayer('X').Learn();
+                    hPlayer.Learn();
                 }
                 else
                 {
@@ -99,7 +113,7 @@ namespace UniTTT.Konsole
                         client = new Logik.Network.TCPClient(ip, port, parameters.GetString("nick"), parameters.GetString("othernick"), parameters.GetBool("allowholepunching"));
                     }
                 }
-                game = new Games.NetworkGame(width, height, new HumanPlayer(parameters.GetString("player")[0]), field, ip, port, client);
+                game = new Games.NetworkGame(width, height, hPlayer, field, ip, port, client);
                 game.Run();
             }
             else
@@ -109,16 +123,16 @@ namespace UniTTT.Konsole
                 {
                     if (kiplayer != null)
                     {
-                        game = new Games.Game(width, height, new HumanPlayer('X'), kiplayer, field);
+                        game = new Games.Game(width, height, hPlayer, kiplayer, field);
                     }
                     else
                     {
-                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), field);
+                        game = new Games.Game(width, height, hPlayer, new HumanPlayer('O'), field);
                     }
                 }
                 else
                 {
-                    game = new Games.Game(3, 3, kiplayer, kiplayer, field);
+                    game = new Games.Game(width, height, kiplayer, kiplayer, field);
                 }
                 game.Start();
             }
