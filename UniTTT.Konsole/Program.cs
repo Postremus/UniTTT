@@ -50,13 +50,13 @@ namespace UniTTT.Konsole
             Logik.Player.AbstractPlayer kiplayer = null;
             if (parameters.GetInt("ki") > 0)
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), width, height, kisymb, new OutputDarsteller());
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), width, height, kisymb);
             }
             else if (parameters.GetString("ki") != null)
             {
                 if (Enum.IsDefined(typeof(Logik.Player.KIPlayer.KISystems), parameters.GetString("ki")))
                 {
-                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, kisymb, new OutputDarsteller());
+                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, kisymb);
                 }
             }
             Logik.Fields.IField field;

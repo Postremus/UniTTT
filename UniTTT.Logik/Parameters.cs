@@ -8,6 +8,7 @@ namespace UniTTT.Logik
     public sealed class Parameters
     {
         private Dictionary<string, object> dic;
+        private List<string> _args;
 
         public int Count
         {
@@ -17,9 +18,18 @@ namespace UniTTT.Logik
             }
         }
 
+        public List<string> Arguments
+        {
+            get
+            {
+                return _args;
+            }
+        }
+
         public Parameters()
         {
             dic = new Dictionary<string, object>();
+            _args = new List<string>();
         }
 
         public void Add(string key, object value)
@@ -83,6 +93,7 @@ namespace UniTTT.Logik
                                 string key = arg.Substring(1);
                                 ret.Add(key, true);
                             }
+                            ret._args.Add(arg);
                         }
                     }
                 }
