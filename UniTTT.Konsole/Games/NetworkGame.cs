@@ -7,7 +7,7 @@ using UniTTT.Logik;
 
 namespace UniTTT.Konsole.Games
 {
-    public class NetworkGame : UniTTT.Logik.NetworkGame
+    public class NetworkGame : UniTTT.Logik.Game.NetworkGame
     {
         public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port, Logik.Network.Network client) : base(p1, new BrettDarsteller(width, height), new OutputDarsteller(), field, ip, port, client) { }
 
