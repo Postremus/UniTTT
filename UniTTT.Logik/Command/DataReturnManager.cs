@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace UniTTT.Logik.Command
+{
+    public class DataReturnManager
+    {
+        private Dictionary<object, object> _data;
+        private bool _dataRecieved;
+        private bool _dataForReceive;
+
+        public bool DataReceived
+        {
+            get
+            {
+                return _dataRecieved;
+            }
+        }
+
+        public bool DataForReceive
+        {
+            get
+            {
+                return _dataForReceive;
+            }
+        }
+
+        public DataReturnManager()
+        {
+            _data = new Dictionary<object, object>();
+            _dataRecieved = false;
+            _dataForReceive = false;
+        }
+
+        public void ReceiveReturnedData(object sender, object data)
+        {
+            if (sender != null && data != null)
+            {
+                _data.Add(sender, data);
+                _dataRecieved = true;
+                _dataForReceive = true;
+            }
+        }
+
+        public object Get(object key)
+        {
+            if (key != null)
+            {
+                _dataRecieved = false;
+                return _data[key];
+            }
+            return null;
+        }
+    }
+}

@@ -38,9 +38,17 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\As.cs" />
     <Compile Include="Command\ComandManager.cs" />
-    <Compile Include="Command\ICommand.cs" />
-    <Compile Include="Command\SaveAs.cs" />
+    <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\DataReturnManager.cs" />
+    <Compile Include="Command\Delegates.cs" />
+    <Compile Include="Command\Delete.cs" />
+    <Compile Include="Command\IDataReturner.cs" />
+    <Compile Include="Command\Load.cs" />
+    <Compile Include="Command\MemoryCommand.cs" />
+    <Compile Include="Command\MemoryWriteCommand.cs" />
+    <Compile Include="Command\Save.cs" />
     <Compile Include="Config\ConfigStream.cs" />
     <Compile Include="Config\ParameterConfig.cs" />
     <Compile Include="ExtensionMethods.cs" />

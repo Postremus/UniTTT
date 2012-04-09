@@ -10,6 +10,8 @@ namespace UniTTT.Logik.Command
     public class ComandManager
     {
         private List<Command> _command;
+        private DataReturnManager _dataManager;
+        private List<object> _dataReturners;
 
         public List<Command> Command
         {
@@ -27,11 +29,14 @@ namespace UniTTT.Logik.Command
         public ComandManager()
         {
             _command = new List<Command>();
+            _dataManager = new DataReturnManager();
             Assembly asm = Assembly.GetExecutingAssembly();
             foreach (Type t in asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(Command)) && t != typeof(MemoryCommand) && t != typeof(MemoryWriteCommand)))
             {
                 _command.Add((Command)Activator.CreateInstance(t));
             }
+
+            DataReturnEvent += _dataManager.ReceiveReturnedData;
         }
 
         public void Execute(string str)
@@ -47,6 +52,7 @@ namespace UniTTT.Logik.Command
                     if (commandValuePaar.GetType() == typeof(IDataReturner))
                     {
                         ((IDataReturner)commandValuePaar.Key).DataReturnEvent += OnDataReturn;
+                        _dataReturners.Add(commandValuePaar.Key);
                     }
 
                     if (update)
@@ -66,6 +72,13 @@ namespace UniTTT.Logik.Command
                     }
                 }
             }
+        }
+
+        public object ExecuteReturner(string str)
+        {
+            Execute(str);
+            while (!_dataManager.DataReceived || _dataManager.DataForReceive) ;
+            return _dataManager.Get(_dataReturners[0]);
         }
 
         public void OnDataReturn(object sender, object data)

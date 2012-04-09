@@ -98,7 +98,14 @@ namespace UniTTT.Logik
                         else
                         {
                             Command.ComandManager CManager = new Command.ComandManager();
-                            CManager.Execute(String.Join(" ", args));
+                            object o = CManager.ExecuteReturner(String.Join(" ", args));
+                            try
+                            {
+                                ret._args = ((Config.ParameterConfig)o).Values;
+                            }
+                            catch
+                            {
+                            }
                             break;
                         }
                     }
