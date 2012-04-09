@@ -97,7 +97,9 @@ namespace UniTTT.Logik
                         }
                         else
                         {
-
+                            Command.ComandManager CManager = new Command.ComandManager();
+                            CManager.Execute(String.Join(" ", args));
+                            break;
                         }
                     }
                 }

@@ -9,9 +9,9 @@ namespace UniTTT.Logik.Command
 {
     public class ComandManager
     {
-        private List<ICommand> _command;
+        private List<Command> _command;
 
-        public List<ICommand> Command
+        public List<Command> Command
         {
             get
             {
@@ -22,23 +22,58 @@ namespace UniTTT.Logik.Command
                 _command = value;
             }
         }
+        public event DataReturnHandler DataReturnEvent;
 
         public ComandManager()
         {
-            _command = new List<ICommand>();
+            _command = new List<Command>();
             Assembly asm = Assembly.GetExecutingAssembly();
-            foreach (Type t in asm.GetTypes().Where(t => t.IsSubclassOf(typeof(ICommand))))
+            foreach (Type t in asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(Command)) && t != typeof(MemoryCommand) && t != typeof(MemoryWriteCommand)))
             {
-                _command.Add((ICommand)Activator.CreateInstance(t));
+                _command.Add((Command)Activator.CreateInstance(t));
             }
         }
 
         public void Execute(string str)
         {
             Dictionary<string, string> keyWords = GetAllKeyWords(str);
-            foreach (var command in GetCommands(keyWords))
+            Dictionary<Command, string> InstancedCommands = GetCommands(keyWords);
+            if (CheckForFailures(InstancedCommands))
             {
-                command.Key.Execute(command.Value);
+                KeyValuePair<Command, string> lastCommand = new KeyValuePair<Logik.Command.Command, string>();
+                bool update = true;
+                foreach (var commandValuePaar in InstancedCommands)
+                {
+                    if (commandValuePaar.GetType() == typeof(IDataReturner))
+                    {
+                        ((IDataReturner)commandValuePaar.Key).DataReturnEvent += OnDataReturn;
+                    }
+
+                    if (update)
+                    {
+                        lastCommand = commandValuePaar;
+                        update = false;
+                    }
+                    if (commandValuePaar.Key.NeededCommands.Count > 0)
+                    {
+                        commandValuePaar.Key.Execute(commandValuePaar.Value, lastCommand);
+                        update = true;
+                    }
+                    else
+                    {
+                        lastCommand.Key.Execute(lastCommand.Value);
+                        lastCommand = commandValuePaar;
+                    }
+                }
+            }
+        }
+
+        public void OnDataReturn(object sender, object data)
+        {
+            DataReturnHandler dataReturnEvent = DataReturnEvent;
+            if (dataReturnEvent != null)
+            {
+                dataReturnEvent(sender, data);
             }
         }
 
@@ -53,26 +88,31 @@ namespace UniTTT.Logik.Command
                 {
                     bool moreCommandsexists = false;
                     int indexOf = 0;
-                    int length;
-                    foreach (string item in split)
+                    int length = 0;
+                    for (int a = i; a < split.Length; a++)
                     {
-                        if (_command.Count(c => c.KeyWords.Contains(item)) > 0)
+                        if (_command.Count(c => c.KeyWords.Contains(split[a])) > 0)
                         {
-                            if (!moreCommandsexists)
+                            if (!moreCommandsexists && split[a] != split[i])
                             {
                                 moreCommandsexists = true;
-                                indexOf = tmp.IndexOf(item);
-                                length = item.Length;
+                                indexOf = tmp.IndexOf(split[a]);
+                                length = split[a].Length;
                             }
                         }
                     }
                     if (moreCommandsexists)
                     {
-                        ret.Add(split[i], tmp.Substring(tmp.IndexOf(split[i]) + split[i].Length, tmp.Length - split[i].Length - (tmp.Length - indexOf)));
+                        int idxOf = tmp.IndexOf(split[i]) + split[i].Length;
+                        int o = tmp.Length - split[i].Length - (tmp.Length - indexOf);
+                        ret.Add(split[i], tmp.Substring(idxOf, o).Trim());
                     }
                     else
                     {
-                        ret.Add(split[i], tmp.Substring(tmp.IndexOf(split[i]) + split[i].Length, tmp.Length - split[i].Length));
+                        int idxOf = tmp.IndexOf(split[i]);
+                        idxOf += +split[i].Length;
+                        int o = tmp.Length - idxOf;
+                        ret.Add(split[i], tmp.Substring(idxOf, o).Trim());
                     }
                 }
             }
@@ -80,34 +120,45 @@ namespace UniTTT.Logik.Command
             return ret;
         }
 
-        private Dictionary<ICommand, string> GetCommands(Dictionary<string, string> keyWords)
+        private Dictionary<Command, string> GetCommands(Dictionary<string, string> keyWords)
         {
-            Dictionary<ICommand, string> ret = new Dictionary<ICommand, string>();
-            List<int> moeglicheIndexe = new List<int>();
-            List<string> commandKeyWords = new List<string>();
+            Dictionary<Command, string> ret = new Dictionary<Command, string>();
             foreach (var command in keyWords)
             {
-                if (_command.Count(c => c.KeyWords.Contains(command.Key)) > 0)
+                foreach (Command instancedCommaned in _command)
                 {
-                    for (int i = 0; i < _command.Count(c => c.KeyWords.Contains(command.Key)); i++)
+                    if (instancedCommaned.KeyWords.All(k => k == command.Key))
                     {
-                        moeglicheIndexe.Add(i);
-                        commandKeyWords.Add(command.Key);
-                        bool same = true;
-                        if (commandKeyWords.Count == _command[i].KeyWords.Count)
+                        ret.Add(instancedCommaned, command.Value);
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        private bool CheckForFailures(Dictionary<Command, string> commands)
+        {
+            System.Collections.Generic.SortedList<Type, bool> nextNeededCommands = new SortedList<Type, bool>();
+            for (int i = 0; i < commands.Count; i++)
+            {
+                foreach (Type t in commands.Keys.ElementAt(i).NeededCommands)
+                {
+                    nextNeededCommands.Add(t, true);
+                }
+
+                if (nextNeededCommands.Count > 0)
+                {
+                    for (int a = 0; a < nextNeededCommands.Count; a++)
+                    {
+                        if (commands.Keys.Count(f => f.GetType().BaseType == nextNeededCommands.Keys.ElementAt(a)) == 1)
                         {
-                            for (int a = 0; a < _command[i].KeyWords.Count; a++)
-                            {
-                                if (same && _command[i].KeyWords[a] != commandKeyWords[a])
-                                {
-                                    same = false;
-                                }
-                            }
+                            nextNeededCommands.RemoveAt(a);
                         }
                     }
                 }
             }
-            return ret;
+            return nextNeededCommands.Count(f => f.Value == true) == 0;
         }
     }
 }

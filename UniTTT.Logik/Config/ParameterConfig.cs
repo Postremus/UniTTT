@@ -8,20 +8,7 @@ namespace UniTTT.Logik.Config
     [Serializable()]
     public class ParameterConfig
     {
-        private string _configName;
         private List<string> _values;
-
-        public string ConfigName
-        {
-            get
-            {
-                return _configName;
-            }
-            set
-            {
-                _configName = value;
-            }
-        }
 
         public List<string> Values
         {

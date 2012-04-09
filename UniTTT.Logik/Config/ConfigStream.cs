@@ -18,9 +18,9 @@ namespace UniTTT.Logik.Config
             _defaultDir = "data/config/";
         }
 
-        public void Write(ParameterConfig config)
+        public void Write(ParameterConfig config, string fileName)
         {
-            _stream = new FileStream(_defaultDir + config.ConfigName + ".xml", FileMode.CreateNew);
+            _stream = new FileStream(_defaultDir + fileName + ".xml", FileMode.Create);
             _serializer = new XmlSerializer(typeof(ParameterConfig));
             _serializer.Serialize(_stream, config);
         }
@@ -29,7 +29,16 @@ namespace UniTTT.Logik.Config
         {
             _stream = new FileStream(_defaultDir + fileName + ".xml", FileMode.Open);
             _serializer = new XmlSerializer(typeof(ParameterConfig));
-            return (ParameterConfig)_serializer.Deserialize(_stream);
+            return _serializer.Deserialize(_stream);
+        }
+
+        public void Delete(string fileName)
+        {
+            string str = _defaultDir + fileName + ".xml";
+            if (File.Exists(_defaultDir + fileName + ".xml"))
+            {
+                File.Delete(_defaultDir + fileName + ".xml");
+            }
         }
     }
 }

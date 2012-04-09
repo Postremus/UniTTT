@@ -5,9 +5,8 @@ using System.Text;
 
 namespace UniTTT.Logik.Command
 {
-    public interface ICommand
+    public interface IDataReturner
     {
-        List<string> KeyWords { get; }
-        void Execute(string value);
+        event DataReturnHandler DataReturnEvent;
     }
 }
