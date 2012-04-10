@@ -12,10 +12,19 @@ namespace UniTTT.Konsole
         //ki:2 = Recursion
         //ki:3 = Minimax
         //ki:4 = Like
-        //ki:5 = Random
+        //ki:5 = Random7
         //ki:6 = Bot
         static void Main(string[] args)
         {
+            //args = new string[4];
+            //args[0] = "Load";
+            //args[1] = "defaultPlay";
+            //args[2] = "As";
+            //args[3] = "t";
+            //args[0] = "Save";
+            //args[1] = "/Player:O";
+            //args[2] = "As";
+            //args[3] = "defaultPlay";
             Logik.ParameterInterpreter parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
 
             int width = parameters.GetInt("breite");
@@ -43,7 +52,7 @@ namespace UniTTT.Konsole
             }
             else
             {
-                hPlayer = new HumanPlayer('x');
+                hPlayer = new HumanPlayer('X');
                 kisymb = 'O';
             }
 

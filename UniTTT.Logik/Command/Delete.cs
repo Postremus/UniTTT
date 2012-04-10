@@ -14,8 +14,8 @@ namespace UniTTT.Logik.Command
 
         public override void Execute(string value)
         {
-            Config.ConfigStream stream = new Config.ConfigStream();
-            stream.Delete(value);
+            Config.ConfigStream stream = new Config.ConfigStream(value);
+            stream.Delete();
 
             base.Execute(value);
         }

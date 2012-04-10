@@ -25,8 +25,8 @@ namespace UniTTT.Logik.Command
 
         public override void Execute(string value)
         {
-            Config.ConfigStream stream = new Config.ConfigStream();
-            OnDataReturn(this, stream.Read(value));
+            Config.ConfigStream stream = new Config.ConfigStream(value);
+            OnDataReturn(this, stream.Read());
             base.Execute(value);
         }
     }

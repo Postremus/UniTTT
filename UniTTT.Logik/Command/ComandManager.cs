@@ -30,6 +30,7 @@ namespace UniTTT.Logik.Command
         {
             _command = new List<Command>();
             _dataManager = new DataReturnManager();
+            _dataReturners = new List<object>();
             Assembly asm = Assembly.GetExecutingAssembly();
             foreach (Type t in asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(Command)) && t != typeof(MemoryCommand) && t != typeof(MemoryWriteCommand)))
             {
@@ -49,7 +50,7 @@ namespace UniTTT.Logik.Command
                 bool update = true;
                 foreach (var commandValuePaar in InstancedCommands)
                 {
-                    if (commandValuePaar.GetType() == typeof(IDataReturner))
+                    if (commandValuePaar.Key.GetType().GetInterfaces().Count(f => f == typeof(IDataReturner)) > 0)
                     {
                         ((IDataReturner)commandValuePaar.Key).DataReturnEvent += OnDataReturn;
                         _dataReturners.Add(commandValuePaar.Key);
@@ -74,11 +75,15 @@ namespace UniTTT.Logik.Command
             }
         }
 
-        public object ExecuteReturner(string str)
+        public ReturnData ExecuteReturner(string str)
         {
             Execute(str);
-            while (!_dataManager.DataReceived || _dataManager.DataForReceive) ;
-            return _dataManager.Get(_dataReturners[0]);
+            if (_dataManager.DataForReceive)
+            {
+                while (!_dataManager.DataReceived) ;
+                return new ReturnData(_dataManager.Get(_dataReturners[0]));
+            }
+            return new ReturnData(null);
         }
 
         public void OnDataReturn(object sender, object data)
@@ -94,43 +99,29 @@ namespace UniTTT.Logik.Command
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
             string[] split = str.Split(' ');
-            string tmp = str;
-            for (int i = 0; i < split.Length; i++)
+
+            foreach (var item in split)
             {
-                if (_command.Count(c => c.KeyWords.Contains(split[i])) > 0)
+                if (IsStringKeyWord(item))
                 {
-                    bool moreCommandsexists = false;
-                    int indexOf = 0;
-                    int length = 0;
-                    for (int a = i; a < split.Length; a++)
+                    string nextCommand = null;
+                    foreach (string nextCommandTmp in split.Where(f => IsStringKeyWord(f)))
                     {
-                        if (_command.Count(c => c.KeyWords.Contains(split[a])) > 0)
+                        if (item != nextCommandTmp)
                         {
-                            if (!moreCommandsexists && split[a] != split[i])
-                            {
-                                moreCommandsexists = true;
-                                indexOf = tmp.IndexOf(split[a]);
-                                length = split[a].Length;
-                            }
+                            nextCommand = nextCommandTmp;
                         }
                     }
-                    if (moreCommandsexists)
-                    {
-                        int idxOf = tmp.IndexOf(split[i]) + split[i].Length;
-                        int o = tmp.Length - split[i].Length - (tmp.Length - indexOf);
-                        ret.Add(split[i], tmp.Substring(idxOf, o).Trim());
-                    }
-                    else
-                    {
-                        int idxOf = tmp.IndexOf(split[i]);
-                        idxOf += +split[i].Length;
-                        int o = tmp.Length - idxOf;
-                        ret.Add(split[i], tmp.Substring(idxOf, o).Trim());
-                    }
+
+                    ret.Add(item, str.SubStringBetween(item, nextCommand).Trim());
                 }
             }
-            str = tmp;
             return ret;
+        }
+
+        public bool IsStringKeyWord(string str)
+        {
+            return _command.Count(c => c.KeyWords.Contains(str)) > 0;
         }
 
         private Dictionary<Command, string> GetCommands(Dictionary<string, string> keyWords)

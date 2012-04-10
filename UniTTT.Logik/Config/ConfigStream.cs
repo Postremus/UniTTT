@@ -12,32 +12,42 @@ namespace UniTTT.Logik.Config
         private FileStream _stream;
         private XmlSerializer _serializer;
         private string _defaultDir;
+        private string _defaultExtension;
+        private string _fileName;
+        private string _path;
 
-        public ConfigStream()
+        public ConfigStream(string FileName)
         {
-            _defaultDir = "data/config/";
+            _defaultDir = @"data\config\";
+            _defaultExtension = ".xml";
+            _fileName = FileName;
+            _path = _defaultDir + _fileName + _defaultExtension;
+            _serializer = new XmlSerializer(typeof(ParameterConfig));
         }
 
-        public void Write(ParameterConfig config, string fileName)
+        public void Write(ParameterConfig config)
         {
-            _stream = new FileStream(_defaultDir + fileName + ".xml", FileMode.Create);
-            _serializer = new XmlSerializer(typeof(ParameterConfig));
+            if (!Directory.Exists(_defaultDir))
+            {
+                Directory.CreateDirectory(_defaultDir);
+            }
+            _stream = new FileStream(_path, FileMode.Create);
             _serializer.Serialize(_stream, config);
         }
 
-        public object Read(string fileName)
+        public object Read()
         {
-            _stream = new FileStream(_defaultDir + fileName + ".xml", FileMode.Open);
-            _serializer = new XmlSerializer(typeof(ParameterConfig));
-            return _serializer.Deserialize(_stream);
+            _stream = new FileStream(_path, FileMode.Open);
+            object ret = _serializer.Deserialize(_stream);
+            _stream.Close();
+            return ret;
         }
 
-        public void Delete(string fileName)
+        public void Delete()
         {
-            string str = _defaultDir + fileName + ".xml";
-            if (File.Exists(_defaultDir + fileName + ".xml"))
+            if (File.Exists(_path))
             {
-                File.Delete(_defaultDir + fileName + ".xml");
+                File.Delete(_path);
             }
         }
     }

@@ -15,9 +15,9 @@ namespace UniTTT.Logik.Command
 
         public override void Execute(string value, KeyValuePair<Command, string> neededCommand)
         {
-            Config.ConfigStream stream = new Config.ConfigStream();
+            Config.ConfigStream stream = new Config.ConfigStream(value);
             ((MemoryCommand)neededCommand.Key).Execute(neededCommand.Value);
-            stream.Write(((MemoryCommand)neededCommand.Key).MemoryData, value);
+            stream.Write(((MemoryCommand)neededCommand.Key).MemoryData);
             base.Execute(value);
         }
     }

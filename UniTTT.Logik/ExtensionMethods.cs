@@ -112,5 +112,38 @@ namespace UniTTT.Logik
             }
             return b.GetObject();
         }
+
+
+        /// <summary>
+        /// Gibt die Zeichen zwischen str1 und str2 in value zurück. Sollte str2 null sein, wird der String von str1 bis zum Ende zurückgegeben.
+        /// </summary>
+        /// <param name="value">Der String, in dem gesucht wird.</param>
+        /// <param name="str1">Die Anfangspositons als String in value. Muss gesetzt sein.</param>
+        /// <param name="str2">Die Endposition als String in value</param>
+        /// <returns></returns>
+        public static string SubStringBetween(this string value, string str1, string str2)
+        {
+            if (value == null || str1 == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            if (!value.Contains(str1))
+            {
+                return null;
+            }
+
+            int length = 0;
+            int first = value.IndexOf(str1) + str1.Length;
+            if (str2 == null)
+            {
+                length = value.Length - first;
+            }
+            else
+            {
+                length = value.Length - first - value.IndexOf(str2);
+            }
+            return value.Substring(first, length);
+        }
     }
 }

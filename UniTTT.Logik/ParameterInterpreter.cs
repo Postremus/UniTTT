@@ -72,6 +72,7 @@ namespace UniTTT.Logik
         public static ParameterInterpreter InterpretCommandLine(string[] args)
         {
             ParameterInterpreter ret = new ParameterInterpreter();
+            Command.ComandManager CManager = new Command.ComandManager();
             if (args.Length >= 0)
             {
                 int idx;
@@ -95,16 +96,12 @@ namespace UniTTT.Logik
                             }
                             ret._args.Add(arg);
                         }
-                        else
+                        else if (CManager.IsStringKeyWord(arg))
                         {
-                            Command.ComandManager CManager = new Command.ComandManager();
-                            object o = CManager.ExecuteReturner(String.Join(" ", args));
-                            try
+                            Command.ReturnData data = CManager.ExecuteReturner(String.Join(" ", args));
+                            if (data.ExistsReturnData)
                             {
-                                ret._args = ((Config.ParameterConfig)o).Values;
-                            }
-                            catch
-                            {
+                                return InterpretCommandLine(((Config.ParameterConfig)data.Data).Values.ToArray());
                             }
                             break;
                         }
