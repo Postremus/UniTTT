@@ -32,7 +32,7 @@ namespace UniTTT.Logik.Command
             _dataManager = new DataReturnManager();
             _dataReturners = new List<object>();
             Assembly asm = Assembly.GetExecutingAssembly();
-            foreach (Type t in asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(Command)) && t != typeof(MemoryCommand) && t != typeof(MemoryWriteCommand)))
+            foreach (Type t in asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(Command)) && t != typeof(MemoryCommand)))
             {
                 _command.Add((Command)Activator.CreateInstance(t));
             }
@@ -81,9 +81,8 @@ namespace UniTTT.Logik.Command
             if (_dataManager.DataForReceive)
             {
                 while (!_dataManager.DataReceived) ;
-                return new ReturnData(_dataManager.Get(_dataReturners[0]));
             }
-            return new ReturnData(null);
+            return _dataManager.Get(_dataReturners[0]);
         }
 
         public void OnDataReturn(object sender, object data)

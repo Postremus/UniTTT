@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik.Command
 {
-    public class As : MemoryWriteCommand
+    public class As : MemoryCommand
     {
         public As()
         {

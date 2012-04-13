@@ -44,14 +44,14 @@ namespace UniTTT.Logik.Command
             }
         }
 
-        public object Get(object key)
+        public ReturnData Get(object key)
         {
             if (key != null)
             {
                 _dataRecieved = false;
-                return _data[key];
+                return new ReturnData(_data[key]);
             }
-            return null;
+            return new ReturnData(null);
         }
     }
 }

@@ -43,6 +43,10 @@ namespace UniTTT.Logik.Player
         {
             Assembly asm = Assembly.GetExecutingAssembly();
             KITypes = asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))).ToArray();
+            if (!Directory.Exists("/scripts/ki"))
+            {
+                Directory.CreateDirectory("/scripts/ki");
+            }
             CompileScripts(Directory.GetFiles("/scripts/ki"));
             KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl - 1], new object[] { width, height, kispieler });
         }
