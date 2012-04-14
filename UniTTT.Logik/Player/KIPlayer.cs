@@ -43,11 +43,11 @@ namespace UniTTT.Logik.Player
         {
             Assembly asm = Assembly.GetExecutingAssembly();
             KITypes = asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))).ToArray();
-            if (!Directory.Exists("scripts/ki"))
+            if (!Directory.Exists("data/scripts/ki"))
             {
-                Directory.CreateDirectory("scripts/ki");
+                Directory.CreateDirectory("data/scripts/ki");
             }
-            CompileScripts(Directory.GetFiles("scripts/ki"));
+            CompileScripts(Directory.GetFiles("data/scripts/ki"));
             KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl - 1], new object[] { width, height, kispieler });
         }
 
@@ -212,7 +212,7 @@ namespace UniTTT.Logik.Player
                 public string FileName { get; set; }
                 public WriterReader(string filename)
                 {
-                    FileName = filename;
+                    FileName = "data/" + filename;
                 }
 
                 public void Write(int[,] Zuege, int[,] Sit_Code, int[] Wertung)

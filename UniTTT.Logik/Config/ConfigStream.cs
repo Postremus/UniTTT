@@ -18,7 +18,7 @@ namespace UniTTT.Logik.Config
 
         public ConfigStream(string FileName)
         {
-            _defaultDir = @"data\config\";
+            _defaultDir = "data/config/";
             _defaultExtension = ".xml";
             _fileName = FileName;
             _path = _defaultDir + _fileName + _defaultExtension;
