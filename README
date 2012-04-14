@@ -18,7 +18,7 @@ Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benöt
 	/help			Gibt eine Hilfe aus, die die Befehle beinhaltet
 	/Field:			Die Speichervariante (siehe 3.). Nicht erforderlich, Standard ist Array.
 	/log			Speichert Informationen zum Spiel ab.
-    /win:			Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinader,.. an.
+    /win:			Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinander,.. an.
     /network
     /ip:
     /port:
@@ -33,7 +33,7 @@ Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benöt
 	/ki:2			KIRandom                Eine Zufallsbasierte KI.
     /ki:3           KIBot                   Eine gescriptete KI. Sie lernt nicht, sie weiß muss alles vorher wissen-
     /ki:4           KIMiniMax               Eine auf den MiniMax Algorythmus basierende KI.
-    /ki:5           KIMiniMaxAlphaBeta      Eine auf den MiniMax Algorythmus mit Alpha-Beta Pruning basierende KI. Sie ist deutlich performenter als die KIMiniMax.
+    /ki:5           KIMiniMaxAlphaBeta      Eine auf den MiniMax Algorythmus mit Alpha-Beta Pruning basierende KI. Sie ist deutlich performanter als die KIMiniMax.
 
 3) Die Speichersysteme
 
