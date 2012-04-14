@@ -155,7 +155,7 @@ namespace UniTTT.Logik.Command
                 {
                     for (int a = 0; a < nextNeededCommands.Count; a++)
                     {
-                        if (commands.Keys.Count(f => f.GetType().BaseType == nextNeededCommands.Keys.ElementAt(a)) == 1)
+                        if (commands.Keys.Count(f => f.GetType() == nextNeededCommands.Keys.ElementAt(a)) > 0)
                         {
                             nextNeededCommands.RemoveAt(a);
                         }

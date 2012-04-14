@@ -10,7 +10,7 @@ namespace UniTTT.Logik.Command
         public As()
         {
             KeyWords.Add("As");
-            NeededCommands.Add(typeof(MemoryCommand));
+            NeededCommands.Add(typeof(Save));
         }
 
         public override void Execute(string value, KeyValuePair<Command, string> neededCommand)
