@@ -165,6 +165,9 @@ namespace UniTTT.Konsole
             Console.WriteLine("/port:       Verbindungs-Port für das Netzwerkspiel, funktioniert nur mit /network.");
             Console.WriteLine("/player:     Spieler für das Netzwerkspiel, fuktioniert nur mit /network.");
             Console.WriteLine("/protokoll:  Das zu verwendende Protokoll in einem Netzwerkspiel. Standard ist tcp");
+            Console.WriteLine("Save /paramn As configname   Speichert die Parameter param unter den name configname");
+            Console.WriteLine("Load configname  Lädt die Parametkonfiguration configname");
+            Console.WriteLine("Delete configname Löscht die Parameterkonfiguration configname");
         }
     }
 }

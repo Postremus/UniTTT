@@ -23,6 +23,9 @@ Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benöt
     /ip:
     /port:
     /player:
+    Load configname Lädt die Konfiguration configname
+    Save /Paramn As configname  Speichert die Parameter Als configname
+    Delete configname   Löscht die Konfiguration configname
     
 2) Die KI Systeme
 
