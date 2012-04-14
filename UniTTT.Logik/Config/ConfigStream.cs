@@ -21,7 +21,7 @@ namespace UniTTT.Logik.Config
             _defaultDir = "data/config/";
             _defaultExtension = ".xml";
             _fileName = FileName;
-            _path = _defaultDir + _fileName + _defaultExtension;
+            _path = Path.Combine(_defaultDir, _fileName + _defaultExtension);
             _serializer = new XmlSerializer(typeof(ParameterConfig));
         }
 
