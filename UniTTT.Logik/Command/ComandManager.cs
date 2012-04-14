@@ -81,8 +81,9 @@ namespace UniTTT.Logik.Command
             if (_dataManager.DataForReceive)
             {
                 while (!_dataManager.DataReceived) ;
+                return _dataManager.Get(_dataReturners[0]);
             }
-            return _dataManager.Get(_dataReturners[0]);
+            return _dataManager.Get(null);
         }
 
         public void OnDataReturn(object sender, object data)
