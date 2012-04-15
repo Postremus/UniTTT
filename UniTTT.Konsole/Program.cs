@@ -16,15 +16,6 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            //args = new string[4];
-            //args[0] = "Load";
-            //args[1] = "defaultPlay";
-            //args[2] = "As";
-            //args[3] = "t";
-            //args[0] = "Save";
-            //args[1] = "/Player:O";
-            //args[2] = "As";
-            //args[3] = "defaultPlay";
             Logik.ParameterInterpreter parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
 
             int width = parameters.GetInt("breite");
@@ -34,13 +25,6 @@ namespace UniTTT.Konsole
                 width = 3;
             if (height == -1)
                 height = 3;
-
-            Logik.Logger l = null;
-            if (parameters.GetBool("log"))
-            {
-                l = new Logik.Logger(new OutputDarsteller());
-                l.Start();
-            }
 
             HumanPlayer hPlayer;
             char kisymb;
@@ -145,8 +129,6 @@ namespace UniTTT.Konsole
                 }
                 game.Start();
             }
-            if (l != null)
-                l.Dispose();
         }
 
         private static void Help()
@@ -158,7 +140,6 @@ namespace UniTTT.Konsole
             Console.WriteLine("/ki:         KI als Ganzzahl (1-6, oder als Wort).");
             Console.WriteLine("/human       Ruft eine kleine Anleitung zum Spiel ab. (benötigt /learn)");
             Console.WriteLine("/field:      Die Speicher Variante des Spielfeldes.");
-            Console.WriteLine("/log         Speichert ein paar Infos.");
             Console.WriteLine("/win:        Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinader,.. an.");
             Console.WriteLine("/network     Startet ein Netzwerkspiel (/ip, /port und /player wird benötigt).");
             Console.WriteLine("/ip:         Verbindungs-IP für das Netzwerkspiel, funktioniert nur mit /network.");
