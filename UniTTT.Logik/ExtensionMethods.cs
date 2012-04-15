@@ -141,8 +141,9 @@ namespace UniTTT.Logik
             }
             else
             {
-                length = value.Length - first - value.IndexOf(str2);
+                length = value.Length - first - (value.Length - value.IndexOf(str2));
             }
+            string ret = value.Substring(first, length);
             return value.Substring(first, length);
         }
     }

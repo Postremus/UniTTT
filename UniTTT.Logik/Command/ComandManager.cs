@@ -105,7 +105,7 @@ namespace UniTTT.Logik.Command
                 if (IsStringKeyWord(item))
                 {
                     string nextCommand = null;
-                    foreach (string nextCommandTmp in split.Where(f => IsStringKeyWord(f)))
+                    foreach (string nextCommandTmp in split.Where(f => IsStringKeyWord(f) && !ret.Keys.Contains(f)))
                     {
                         if (item != nextCommandTmp)
                         {
