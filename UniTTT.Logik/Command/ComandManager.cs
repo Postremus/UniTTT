@@ -19,10 +19,6 @@ namespace UniTTT.Logik.Command
             {
                 return _command;
             }
-            set
-            {
-                _command = value;
-            }
         }
         public event DataReturnHandler DataReturnEvent;
 

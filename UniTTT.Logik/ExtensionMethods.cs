@@ -133,8 +133,8 @@ namespace UniTTT.Logik
                 return null;
             }
 
-            int length = 0;
             int first = value.IndexOf(str1) + str1.Length;
+            int length = 0;
             if (str2 == null)
             {
                 length = value.Length - first;
@@ -143,7 +143,6 @@ namespace UniTTT.Logik
             {
                 length = value.Length - first - (value.Length - value.IndexOf(str2));
             }
-            string ret = value.Substring(first, length);
             return value.Substring(first, length);
         }
     }

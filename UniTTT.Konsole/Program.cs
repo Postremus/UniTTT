@@ -47,10 +47,7 @@ namespace UniTTT.Konsole
             }
             else if (parameters.GetString("ki") != null)
             {
-                if (Enum.IsDefined(typeof(Logik.Player.KIPlayer.KISystems), parameters.GetString("ki")))
-                {
-                    kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, kisymb);
-                }
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, kisymb);
             }
             Logik.Fields.IField field;
             if (parameters.GetString("field") == "string")

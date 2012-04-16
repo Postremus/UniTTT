@@ -125,7 +125,7 @@ namespace UniTTT.Logik.Fields
             FieldRegion ret = new FieldRegion();
             for (int y = 0; y < Height; y++)
             {
-                ret.Add((count + 1) * (y + 1) - 1, GetField(new Vector2i(count, y)));
+                ret.Add(count * Width + y, GetField(new Vector2i(count, y)));
             }
             return ret;
         }
@@ -135,7 +135,7 @@ namespace UniTTT.Logik.Fields
             FieldRegion ret = new FieldRegion();
             for (int x = 0; x < Width; x++)
             {
-                ret.Add((x + 1) * (count + 1) - 1, GetField(new Vector2i(x, count)));
+                ret.Add(x * Width + count, GetField(new Vector2i(x, count)));
             }
             return ret;
         }
@@ -153,7 +153,7 @@ namespace UniTTT.Logik.Fields
                 int y = 0;
                 for (int x = 0; x < Width; x++)
                 {
-                    ret.Add((x + 1) * (y + 1) - 1, GetField(new Vector2i(x, y)));
+                    ret.Add(x *Width + y, GetField(new Vector2i(x, y)));
                     y++;
                 }
             }
@@ -162,7 +162,7 @@ namespace UniTTT.Logik.Fields
                 int y = 0;
                 for (int x = Width; x > 0; x--)
                 {
-                    ret.Add(x * y - 1, GetField(new Vector2i(x - 1, y - 1)));
+                    ret.Add(x * Width + y, GetField(new Vector2i(x - 1, y - 1)));
                     y++;
                 }
             }

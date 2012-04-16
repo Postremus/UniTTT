@@ -14,16 +14,6 @@ namespace UniTTT.Logik.Player
         public KI.AbstractKI KI { get; private set; }
         private Type[] KITypes;
 
-        public enum KISystems
-        {
-            Reinforcement = 1,
-            Recursion,
-            MiniMax,
-            Like,
-            Random,
-            Bot,
-        }
-
         public KIPlayer(int kiZahl, int width, int height, char kispieler) : base(kispieler)
         {
             Initialize(kiZahl, width, height, kispieler);
@@ -31,24 +21,31 @@ namespace UniTTT.Logik.Player
 
         public KIPlayer(string ki, int width, int height, char kispieler) : base(kispieler)
         {
-            if (Enum.IsDefined(typeof(KISystems), ki))
+            GetKITypes();
+            for (int i = 0; i < KITypes.Length; i++)
             {
-                Type tmp = KITypes.GetEnumerator().GetType();
-                int kiZahl = (int)Enum.Parse(tmp, ki);
-                Initialize(kiZahl, width, height, kispieler);
+                if (KITypes[i].Name.ToLower() == ki.ToLower())
+                {
+                    Initialize(i, width, height, kispieler);
+                }
             }
         }
 
         private void Initialize(int kiZahl, int width, int height, char kispieler)
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            KITypes = asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))).ToArray();
+            GetKITypes();
             if (!Directory.Exists("data/scripts/ki"))
             {
                 Directory.CreateDirectory("data/scripts/ki");
             }
             CompileScripts(Directory.GetFiles("data/scripts/ki"));
             KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl - 1], new object[] { width, height, kispieler });
+        }
+
+        private void GetKITypes()
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+            KITypes = asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))).ToArray();
         }
 
         private void CompileScripts(string[] scripts)
