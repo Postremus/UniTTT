@@ -76,67 +76,14 @@ namespace UniTTT.Logik
             return vect1.X > vect2 && vect1.Y > vect2;
         }
 
-        private static Vector2i GetVectorOfString(string value)
-        {
-            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-                throw new NullReferenceException();
-            Vector2i ret = null;
-            if (value.Length > 2)
-            {
-                int idx = value.IndexOf('.') != -1 ? value.IndexOf('.') : value.IndexOf(',');
-                if (idx == -1)
-                {
-                    idx = value.IndexOf(',');
-                }
-                if (idx > -1)
-                {
-                    int x;
-                    int y;
-                    if (int.TryParse(value.Substring(0, idx), out x) && int.TryParse(value.Substring(idx + 1), out y))
-                    {
-                        ret = new Vector2i(x, y);
-                    }
-                    else
-                    {
-                        throw new FormatException();
-                    }
-                }
-            }
-            else
-            {
-                int count = 0;
-                string str = null;
-                if (value.Contains(".") || value.Contains(","))
-                {
-                    str = value.Substring(0, value.Length - 1);
-                }
-                else
-                {
-                    str = value.Substring(0, value.Length);
-                }
-                if (int.TryParse(str, out count))
-                {
-                    if (count < 0)
-                    {
-                        throw new NullReferenceException();
-                    }
-                    ret = new Vector2i(count, count);
-                }
-                else
-                {
-                    throw new FormatException();
-                }
-            }
-            return ret;
-        }
-
         public static Vector2i IndexToVector(int zug, int width, int height)
         {
-            Vector2i vect = null;
             if (zug < 0)
             {
                 throw new NullReferenceException();
             }
+
+            Vector2i vect = null;
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -153,79 +100,47 @@ namespace UniTTT.Logik
             return vect.X * width + vect.Y;
         }
 
-        public static Vector2i StringToVector(string value, bool containsCoordinate)
+        public static Vector2i StringToVector(string value, bool containsCoordinate, char seperator)
         {
-            if (containsCoordinate == true)
+            if (containsCoordinate)
             {
-                if (value.Contains(' '))
-                    value = value.Trim();
-                Vector2i vect = null;
-                string sub = value.Substring(value.IndexOf(':')+1, value.IndexOf('|') - (value.IndexOf(':')+1));
-                int x = int.Parse(sub);
-                value = value.Remove(0, value.IndexOf('|'));
-                sub = value.Substring(value.LastIndexOf(':')+1, value.Length - (value.LastIndexOf(':')+1));
-                int y = int.Parse(sub);
-                vect = new Vector2i(x, y);
-                return vect;
+                if (value.Contains("X") && value.Contains("Y"))
+                {
+                    value = value.Remove(0, 1);
+                    value = value.Remove(value.IndexOf("Y"), 1);
+                }
+                if (value.Contains(":"))
+                {
+                    value = value.Remove(0, 1);
+                    value = value.Remove(value.IndexOf(":"), 1);
+                }
             }
-            else
+
+            if (!value.Contains(seperator))
             {
-                if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-                    throw new NullReferenceException();
-                Vector2i ret = null;
-                if (value.Length > 2)
+                int cor;
+                if (int.TryParse(value, out cor))
                 {
-                    int idx = value.IndexOf('.') != -1 ? value.IndexOf('.') : value.IndexOf(',');
-                    if (idx == -1)
-                    {
-                        idx = value.IndexOf(',');
-                    }
-                    if (idx > -1)
-                    {
-                        int x;
-                        int y;
-                        if (int.TryParse(value.Substring(0, idx), out x) && int.TryParse(value.Substring(idx + 1), out y))
-                        {
-                            ret = new Vector2i(x, y);
-                        }
-                        else
-                        {
-                            throw new FormatException();
-                        }
-                    }
+                    return Vector2i.IndexToVector(cor, 3, 3);
                 }
-                else
-                {
-                    int count = 0;
-                    string str = null;
-                    if (value.Contains(".") || value.Contains(","))
-                    {
-                        str = value.Substring(0, value.Length - 1);
-                    }
-                    else
-                    {
-                        str = value.Substring(0, value.Length);
-                    }
-                    if (int.TryParse(str, out count))
-                    {
-                        if (count < 0)
-                        {
-                            throw new NullReferenceException();
-                        }
-                        ret = new Vector2i(count, count);
-                    }
-                    else
-                    {
-                        throw new FormatException();
-                    }
-                }
-                return ret;
             }
+
+            if (value.Contains(seperator))
+            {
+                string[] splitedValue = value.Split(seperator);
+                int x = 0;
+                int y = 0;
+                if (int.TryParse(splitedValue[0], out x) && int.TryParse(splitedValue[1], out y))
+                {
+                    return new Vector2i(x, y);
+                }
+            }
+            return null;
         }
 
-        public static Vector2i StringToVector(string str, char seperator, bool containsCoordinate)
+        public static Vector2i StringToVector(string value, bool containsCoordinate)
         {
-            return StringToVector(str.Replace(seperator, '|'), containsCoordinate);
+            return StringToVector(value, containsCoordinate, '|');
         }
 
         public override bool Equals(object obj)
