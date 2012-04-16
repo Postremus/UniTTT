@@ -37,17 +37,17 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\Commands\As.cs" />
+    <Compile Include="Command\Commands\AsCommand.cs" />
     <Compile Include="Command\ComandManager.cs" />
     <Compile Include="Command\Command.cs" />
     <Compile Include="Command\DataReturnManager.cs" />
     <Compile Include="Command\Delegates.cs" />
-    <Compile Include="Command\Commands\Delete.cs" />
-    <Compile Include="Command\Commands\IDataReturner.cs" />
-    <Compile Include="Command\Commands\Load.cs" />
-    <Compile Include="Command\Commands\MemoryCommand.cs" />
+    <Compile Include="Command\Commands\DeleteCommand.cs" />
+    <Compile Include="Command\IDataReturner.cs" />
+    <Compile Include="Command\Commands\LoadCommand.cs" />
+    <Compile Include="Command\MemoryCommand.cs" />
     <Compile Include="Command\ReturnData.cs" />
-    <Compile Include="Command\Commands\Save.cs" />
+    <Compile Include="Command\Commands\SaveCommand.cs" />
     <Compile Include="Config\ConfigStream.cs" />
     <Compile Include="Config\ParameterConfig.cs" />
     <Compile Include="ExtensionMethods.cs" />

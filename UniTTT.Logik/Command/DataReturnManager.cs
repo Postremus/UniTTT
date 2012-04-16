@@ -30,8 +30,6 @@ namespace UniTTT.Logik.Command
         public DataReturnManager()
         {
             _data = new Dictionary<object, object>();
-            _dataRecieved = false;
-            _dataForReceive = false;
         }
 
         public void ReceiveReturnedData(object sender, object data)
