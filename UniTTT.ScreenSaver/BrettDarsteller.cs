@@ -57,12 +57,11 @@ namespace UniTTT.ScreenSaver
             SolidBrush oBrush = new SolidBrush(Color.Blue);
             Bitmap tmpImg = new Bitmap(_screenWidth, _screenHeight);
             Point posi = new Point(0, 0);
-
+            Graphics graphics = Graphics.FromImage(tmpImg);
             for (int x = 0; x < field.Width; x++)
             {
                 for (int y = 0; y < field.Height; y++)
                 {
-                    Graphics graphics = Graphics.FromImage(tmpImg);
                     if (field.GetField(new Vector2i(x, y)) == 'X')
                     {
                         graphics.DrawString(field.GetField(new Vector2i(x, y)).ToString(), font, xBrush, posi);
