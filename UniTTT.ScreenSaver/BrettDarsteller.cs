@@ -14,7 +14,6 @@ namespace UniTTT.ScreenSaver
         private int _height;
         private int _screenWidth;
         private int _screenHeight;
-        private Random _rnd;
 
         public int Width
         {
@@ -43,7 +42,6 @@ namespace UniTTT.ScreenSaver
             Width = width;
             Height = height;
             Image = new Bitmap(_screenWidth, _screenHeight);
-            _rnd = new Random();
         }
 
         public void Update(Logik.Fields.IField field)

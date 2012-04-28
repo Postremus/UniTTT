@@ -35,16 +35,16 @@ namespace UniTTT.ScreenSaver
             screenWidth = Screen.PrimaryScreen.Bounds.Width;
             screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
-            MouseMove += MouseMoveCheck;
-            MouseDown += DoWakeUp;
-            KeyDown += DoWakeUp;
+            //MouseMove += MouseMoveCheck;
+            //MouseDown += DoWakeUp;
+            //KeyDown += DoWakeUp;
             FormClosed += AbortThreads;
 
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Bounds = Screen.PrimaryScreen.Bounds;
-            Cursor.Hide();
-            TopMost = true;
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            //FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            //this.Bounds = Screen.PrimaryScreen.Bounds;
+            //Cursor.Hide();
+            //TopMost = true;
+            //SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             this.TransparencyKey = SystemColors.Control;
             BackColor = backColor;
             LoadConfig();
@@ -66,6 +66,10 @@ namespace UniTTT.ScreenSaver
             bool locupdate = false;
             while (true)
             {
+                if (game.HasEnd())
+                {
+                    game.NewGame();
+                }
                 if (elapsed.Seconds != st.Elapsed.Seconds && st.Elapsed.Seconds % c.PlayVelocity / 2 == 0)
                 {
                     game.Logik();

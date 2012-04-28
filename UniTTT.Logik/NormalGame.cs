@@ -66,8 +66,7 @@ namespace UniTTT.Logik
             {
                 ((Logik.IGraphicalBrettDarsteller)BDarsteller).DeLock();
             }
-            BDarsteller.Update(Field);
-            BDarsteller.Draw();
+            BDarsteller.Initialize(Field.Width, Field.Height);
         }
 
         public void WinCounter()
