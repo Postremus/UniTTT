@@ -15,31 +15,14 @@ namespace UniTTT.Logik.Network
         private TcpListener listener;
         #endregion
 
-        public TCPServer(string ip, int port, string nick, string otherNick, bool allowHolePunching)
+        public TCPServer(string ip, int port)
         {
             Hostname = ip;
             TargetPort = port;
 
-            if (allowHolePunching)
-            {
-                try
-                {
-                    Client = new TcpClient(ip, port);
-                    Writer = new StreamWriter(Client.GetStream());
-                    base.Send("*klopf klopf*");
-                }
-                catch (SocketException)
-                {
-                    HolePuncher p = new HolePuncher(this, nick, otherNick);
-                    p.Punche();
-                }
-            }
-            else
-            {
-                listener = new TcpListener(IPAddress.Any, port);
-                listener.Start();
-                Client = listener.AcceptTcpClient();
-            }
+            listener = new TcpListener(IPAddress.Any, port);
+            listener.Start();
+            Client = listener.AcceptTcpClient();
 
             sTream = Client.GetStream();
             Reader = new StreamReader(sTream);

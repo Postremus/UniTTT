@@ -48,7 +48,6 @@
     <Compile Include="Logger.cs" />
     <Compile Include="NetworkGame.cs" />
     <Compile Include="Network\Delegates.cs" />
-    <Compile Include="Network\HolePuncher.cs" />
     <Compile Include="Network\Network.cs" />
     <Compile Include="Network\IRCClient.cs" />
     <Compile Include="Network\TCPClient.cs" />
