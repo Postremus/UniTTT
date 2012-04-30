@@ -90,17 +90,17 @@ namespace UniTTT.Konsole
                 int port = parameters.GetInt("port");
                 if (parameters.GetString("protokoll") == "irc")
                 {
-                    client = new Logik.Network.IRCClient(ip, port, parameters.GetString("channel"), parameters.GetString("nick"));
+                    client = new Logik.Network.IRCClient(ip, port, parameters.GetString("channel"));
                 }
                 else
                 {
                     if (parameters.GetBool("server"))
                     {
-                        client = new Logik.Network.TCPServer(ip, port, parameters.GetString("nick"), parameters.GetString("othernick"), parameters.GetBool("allowholepunching"));
+                        client = new Logik.Network.TCPServer(ip, port);
                     }
                     else
                     {
-                        client = new Logik.Network.TCPClient(ip, port, parameters.GetString("nick"), parameters.GetString("othernick"), parameters.GetBool("allowholepunching"));
+                        client = new Logik.Network.TCPClient(ip, port);
                     }
                 }
                 game = new Games.NetworkGame(width, height, hPlayer, field, ip, port, client);

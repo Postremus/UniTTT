@@ -61,7 +61,6 @@
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
     <Compile Include="Network\Delegates.cs" />
-    <Compile Include="Network\HolePuncher.cs" />
     <Compile Include="Network\Network.cs" />
     <Compile Include="Network\IRCClient.cs" />
     <Compile Include="Network\TCPClient.cs" />
