@@ -53,15 +53,6 @@ namespace UniTTT.Konsole
             {
                 kiplayer = new Logik.Player.KIPlayer(parameters.GetValue<string>("ki"), width, height, kisymb);
             }
-            Logik.Fields.IField field;
-            if (parameters.GetValue<string>("field") == "string")
-            {
-                field = new Logik.Fields.SitCode(width, height);
-            }
-            else
-            {
-                field = new Logik.Fields.Brett(width, height);
-            }
 
             if (parameters.GetValue<bool>("help"))
             {
@@ -104,7 +95,7 @@ namespace UniTTT.Konsole
                         client = new Logik.Network.TCPClient(ip, port);
                     }
                 }
-                game = new Games.NetworkGame(width, height, hPlayer, field, ip, port, client);
+                game = new Games.NetworkGame(width, height, hPlayer, null, ip, port, client);
                 game.Run();
             }
             else
@@ -112,17 +103,17 @@ namespace UniTTT.Konsole
                 Games.Game game;
                 if (parameters.GetValue<bool>("kigame"))
                 {
-                    game = new Games.Game(width, height, kiplayer, kiplayer, field);
+                    game = new Games.Game(width, height, kiplayer, kiplayer, null);
                 }
                 else
                 {
                     if (kiplayer != null)
                     {
-                        game = new Games.Game(width, height, hPlayer, kiplayer, field);
+                        game = new Games.Game(width, height, hPlayer, kiplayer, null);
                     }
                     else
                     {
-                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), field);
+                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), null);
                     }
                 }
                 game.Start();
@@ -137,7 +128,6 @@ namespace UniTTT.Konsole
             Console.WriteLine("/hoehe:      Hoehe des Spielfeldes");
             Console.WriteLine("/ki:         KI als Ganzzahl (1-6, oder als Wort).");
             Console.WriteLine("/human       Ruft eine kleine Anleitung zum Spiel ab. (benötigt /learn)");
-            Console.WriteLine("/field:      Die Speicher Variante des Spielfeldes.");
             Console.WriteLine("/win:        Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinader,.. an.");
             Console.WriteLine("/network     Startet ein Netzwerkspiel (/ip, /port und /player wird benötigt).");
             Console.WriteLine("/ip:         Verbindungs-IP für das Netzwerkspiel, funktioniert nur mit /network.");
