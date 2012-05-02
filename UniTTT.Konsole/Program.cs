@@ -18,21 +18,25 @@ namespace UniTTT.Konsole
         {
             Logik.ParameterInterpreter parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
 
-            int width = parameters.GetInt("breite");
-            int height = parameters.GetInt("hoehe");
+            int width = parameters.GetValue<int>("breite");
+            int height = parameters.GetValue<int>("hoehe");
 
-            if (width == -1)
+            if (!parameters.IsDefined<int>("breite"))
+            {
                 width = 3;
-            if (height == -1)
+            }
+            if (!parameters.IsDefined<int>("hoehe"))
+            {
                 height = 3;
+            }
 
             HumanPlayer hPlayer;
             char kisymb;
-
-            if (parameters.GetString("player") != null)
+            if (parameters.IsDefined<char>("player"))
             {
-                hPlayer = new HumanPlayer(parameters.GetString("player")[0]);
-                kisymb = parameters.GetString("player")[0] == 'X' ? 'O' : 'X';
+                char symb = parameters.GetValue<char>("player");
+                kisymb = symb == 'X' ? 'O' : 'X';
+                hPlayer = new HumanPlayer(symb);
             }
             else
             {
@@ -41,60 +45,57 @@ namespace UniTTT.Konsole
             }
 
             Logik.Player.AbstractPlayer kiplayer = null;
-            if (parameters.GetInt("ki") > 0)
+            if (parameters.IsDefined<int>("ki"))
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetInt("ki"), width, height, kisymb);
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetValue<int>("ki"), width, height, kisymb);
             }
-            else if (parameters.GetString("ki") != null)
+            else if (parameters.IsDefined<int>("ki"))
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetString("ki"), width, height, kisymb);
+                kiplayer = new Logik.Player.KIPlayer(parameters.GetValue<string>("ki"), width, height, kisymb);
             }
             Logik.Fields.IField field;
-            if (parameters.GetString("field") == "string")
+            if (parameters.GetValue<string>("field") == "string")
             {
                 field = new Logik.Fields.SitCode(width, height);
-            }
-            else if (parameters.GetString("field") == "array")
-            {
-                field = new Logik.Fields.Brett(width, height);
             }
             else
             {
                 field = new Logik.Fields.Brett(width, height);
             }
-            if (parameters.GetBool("help"))
+
+            if (parameters.GetValue<bool>("help"))
             {
                 if (parameters.Count == 1)
                 {
                     Help();
                 }
             }
-            else if (parameters.GetBool("learn"))
+            else if (parameters.GetValue<bool>("learn"))
             {
-                if (parameters.GetBool("human"))
+                if (parameters.GetValue<bool>("human"))
                 {
                     hPlayer.Learn();
                 }
                 else
                 {
                     if (kiplayer == null) throw new FormatException();
-                    Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus: {1}", kiplayer.ToString(), kiplayer.ToString());
+                    Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus", kiplayer.ToString());
                     kiplayer.Learn();
                 }
             }
-            else if (parameters.GetBool("network"))
+            else if (parameters.GetValue<bool>("network"))
             {
                 Games.NetworkGame game;
                 Logik.Network.Network client;
-                string ip = parameters.GetString("ip");
-                int port = parameters.GetInt("port");
-                if (parameters.GetString("protokoll") == "irc")
+                string ip = parameters.GetValue<string>("ip");
+                int port = parameters.GetValue<int>("port");
+                if (parameters.GetValue<string>("protokoll") == "irc")
                 {
-                    client = new Logik.Network.IRCClient(ip, port, parameters.GetString("channel"));
+                    client = new Logik.Network.IRCClient(ip, port, parameters.GetValue<string>("channel"));
                 }
                 else
                 {
-                    if (parameters.GetBool("server"))
+                    if (parameters.GetValue<bool>("server"))
                     {
                         client = new Logik.Network.TCPServer(ip, port);
                     }
@@ -109,7 +110,11 @@ namespace UniTTT.Konsole
             else
             {
                 Games.Game game;
-                if (!parameters.GetBool("kigame"))
+                if (parameters.GetValue<bool>("kigame"))
+                {
+                    game = new Games.Game(width, height, kiplayer, kiplayer, field);
+                }
+                else
                 {
                     if (kiplayer != null)
                     {
@@ -117,12 +122,8 @@ namespace UniTTT.Konsole
                     }
                     else
                     {
-                        game = new Games.Game(width, height, hPlayer, new HumanPlayer('O'), field);
+                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), field);
                     }
-                }
-                else
-                {
-                    game = new Games.Game(width, height, kiplayer, kiplayer, field);
                 }
                 game.Start();
             }

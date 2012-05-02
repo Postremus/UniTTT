@@ -37,36 +37,49 @@ namespace UniTTT.Logik
             dic.Add(key, value);
         }
 
-        public bool GetBool(string key)
+        /// <summary>
+        /// Liest value von key. Rückgabewert ist im Fehlerfall default(T)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">Der Paramter</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool TryGetValue<T>(string key, out T value)
         {
-            object ret;
-            if (dic.TryGetValue(key, out ret))
-                return (bool)ret;
-            else
+            value = default(T);
+            if (!dic.ContainsKey(key))
+            {
                 return false;
+            }
+            try
+            {
+                value = (T)dic[key];
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public bool IsDefined<T>(string key)
+        {
+            T tmp;
+            return TryGetValue<T>(key, out tmp);
         }
 
         /// <summary>
-        /// Holt einen Int. Wenn nicht vorhanden, wird -1 zurückgegeben.
+        /// Liest value von key.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public int GetInt(string key)
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">der Parameter</param>
+        /// <returns>Rückgabewert ist im Fehlerfall default(T), ansonsten value</returns>
+        public T GetValue<T>(string key)
         {
-            int ret;
-            if (int.TryParse(GetString(key), out ret))
-                return ret;
-            else
-                return -1;
-        }
-
-        public string GetString(string key)
-        {
-            object ret;
-            if (dic.TryGetValue(key, out ret))
-                return (string)ret;
-            else
-                return null;
+            T ret = default(T);
+            TryGetValue<T>(key, out ret);
+            return ret;
         }
 
         public static ParameterInterpreter InterpretCommandLine(string[] args)
