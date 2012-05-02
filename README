@@ -16,7 +16,6 @@ Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benöt
 	/hoehe:			Die Hoehe des Spielfeldes als Ganzzahl, also z.B: 1, 2, 3...
 	/kigame			Startet ein Spiel zwischen zwei KIs
 	/help			Gibt eine Hilfe aus, die die Befehle beinhaltet
-	/Field:			Die Speichervariante (siehe 3.). Nicht erforderlich, Standard ist Array.
     /win:			Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinander,.. an.
     /network
     /ip:
