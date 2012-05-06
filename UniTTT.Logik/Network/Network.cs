@@ -57,7 +57,7 @@ namespace UniTTT.Logik.Network
 
         public virtual void Send(string message)
         {
-            Writer.Write(message);
+            Writer.WriteLine(message);
             Writer.Flush();
         }
 
