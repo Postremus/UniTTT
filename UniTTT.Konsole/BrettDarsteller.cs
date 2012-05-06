@@ -15,43 +15,47 @@ namespace UniTTT.Konsole
         public int Width { get; private set; }
         public int Height { get; private set; }
         private char[,] spielfeld;
+        private int spielFeldWidth;
+        private int spielFeldHeight;
         #endregion
 
         public void Initialize(int width, int height)
         {
             Width = width;
             Height = height;
-            spielfeld = new char[Width + (Width - 1), Height + (Height - 1)];
+            spielFeldWidth = Width + (Width - 1);
+            spielFeldHeight = Height + (Height - 1);
+            spielfeld = new char[spielFeldWidth, spielFeldHeight];
         }
 
         public void Update(Logik.Fields.IField field)
         {
-            int x = 0;
-            int y = 0;
-            for (int Spielfeldy = 0; Spielfeldy < Height + (Height-1); Spielfeldy++)
+            int realX= 0;
+            int realY = 0;
+            for (int Spielfeldy = 0; Spielfeldy < spielFeldHeight; Spielfeldy++)
             {
                 //Hauptreihen
                 if (Spielfeldy % 2 == 0)
                 {
-                    for (int Spielfeldx = 0; Spielfeldx < Width + (Width - 1); Spielfeldx++)
+                    for (int Spielfeldx = 0; Spielfeldx < spielFeldWidth; Spielfeldx++)
                     {
                         if (Spielfeldx % 2 == 0)
                         {
-                            spielfeld[Spielfeldx, Spielfeldy] = field.GetField(new Logik.Vector2i(x, y));
-                            x++;
+                            spielfeld[Spielfeldx, Spielfeldy] = field.GetField(new Logik.Vector2i(realX, realY));
+                            realX++;
                         }
                         else
                         {
                             spielfeld[Spielfeldx, Spielfeldy] = '|';
                         }
                     }
-                    y++;
-                    x = 0;
+                    realY++;
+                    realX = 0;
                 }
                 //Zwischenreihen
                 else
                 {
-                    for (int Spielfeldx = 0; Spielfeldx < Width + (Width - 1); Spielfeldx++)
+                    for (int Spielfeldx = 0; Spielfeldx < spielFeldWidth; Spielfeldx++)
                     {
                         if (Spielfeldx % 2 == 0)
                         {
@@ -70,9 +74,9 @@ namespace UniTTT.Konsole
         {
             Console.Clear();
             string tooutput = null;
-            for (int y = 0; y < Height+(Height-1); y++)
+            for (int y = 0; y < spielFeldHeight; y++)
             {
-                for (int x = 0; x < Width + (Width - 1); x++)
+                for (int x = 0; x < spielFeldWidth; x++)
                 {
                     tooutput += spielfeld[x, y];
                 }
