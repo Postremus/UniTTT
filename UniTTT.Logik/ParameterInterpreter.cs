@@ -53,14 +53,7 @@ namespace UniTTT.Logik
             }
             try
             {
-                if (typeof(T) == typeof(int))
-                {
-                    value = (T)(Object)GetInt(key);
-                }
-                else
-                {
-                    value = (T)dic[key];
-                }
+                value = (T)Convert.ChangeType(dic[key], typeof(T));
                 return true;
             }
             catch (Exception)
@@ -68,16 +61,6 @@ namespace UniTTT.Logik
 
                 return false;
             }
-        }
-
-        private int GetInt(string key)
-        {
-            int i;
-            if (!int.TryParse((string)dic[key], out i))
-            {
-                throw new ArgumentException(string.Format("Value of key '{0}' isn't a Int.", key));
-            }
-            return i;
         }
 
         public bool IsDefined<T>(string key)
