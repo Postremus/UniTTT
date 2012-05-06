@@ -29,6 +29,7 @@ namespace UniTTT.Logik.Game
             client.NewMessageReceivedEvent += ReceiveField;
             client.NewMessageReceivedEvent += ReceiveNewGame;
             newVector2iReceivedEvent += SetVectorOnField;
+
             newFieldReceivedEvent += EqualFieldSizes;
             newGameStartedEvent += NewGame;
             newGameStartedEvent += SendNewGame;
@@ -107,15 +108,10 @@ namespace UniTTT.Logik.Game
             {
                 return;
             }
-            List<string> subs = value.GetSubstrs();
-            foreach (string item in subs)
+            if (value.Contains("UniTTT!"))
             {
-                if (item.Contains("UniTTT!"))
-                {
-                    string str = item.Remove(0, item.IndexOf('!')+1);
-                    vect = Vector2i.StringToVector(str, true);
-                    break;
-                }
+                string str = value.Remove(0, value.IndexOf('!') + 1);
+                vect = Vector2i.StringToVector(str, true);
             }
             OnNewVector2iReceivedEvent(vect);
         }
