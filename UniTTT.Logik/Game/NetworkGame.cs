@@ -102,17 +102,12 @@ namespace UniTTT.Logik.Game
 
         private void ReceiveVector(string value)
         {
-            //UNITTT!X:5|Y:1
-            Vector2i vect = null;
             if (!value.Contains("UniTTT!"))
             {
                 return;
             }
-            if (value.Contains("UniTTT!"))
-            {
-                string str = value.Remove(0, value.IndexOf('!') + 1);
-                vect = Vector2i.StringToVector(str, true);
-            }
+            string str = value.Remove(0, value.IndexOf('!') + 1);
+            Vector2i vect = Vector2i.StringToVector(str, true);
             OnNewVector2iReceivedEvent(vect);
         }
 
