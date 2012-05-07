@@ -15,7 +15,8 @@ namespace UniTTT.Logik.Game
         private const string connectionString = "UniTTT";
         private event Network.NewVector2iReceivedHandler newVector2iReceivedEvent;
         private event Network.NewFieldReceivedHandler newFieldReceivedEvent;
-        private event Network.NewGameStartedHandler newGameStartedEvent;
+        private event Network.NewGameRequestedHandler newGameRequestedEvent;
+        private event Network.NewGameRequestReceived newGameRequestReceivedEvent;
         private bool isNewVector2iReceivedEventRaised;
         #endregion
 
@@ -31,8 +32,9 @@ namespace UniTTT.Logik.Game
             newVector2iReceivedEvent += SetVectorOnField;
 
             newFieldReceivedEvent += EqualFieldSizes;
-            newGameStartedEvent += NewGame;
-            newGameStartedEvent += SendNewGame;
+            newGameRequestedEvent += SendNewGame;
+            newGameRequestedEvent += NewGame;
+            newGameRequestReceivedEvent += NewGame;
 
             isSending = p1.Symbol == 'X';
 
@@ -129,7 +131,7 @@ namespace UniTTT.Logik.Game
         {
             if (!value.Contains("NewGame"))
                 return;
-            NewGame();
+            OnNewGameRequestReceivedEvent();
         }
 
         private void SendNewGame()
@@ -157,12 +159,21 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        public void OnNewGameStartedEvent()
+        public void OnNewGameRequestedEvent()
         {
-            Network.NewGameStartedHandler gameStartedEvent = newGameStartedEvent;
+            Network.NewGameRequestedHandler gameStartedEvent = newGameRequestedEvent;
             if (gameStartedEvent != null)
             {
                 gameStartedEvent();
+            }
+        }
+
+        public void OnNewGameRequestReceivedEvent()
+        {
+            Network.NewGameRequestReceived newGameRequestReceived = newGameRequestReceivedEvent;
+            if (newGameRequestReceived != null)
+            {
+                newGameRequestReceived();
             }
         }
 

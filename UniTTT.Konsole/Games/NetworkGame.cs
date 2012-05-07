@@ -25,7 +25,7 @@ namespace UniTTT.Konsole.Games
             }
             if (NewGameQuestion())
             {
-                OnNewGameStartedEvent();
+                OnNewGameRequestedEvent();
                 Run();
             }
             else
