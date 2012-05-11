@@ -41,7 +41,6 @@ namespace UniTTT.Logik.Network
             NewMessageReceivedEvent += Pong;
             NewMessageReceivedEvent += CountPeople;
             NewMessageReceivedEvent += VisiblePeople;
-            NewMessageReceivedEvent += Console.WriteLine;
         }
 
         public void ConnectToChannel()
