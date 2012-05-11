@@ -187,6 +187,12 @@ namespace UniTTT.Logik.Game
             }
             BDarsteller.Update(Field);
             BDarsteller.Draw();
+            isSending = Player1.Symbol == 'X';
+            Initialize();
+            if (!isSending)
+            {
+                PlayerChange();
+            }
         }
 
         public void EqualFieldSizes(Fields.IField field)
