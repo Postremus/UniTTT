@@ -13,12 +13,13 @@ namespace UniTTT.Logik.Game
         private Network.Network client;
         private bool isSending;
         private const string connectionString = "UniTTT";
-        private event Network.NewVector2iReceivedHandler newVector2iReceivedEvent;
-        private event Network.NewFieldReceivedHandler newFieldReceivedEvent;
-        private event Network.NewGameRequestedHandler newGameRequestedEvent;
-        private event Network.NewGameRequestReceived newGameRequestReceivedEvent;
         private bool isNewVector2iReceivedEventRaised;
         #endregion
+
+        public event Network.NewVector2iReceivedHandler newVector2iReceivedEvent;
+        public event Network.NewFieldReceivedHandler newFieldReceivedEvent;
+        public event Network.NewGameRequestedHandler newGameRequestedEvent;
+        public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
         public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field, string ip, int port, Network.Network client)
         {
