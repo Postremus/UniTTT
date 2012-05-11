@@ -44,7 +44,6 @@ namespace UniTTT.Logik.Game
             {
                 PlayerChange();
             }
-            client.Send(Field.GetBytes().ToString());
         }
 
         public void Logik()
@@ -108,7 +107,7 @@ namespace UniTTT.Logik.Game
             {
                 return;
             }
-            string str = value.Remove(0, value.IndexOf('!') + 1);
+            string str = value.Remove(0, value.IndexOf("UniTTT!") + 7);
             Vector2i vect = Vector2i.StringToVector(str, true);
             OnNewVector2iReceivedEvent(vect);
         }
