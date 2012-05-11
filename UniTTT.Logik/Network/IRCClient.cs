@@ -21,14 +21,14 @@ namespace UniTTT.Logik.Network
         public int PeopleCount { get { return _peopleCount; } set { _peopleCount = value; } }
         public List<string> People { get { return _people; } set { _people = value; } }
 
-        public IRCClient(string server, int port, string channel)
+        public IRCClient(string host, int port, string channel)
         {
 
             this.nick = "UniTTT" + DateTime.Now.Millisecond + "" + DateTime.Now.Second;
             this.user = "UniTTT UniTTT UniTTT UniTTT";
             this.channel = channel;
 
-            Client = new TcpClient(server, port);
+            Client = new TcpClient(host, port);
 
             sTream = Client.GetStream();
             Reader = new StreamReader(sTream);

@@ -15,9 +15,9 @@ namespace UniTTT.Logik.Network
         private TcpListener listener;
         #endregion
 
-        public TCPServer(string ip, int port)
+        public TCPServer(string host, int port)
         {
-            Hostname = ip;
+            Hostname = host;
             TargetPort = port;
 
             listener = new TcpListener(IPAddress.Any, port);
