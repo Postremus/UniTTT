@@ -102,6 +102,10 @@ namespace UniTTT.Logik
 
         public static Vector2i StringToVector(string value, bool containsCoordinate, char seperator)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException("value isn't seted.");
+            }
             if (containsCoordinate)
             {
                 if (value.Contains("X") && value.Contains("Y"))
