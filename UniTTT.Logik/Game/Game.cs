@@ -37,7 +37,7 @@ namespace UniTTT.Logik.Game
                 _hasStoped = value;
             }
         }
-        public bool HastStarted
+        public bool HasStarted
         {
             get
             {

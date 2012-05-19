@@ -32,9 +32,9 @@ namespace UniTTT.Logik.Game
 
         public void Logik(int zug)
         { 
-            if (!HastStarted)
+            if (!HasStarted)
             {
-                HastStarted = true;
+                HasStarted = true;
             }
 
             PlayerChange();

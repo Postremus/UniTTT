@@ -11,7 +11,6 @@ namespace UniTTT.Logik.Game
         private string ip;
         private int port;
         private Network.Network client;
-        private bool isSending;
         private const string connectionString = "UniTTT";
         private bool isNewVector2iReceivedEventRaised;
         #endregion
@@ -23,10 +22,6 @@ namespace UniTTT.Logik.Game
 
         public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field, string ip, int port, Network.Network client)
         {
-            this.ip = ip;
-            this.port = port;
-            this.client = client;
-
             client.NewMessageReceivedEvent += ReceiveVector;
             client.NewMessageReceivedEvent += ReceiveField;
             client.NewMessageReceivedEvent += ReceiveNewGame;
@@ -37,11 +32,16 @@ namespace UniTTT.Logik.Game
             newGameRequestedEvent += NewGame;
             newGameRequestReceivedEvent += NewGame;
 
-            isSending = p1.Symbol == 'X';
+            Initialize(p1, bdar, odar, field, ip, port, client);
+        }
 
-            Initialize(p1, new Player.HumanPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol)))), bdar, odar, field);
-
-            if (!isSending)
+        public void Initialize(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field, string ip, int port, Network.Network client)
+        {
+            this.ip = ip;
+            this.port = port;
+            this.client = client;
+            base.Initialize(p1, new Player.HumanPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol)))), bdar, odar, field);
+            if (p1.Symbol != 'X')
             {
                 PlayerChange();
             }
@@ -50,9 +50,9 @@ namespace UniTTT.Logik.Game
         public void Logik()
         {
             PlayerChange();
-            if (!HastStarted)
+            if (!HasStarted)
             {
-                HastStarted = true;
+                HasStarted = true;
             }
 
             if (HasStoped)
@@ -65,17 +65,15 @@ namespace UniTTT.Logik.Game
                 ODarsteller.PlayerAusgabe(Player.Ausgabe());
             }
 
-            if (isSending)
+            if (IsSending())
             {
                 Vector2i vect = Player.Play(Field);
                 client.Send(string.Format("UniTTT!{0}", vect.ToString()));
-                isSending = false;
                 SetVectorOnField(vect);
             }
             else
             {
                 while (!isNewVector2iReceivedEventRaised) { }
-                isSending = true;
                 isNewVector2iReceivedEventRaised = false;
             }
 
@@ -88,10 +86,14 @@ namespace UniTTT.Logik.Game
 
         public void LogikLoop()
         {
+            HasStoped = false;
+            HasStarted = true;
             do
             {
                 Logik();
             } while (!HasEnd());
+            HasStoped = true;
+            HasStarted = false;
         }
 
         public void SetVectorOnField(Vector2i vect)
@@ -187,17 +189,23 @@ namespace UniTTT.Logik.Game
             }
             BDarsteller.Update(Field);
             BDarsteller.Draw();
-            isSending = Player1.Symbol == 'X';
-            Initialize();
-            if (!isSending)
+
+            if (Player1.Symbol != 'X')
             {
                 PlayerChange();
             }
+            HasStoped = false;
+            HasStarted = true;
         }
 
         public void EqualFieldSizes(Fields.IField field)
         {
             HasStoped = base.Field.Width != field.Width && base.Field.Height != field.Height;
+        }
+
+        public bool IsSending()
+        {
+            return Player == Player1;
         }
     }
 }

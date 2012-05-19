@@ -9,30 +9,40 @@ namespace UniTTT.Konsole.Games
 {
     public class NetworkGame : UniTTT.Logik.Game.NetworkGame
     {
-        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port, Logik.Network.Network client) : base(p1, new BrettDarsteller(width, height), new OutputDarsteller(), field, ip, port, client) { }
+        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port, Logik.Network.Network client) : base(p1, new BrettDarsteller(width, height), new OutputDarsteller(), field, ip, port, client) 
+        {
+        }
 
         public void Run()
         {
-            base.LogikLoop();
-            AfterGameActions();
+            do
+            {
+                if (!HasStoped)
+                {
+                    base.LogikLoop();
+                }
+                if (Player1.Symbol == 'X')
+                {
+                    if (AfterGameActions())
+                    {
+                        OnNewGameRequestedEvent();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Warte auf neues Spiel..");
+                    while (!HasStarted) { };
+                }
+            } while (true);
         }
 
-        private void AfterGameActions()
+        private bool AfterGameActions()
         {
             if (IsODarstellerValid())
             {
-                ODarsteller.WinMessage(Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player1.Symbol));
+                ODarsteller.WinMessage(Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player, Player1));
             }
-            if (NewGameQuestion())
-            {
-                OnNewGameRequestedEvent();
-                Run();
-            }
-            else
-            {
-                Console.WriteLine("Das Spiel ist beendet.");
-                Console.ReadLine();
-            }
+            return NewGameQuestion();
         }
 
         // Fragen, ob eine neue Partie gespielt werden soll
