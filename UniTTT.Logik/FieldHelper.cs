@@ -50,16 +50,28 @@ namespace UniTTT.Logik
             return false;
         }
 
-        public static FieldHelper.GameStates GetGameState(Fields.IField field, char spieler)
+        public static FieldHelper.GameStates GetGameState(Fields.IField field, Player.AbstractPlayer currentPlayer, Player.AbstractPlayer player1)
         {
-            FieldHelper.GameStates state = FieldHelper.GameStates.Laufend;
-            bool gewbl = WinChecker.Pruefe(spieler, field);
-
-            if ((gewbl) && (FieldHelper.HasEmptyFields(field)))
-                state = FieldHelper.GameStates.Gewonnen;
-            if ((!gewbl) && (!FieldHelper.HasEmptyFields(field)))
-                state = FieldHelper.GameStates.Unentschieden;
-            return state;
+            if (currentPlayer == null)
+            {
+                return GameStates.Laufend;
+            }
+            if (WinChecker.Pruefe(currentPlayer.Symbol, field))
+            {
+                if (currentPlayer == player1)
+                {
+                    return GameStates.Gewonnen;
+                }
+                else
+                {
+                    return GameStates.Verloren;
+                }
+            }
+            else if (!FieldHelper.HasEmptyFields(field))
+            {
+                return GameStates.Unentschieden;
+            }
+            return GameStates.Laufend;
         }
 
         public static string Calculate(Fields.IField field)

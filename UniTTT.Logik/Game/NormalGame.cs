@@ -72,7 +72,7 @@ namespace UniTTT.Logik.Game
 
         public void WinCounter()
         {
-            if (FieldHelper.GetGameState(Field, Player.Symbol) == FieldHelper.GameStates.Gewonnen)
+            if (FieldHelper.GetGameState(Field, Player, Player1) == FieldHelper.GameStates.Gewonnen)
             {
                 Player1.WinCounter = Player == Player1 ? +1 : 0;
                 Player2.WinCounter = Player == Player2 ? +1 : 0;

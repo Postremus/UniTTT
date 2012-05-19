@@ -112,7 +112,7 @@ namespace UniTTT.Logik.Game
 
         public bool HasEnd()
         {
-            if (FieldHelper.GetGameState(Field, Player.Symbol) != UniTTT.Logik.FieldHelper.GameStates.Laufend)
+            if (FieldHelper.GetGameState(Field, Player, Player1) != UniTTT.Logik.FieldHelper.GameStates.Laufend)
                 return true;
             return false;
         }
