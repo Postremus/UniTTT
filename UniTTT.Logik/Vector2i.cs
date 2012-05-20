@@ -10,12 +10,13 @@ namespace UniTTT.Logik
     {
         public int X { get; set; }
         public int Y { get; set; }
+        private static Vector2i _zero = new Vector2i(0, 0);
 
         public static Vector2i Zero
         {
             get
             {
-                return new Vector2i(0, 0);
+                return _zero;
             }
         }
 
