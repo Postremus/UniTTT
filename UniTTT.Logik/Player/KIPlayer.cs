@@ -142,7 +142,7 @@ namespace UniTTT.Logik.Player
                 char player = '2';
                 int runden = Rundefrage();
                 int zug;
-                string momsitcode = SitCodeHelper.SetEmpty(9);
+                string momsitcode = SitCodeHelper.GetEmpty(9);
                 int[,] sit_codes = new int[(int)runden, 9];
                 int[,] zuege = new int[(int)runden, 9];
                 int[] wertungen = new int[(int)runden];
@@ -155,7 +155,7 @@ namespace UniTTT.Logik.Player
                     {
                         player = SitCodeHelper.PlayerChange(player);
                         sit_codes[currround, i] = int.Parse(momsitcode);
-                        zug = SitCodeHelper.GetRandomZug(momsitcode);
+                        zug = SitCodeHelper.GetRandomZug(momsitcode, Length);
                         zuege[currround, i] = zug;
 
                         momsitcode = momsitcode.Remove(zug, 1).Insert(zug, player.ToString());
@@ -173,7 +173,7 @@ namespace UniTTT.Logik.Player
                         // Ist Spiel Zu Ende?
                         if ((gewonnen) || (i == 8))
                         {
-                            momsitcode = SitCodeHelper.SetEmpty(9);
+                            momsitcode = SitCodeHelper.GetEmpty(9);
                             i = 9;
                             player = 'X';
                         }
@@ -192,10 +192,10 @@ namespace UniTTT.Logik.Player
 
             public int Play(Fields.IField field, char spieler)
             {
-                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
+                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.GetString(field));
                 int zug = writerreader.Read(sitcode);
                 if (zug == -1)
-                    zug = SitCodeHelper.GetRandomZug(sitcode);
+                    zug = SitCodeHelper.GetRandomZug(sitcode, Length);
                 return zug;
             }
 
@@ -275,7 +275,7 @@ namespace UniTTT.Logik.Player
                 else if (set_zug != -1)
                     return set_zug;
                 else
-                    return SitCodeHelper.GetRandomZug(SitCodeHelper.StringToSitCode(field.ToString()));
+                    return SitCodeHelper.GetRandomZug(SitCodeHelper.StringToSitCode(field.ToString()), Length);
             }
 
             private int TestForOneWin()
@@ -367,8 +367,8 @@ namespace UniTTT.Logik.Player
 
             public int Play(Fields.IField field, char spieler)
             {
-                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.Calculate(field));
-                return SitCodeHelper.GetRandomZug(sitcode);
+                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.GetString(field));
+                return SitCodeHelper.GetRandomZug(sitcode, Length);
             }
 
             public override string ToString()

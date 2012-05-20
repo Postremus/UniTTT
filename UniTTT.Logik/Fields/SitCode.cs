@@ -77,7 +77,7 @@ namespace UniTTT.Logik.Fields
 
         public void Initialize()
         {
-            VarField = SitCodeHelper.SetEmpty(Length);
+            VarField = SitCodeHelper.GetEmpty(Length);
         }
 
         public char GetField(int idx)
@@ -185,7 +185,7 @@ namespace UniTTT.Logik.Fields
 
         public override string ToString()
         {
-            return FieldHelper.Calculate(this);
+            return FieldHelper.GetString(this);
         }
         #endregion
     }

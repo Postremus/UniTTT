@@ -181,7 +181,7 @@ namespace UniTTT.Logik.Fields
 
         public override string ToString()
         {
-            return FieldHelper.Calculate(this);
+            return FieldHelper.GetString(this);
         }
         #endregion
     }

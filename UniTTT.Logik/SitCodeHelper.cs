@@ -17,7 +17,7 @@ namespace UniTTT.Logik
             return value == '2' ? 'X' : value == '3' ? 'O' : value == '1' ? ' ' : value;
         }
 
-        public static string SetEmpty(int length)
+        public static string GetEmpty(int length)
         {
             return new string('1', length);
         }
@@ -39,12 +39,12 @@ namespace UniTTT.Logik
 
         private static Random Rnd = new Random();
 
-        public static int GetRandomZug(string sitcode)
+        public static int GetRandomZug(string sitcode, int max)
         {
             int zug = -1;
             do
             {
-                zug = Rnd.Next(0, 9);
+                zug = Rnd.Next(0, max);
             } while (sitcode[zug] != '1');
             return zug;
         }

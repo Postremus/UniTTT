@@ -11,18 +11,7 @@ namespace UniTTT.Logik
     {
         public static List<string> GetSubstrs(this string value)
         {
-            List<string> ret = new List<string>();
-            int lastidx = 0;
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (value[i] == ' ')
-                {
-                    ret.Add(value.Substring(lastidx, i - lastidx));
-                    lastidx = i;
-                }
-            }
-            ret.Add(value.Substring(lastidx, value.Length - lastidx));
-            return ret;
+            return new List<string>(value.Split(' '));
         }
 
         public static int GetHighestIndex(this int[] value)

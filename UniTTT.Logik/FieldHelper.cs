@@ -74,7 +74,7 @@ namespace UniTTT.Logik
             return GameStates.Laufend;
         }
 
-        public static string Calculate(Fields.IField field)
+        public static string GetString(Fields.IField field)
         {
             string ret = null;
             for (int i = 0; i < field.Length; i++)
