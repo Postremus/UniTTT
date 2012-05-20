@@ -315,14 +315,14 @@ namespace UniTTT.Logik.Player
                 int[] posis = new int[Width * Height];
                 for (int x = 0; x < Width; x++)
                 {
-                    if (WinChecker.DoCheck(field, WinChecker.Directories.Down, ' ', new Vector2i(x, 0), Vector2i.Zero) == Width)
+                    if (WinChecker.DoCheck(field, WinChecker.Directories.Down, ' ', new Vector2i(x, 0)) == Width)
                     {
                         posis[(x + 1) * (0 + 1) - 1]++;
                     }
                 }
                 for (int y = 0; y < Height; y++)
                 {
-                    if (WinChecker.DoCheck(field, WinChecker.Directories.Right, ' ', new Vector2i(0, y), Vector2i.Zero) == Height)
+                    if (WinChecker.DoCheck(field, WinChecker.Directories.Right, ' ', new Vector2i(0, y)) == Height)
                     {
                         posis[(0 + 1) * (y + 1) - 1]++;
                     }
@@ -333,7 +333,7 @@ namespace UniTTT.Logik.Player
                     {
                         if (x + (Width - 1) < Width && y + (Width - 1) < Height)
                         {
-                            if (WinChecker.DoCheck(field, WinChecker.Directories.RightDown, ' ', new Vector2i(x, y), Vector2i.Zero) == Width)
+                            if (WinChecker.DoCheck(field, WinChecker.Directories.RightDown, ' ', new Vector2i(x, y)) == Width)
                             {
                                 posis[(x + 1) * (y + 1) - 1]++;
                             }
@@ -344,7 +344,7 @@ namespace UniTTT.Logik.Player
                 {
                     for (int y = 0; y < Height; y++)
                     {
-                        if (WinChecker.DoCheck(field, WinChecker.Directories.LeftDown, ' ', new Vector2i(x, y), new Vector2i(x + (Height - 1), y + (Height - 1))) == Width)
+                        if (WinChecker.DoCheck(field, WinChecker.Directories.LeftDown, ' ', new Vector2i(x, y)) == Width)
                         {
                             posis[(x + 1) * (y + 1) - 1]++;
                         }

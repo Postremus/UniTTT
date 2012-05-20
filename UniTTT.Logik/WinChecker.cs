@@ -33,12 +33,12 @@ namespace UniTTT.Logik
 
             //Horizontal
             for (int y = 0; y < field.Height; y++)
-                if (DoCheck(field, Directories.Right, spieler, new Vector2i(0, y), new Vector2i(field.Width, y)) == GewinnBedingung)
+                if (DoCheck(field, Directories.Right, spieler, new Vector2i(0, y)) == GewinnBedingung)
                     return true;
 
             //Vertikal
             for (int x = 0; x < field.Width; x++)
-                if (DoCheck(field, Directories.Down, spieler, new Vector2i(x, 0), new Vector2i(x, field.Height)) == GewinnBedingung)
+                if (DoCheck(field, Directories.Down, spieler, new Vector2i(x, 0)) == GewinnBedingung)
                     return true;
 
             // Diagonal
@@ -49,7 +49,7 @@ namespace UniTTT.Logik
                 {
                     if (x + (GewinnBedingung - 1) < field.Width && y + (GewinnBedingung - 1) < field.Height)
                     {
-                        if (DoCheck(field, Directories.RightDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Width - 1), y + (field.Height - 1))) == GewinnBedingung)
+                        if (DoCheck(field, Directories.RightDown, spieler, new Vector2i(x, y)) == GewinnBedingung)
                             return true;
                     }
                 }
@@ -62,7 +62,7 @@ namespace UniTTT.Logik
                 {
                     if ((x - (GewinnBedingung - 1) >= 0) && y - (GewinnBedingung - 1) < field.Height)
                     {
-                        if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(x, y), new Vector2i(x + (field.Height - 1), y + (field.Height - 1))) == GewinnBedingung)
+                        if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(x, y)) == GewinnBedingung)
                             return true;
                     }
                 }
@@ -77,9 +77,8 @@ namespace UniTTT.Logik
         /// <param name="dir">Die Richtung, in die überprüft werden soll.</param>
         /// <param name="spieler"></param>
         /// <param name="from">Der inklusive untere Vector der Startposition.</param>
-        /// <param name="to">Der inklusive untere Vector der Endposition. (Unwichtig, null reicht auch)</param>
         /// <returns></returns>
-        public static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from, Vector2i to)
+        public static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from)
         {
             int counter = 0;
             for (int a = 0; a < GewinnBedingung; a++)
