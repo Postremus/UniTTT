@@ -185,7 +185,7 @@ namespace UniTTT.Logik.Game
             Player = null;
             if (IsBDarstellerGraphical())
             {
-                ((Logik.IGraphicalBrettDarsteller)BDarsteller).DeLock();
+                ((Logik.IGraphicalBrettDarsteller)BDarsteller).Enabled = true;
             }
             BDarsteller.Update(Field);
             BDarsteller.Draw();

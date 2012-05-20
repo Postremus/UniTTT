@@ -7,8 +7,7 @@ namespace UniTTT.Logik
 {
     public interface IGraphicalBrettDarsteller : IBrettDarsteller
     {
-        void Lock();
-        void DeLock();
+        bool Enabled { get; set; }
         void Create();
     }
 }
