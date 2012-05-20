@@ -23,16 +23,21 @@ namespace UniTTT.Logik.Config
             _fileName = fileName;
             _path = Path.Combine(_defaultDir, _fileName + _defaultExtension);
             _serializer = new XmlSerializer(typeof(ParameterConfig));
-        }
-
-        public void Write(ParameterConfig config)
-        {
             if (!Directory.Exists(_defaultDir))
             {
                 Directory.CreateDirectory(_defaultDir);
             }
+        }
+
+        public void Write(ParameterConfig config)
+        {
+            if (File.Exists(_path))
+            {
+                File.Delete(_path);
+            }
             _stream = new FileStream(_path, FileMode.Create);
             _serializer.Serialize(_stream, config);
+            _stream.Close();
         }
 
         public object Read()
