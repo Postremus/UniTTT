@@ -21,9 +21,10 @@ namespace UniTTT.Konsole.Games
                 {
                     base.LogikLoop();
                 }
+                ODarsteller.WinMessage(Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player, Player1));
                 if (Player1.Symbol == 'X')
                 {
-                    if (AfterGameActions())
+                    if (NewGameQuestion())
                     {
                         OnNewGameRequestedEvent();
                     }
@@ -34,15 +35,6 @@ namespace UniTTT.Konsole.Games
                     while (!HasStarted) { };
                 }
             } while (true);
-        }
-
-        private bool AfterGameActions()
-        {
-            if (IsODarstellerValid())
-            {
-                ODarsteller.WinMessage(Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player, Player1));
-            }
-            return NewGameQuestion();
         }
 
         // Fragen, ob eine neue Partie gespielt werden soll
