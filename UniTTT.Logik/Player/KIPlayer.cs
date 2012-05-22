@@ -354,19 +354,19 @@ namespace UniTTT.Logik.Player
 
             private int TestForBestPosition()
             {
-                int[] posis = new int[Width * Height];
+                int[] posis = new int[Length];
                 for (int x = 0; x < Width; x++)
                 {
                     if (WinChecker.DoCheck(field, WinChecker.Directories.Down, ' ', new Vector2i(x, 0)) == Width)
                     {
-                        posis[(x + 1) * (0 + 1) - 1]++;
+                        posis[x]++;
                     }
                 }
                 for (int y = 0; y < Height; y++)
                 {
                     if (WinChecker.DoCheck(field, WinChecker.Directories.Right, ' ', new Vector2i(0, y)) == Height)
                     {
-                        posis[(0 + 1) * (y + 1) - 1]++;
+                        posis[y]++;
                     }
                 }
                 for (int x = 0; x < Width; x++)
