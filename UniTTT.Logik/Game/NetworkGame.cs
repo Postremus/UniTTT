@@ -207,5 +207,10 @@ namespace UniTTT.Logik.Game
         {
             return Player == Player1;
         }
+
+        public override string ToString()
+        {
+            return "Networkgame";
+        }
     }
 }
