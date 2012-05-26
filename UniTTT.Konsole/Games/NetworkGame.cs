@@ -15,6 +15,9 @@ namespace UniTTT.Konsole.Games
             WinMessageEvent += WinMessage;
             PlayerOutputEvent += PlayerOutput;
             WindowTitleChangeEvent += TitleChange;
+            GetStringEvent += Console.ReadLine;
+            ShowMessageEvent += Console.WriteLine;
+            GetIntEvent += GetInt;
             Initialize();
         }
 
@@ -57,15 +60,22 @@ namespace UniTTT.Konsole.Games
                 Console.WriteLine(state);
         }
 
-        public void PlayerOutput(string message)
+        private void PlayerOutput(string message)
         {
             Console.WriteLine(message);
             Console.WriteLine();
         }
 
-        public void TitleChange(string title)
+        private void TitleChange(string title)
         {
             Console.Title = title;
+        }
+
+        private int GetInt()
+        {
+            int ret;
+            int.TryParse(Console.ReadLine(), out ret);
+            return ret;
         }
     }
 }

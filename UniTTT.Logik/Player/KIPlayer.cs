@@ -113,12 +113,12 @@ namespace UniTTT.Logik.Player
                 int ret = new int();
                 do
                 {
-                    Console.WriteLine("Wie viele Runden sollen durchlaufen werden? (als Zahl)");
-                    if (int.TryParse(Console.ReadLine(), out ret))
+                    OnShowMessageEvent("Wie viele Runden sollen durchlaufen werden? (als Zahl)");
+                    if (int.TryParse(OnGetIntEvent().ToString(), out ret))
                     {
                         if (ret < 0)
                         {
-                            Console.WriteLine("Zahl zu klein.");
+                            OnShowMessageEvent("Zahl zu klein.");
                         }
                         else
                         {
@@ -127,11 +127,8 @@ namespace UniTTT.Logik.Player
                     }
                     else
                     {
-                        Console.WriteLine("Irgendetwas wurde falsch eingegeben.");
-                        Console.WriteLine("Eventuell eine Lerrzeichen, oder ein anderes nicht Zahl Zeichen");
-                        Console.WriteLine("Taste drücken für einen neuen Versuch");
-                        Console.ReadLine();
-                        Console.Clear();
+                        OnShowMessageEvent("Irgendetwas wurde falsch eingegeben.");
+                        OnShowMessageEvent("Eventuell ein Lerrzeichen, oder ein anderes nicht Zahl Zeichen");
                     }
                 } while (true);
             }
@@ -149,7 +146,7 @@ namespace UniTTT.Logik.Player
                 int[] wertungen = new int[(int)runden];
                 bool gewonnen = false;
                 #endregion
-                Console.WriteLine("Berechne Daten..");
+                OnShowMessageEvent("Berechne Daten..");
                 for (int currround = 0; currround < runden; currround++)
                 {
                     for (int i = 0; i < 9; i++)
@@ -181,14 +178,14 @@ namespace UniTTT.Logik.Player
                     }
                     if (currround % 100 == 0)
                     {
-                        Console.WriteLine("Spielrunde Nr." + currround);
+                        OnShowMessageEvent("Spielrunde Nr. " + currround);
                     }
                 }
-                Console.WriteLine("Fertig mit dem Berechnen der Daten.");
-                Console.WriteLine("Speichere Daten");
+                OnShowMessageEvent("Fertig mit dem Berechnen der Daten.");
+                OnShowMessageEvent("Speichere Daten");
                 writerreader.Write(zuege, sit_codes, wertungen);
-                Console.WriteLine("Fertig, Taste drücken zum Beenden");
-                Console.ReadLine();
+                OnShowMessageEvent("Fertig, Taste drücken zum Beenden");
+                OnGetStringEvent();
             }
 
             public int Play(Fields.IField field, char spieler)

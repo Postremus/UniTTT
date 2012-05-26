@@ -17,6 +17,9 @@ namespace UniTTT.Logik.Game
         public event Network.WindowTitleChangeHandler WindowTitleChangeEvent;
         public event Network.PlayerOutputHandler PlayerOutputEvent;
         public event Network.WinMessageHandler WinMessageEvent;
+        public event Network.GetIntHandler GetIntEvent;
+        public event Network.GetStringHandler GetStringEvent;
+        public event Network.ShowMessageHandler ShowMessageEvent;
 
         #region Propertys
         public Fields.IField Field
@@ -62,6 +65,14 @@ namespace UniTTT.Logik.Game
             {
                 Field = field;
             }
+            if (p1 is Player.KIPlayer)
+            {
+                p1 = RegisterKIEvents((UniTTT.Logik.Player.KIPlayer)p1);
+            }
+            else if (p2 is Player.KIPlayer)
+            {
+                p2 = RegisterKIEvents((UniTTT.Logik.Player.KIPlayer)p2);
+            }
             BDarsteller = bdar;
             Player1 = p1;
             Player2 = p2;
@@ -76,6 +87,14 @@ namespace UniTTT.Logik.Game
                 BDarsteller.Update(Field);
                 BDarsteller.Draw();
             }
+        }
+
+        private Player.AbstractPlayer RegisterKIEvents(Player.KIPlayer ki)
+        {
+            ki.KI.GetIntEvent += OnGetIntEvent;
+            ki.KI.GetStringEvent += OnGetStringEvent;
+            ki.KI.ShowMessageEvent += OnShowMessageEvent;
+            return ki;
         }
 
         public virtual void Logik(Vector2i vect)
@@ -176,6 +195,37 @@ namespace UniTTT.Logik.Game
             if (winMessageEvent != null)
             {
                 winMessageEvent(symbol, gameState);
+            }
+        }
+
+        public int OnGetIntEvent()
+        {
+            int ret = -1;
+            Network.GetIntHandler getIntEvent = GetIntEvent;
+            if (getIntEvent != null)
+            {
+                ret = getIntEvent();
+            }
+            return ret;
+        }
+
+        public string OnGetStringEvent()
+        {
+            string ret = null;
+            Network.GetStringHandler getStringEvent = GetStringEvent;
+            if (getStringEvent != null)
+            {
+                ret = getStringEvent();
+            }
+            return ret;
+        }
+
+        public void OnShowMessageEvent(string message)
+        {
+            Network.ShowMessageHandler showMessageEvent = ShowMessageEvent;
+            if (showMessageEvent != null)
+            {
+                showMessageEvent(message);
             }
         }
     }

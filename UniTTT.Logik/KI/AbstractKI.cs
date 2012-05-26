@@ -7,6 +7,10 @@ namespace UniTTT.Logik.KI
 {
     public class AbstractKI
     {
+        public event Network.GetIntHandler GetIntEvent;
+        public event Network.GetStringHandler GetStringEvent;
+        public event Network.ShowMessageHandler ShowMessageEvent;
+
         protected AbstractKI(char kispieler, int width, int height)
         {
             KIPlayer = kispieler;
@@ -88,5 +92,35 @@ namespace UniTTT.Logik.KI
             return ret;
         }
 
+        public int OnGetIntEvent()
+        {
+            int ret = -1;
+            Network.GetIntHandler getIntEvent = GetIntEvent;
+            if (getIntEvent != null)
+            {
+                ret = getIntEvent();
+            }
+            return ret;
+        }
+
+        public string OnGetStringEvent()
+        {
+            string ret = null;
+            Network.GetStringHandler getStringEvent = GetStringEvent;
+            if (getStringEvent != null)
+            {
+                ret = getStringEvent();
+            }
+            return ret;
+        }
+
+        public void OnShowMessageEvent(string message)
+        {
+            Network.ShowMessageHandler showMessageEvent = ShowMessageEvent;
+            if (showMessageEvent != null)
+            {
+                showMessageEvent(message);
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace UniTTT.Konsole
 
             int width = parameters.GetValue<int>("breite");
             int height = parameters.GetValue<int>("hoehe");
-
+            
             if (!parameters.IsDefined<int>("breite"))
             {
                 width = 3;
@@ -71,6 +71,9 @@ namespace UniTTT.Konsole
                 {
                     if (kiplayer == null) throw new FormatException();
                     Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus", kiplayer.ToString());
+                    ((Logik.Player.KIPlayer)kiplayer).KI.ShowMessageEvent += Console.WriteLine;
+                    ((Logik.Player.KIPlayer)kiplayer).KI.GetStringEvent += Console.ReadLine;
+                    ((Logik.Player.KIPlayer)kiplayer).KI.GetIntEvent += GetInt;
                     kiplayer.Learn();
                 }
             }
@@ -118,6 +121,13 @@ namespace UniTTT.Konsole
                 }
                 game.Start();
             }
+        }
+
+        private static int GetInt()
+        {
+            int ret;
+            int.TryParse(Console.ReadLine(), out ret);
+            return ret;
         }
 
         private static void Help()
