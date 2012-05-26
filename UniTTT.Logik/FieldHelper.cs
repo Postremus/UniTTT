@@ -83,5 +83,16 @@ namespace UniTTT.Logik
             }
             return ret;
         }
+
+        public static Fields.IField GetRandomField(Fields.IField field)
+        {
+            char player = '2';
+            for (int i = 0; i < field.Length; i++)
+            {
+                field.SetField(SitCodeHelper.GetRandomZug(field), player);
+                player = SitCodeHelper.PlayerChange(player);
+            }
+            return field;
+        }
     }
 }
