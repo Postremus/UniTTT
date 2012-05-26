@@ -9,8 +9,13 @@ namespace UniTTT.Konsole.Games
 {
     public class NetworkGame : UniTTT.Logik.Game.NetworkGame
     {
-        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port, Logik.Network.Network client) : base(p1, new BrettDarsteller(width, height), new OutputDarsteller(), field, ip, port, client) 
+        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port, Logik.Network.Network client)
+            : base(p1, new BrettDarsteller(width, height), field, ip, port, client)
         {
+            WinMessageEvent += WinMessage;
+            PlayerOutputEvent += PlayerOutput;
+            WindowTitleChangeEvent += TitleChange;
+            Initialize();
         }
 
         public void Run()
@@ -21,7 +26,7 @@ namespace UniTTT.Konsole.Games
                 {
                     base.LogikLoop();
                 }
-                ODarsteller.WinMessage(Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player, Player1));
+                OnWinMessageEvent(Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(Field, Player, Player1));
                 if (Player1.Symbol == 'X')
                 {
                     if (NewGameQuestion())
@@ -42,6 +47,25 @@ namespace UniTTT.Konsole.Games
         {
             Console.WriteLine("Wollen Sie eine neue Partie spielen? (J/N)");
             return Console.ReadLine().Trim().ToUpper(CultureInfo.CurrentCulture) == "J";
+        }
+
+        private void WinMessage(char player, Logik.FieldHelper.GameStates state)
+        {
+            if (state == UniTTT.Logik.FieldHelper.GameStates.Gewonnen)
+                Console.WriteLine("Spieler {0} hat Gewonnen", player);
+            else
+                Console.WriteLine(state);
+        }
+
+        public void PlayerOutput(string message)
+        {
+            Console.WriteLine(message);
+            Console.WriteLine();
+        }
+
+        public void TitleChange(string title)
+        {
+            Console.Title = title;
         }
     }
 }

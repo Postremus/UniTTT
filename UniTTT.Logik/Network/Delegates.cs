@@ -14,5 +14,7 @@ namespace UniTTT.Logik.Network
     public delegate void ConnectionSuccessHandler();
     public delegate void PlayerMovedHandler(Vector2i vect);
     public delegate void PlayerChangeHandler();
-
+    public delegate void WindowTitleChangeHandler(string title);
+    public delegate void PlayerOutputHandler(string message);
+    public delegate void WinMessageHandler(char symbol, FieldHelper.GameStates gameState);
 }

@@ -70,7 +70,6 @@
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="Fields\IField.cs" />
     <Compile Include="IGraphicalBrettDarsteller.cs" />
-    <Compile Include="IOutputDarsteller.cs" />
     <Compile Include="KI\AbstractKI.cs" />
     <Compile Include="Player\AbstractPlayer.cs" />
     <Compile Include="Player\HumanPlayer.cs" />

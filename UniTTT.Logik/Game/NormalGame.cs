@@ -9,19 +9,16 @@ namespace UniTTT.Logik.Game
 {
     public class NormalGame : Game
     {
-        public NormalGame(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field)
+        public NormalGame(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.Fields.IField field)
         {
-            Initialize(p1, p2, bdar, odar, field);
+            Initialize(p1, p2, bdar, field);
         }
 
         #region Methods
-        public void Logik()
+        public override void Logik()
         {
             PlayerChange();
-            if (IsODarstellerValid())
-            {
-                ODarsteller.PlayerAusgabe(Player.Ausgabe());
-            }
+            OnPlayerOutputEvent(Player.Ausgabe());
             Field.SetField(Player.Play(Field), Player.Symbol);
             if (IsBDarstellerValid())
             {
@@ -38,10 +35,7 @@ namespace UniTTT.Logik.Game
             }
 
             PlayerChange();
-            if (IsODarstellerValid())
-            {
-                ODarsteller.PlayerAusgabe(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
-            }
+            OnPlayerOutputEvent(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
             Field.SetField(zug, Player.Symbol);
             if (IsBDarstellerValid())
             {

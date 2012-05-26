@@ -14,6 +14,9 @@ namespace UniTTT.Logik.Game
 
         public event Network.PlayerMovedHandler PlayerMovedEvent;
         public event Network.PlayerChangeHandler PlayerChangeEvent;
+        public event Network.WindowTitleChangeHandler WindowTitleChangeEvent;
+        public event Network.PlayerOutputHandler PlayerOutputEvent;
+        public event Network.WinMessageHandler WinMessageEvent;
 
         #region Propertys
         public Fields.IField Field
@@ -22,7 +25,6 @@ namespace UniTTT.Logik.Game
             set;
         }
         public Logik.IBrettDarsteller BDarsteller { get; set; }
-        public Logik.IOutputDarsteller ODarsteller { get; set; }
         public Player.AbstractPlayer Player { get; set; }
         public Player.AbstractPlayer Player1 { get; set; }
         public Player.AbstractPlayer Player2 { get; set; }
@@ -50,7 +52,7 @@ namespace UniTTT.Logik.Game
         }
         #endregion
 
-        public void Initialize(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.IOutputDarsteller odar, Logik.Fields.IField field)
+        public void Initialize(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.Fields.IField field)
         {
             if (field == null)
             {
@@ -61,7 +63,6 @@ namespace UniTTT.Logik.Game
                 Field = field;
             }
             BDarsteller = bdar;
-            ODarsteller = odar;
             Player1 = p1;
             Player2 = p2;
             Initialize();
@@ -69,10 +70,7 @@ namespace UniTTT.Logik.Game
 
         public void Initialize()
         {
-            if (IsODarstellerValid())
-            {
-                ODarsteller.Title = "UniTTT - " + this.ToString();
-            }
+            OnWindowTitleChangeEvent("UniTTT - " + this.ToString());
             if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
@@ -80,16 +78,16 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        public void Logik(Vector2i vect)
+        public virtual void Logik(Vector2i vect)
         {
 
         }
 
-        public void Logik()
+        public virtual void Logik()
         {
         }
 
-        public void LogikLoop()
+        public virtual void LogikLoop()
         {
             do
             {
@@ -100,11 +98,6 @@ namespace UniTTT.Logik.Game
         public bool IsBDarstellerValid()
         {
             return BDarsteller != null;
-        }
-
-        public bool IsODarstellerValid()
-        {
-            return ODarsteller != null;
         }
 
         public bool IsFieldValid()
@@ -129,7 +122,7 @@ namespace UniTTT.Logik.Game
             return false;
         }
 
-        public void NewGame()
+        public virtual void NewGame()
         {
             Field.Initialize();
             Player = null;
@@ -156,6 +149,33 @@ namespace UniTTT.Logik.Game
             if (playerChangeEvent != null)
             {
                 playerChangeEvent();
+            }
+        }
+
+        public void OnWindowTitleChangeEvent(string title)
+        {
+            Network.WindowTitleChangeHandler windowTitleChangeEvent = WindowTitleChangeEvent;
+            if (windowTitleChangeEvent != null)
+            {
+                windowTitleChangeEvent(title);
+            }
+        }
+
+        public void OnPlayerOutputEvent(string message)
+        {
+            Network.PlayerOutputHandler playerOutputEvent = PlayerOutputEvent;
+            if (playerOutputEvent != null)
+            {
+                playerOutputEvent(message);
+            }
+        }
+
+        public void OnWinMessageEvent(char symbol, FieldHelper.GameStates gameState)
+        {
+            Network.WinMessageHandler winMessageEvent = WinMessageEvent;
+            if (winMessageEvent != null)
+            {
+                winMessageEvent(symbol, gameState);
             }
         }
     }
