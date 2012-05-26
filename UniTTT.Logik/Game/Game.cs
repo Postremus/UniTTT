@@ -149,8 +149,7 @@ namespace UniTTT.Logik.Game
             {
                 ((Logik.IGraphicalBrettDarsteller)BDarsteller).Enabled = true;
             }
-            BDarsteller.Update(Field);
-            BDarsteller.Draw();
+            BDarsteller.Initialize(Field.Width, Field.Height);
         }
 
         public void OnPlayerMovedEvent(Vector2i vect)
