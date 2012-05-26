@@ -38,5 +38,59 @@ namespace UniTTT.Logik.KI
         {
             return "KI";
         }
+
+        protected int Valuation(Fields.IField field, char player)
+        {
+            List<Fields.FieldRegion> fPanel = field.Panels;
+            int ret = 0;
+            foreach (Fields.FieldRegion region in fPanel)
+            {
+                int humanCount = 0;
+                int kiCount = 0;
+                foreach (Fields.FieldPlaceData placeData in region)
+                {
+                    if (placeData.FieldValue == HumanPlayer)
+                    {
+                        humanCount++;
+                    }
+                    else if (placeData.FieldValue == KIPlayer)
+                    {
+                        kiCount++;
+                    }
+                }
+
+                int multi = 1;
+                if (humanCount == 0)
+                {
+                    if (player == HumanPlayer)
+                        multi = 3;
+                    ret += -Pow(10, kiCount) * multi;
+                }
+                else if (kiCount == 0)
+                {
+                    if (player == KIPlayer)
+                        multi = 3;
+                    ret += Pow(10, humanCount) * multi;
+                }
+                else
+                {
+                    ret += 0;
+                }
+            }
+            return ret;
+        }
+
+        private int Pow(int x, int y)
+        {
+            if (y == 0)
+                return 0;
+            int ret = 1;
+            for (int i = 0; i < y; i++)
+            {
+                ret *= x;
+            }
+            return ret;
+        }
+
     }
 }
