@@ -176,7 +176,7 @@ namespace UniTTT.Logik.Player
                         {
                             momsitcode = SitCodeHelper.GetEmpty(9);
                             i = 9;
-                            player = 'X';
+                            player = '2';
                         }
                     }
                     if (currround % 100 == 0)
