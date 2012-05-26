@@ -72,10 +72,6 @@ namespace UniTTT.Logik.KI
                         multi = 3;
                     ret += Pow(10, humanCount) * multi;
                 }
-                else
-                {
-                    ret += 0;
-                }
             }
             return ret;
         }
