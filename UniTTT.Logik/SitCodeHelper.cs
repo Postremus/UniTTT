@@ -39,13 +39,13 @@ namespace UniTTT.Logik
 
         private static Random Rnd = new Random();
 
-        public static int GetRandomZug(string sitcode, int max)
+        public static int GetRandomZug(Fields.IField field)
         {
             int zug = -1;
             do
             {
-                zug = Rnd.Next(0, max);
-            } while (sitcode[zug] != '1');
+                zug = Rnd.Next(0, field.Length);
+            } while (!field.IsFieldEmpty(zug));
             return zug;
         }
     }
