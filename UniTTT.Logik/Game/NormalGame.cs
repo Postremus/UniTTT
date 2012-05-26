@@ -50,26 +50,6 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        public void LogikLoop()
-        {
-            do
-            {
-                Logik();
-            } while (!HasEnd());
-        }
-
-        public void NewGame()
-        {
-            Field.Initialize();
-            Player = null;
-            if (IsBDarstellerGraphical())
-            {
-                ((Logik.IGraphicalBrettDarsteller)BDarsteller).Enabled = true;
-            }
-            BDarsteller.Update(Field);
-            BDarsteller.Draw();
-        }
-
         public void WinCounter()
         {
             if (FieldHelper.GetGameState(Field, Player, Player1) == FieldHelper.GameStates.Gewonnen)

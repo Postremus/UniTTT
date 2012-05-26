@@ -85,6 +85,18 @@ namespace UniTTT.Logik.Game
 
         }
 
+        public void Logik()
+        {
+        }
+
+        public void LogikLoop()
+        {
+            do
+            {
+                Logik();
+            } while (!HasEnd());
+        }
+
         public bool IsBDarstellerValid()
         {
             return BDarsteller != null;
@@ -115,6 +127,18 @@ namespace UniTTT.Logik.Game
             if (FieldHelper.GetGameState(Field, Player, Player1) != UniTTT.Logik.FieldHelper.GameStates.Laufend)
                 return true;
             return false;
+        }
+
+        public void NewGame()
+        {
+            Field.Initialize();
+            Player = null;
+            if (IsBDarstellerGraphical())
+            {
+                ((Logik.IGraphicalBrettDarsteller)BDarsteller).Enabled = true;
+            }
+            BDarsteller.Update(Field);
+            BDarsteller.Draw();
         }
 
         public void OnPlayerMovedEvent(Vector2i vect)

@@ -88,10 +88,7 @@ namespace UniTTT.Logik.Game
         {
             HasStoped = false;
             HasStarted = true;
-            do
-            {
-                Logik();
-            } while (!HasEnd());
+            base.LogikLoop();
             HasStoped = true;
             HasStarted = false;
         }
@@ -181,15 +178,7 @@ namespace UniTTT.Logik.Game
 
         public void NewGame()
         {
-            Field.Initialize();
-            Player = null;
-            if (IsBDarstellerGraphical())
-            {
-                ((Logik.IGraphicalBrettDarsteller)BDarsteller).Enabled = true;
-            }
-            BDarsteller.Update(Field);
-            BDarsteller.Draw();
-
+            base.NewGame();
             if (Player1.Symbol != 'X')
             {
                 PlayerChange();
