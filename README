@@ -32,8 +32,3 @@ Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benöt
     /ki:3           KIBot                   Eine gescriptete KI. Sie lernt nicht, sie weiß muss alles vorher wissen-
     /ki:4           KIMiniMax               Eine auf den MiniMax Algorythmus basierende KI.
     /ki:5           KIMiniMaxAlphaBeta      Eine auf den MiniMax Algorythmus mit Alpha-Beta Pruning basierende KI. Sie ist deutlich performanter als die KIMiniMax.
-
-3) Die Speichersysteme
-
-	/Field:array		Das Spielfeld wird direkt in einer Tabellenform abgespeichert.
-	/Field:string		Schreibt und liest das Spielfeld aus/in einer Zeichenkette.
