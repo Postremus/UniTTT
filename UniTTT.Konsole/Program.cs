@@ -79,7 +79,6 @@ namespace UniTTT.Konsole
             }
             else if (parameters.GetValue<bool>("network"))
             {
-                Games.NetworkGame game;
                 Logik.Network.Network client;
                 string ip = parameters.GetValue<string>("ip");
                 int port = parameters.GetValue<int>("port");
@@ -98,28 +97,32 @@ namespace UniTTT.Konsole
                         client = new Logik.Network.TCPClient(ip, port);
                     }
                 }
-                game = new Games.NetworkGame(width, height, hPlayer, ip, port, client);
-                game.Run();
+                Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new BrettDarsteller(width, height), new Logik.Fields.Brett(width, height), ip, port, client);
+                Game g = new Game(gameMode);
+                g.Run();
             }
             else
             {
-                Games.Game game;
+                Logik.Game.Game gameMode;
+                BrettDarsteller bdar = new BrettDarsteller(width, height);
+                Logik.Fields.IField field = new Logik.Fields.Brett(width, height);
                 if (parameters.GetValue<bool>("kigame"))
                 {
-                    game = new Games.Game(width, height, kiplayer, kiplayer);
+                    gameMode = new Logik.Game.NormalGame(kiplayer, kiplayer, bdar, field);
                 }
                 else
                 {
                     if (kiplayer != null)
                     {
-                        game = new Games.Game(width, height, hPlayer, kiplayer);
+                        gameMode = new Logik.Game.NormalGame(hPlayer, kiplayer, bdar, field);
                     }
                     else
                     {
-                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'));
+                        gameMode = new Logik.Game.NormalGame(new HumanPlayer('X'), new HumanPlayer('O'), bdar, field);
                     }
                 }
-                game.Start();
+                Game g = new Game(gameMode);
+                g.Run();
             }
         }
 
