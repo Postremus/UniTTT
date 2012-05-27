@@ -98,7 +98,7 @@ namespace UniTTT.Konsole
                         client = new Logik.Network.TCPClient(ip, port);
                     }
                 }
-                game = new Games.NetworkGame(width, height, hPlayer, null, ip, port, client);
+                game = new Games.NetworkGame(width, height, hPlayer, ip, port, client);
                 game.Run();
             }
             else
@@ -106,17 +106,17 @@ namespace UniTTT.Konsole
                 Games.Game game;
                 if (parameters.GetValue<bool>("kigame"))
                 {
-                    game = new Games.Game(width, height, kiplayer, kiplayer, null);
+                    game = new Games.Game(width, height, kiplayer, kiplayer);
                 }
                 else
                 {
                     if (kiplayer != null)
                     {
-                        game = new Games.Game(width, height, hPlayer, kiplayer, null);
+                        game = new Games.Game(width, height, hPlayer, kiplayer);
                     }
                     else
                     {
-                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), null);
+                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'));
                     }
                 }
                 game.Start();

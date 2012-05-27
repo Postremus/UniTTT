@@ -9,8 +9,8 @@ namespace UniTTT.Konsole.Games
 {
     public class NetworkGame : UniTTT.Logik.Game.NetworkGame
     {
-        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Fields.IField field, string ip, int port, Logik.Network.Network client)
-            : base(p1, new BrettDarsteller(width, height), field, ip, port, client)
+        public NetworkGame(int width, int height, Logik.Player.AbstractPlayer p1, string ip, int port, Logik.Network.Network client)
+            : base(p1, new BrettDarsteller(width, height), new UniTTT.Logik.Fields.Brett(width, height), ip, port, client)
         {
             WinMessageEvent += WinMessage;
             PlayerOutputEvent += PlayerOutput;

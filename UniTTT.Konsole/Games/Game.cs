@@ -9,8 +9,8 @@ namespace UniTTT.Konsole.Games
 {
     class Game : Logik.Game.NormalGame
     {
-        public Game(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.Fields.IField field)
-            : base(p1, p2, new BrettDarsteller(width, height), field)
+        public Game(int width, int height, Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2)
+            : base(p1, p2, new BrettDarsteller(width, height), new UniTTT.Logik.Fields.Brett(width, height))
         {
             WinMessageEvent += WinMessage;
             PlayerOutputEvent += PlayerOutput;
