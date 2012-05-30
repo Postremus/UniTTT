@@ -110,7 +110,7 @@ namespace UniTTT.Logik.Game
 
         private void ReceiveField(string value)
         {
-            if (!value.Contains("Field:"))
+            /*if (!value.Contains("Field:"))
             {
                 return;
             }
@@ -119,7 +119,7 @@ namespace UniTTT.Logik.Game
             if (field != null)
             {
                 OnNewFieldReceivedEvent(field);
-            }
+            }*/
         }
 
         private void ReceiveNewGame(string value)
