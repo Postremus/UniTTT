@@ -50,11 +50,13 @@
     <Compile Include="Command\Commands\SaveCommand.cs" />
     <Compile Include="Config\ConfigStream.cs" />
     <Compile Include="Config\ParameterConfig.cs" />
+    <Compile Include="Delegates.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
     <Compile Include="Fields\FieldPlaceData.cs" />
     <Compile Include="Fields\FieldRegion.cs" />
+    <Compile Include="Game\Delegates.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\NetworkGame.cs" />
     <Compile Include="Game\NormalGame.cs" />

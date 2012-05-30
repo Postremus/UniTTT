@@ -12,14 +12,14 @@ namespace UniTTT.Logik.Game
         private bool _hasStarted;
         #endregion
 
-        public event Network.PlayerMovedHandler PlayerMovedEvent;
-        public event Network.PlayerChangeHandler PlayerChangeEvent;
-        public event Network.WindowTitleChangeHandler WindowTitleChangeEvent;
-        public event Network.PlayerOutputHandler PlayerOutputEvent;
-        public event Network.WinMessageHandler WinMessageEvent;
-        public event Network.GetIntHandler GetIntEvent;
-        public event Network.GetStringHandler GetStringEvent;
-        public event Network.ShowMessageHandler ShowMessageEvent;
+        public event PlayerMovedHandler PlayerMovedEvent;
+        public event PlayerChangeHandler PlayerChangeEvent;
+        public event WindowTitleChangeHandler WindowTitleChangeEvent;
+        public event PlayerOutputHandler PlayerOutputEvent;
+        public event WinMessageHandler WinMessageEvent;
+        public event GetIntHandler GetIntEvent;
+        public event GetStringHandler GetStringEvent;
+        public event ShowMessageHandler ShowMessageEvent;
 
         #region Propertys
         public Fields.IField Field
@@ -154,7 +154,7 @@ namespace UniTTT.Logik.Game
 
         public void OnPlayerMovedEvent(Vector2i vect)
         {
-            Network.PlayerMovedHandler playerMovedEvent = PlayerMovedEvent;
+            PlayerMovedHandler playerMovedEvent = PlayerMovedEvent;
             if (playerMovedEvent != null)
             {
                 playerMovedEvent(vect);
@@ -163,7 +163,7 @@ namespace UniTTT.Logik.Game
 
         public void OnPlayerChangeEvent()
         {
-            Network.PlayerChangeHandler playerChangeEvent = PlayerChangeEvent;
+            PlayerChangeHandler playerChangeEvent = PlayerChangeEvent;
             if (playerChangeEvent != null)
             {
                 playerChangeEvent();
@@ -172,7 +172,7 @@ namespace UniTTT.Logik.Game
 
         public void OnWindowTitleChangeEvent(string title)
         {
-            Network.WindowTitleChangeHandler windowTitleChangeEvent = WindowTitleChangeEvent;
+            WindowTitleChangeHandler windowTitleChangeEvent = WindowTitleChangeEvent;
             if (windowTitleChangeEvent != null)
             {
                 windowTitleChangeEvent(title);
@@ -181,7 +181,7 @@ namespace UniTTT.Logik.Game
 
         public void OnPlayerOutputEvent(string message)
         {
-            Network.PlayerOutputHandler playerOutputEvent = PlayerOutputEvent;
+            PlayerOutputHandler playerOutputEvent = PlayerOutputEvent;
             if (playerOutputEvent != null)
             {
                 playerOutputEvent(message);
@@ -190,7 +190,7 @@ namespace UniTTT.Logik.Game
 
         public void OnWinMessageEvent(char symbol, FieldHelper.GameStates gameState)
         {
-            Network.WinMessageHandler winMessageEvent = WinMessageEvent;
+            WinMessageHandler winMessageEvent = WinMessageEvent;
             if (winMessageEvent != null)
             {
                 winMessageEvent(symbol, gameState);
@@ -200,7 +200,7 @@ namespace UniTTT.Logik.Game
         public int OnGetIntEvent()
         {
             int ret = -1;
-            Network.GetIntHandler getIntEvent = GetIntEvent;
+            GetIntHandler getIntEvent = GetIntEvent;
             if (getIntEvent != null)
             {
                 ret = getIntEvent();
@@ -211,7 +211,7 @@ namespace UniTTT.Logik.Game
         public string OnGetStringEvent()
         {
             string ret = null;
-            Network.GetStringHandler getStringEvent = GetStringEvent;
+            GetStringHandler getStringEvent = GetStringEvent;
             if (getStringEvent != null)
             {
                 ret = getStringEvent();
@@ -221,7 +221,7 @@ namespace UniTTT.Logik.Game
 
         public void OnShowMessageEvent(string message)
         {
-            Network.ShowMessageHandler showMessageEvent = ShowMessageEvent;
+            ShowMessageHandler showMessageEvent = ShowMessageEvent;
             if (showMessageEvent != null)
             {
                 showMessageEvent(message);
