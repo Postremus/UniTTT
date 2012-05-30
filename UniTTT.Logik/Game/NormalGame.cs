@@ -27,7 +27,7 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        public void Logik(int zug)
+        public override void Logik(Vector2i vect)
         { 
             if (!HasStarted)
             {
@@ -36,7 +36,7 @@ namespace UniTTT.Logik.Game
 
             PlayerChange();
             OnPlayerOutputEvent(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
-            Field.SetField(zug, Player.Symbol);
+            Field.SetField(vect, Player.Symbol);
             if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
