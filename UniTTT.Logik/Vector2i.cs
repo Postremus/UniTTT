@@ -40,21 +40,9 @@ namespace UniTTT.Logik
             return new Vector2i(x, y);
         }
 
-        public static Vector2i operator *(Vector2i vect1, Vector2i vect2)
+        public static bool operator >(Vector2i vect1, int vect2)
         {
-            int x = vect1.X * vect2.X;
-            int y = vect1.Y * vect2.Y;
-            return new Vector2i(x, y);
-        }
-
-        public static bool operator <=(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1.X <= vect2.X && vect1.Y <= vect2.Y;
-        }
-
-        public static bool operator <(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1.X < vect2.X && vect1.Y < vect2.Y;
+            return vect1.X > vect2 && vect1.Y > vect2;
         }
 
         public static bool operator <(Vector2i vect1, int vect2)
@@ -62,24 +50,9 @@ namespace UniTTT.Logik
             return vect1.X < vect2 && vect1.Y < vect2;
         }
 
-        public static bool operator >=(Vector2i vect1, Vector2i vect2)
+        public static Vector2i IndexToVector(int index, int width, int height)
         {
-            return vect1.X >= vect2.X && vect1.Y >= vect2.Y;
-        }
-
-        public static bool operator >(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1.X > vect2.X && vect1.Y > vect2.Y;
-        }
-
-        public static bool operator >(Vector2i vect1, int vect2)
-        {
-            return vect1.X > vect2 && vect1.Y > vect2;
-        }
-
-        public static Vector2i IndexToVector(int zug, int width, int height)
-        {
-            if (zug < 0)
+            if (index < 0)
             {
                 throw new NullReferenceException();
             }
@@ -89,10 +62,11 @@ namespace UniTTT.Logik
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (x * width + y == zug)
+                    if (x * width + y == index)
                         vect = new Vector2i(x, y);
                 }
             }
+
             return vect;
         }
 
@@ -155,7 +129,7 @@ namespace UniTTT.Logik
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return X.GetHashCode() + Y.GetHashCode();
         }
 
         public override string ToString()
