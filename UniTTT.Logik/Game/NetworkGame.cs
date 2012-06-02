@@ -78,6 +78,10 @@ namespace UniTTT.Logik.Game
                 BDarsteller.Update(Field);
                 BDarsteller.Draw();
             }
+            if (HasEnd())
+            {
+                OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
+            }
         }
 
         public override void LogikLoop()

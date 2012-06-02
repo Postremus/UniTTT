@@ -17,6 +17,8 @@ namespace UniTTT.Logik.Game
         #region Methods
         public override void Logik()
         {
+            HasStarted = true;
+
             PlayerChange();
             OnPlayerOutputEvent(Player.Ausgabe());
             Field.SetField(Player.Play(Field), Player.Symbol);
@@ -25,14 +27,15 @@ namespace UniTTT.Logik.Game
                 BDarsteller.Update(Field);
                 BDarsteller.Draw();
             }
+            if (HasEnd())
+            {
+                OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
+            }
         }
 
         public override void Logik(Vector2i vect)
         { 
-            if (!HasStarted)
-            {
-                HasStarted = true;
-            }
+            HasStarted = true;
 
             PlayerChange();
             OnPlayerOutputEvent(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
@@ -41,6 +44,10 @@ namespace UniTTT.Logik.Game
             {
                 BDarsteller.Update(Field);
                 BDarsteller.Draw();
+            }
+            if (HasEnd())
+            {
+                OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
             }
         }
 
