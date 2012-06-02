@@ -112,7 +112,7 @@ namespace UniTTT.Logik
                         else if (CManager.IsStringKeyWord(arg))
                         {
                             Command.ReturnData data = CManager.ExecuteReturner(String.Join(" ", args));
-                            if (data.ExistsReturnData)
+                            if (data.HasData)
                             {
                                 return InterpretCommandLine(((Config.ParameterConfig)data.Data).Values.ToArray());
                             }

@@ -7,14 +7,14 @@ namespace UniTTT.Logik.Command
 {
     public class ReturnData
     {
-        private bool _existsReturnData;
+        private bool _hasData;
         private object _data;
 
-        public bool ExistsReturnData
+        public bool HasData
         {
             get
             {
-                return _existsReturnData;
+                return _hasData;
             }
         }
 
@@ -30,7 +30,7 @@ namespace UniTTT.Logik.Command
         {
             if (data != null)
             {
-                _existsReturnData = true;
+                _hasData = true;
                 _data = data;
             }
         }
