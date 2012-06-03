@@ -79,7 +79,7 @@ namespace UniTTT.Logik.Player
         {
             if (KI is KI.IPlayableKI)
             {
-                return Vector2i.IndexToVector(((UniTTT.Logik.KI.IPlayableKI)KI).Play(field, Symbol), field.Width, field.Height);
+                return Vector2i.IndexToVector(((UniTTT.Logik.KI.IPlayableKI)KI).Play(field), field.Width, field.Height);
             }
             else
                 return new Vector2i(-1, -1);
@@ -190,7 +190,7 @@ namespace UniTTT.Logik.Player
                 OnGetStringEvent();
             }
 
-            public int Play(Fields.IField field, char kiPlayer)
+            public int Play(Fields.IField field)
             {
                 string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.GetString(field));
                 List<int> Fields = new List<int>(writerreader.Read(sitcode));
@@ -302,7 +302,7 @@ namespace UniTTT.Logik.Player
 
             public KIBot(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
-            public int Play(Fields.IField field, char player)
+            public int Play(Fields.IField field)
             {
                 this.field = field;
                 int win_zug = TestForOneWin();
@@ -406,7 +406,7 @@ namespace UniTTT.Logik.Player
         {
             public KIRandom(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
-            public int Play(Fields.IField field, char player)
+            public int Play(Fields.IField field)
             {
                 return SitCodeHelper.GetRandomZug(field);
             }
@@ -423,7 +423,7 @@ namespace UniTTT.Logik.Player
 
             private int bestZug;
 
-            public int Play(Fields.IField field, char player)
+            public int Play(Fields.IField field)
             {
                 Max(field.Length - 1, field);
                 return bestZug;
@@ -496,7 +496,7 @@ namespace UniTTT.Logik.Player
 
             private int bestZug;
 
-            public int Play(Fields.IField field, char player)
+            public int Play(Fields.IField field)
             {
                 Max(field.Length - 1, int.MaxValue - 1, int.MinValue + 1, field);
                 return bestZug;
