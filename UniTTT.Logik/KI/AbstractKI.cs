@@ -43,7 +43,7 @@ namespace UniTTT.Logik.KI
             return "KI";
         }
 
-        protected int Valuation(Fields.IField field, char player)
+        protected int Valuation(Fields.Field field, char player)
         {
             List<Fields.FieldRegion> fPanel = field.Panels;
             int ret = 0;

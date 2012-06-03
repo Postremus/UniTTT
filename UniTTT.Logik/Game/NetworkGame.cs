@@ -17,7 +17,7 @@ namespace UniTTT.Logik.Game
         public event Network.NewGameRequestedHandler newGameRequestedEvent;
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
-        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.IField field, string ip, int port, Network.Network client)
+        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, string ip, int port, Network.Network client)
         {
             client.NewMessageReceivedEvent += ReceiveNewGame;
 
@@ -29,7 +29,7 @@ namespace UniTTT.Logik.Game
             Initialize(p1, bdar, field, ip, port, client);
         }
 
-        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.IField field, string ip, int port, Network.Network client)
+        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, string ip, int port, Network.Network client)
         {
             this.ip = ip;
             this.port = port;

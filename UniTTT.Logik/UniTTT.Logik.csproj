@@ -72,6 +72,7 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
+    <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\FieldPlaceData.cs" />
     <Compile Include="Fields\FieldRegion.cs" />
     <Compile Include="Game\Delegates.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="Player\NetworkPlayer.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
-    <Compile Include="Fields\IField.cs" />
     <Compile Include="IGraphicalBrettDarsteller.cs" />
     <Compile Include="KI\AbstractKI.cs" />
     <Compile Include="Player\Player.cs" />

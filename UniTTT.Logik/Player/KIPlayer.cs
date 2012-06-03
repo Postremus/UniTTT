@@ -65,7 +65,7 @@ namespace UniTTT.Logik.Player
             }
         }
 
-        public override Vector2i Play(Fields.IField field)
+        public override Vector2i Play(Fields.Field field)
         {
             if (KI is KI.IPlayableKI)
             {
@@ -180,7 +180,7 @@ namespace UniTTT.Logik.Player
                 OnGetStringEvent();
             }
 
-            public int Play(Fields.IField field)
+            public int Play(Fields.Field field)
             {
                 string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.GetString(field));
                 List<int> Fields = new List<int>(writerreader.Read(sitcode));
@@ -286,11 +286,11 @@ namespace UniTTT.Logik.Player
 
         class KIBot : KI.AbstractKI, KI.IPlayableKI
         {
-            private Fields.IField field;
+            private Fields.Field field;
 
             public KIBot(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
-            public int Play(Fields.IField field)
+            public int Play(Fields.Field field)
             {
                 this.field = field;
                 int win_zug = TestForOneWin();
@@ -394,7 +394,7 @@ namespace UniTTT.Logik.Player
         {
             public KIRandom(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
-            public int Play(Fields.IField field)
+            public int Play(Fields.Field field)
             {
                 return SitCodeHelper.GetRandomZug(field);
             }
@@ -411,13 +411,13 @@ namespace UniTTT.Logik.Player
 
             private int bestZug;
 
-            public int Play(Fields.IField field)
+            public int Play(Fields.Field field)
             {
                 Max(field.Length - 1, field);
                 return bestZug;
             }
 
-            private int Max(int depth, Fields.IField field)
+            private int Max(int depth, Fields.Field field)
             {
                 int zugValue = 0;
                 int discovered = int.MinValue + 1;
@@ -444,7 +444,7 @@ namespace UniTTT.Logik.Player
                 return discovered;
             }
 
-            private int Mini(int depth, Fields.IField field)
+            private int Mini(int depth, Fields.Field field)
             {
                 int zugValue = 0;
                 int discovered = int.MaxValue - 1;
@@ -484,13 +484,13 @@ namespace UniTTT.Logik.Player
 
             private int bestZug;
 
-            public int Play(Fields.IField field)
+            public int Play(Fields.Field field)
             {
                 Max(field.Length - 1, int.MaxValue - 1, int.MinValue + 1, field);
                 return bestZug;
             }
 
-            private int Max(int depth, int alpha, int beta, Fields.IField field)
+            private int Max(int depth, int alpha, int beta, Fields.Field field)
             {
                 if (depth == 0)
                 {
@@ -522,7 +522,7 @@ namespace UniTTT.Logik.Player
                 return localAlpha;
             }
 
-            private int Mini(int depth, int alpha, int beta, Fields.IField field)
+            private int Mini(int depth, int alpha, int beta, Fields.Field field)
             {
                 if (depth == 0)
                 {

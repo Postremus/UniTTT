@@ -44,12 +44,12 @@ namespace UniTTT.ScreenSaver
             Image = new Bitmap(_screenWidth, _screenHeight);
         }
 
-        public void Update(Logik.Fields.IField field)
+        public void Update(Logik.Fields.Field field)
         {
             UpdateImageLetters(new Font("consolas", _screenHeight / 4), field);
         }
 
-        private void UpdateImageLetters(Font font, Logik.Fields.IField field)
+        private void UpdateImageLetters(Font font, Logik.Fields.Field field)
         {
             SolidBrush xBrush = new SolidBrush(Color.Green);
             SolidBrush oBrush = new SolidBrush(Color.Blue);

@@ -105,7 +105,7 @@ namespace UniTTT.Konsole
             {
                 Logik.Game.Game gameMode;
                 BrettDarsteller bdar = new BrettDarsteller(width, height);
-                Logik.Fields.IField field = new Logik.Fields.Brett(width, height);
+                Logik.Fields.Field field = new Logik.Fields.Brett(width, height);
                 if (parameters.GetValue<bool>("kigame"))
                 {
                     gameMode = new Logik.Game.NormalGame(kiplayer, kiplayer, bdar, field);

@@ -21,7 +21,7 @@ namespace UniTTT.Logik.Game
         public event ShowMessageHandler ShowMessageEvent;
 
         #region Propertys
-        public Fields.IField Field
+        public Fields.Field Field
         {
             get;
             set;
@@ -54,7 +54,7 @@ namespace UniTTT.Logik.Game
         }
         #endregion
 
-        public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.IField field)
+        public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
         {
             if (field == null)
             {

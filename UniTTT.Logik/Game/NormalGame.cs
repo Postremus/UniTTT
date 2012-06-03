@@ -9,7 +9,7 @@ namespace UniTTT.Logik.Game
 {
     public class NormalGame : Game
     {
-        public NormalGame(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.IField field)
+        public NormalGame(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
         {
             Initialize(p1, p2, bdar, field);
         }

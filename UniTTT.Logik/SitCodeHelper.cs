@@ -39,7 +39,7 @@ namespace UniTTT.Logik
 
         private static Random Rnd = new Random();
 
-        public static int GetRandomZug(Fields.IField field)
+        public static int GetRandomZug(Fields.Field field)
         {
             int zug = -1;
             do
