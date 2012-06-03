@@ -12,22 +12,19 @@ namespace UniTTT.Logik.Game
         private int port;
         private Network.Network client;
         private const string connectionString = "UniTTT";
-        private bool isNewVector2iReceivedEventRaised;
         #endregion
 
-        public event Network.NewVector2iReceivedHandler newVector2iReceivedEvent;
         public event Network.NewGameRequestedHandler newGameRequestedEvent;
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
         public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.IField field, string ip, int port, Network.Network client)
         {
-            client.NewMessageReceivedEvent += ReceiveVector;
             client.NewMessageReceivedEvent += ReceiveNewGame;
-            newVector2iReceivedEvent += SetVectorOnField;
 
             newGameRequestedEvent += SendNewGame;
             newGameRequestedEvent += NewGame;
             newGameRequestReceivedEvent += NewGame;
+            PlayerMovedEvent += SendVector;
 
             Initialize(p1, bdar, field, ip, port, client);
         }
@@ -37,48 +34,10 @@ namespace UniTTT.Logik.Game
             this.ip = ip;
             this.port = port;
             this.client = client;
-            base.Initialize(p1, new Player.Player(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol)))), bdar, field);
+            base.Initialize(p1, new Player.NetworkPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol))), client), bdar, field);
             if (p1.Symbol != 'X')
             {
                 PlayerChange();
-            }
-        }
-
-        public override void Logik()
-        {
-            PlayerChange();
-            if (!HasStarted)
-            {
-                HasStarted = true;
-            }
-
-            if (HasStoped)
-            {
-                return;
-            }
-
-            OnPlayerOutputEvent(Player.Ausgabe());
-
-            if (IsSending())
-            {
-                Vector2i vect = Player.Play(Field);
-                client.Send(string.Format("UniTTT!{0}", vect.ToString()));
-                Field.SetField(vect, Player.Symbol);
-            }
-            else
-            {
-                while (!isNewVector2iReceivedEventRaised) { }
-                isNewVector2iReceivedEventRaised = false;
-            }
-
-            if (IsBDarstellerValid())
-            {
-                BDarsteller.Update(Field);
-                BDarsteller.Draw();
-            }
-            if (HasEnd())
-            {
-                OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
             }
         }
 
@@ -91,23 +50,9 @@ namespace UniTTT.Logik.Game
             HasStarted = false;
         }
 
-        public void SetVectorOnField(Vector2i vect)
+        public void SendVector(Vector2i vect)
         {
-            if (Field.IsFieldEmpty(vect))
-            {
-                Field.SetField(vect, Player.Symbol);
-            }
-        }
-
-        private void ReceiveVector(string value)
-        {
-            if (!value.Contains("UniTTT!"))
-            {
-                return;
-            }
-            string str = value.Remove(0, value.IndexOf("UniTTT!") + 7);
-            Vector2i vect = Vector2i.StringToVector(str, true);
-            OnNewVector2iReceivedEvent(vect);
+            client.Send(string.Format("UniTTT!{0}", vect.ToString()));
         }
 
         private void ReceiveNewGame(string value)
@@ -120,17 +65,6 @@ namespace UniTTT.Logik.Game
         private void SendNewGame()
         {
             client.Send("NewGame");
-        }
-
-        public void OnNewVector2iReceivedEvent(Vector2i vect)
-        {
-            isNewVector2iReceivedEventRaised = false;
-            Network.NewVector2iReceivedHandler vector2iReceivedEvent = newVector2iReceivedEvent;
-            if (vector2iReceivedEvent != null)
-            {
-                vector2iReceivedEvent(vect);
-                isNewVector2iReceivedEventRaised = true;
-            }
         }
 
         public void OnNewGameRequestedEvent()
@@ -160,11 +94,6 @@ namespace UniTTT.Logik.Game
             }
             HasStoped = false;
             HasStarted = true;
-        }
-
-        public bool IsSending()
-        {
-            return Player == Player1;
         }
 
         public override string ToString()

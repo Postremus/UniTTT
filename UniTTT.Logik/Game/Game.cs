@@ -13,15 +13,12 @@ namespace UniTTT.Logik.Game
         #endregion
 
         public event PlayerMovedHandler PlayerMovedEvent;
-        public event PlayerChangeHandler PlayerChangeEvent;
         public event WindowTitleChangeHandler WindowTitleChangeEvent;
         public event PlayerOutputHandler PlayerOutputEvent;
         public event WinMessageHandler WinMessageEvent;
         public event GetIntHandler GetIntEvent;
         public event GetStringHandler GetStringEvent;
         public event ShowMessageHandler ShowMessageEvent;
-        public event FieldSetHandler FieldSetEvent;
-        public event PlayerPlayHandler PlayerPlayEvent;
 
         #region Propertys
         public Fields.IField Field
@@ -108,7 +105,8 @@ namespace UniTTT.Logik.Game
             }
             PlayerChange();
             OnPlayerOutputEvent(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
-            OnFieldSetEvent(vect, Player.Symbol);
+            OnPlayerMovedEvent(vect);
+            Field.SetField(vect, Player.Symbol);
             if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
@@ -129,7 +127,9 @@ namespace UniTTT.Logik.Game
             }
             PlayerChange();
             OnPlayerOutputEvent(Player.Ausgabe());
-            OnFieldSetEvent(Player.Play(Field), Player.Symbol);
+            Vector2i vect = Player.Play(Field);
+            OnPlayerMovedEvent(vect);
+            Field.SetField(vect, Player.Symbol);
             if (IsBDarstellerValid())
             {
                 BDarsteller.Update(Field);
@@ -209,35 +209,6 @@ namespace UniTTT.Logik.Game
             {
                 playerMovedEvent(vect);
             }
-        }
-
-        public void OnPlayerChangeEvent()
-        {
-            PlayerChangeHandler playerChangeEvent = PlayerChangeEvent;
-            if (playerChangeEvent != null)
-            {
-                playerChangeEvent();
-            }
-        }
-
-        public void OnFieldSetEvent(Vector2i vect, char player)
-        {
-            FieldSetHandler fieldSetEvent = FieldSetEvent;
-            if (fieldSetEvent != null)
-            {
-                fieldSetEvent(vect, player);
-            }
-        }
-
-        public Vector2i OnPlayerPlayEvent(Fields.IField field)
-        {
-            Vector2i ret = null;
-            PlayerPlayHandler playerPlayEvent = PlayerPlayEvent;
-            if (playerPlayEvent != null)
-            {
-                ret = playerPlayEvent(field);
-            }
-            return ret;
         }
 
         public void OnWindowTitleChangeEvent(string title)

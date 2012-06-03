@@ -86,6 +86,7 @@
     <Compile Include="Network\TCPClient.cs" />
     <Compile Include="Network\TCPServer.cs" />
     <Compile Include="ParameterInterpreter.cs" />
+    <Compile Include="Player\NetworkPlayer.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="Fields\IField.cs" />

@@ -12,7 +12,6 @@ namespace UniTTT.Logik.Game
         public NormalGame(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.IField field)
         {
             Initialize(p1, p2, bdar, field);
-            FieldSetEvent += Field.SetField;
         }
         #region methods
         public override string ToString()
