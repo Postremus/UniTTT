@@ -51,15 +51,6 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        public void WinCounter()
-        {
-            if (FieldHelper.GetGameState(Field, Player, Player1) == FieldHelper.GameStates.Gewonnen)
-            {
-                Player1.WinCounter = Player == Player1 ? +1 : 0;
-                Player2.WinCounter = Player == Player2 ? +1 : 0;
-            }
-        }
-
         public override string ToString()
         {
             return (Player1 is Logik.Player.KIPlayer) && (Player2 is Logik.Player.KIPlayer) ? "KiGame" : "HumanGame";

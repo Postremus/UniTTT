@@ -152,6 +152,21 @@ namespace UniTTT.Logik.Game
             BDarsteller.Initialize(Field.Width, Field.Height);
         }
 
+        public void WinCounter()
+        {
+            if (FieldHelper.GetGameState(Field, Player, Player1) == FieldHelper.GameStates.Gewonnen)
+            {
+                if (Player == Player1)
+                {
+                    Player1.WinCounter++;
+                }
+                else
+                {
+                    Player2.WinCounter++;
+                }
+            }
+        }
+
         public void OnPlayerMovedEvent(Vector2i vect)
         {
             PlayerMovedHandler playerMovedEvent = PlayerMovedEvent;
