@@ -13,10 +13,11 @@ namespace UniTTT.Logik.Player
     public class KIPlayer : AbstractPlayer
     {
         public KI.AbstractKI KI { get; private set; }
-        private Type[] KITypes;
+        private List<Type> KITypes;
 
         public KIPlayer(int kiZahl, int width, int height, char kiPlayer) : base(kiPlayer)
         {
+            GetKITypes();
             Initialize(kiZahl, width, height, kiPlayer);
         }
 
@@ -24,7 +25,7 @@ namespace UniTTT.Logik.Player
             : base(kiPlayer)
         {
             GetKITypes();
-            for (int i = 0; i < KITypes.Length; i++)
+            for (int i = 0; i < KITypes.Count; i++)
             {
                 if (KITypes[i].Name.ToLower() == ki.ToLower())
                 {
@@ -35,44 +36,33 @@ namespace UniTTT.Logik.Player
 
         private void Initialize(int kiZahl, int width, int height, char kiPlayer)
         {
-            GetKITypes();
-            if (!Directory.Exists("data/scripts/ki"))
-            {
-                Directory.CreateDirectory("data/scripts/ki");
-            }
-            CompileScripts(Directory.GetFiles("data/scripts/ki"));
-            KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl - 1], new object[] { width, height, kiPlayer });
+            KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl], new object[] { width, height, kiPlayer });
         }
 
         private void GetKITypes()
         {
             Assembly asm = Assembly.GetExecutingAssembly();
-            KITypes = asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))).ToArray();
+            KITypes = new List<Type>(asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))));
+            if (!Directory.Exists("data/plugins/ki"))
+            {
+                Directory.CreateDirectory("data/plugins/ki");
+            }
+            GetKiTypesFromOuterAssemblie(Directory.EnumerateFiles("data/plugins/ki").ToArray());
         }
 
-        private void CompileScripts(string[] scripts)
+        private void GetKiTypesFromOuterAssemblie(string[] files)
         {
-            CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
-            CompilerParameters parameter = new CompilerParameters();
-            parameter.ReferencedAssemblies.Add("UniTTT.Logik.dll");
-            parameter.CompilerOptions = "/t:library";
-            parameter.GenerateInMemory = true;
-
-            Type[] types = new Type[scripts.Length];
-
-            for (int i = 0; i < scripts.Length; i++)
+            foreach (string file in files)
             {
-                if (File.Exists(scripts[i]))
+                try
                 {
-                    CompilerResults result = provider.CompileAssemblyFromFile(parameter, scripts[i]);
-                    if (result.CompiledAssembly.GetTypes().Count(t => t.IsSubclassOf(typeof(KI.AbstractKI))) == 1)
-                    {
-                        types[i] = result.CompiledAssembly.GetTypes()[0];
-                    }
+                    Assembly asm = Assembly.LoadFile(file);
+                    KITypes.AddRange(asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(KI.AbstractKI))));
+                }
+                catch (Exception)
+                {
                 }
             }
-            Array.Resize(ref KITypes, KITypes.Length + types.Length);
-            Array.Copy(types, KITypes, types.Length);
         }
 
         public override Vector2i Play(Fields.IField field)
