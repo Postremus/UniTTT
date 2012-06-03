@@ -8,7 +8,7 @@ namespace UniTTT.Konsole
 {
     class HumanPlayer : Logik.Player.AbstractPlayer
     {
-        public HumanPlayer(char startspieler) : base(startspieler) { }
+        public HumanPlayer(char startPlayer) : base(startPlayer) { }
 
         public override Logik.Vector2i Play(Logik.Fields.IField brett)
         {

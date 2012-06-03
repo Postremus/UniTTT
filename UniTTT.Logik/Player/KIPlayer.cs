@@ -15,24 +15,25 @@ namespace UniTTT.Logik.Player
         public KI.AbstractKI KI { get; private set; }
         private Type[] KITypes;
 
-        public KIPlayer(int kiZahl, int width, int height, char kispieler) : base(kispieler)
+        public KIPlayer(int kiZahl, int width, int height, char kiPlayer) : base(kiPlayer)
         {
-            Initialize(kiZahl, width, height, kispieler);
+            Initialize(kiZahl, width, height, kiPlayer);
         }
 
-        public KIPlayer(string ki, int width, int height, char kispieler) : base(kispieler)
+        public KIPlayer(string ki, int width, int height, char kiPlayer)
+            : base(kiPlayer)
         {
             GetKITypes();
             for (int i = 0; i < KITypes.Length; i++)
             {
                 if (KITypes[i].Name.ToLower() == ki.ToLower())
                 {
-                    Initialize(i, width, height, kispieler);
+                    Initialize(i, width, height, kiPlayer);
                 }
             }
         }
 
-        private void Initialize(int kiZahl, int width, int height, char kispieler)
+        private void Initialize(int kiZahl, int width, int height, char kiPlayer)
         {
             GetKITypes();
             if (!Directory.Exists("data/scripts/ki"))
@@ -40,7 +41,7 @@ namespace UniTTT.Logik.Player
                 Directory.CreateDirectory("data/scripts/ki");
             }
             CompileScripts(Directory.GetFiles("data/scripts/ki"));
-            KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl - 1], new object[] { width, height, kispieler });
+            KI = (Logik.KI.AbstractKI)Activator.CreateInstance(KITypes[kiZahl - 1], new object[] { width, height, kiPlayer });
         }
 
         private void GetKITypes()
@@ -99,7 +100,8 @@ namespace UniTTT.Logik.Player
 
         class KIReinforcement : KI.AbstractKI, KI.IPlayableKI, KI.ILearnableKI
         {
-            public KIReinforcement(int width, int height, char kispieler) : base(kispieler, width, height)
+            public KIReinforcement(int width, int height, char kiPlayer)
+                : base(kiPlayer, width, height)
             {
                 writerreader = new WriterReader("KI_Reinforcement");
             }
@@ -188,7 +190,7 @@ namespace UniTTT.Logik.Player
                 OnGetStringEvent();
             }
 
-            public int Play(Fields.IField field, char spieler)
+            public int Play(Fields.IField field, char kiPlayer)
             {
                 string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.GetString(field));
                 List<int> Fields = new List<int>(writerreader.Read(sitcode));
@@ -298,9 +300,9 @@ namespace UniTTT.Logik.Player
         {
             private Fields.IField field;
 
-            public KIBot(int width, int height, char spieler) : base(spieler, width, height) { }
+            public KIBot(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
-            public int Play(Fields.IField field, char spieler)
+            public int Play(Fields.IField field, char player)
             {
                 this.field = field;
                 int win_zug = TestForOneWin();
@@ -402,9 +404,9 @@ namespace UniTTT.Logik.Player
 
         class KIRandom : KI.AbstractKI, KI.IPlayableKI
         {
-            public KIRandom(int width, int height, char spieler) : base(spieler, width, height) { }
+            public KIRandom(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
-            public int Play(Fields.IField field, char spieler)
+            public int Play(Fields.IField field, char player)
             {
                 return SitCodeHelper.GetRandomZug(field);
             }
@@ -417,11 +419,11 @@ namespace UniTTT.Logik.Player
 
         class KIMiniMax : KI.AbstractKI, KI.IPlayableKI
         {
-            public KIMiniMax(int width, int height, char spieler) : base(spieler, width, height) { }
+            public KIMiniMax(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
             private int bestZug;
 
-            public int Play(Fields.IField field, char spieler)
+            public int Play(Fields.IField field, char player)
             {
                 Max(field.Length - 1, field);
                 return bestZug;
@@ -490,11 +492,11 @@ namespace UniTTT.Logik.Player
 
         class KIMiniMaxAlphaBeta : KI.AbstractKI, KI.IPlayableKI
         {
-            public KIMiniMaxAlphaBeta(int width, int height, char spieler) : base(spieler, width, height) { }
+            public KIMiniMaxAlphaBeta(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
             private int bestZug;
 
-            public int Play(Fields.IField field, char spieler)
+            public int Play(Fields.IField field, char player)
             {
                 Max(field.Length - 1, int.MaxValue - 1, int.MinValue + 1, field);
                 return bestZug;

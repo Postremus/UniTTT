@@ -11,9 +11,9 @@ namespace UniTTT.Logik.KI
         public event GetStringHandler GetStringEvent;
         public event ShowMessageHandler ShowMessageEvent;
 
-        protected AbstractKI(char kispieler, int width, int height)
+        protected AbstractKI(char kiPlayer, int width, int height)
         {
-            KIPlayer = kispieler;
+            KIPlayer = kiPlayer;
             HumanPlayer = SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(KIPlayer)));
             Width = width;
             Height = height;

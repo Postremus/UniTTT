@@ -7,6 +7,6 @@ namespace UniTTT.Logik.Player
 {
     public class HumanPlayer : Logik.Player.AbstractPlayer
     {
-        public HumanPlayer(char startspieler) : base(startspieler) { }
+        public HumanPlayer(char startPlayer) : base(startPlayer) { }
     }
 }

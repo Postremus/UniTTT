@@ -8,9 +8,9 @@ namespace UniTTT.Logik.Player
 {
     public class AbstractPlayer
     {
-        protected AbstractPlayer(char startspieler) 
+        protected AbstractPlayer(char symbol) 
         {
-            Symbol = startspieler;
+            Symbol = symbol;
             WinCounter = 0;
         }
 

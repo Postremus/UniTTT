@@ -7,6 +7,6 @@ namespace UniTTT.Logik.KI
 {
     public interface IPlayableKI
     {
-        int Play(Fields.IField field, char spieler);
+        int Play(Fields.IField field, char player);
     }
 }

@@ -32,9 +32,9 @@ namespace UniTTT.Logik
             return ret;
         }
 
-        public static char PlayerChange(char spieler)
+        public static char PlayerChange(char player)
         {
-            return spieler == '2' ? '3' : '2';
+            return player == '2' ? '3' : '2';
         }
 
         private static Random Rnd = new Random();
