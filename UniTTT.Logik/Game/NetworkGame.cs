@@ -23,7 +23,6 @@ namespace UniTTT.Logik.Game
         public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.Fields.IField field, string ip, int port, Network.Network client)
         {
             client.NewMessageReceivedEvent += ReceiveVector;
-            client.NewMessageReceivedEvent += ReceiveField;
             client.NewMessageReceivedEvent += ReceiveNewGame;
             newVector2iReceivedEvent += SetVectorOnField;
 
@@ -110,20 +109,6 @@ namespace UniTTT.Logik.Game
             string str = value.Remove(0, value.IndexOf("UniTTT!") + 7);
             Vector2i vect = Vector2i.StringToVector(str, true);
             OnNewVector2iReceivedEvent(vect);
-        }
-
-        private void ReceiveField(string value)
-        {
-            /*if (!value.Contains("Field:"))
-            {
-                return;
-            }
-
-            Fields.IField field = (Fields.IField)value.GetObject();
-            if (field != null)
-            {
-                OnNewFieldReceivedEvent(field);
-            }*/
         }
 
         private void ReceiveNewGame(string value)
