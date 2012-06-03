@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik.KI
 {
-    interface ILearnableKI
+    public interface ILearnableKI
     {
         void Learn();
     }
