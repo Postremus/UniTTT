@@ -6,7 +6,7 @@ using UniTTT;
 
 namespace UniTTT.Konsole
 {
-    class HumanPlayer : Logik.Player.AbstractPlayer
+    class HumanPlayer : Logik.Player.Player
     {
         public HumanPlayer(char startPlayer) : base(startPlayer) { }
 

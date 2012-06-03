@@ -10,7 +10,7 @@ using System.IO.Compression;
 
 namespace UniTTT.Logik.Player
 {
-    public class KIPlayer : AbstractPlayer
+    public class KIPlayer : Player
     {
         public KI.AbstractKI KI { get; private set; }
         private List<Type> KITypes;

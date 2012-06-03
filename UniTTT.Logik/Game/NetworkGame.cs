@@ -20,7 +20,7 @@ namespace UniTTT.Logik.Game
         public event Network.NewGameRequestedHandler newGameRequestedEvent;
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
-        public NetworkGame(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.Fields.IField field, string ip, int port, Network.Network client)
+        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.IField field, string ip, int port, Network.Network client)
         {
             client.NewMessageReceivedEvent += ReceiveVector;
             client.NewMessageReceivedEvent += ReceiveNewGame;
@@ -34,12 +34,12 @@ namespace UniTTT.Logik.Game
             Initialize(p1, bdar, field, ip, port, client);
         }
 
-        public void Initialize(Logik.Player.AbstractPlayer p1, Logik.IBrettDarsteller bdar, Logik.Fields.IField field, string ip, int port, Network.Network client)
+        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.IField field, string ip, int port, Network.Network client)
         {
             this.ip = ip;
             this.port = port;
             this.client = client;
-            base.Initialize(p1, new Player.HumanPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol)))), bdar, field);
+            base.Initialize(p1, new Player.Player(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol)))), bdar, field);
             if (p1.Symbol != 'X')
             {
                 PlayerChange();

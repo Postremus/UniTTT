@@ -44,7 +44,7 @@ namespace UniTTT.Konsole
                 kisymb = 'O';
             }
 
-            Logik.Player.AbstractPlayer kiplayer = null;
+            Logik.Player.Player kiplayer = null;
             if (parameters.IsDefined<int>("ki"))
             {
                 kiplayer = new Logik.Player.KIPlayer(parameters.GetValue<int>("ki"), width, height, kisymb);

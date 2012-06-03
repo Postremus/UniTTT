@@ -28,9 +28,9 @@ namespace UniTTT.Logik.Game
             set;
         }
         public Logik.IBrettDarsteller BDarsteller { get; set; }
-        public Player.AbstractPlayer Player { get; set; }
-        public Player.AbstractPlayer Player1 { get; set; }
-        public Player.AbstractPlayer Player2 { get; set; }
+        public Player.Player Player { get; set; }
+        public Player.Player Player1 { get; set; }
+        public Player.Player Player2 { get; set; }
         public bool HasStoped
         {
             get
@@ -55,7 +55,7 @@ namespace UniTTT.Logik.Game
         }
         #endregion
 
-        public void Initialize(Logik.Player.AbstractPlayer p1, Logik.Player.AbstractPlayer p2, Logik.IBrettDarsteller bdar, Logik.Fields.IField field)
+        public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.IField field)
         {
             if (field == null)
             {
@@ -89,7 +89,7 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        private Player.AbstractPlayer RegisterKIEvents(Player.KIPlayer ki)
+        private Player.Player RegisterKIEvents(Player.KIPlayer ki)
         {
             ki.KI.GetIntEvent += OnGetIntEvent;
             ki.KI.GetStringEvent += OnGetStringEvent;

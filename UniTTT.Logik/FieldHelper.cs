@@ -50,7 +50,7 @@ namespace UniTTT.Logik
             return false;
         }
 
-        public static FieldHelper.GameStates GetGameState(Fields.IField field, Player.AbstractPlayer currentPlayer, Player.AbstractPlayer player1)
+        public static FieldHelper.GameStates GetGameState(Fields.IField field, Player.Player currentPlayer, Player.Player player1)
         {
             if (currentPlayer == null)
             {
