@@ -233,7 +233,6 @@ namespace UniTTT.Logik.Player
                     binwriter.Close();
                     FileStream stream = new FileStream(FileName + "_tmp", System.IO.FileMode.OpenOrCreate);
                     GZipStream zipStream = new GZipStream(new FileStream(FileName, FileMode.OpenOrCreate), CompressionMode.Compress);
-                    ASCIIEncoding encoder = new ASCIIEncoding();
                     byte[] bufffer = new byte[stream.Length];
                     stream.Read(bufffer, 0, bufffer.Length);
                     stream.Close();
@@ -254,7 +253,6 @@ namespace UniTTT.Logik.Player
                         {
                             GZipStream zipStream = new GZipStream(new FileStream(FileName, FileMode.Open), CompressionMode.Decompress);
                             FileStream stream = new FileStream(FileName + "_tmp", System.IO.FileMode.Create);
-                            ASCIIEncoding encoder = new ASCIIEncoding();
                             byte[] buffer = new byte[4096];
                             int bytesReadCount;
                             do
