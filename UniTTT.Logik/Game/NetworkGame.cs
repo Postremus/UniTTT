@@ -16,7 +16,6 @@ namespace UniTTT.Logik.Game
         #endregion
 
         public event Network.NewVector2iReceivedHandler newVector2iReceivedEvent;
-        public event Network.NewFieldReceivedHandler newFieldReceivedEvent;
         public event Network.NewGameRequestedHandler newGameRequestedEvent;
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
@@ -26,7 +25,6 @@ namespace UniTTT.Logik.Game
             client.NewMessageReceivedEvent += ReceiveNewGame;
             newVector2iReceivedEvent += SetVectorOnField;
 
-            newFieldReceivedEvent += EqualFieldSizes;
             newGameRequestedEvent += SendNewGame;
             newGameRequestedEvent += NewGame;
             newGameRequestReceivedEvent += NewGame;
@@ -60,11 +58,12 @@ namespace UniTTT.Logik.Game
             }
 
             OnPlayerOutputEvent(Player.Ausgabe());
+
             if (IsSending())
             {
                 Vector2i vect = Player.Play(Field);
                 client.Send(string.Format("UniTTT!{0}", vect.ToString()));
-                SetVectorOnField(vect);
+                Field.SetField(vect, Player.Symbol);
             }
             else
             {
@@ -134,15 +133,6 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        public void OnNewFieldReceivedEvent(Fields.IField field)
-        {
-            Network.NewFieldReceivedHandler fieldreceivedEvent = newFieldReceivedEvent;
-            if (fieldreceivedEvent != null)
-            {
-                fieldreceivedEvent(field);
-            }
-        }
-
         public void OnNewGameRequestedEvent()
         {
             Network.NewGameRequestedHandler gameStartedEvent = newGameRequestedEvent;
@@ -170,11 +160,6 @@ namespace UniTTT.Logik.Game
             }
             HasStoped = false;
             HasStarted = true;
-        }
-
-        public void EqualFieldSizes(Fields.IField field)
-        {
-            HasStoped = base.Field.Width != field.Width && base.Field.Height != field.Height;
         }
 
         public bool IsSending()
