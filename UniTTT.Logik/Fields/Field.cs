@@ -63,34 +63,17 @@ namespace UniTTT.Logik.Fields
         {
         }
 
-        public virtual char GetField(int idx)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract char GetField(int idx);
 
-        public virtual char GetField(Vector2i vect)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract char GetField(Vector2i vect);
 
-        public virtual void SetField(int idx, char value)
-        {
+        public abstract void SetField(int idx, char value);
 
-        }
+        public abstract void SetField(Vector2i vect, char value);
 
-        public virtual void SetField(Vector2i vect, char value)
-        {
-        }
+        public abstract bool IsFieldEmpty(Vector2i vect);
 
-        public virtual bool IsFieldEmpty(Vector2i vect)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual bool IsFieldEmpty(int idx)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract bool IsFieldEmpty(int idx);
 
         public FieldRegion Row(int count)
         {
