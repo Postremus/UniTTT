@@ -60,10 +60,9 @@ namespace UniTTT.Logik.Plugin
             return (IPlugin)Activator.CreateInstanceFrom(path, typeof(IPlugin).Name);
         }
 
-        public IPlugin Get(int index, PluginTypes type)
+        public IPlugin Get(string name, PluginTypes type)
         {
-            var res = _plugins.Where(f => f.Value.PluginType == type);
-            return res.GetEnumerator().Current.Value;
+            return (IPlugin)_plugins.Where(f => f.Key == name && f.Value.PluginType == type);
         }
     }
 }

@@ -8,5 +8,6 @@ namespace UniTTT.Logik.Plugin
     public interface IPlugin
     {
         PluginTypes PluginType { get; }
+        string PluginName { get; }
     }
 }
