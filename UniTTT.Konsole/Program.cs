@@ -17,10 +17,21 @@ namespace UniTTT.Konsole
         static void Main(string[] args)
         {
             Logik.ParameterInterpreter parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
+            Logik.Plugin.PluginManager plugManager = new Logik.Plugin.PluginManager();
 
             int width = parameters.GetValue<int>("breite");
             int height = parameters.GetValue<int>("hoehe");
-            
+
+            Logik.Fields.Field field = new Logik.Fields.Brett(width, height);
+            if (parameters.IsDefined<string>("plugin"))
+            {
+                Logik.Plugin.IPlugin plugin = plugManager.Get(parameters.GetValue<string>("plugin"), Logik.Plugin.PluginTypes.Field);
+                if (plugin is Logik.Fields.Field)
+                {
+                    field = (Logik.Fields.Field)plugin;
+                }
+            }
+
             if (!parameters.IsDefined<int>("breite"))
             {
                 width = 3;
@@ -97,7 +108,8 @@ namespace UniTTT.Konsole
                         client = new Logik.Network.TCPClient(ip, port);
                     }
                 }
-                Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new BrettDarsteller(width, height), new Logik.Fields.Brett(width, height), ip, port, client);
+                
+                Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new BrettDarsteller(width, height), field, ip, port, client);
                 Game g = new Game(gameMode);
                 g.Run();
             }
@@ -105,7 +117,6 @@ namespace UniTTT.Konsole
             {
                 Logik.Game.Game gameMode;
                 BrettDarsteller bdar = new BrettDarsteller(width, height);
-                Logik.Fields.Field field = new Logik.Fields.Brett(width, height);
                 if (parameters.GetValue<bool>("kigame"))
                 {
                     gameMode = new Logik.Game.NormalGame(kiplayer, kiplayer, bdar, field);
