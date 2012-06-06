@@ -12,7 +12,7 @@ namespace UniTTT.Logik.Plugin
         Field
     }
 
-    class PluginManager
+    public class PluginManager
     {
         private Dictionary<string, IPlugin> _plugins;
         private FileSystemWatcher _watcher;
@@ -23,6 +23,7 @@ namespace UniTTT.Logik.Plugin
             _watcher = new FileSystemWatcher("data/plugins");
             _watcher.Changed += PluginsChanged;
             _watcher.Renamed += PluginsRenamed;
+            LoadAllPlugins();
         }
 
         private void PluginsChanged(object sender, FileSystemEventArgs e)
@@ -49,20 +50,51 @@ namespace UniTTT.Logik.Plugin
 
         private void LoadAllPlugins()
         {
-            foreach(string path in Directory.GetFiles("data/plugins"))
+            foreach (string path in Directory.GetFiles("data/plugins"))
             {
-                LoadPluginFromAssembly(path);
+                IPlugin plug = LoadPluginFromAssembly(path);
+                if (plug != null)
+                {
+                    _plugins.Add(path, plug);
+                }
             }
         }
 
         private IPlugin LoadPluginFromAssembly(string path)
         {
-            return (IPlugin)Activator.CreateInstanceFrom(path, typeof(IPlugin).Name);
+            Assembly asm = Assembly.LoadFile(Path.GetFullPath(path));
+
+            foreach (Type t in asm.GetTypes())
+            {
+                if (t.GetInterfaces().Count(f => f == typeof(IPlugin)) > 0)
+                {
+                    try
+                    {
+                        return (IPlugin)asm.CreateInstance(t.FullName);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+            return null;
+        }
+
+        private PluginTypes GetPluginType(Type t)
+        {
+            return (PluginTypes)t.GetProperty("PluginType").GetValue(t, null);
         }
 
         public IPlugin Get(string name, PluginTypes type)
         {
-            return (IPlugin)_plugins.Where(f => f.Key == name && f.Value.PluginType == type);
+            foreach (KeyValuePair<string, IPlugin> pair in _plugins)
+            {
+                if (pair.Value.PluginName == name && pair.Value.PluginType == type)
+                {
+                    return pair.Value;
+                }
+            }
+            return null;
         }
     }
 }
