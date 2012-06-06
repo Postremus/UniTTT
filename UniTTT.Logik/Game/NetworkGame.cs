@@ -41,15 +41,6 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        public override void LogikLoop()
-        {
-            HasStoped = false;
-            HasStarted = true;
-            base.LogikLoop();
-            HasStoped = true;
-            HasStarted = false;
-        }
-
         public void SendVector(Vector2i vect)
         {
             client.Send(string.Format("UniTTT!{0}", vect.ToString()));
@@ -92,8 +83,6 @@ namespace UniTTT.Logik.Game
             {
                 PlayerChange();
             }
-            HasStoped = false;
-            HasStarted = true;
         }
 
         public override string ToString()

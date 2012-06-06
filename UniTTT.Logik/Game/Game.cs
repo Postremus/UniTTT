@@ -143,10 +143,14 @@ namespace UniTTT.Logik.Game
 
         public virtual void LogikLoop()
         {
+            HasStoped = false;
+            HasStarted = true;
             do
             {
                 Logik();
             } while (!HasEnd());
+            HasStoped = true;
+            HasStarted = false;
         }
 
         public bool IsBDarstellerValid()
@@ -185,6 +189,8 @@ namespace UniTTT.Logik.Game
                 ((Logik.IGraphicalBrettDarsteller)BDarsteller).Enabled = true;
             }
             BDarsteller.Initialize(Field.Width, Field.Height);
+            HasStoped = false;
+            HasStarted = true;
         }
 
         public void WinCounter()
