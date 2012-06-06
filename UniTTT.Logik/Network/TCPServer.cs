@@ -24,9 +24,9 @@ namespace UniTTT.Logik.Network
             listener.Start();
             Client = listener.AcceptTcpClient();
 
-            sTream = Client.GetStream();
-            Reader = new StreamReader(sTream);
-            Writer = new StreamWriter(sTream);
+            ClientStream = Client.GetStream();
+            Reader = new StreamReader(ClientStream);
+            Writer = new StreamWriter(ClientStream);
             new Thread(Receive).Start();
         }
     }

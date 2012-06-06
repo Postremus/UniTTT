@@ -14,9 +14,9 @@ namespace UniTTT.Logik.Network
             Hostname = host;
             TargetPort = port;
             Client = new System.Net.Sockets.TcpClient(host, port);
-            sTream = Client.GetStream();
-            Writer = new StreamWriter(sTream);
-            Reader = new StreamReader(sTream);
+            ClientStream = Client.GetStream();
+            Writer = new StreamWriter(ClientStream);
+            Reader = new StreamReader(ClientStream);
             new Thread(Receive).Start();
         }
     }
