@@ -54,6 +54,15 @@ namespace UniTTT.Logik.Game
         }
         #endregion
 
+        public Game()
+        {
+        }
+
+        public Game(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
+        {
+            Initialize(p1, p2, bdar, field);
+        }
+
         public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
         {
             if (field == null)
@@ -272,6 +281,22 @@ namespace UniTTT.Logik.Game
             if (showMessageEvent != null)
             {
                 showMessageEvent(message);
+            }
+        }
+
+        public override string ToString()
+        {
+            if (Player1 is Player.KIPlayer && Player2 is Player.KIPlayer)
+            {
+                return "KiGame";
+            }
+            else if (Player1 is Player.NetworkPlayer || Player1 is Player.NetworkPlayer)
+            {
+                return "NetworkGame";
+            }
+            else
+            {
+                return "HumanGame";
             }
         }
     }
