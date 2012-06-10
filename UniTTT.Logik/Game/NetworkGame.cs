@@ -43,19 +43,19 @@ namespace UniTTT.Logik.Game
 
         public void SendVector(Vector2i vect)
         {
-            client.Send(string.Format("UniTTT!{0}", vect.ToString()));
+            client.Send(string.Format("UniTTT!Vector:{0}", vect.ToString()));
         }
 
         private void ReceiveNewGame(string value)
         {
-            if (!value.Contains("NewGame"))
+            if (!value.Contains("UniTTT!NewGame"))
                 return;
             OnNewGameRequestReceivedEvent();
         }
 
         private void SendNewGame()
         {
-            client.Send("NewGame");
+            client.Send("UniTTT!NewGame");
         }
 
         public void OnNewGameRequestedEvent()
