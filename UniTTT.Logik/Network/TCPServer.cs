@@ -27,7 +27,7 @@ namespace UniTTT.Logik.Network
             ClientStream = Client.GetStream();
             Reader = new StreamReader(ClientStream);
             Writer = new StreamWriter(ClientStream);
-            new Thread(Receive).Start();
+            new Thread(ReceiveMessages).Start();
         }
     }
 }

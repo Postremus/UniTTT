@@ -34,7 +34,7 @@ namespace UniTTT.Logik.Network
             Reader = new StreamReader(ClientStream);
             Writer = new StreamWriter(ClientStream);
 
-            new Thread(Receive).Start();
+            new Thread(ReceiveMessages).Start();
 
             ConnectToChannel();
             NewMessageReceivedEvent += SetConnectingFrom;

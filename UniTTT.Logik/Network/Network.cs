@@ -61,7 +61,7 @@ namespace UniTTT.Logik.Network
             Writer.Flush();
         }
 
-        public virtual void Receive()
+        public virtual void ReceiveMessages()
         {
             string str = null;
             do
