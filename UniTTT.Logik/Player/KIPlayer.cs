@@ -143,7 +143,7 @@ namespace UniTTT.Logik.Player
                 {
                     for (int i = 0; i < 9; i++)
                     {
-                        player = SitCodeHelper.PlayerChange(player);
+                        player = Player.PlayerChange(player, '2', '3');
                         sit_codes[currround, i] = int.Parse(momsitcode);
                         zug = SitCodeHelper.GetRandomZug(Fields.SitCode.GetInstance(momsitcode, Width, Height));
                         zuege[currround, i] = zug;

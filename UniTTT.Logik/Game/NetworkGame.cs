@@ -34,7 +34,7 @@ namespace UniTTT.Logik.Game
             this.ip = ip;
             this.port = port;
             this.client = client;
-            base.Initialize(p1, new Player.NetworkPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol))), client), bdar, field);
+            base.Initialize(p1, new Player.NetworkPlayer(UniTTT.Logik.Player.Player.PlayerChange(p1.Symbol, p1.Symbol, 'O'), client), bdar, field);
             if (p1.Symbol != 'X')
             {
                 PlayerChange();

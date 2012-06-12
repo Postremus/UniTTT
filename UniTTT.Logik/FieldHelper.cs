@@ -90,7 +90,7 @@ namespace UniTTT.Logik
             for (int i = 0; i < field.Length; i++)
             {
                 field.SetField(SitCodeHelper.GetRandomZug(field), player);
-                player = SitCodeHelper.PlayerChange(player);
+                player = Player.Player.PlayerChange(player, '2', '3');
             }
             return field;
         }
