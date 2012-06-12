@@ -33,17 +33,5 @@ namespace UniTTT.Logik
             }
             return ret;
         }
-
-        private static Random Rnd = new Random();
-
-        public static int GetRandomZug(Fields.Field field)
-        {
-            int zug = -1;
-            do
-            {
-                zug = Rnd.Next(0, field.Length);
-            } while (!field.IsFieldEmpty(zug));
-            return zug;
-        }
     }
 }
