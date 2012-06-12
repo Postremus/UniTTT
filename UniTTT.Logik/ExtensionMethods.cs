@@ -76,5 +76,21 @@ namespace UniTTT.Logik
             }
             return value.Substring(first, length);
         }
+
+        public static int IndexOfLastChar(this string value, string search)
+        {
+            if (value == null || search == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            if (!value.Contains(search))
+            {
+                return -1;
+            }
+
+            int first = value.IndexOf(search);
+            return first + search.Length;
+        }
     }
 }

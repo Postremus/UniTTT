@@ -38,11 +38,11 @@ namespace UniTTT.Logik.Player
 
         private void ReceiveVector(string value)
         {
-            if (!value.Contains("UniTTT!"))
+            if (!value.Contains("UniTTT!Vector:"))
             {
                 return;
             }
-            string str = value.Remove(0, value.IndexOf("UniTTT!") + 7);
+            string str = value.Remove(0, value.IndexOfLastChar("UniTTT!Vector:"));
             Vector2i vect = Vector2i.StringToVector(str, true);
             if (vect != null)
             {
