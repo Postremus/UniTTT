@@ -124,6 +124,10 @@ namespace UniTTT.Logik.Game
             if (HasEnd())
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
+                if (IsBDarstellerGraphical())
+                {
+                    ((IGraphicalBrettDarsteller)BDarsteller).Enabled = false;
+                }
             }
         }
 
@@ -147,6 +151,10 @@ namespace UniTTT.Logik.Game
             if (HasEnd())
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
+                if (IsBDarstellerGraphical())
+                {
+                    ((IGraphicalBrettDarsteller)BDarsteller).Enabled = false;
+                }
             }
         }
 
