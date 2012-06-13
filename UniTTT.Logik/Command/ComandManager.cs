@@ -20,6 +20,7 @@ namespace UniTTT.Logik.Command
                 return _command;
             }
         }
+
         public event DataReturnHandler DataReturnEvent;
 
         public ComandManager()

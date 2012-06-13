@@ -45,9 +45,9 @@ namespace UniTTT.Logik.Fields
                 for (int x = 0; x < Width; x++)
                 {
                     ret.Add(Column(x));
+                    ret.Add(LeftTopToRightButtom(x));
+                    ret.Add(RightTopToLeftButtom(x));
                 }
-                ret.Add(Diagonal(0));
-                ret.Add(Diagonal(1));
                 return ret;
             }
         }
@@ -96,26 +96,32 @@ namespace UniTTT.Logik.Fields
             return ret;
         }
 
-        public FieldRegion Diagonal(int count)
+        public FieldRegion LeftTopToRightButtom(int count)
         {
             FieldRegion ret = new FieldRegion();
-            if (count == 0)
+            int x = count;
+            int y = 0;
+            for (int i = 0; i < Height; i++)
             {
-                int y = 0;
-                for (int x = 0; x < Width; x++)
-                {
-                    ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
-                    y++;
-                }
+                if (!IsEntryPointInTheSize(x * Width + y)) break;
+                ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
+                x++;
+                y++;
             }
-            else
+            return ret;
+        }
+
+        public FieldRegion RightTopToLeftButtom(int count)
+        {
+            FieldRegion ret = new FieldRegion();
+            int x = count;
+            int y = 0;
+            for (int i = 0; i < Height; i++)
             {
-                int y = 0;
-                for (int x = Width; x > 0; x--)
-                {
-                    ret.Add(x * Width + y, GetField(new Vector2i(x - 1, y - 1)));
-                    y++;
-                }
+                if (!IsEntryPointInTheSize(x * Width + y)) break;
+                ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
+                x--;
+                y++;
             }
             return ret;
         }
