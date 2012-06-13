@@ -182,7 +182,7 @@ namespace UniTTT.Logik.Player
 
             public int Play(Fields.Field field)
             {
-                string sitcode = SitCodeHelper.StringToSitCode(FieldHelper.GetString(field));
+                string sitcode = SitCodeHelper.StringToSitCode(field.ToString());
                 List<int> Fields = new List<int>(writerreader.Read(sitcode));
                 int zug = -1;
                 do

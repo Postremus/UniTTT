@@ -43,7 +43,7 @@ namespace UniTTT.Konsole
             {
                 try
                 {
-                    Console.WriteLine("In welcher Nullbasierenden Zeile und Spalte, soll das {0} gesetzt werden? (X.Y)", Symbol);
+                    Console.WriteLine("In welcher Nullbasierenden Zeile und Spalte soll das {0} gesetzt werden? (X.Y)", Symbol);
                     return Logik.Vector2i.StringToVector(Console.ReadLine(), false, '.');
                 }
                 catch
