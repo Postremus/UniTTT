@@ -103,7 +103,10 @@ namespace UniTTT.Logik.Fields
             int y = 0;
             for (int i = 0; i < Height; i++)
             {
-                if (!IsEntryPointInTheSize(x * Width + y)) break;
+                if (x < 0 || y < 0 || x >= Width || y >= Height)
+                {
+                    break;
+                }
                 ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
                 x++;
                 y++;
@@ -118,7 +121,10 @@ namespace UniTTT.Logik.Fields
             int y = 0;
             for (int i = 0; i < Height; i++)
             {
-                if (!IsEntryPointInTheSize(x * Width + y)) break;
+                if (x < 0 || y < 0 || x >= Width || y >= Height)
+                {
+                    break;
+                }
                 ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
                 x--;
                 y++;
