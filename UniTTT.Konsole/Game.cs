@@ -37,7 +37,7 @@ namespace UniTTT.Konsole
                     {
                         if (NewGameQuestion())
                         {
-                            ((Logik.Game.NetworkGame)_gameMode).OnNewGameRequestedEvent();
+                            _gameMode.OnNewGameEvent();
                         }
                     }
                     else

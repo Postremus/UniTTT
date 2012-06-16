@@ -19,6 +19,7 @@ namespace UniTTT.Logik.Game
         public event GetIntHandler GetIntEvent;
         public event GetStringHandler GetStringEvent;
         public event ShowMessageHandler ShowMessageEvent;
+        public event NewGameHandler NewGameEvent;
 
         #region Propertys
         public Fields.Field Field
@@ -56,10 +57,12 @@ namespace UniTTT.Logik.Game
 
         public Game()
         {
+            NewGameEvent += NewGame;
         }
 
         public Game(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
         {
+            NewGameEvent += NewGame;
             Initialize(p1, p2, bdar, field);
         }
 
@@ -231,6 +234,15 @@ namespace UniTTT.Logik.Game
             if (playerMovedEvent != null)
             {
                 playerMovedEvent(vect);
+            }
+        }
+
+        public void OnNewGameEvent()
+        {
+            NewGameHandler newGameEvent = NewGameEvent;
+            if (newGameEvent != null)
+            {
+                newGameEvent();
             }
         }
 

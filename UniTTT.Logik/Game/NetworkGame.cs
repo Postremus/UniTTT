@@ -14,16 +14,13 @@ namespace UniTTT.Logik.Game
         private const string connectionString = "UniTTT";
         #endregion
 
-        public event Network.NewGameRequestedHandler newGameRequestedEvent;
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
         public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, string ip, int port, Network.Network client) 
         {
             client.NewMessageReceivedEvent += ReceiveNewGame;
 
-            newGameRequestedEvent += SendNewGame;
-            newGameRequestedEvent += NewGame;
-            newGameRequestReceivedEvent += NewGame;
+            NewGameEvent += SendNewGame;
             PlayerMovedEvent += SendVector;
 
             Initialize(p1, bdar, field, ip, port, client);
@@ -56,15 +53,6 @@ namespace UniTTT.Logik.Game
         private void SendNewGame()
         {
             client.Send("UniTTT!NewGame");
-        }
-
-        public void OnNewGameRequestedEvent()
-        {
-            Network.NewGameRequestedHandler gameStartedEvent = newGameRequestedEvent;
-            if (gameStartedEvent != null)
-            {
-                gameStartedEvent();
-            }
         }
 
         public void OnNewGameRequestReceivedEvent()
