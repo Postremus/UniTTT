@@ -20,6 +20,10 @@ namespace UniTTT.Logik.Plugin
         public PluginManager()
         {
             _plugins = new Dictionary<string, IPlugin>();
+            if (!Directory.Exists("data/plugins"))
+            {
+                Directory.CreateDirectory("data/plugins");
+            }
             _watcher = new FileSystemWatcher("data/plugins");
             _watcher.Changed += PluginsChanged;
             _watcher.Renamed += PluginsRenamed;
