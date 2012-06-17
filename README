@@ -3,8 +3,9 @@ UniTTT
 
 UniTTT ist ein TicTacToe Programm, welches auf verschiedenen Plattformen (Windows, Linux, Mac spielbar ist.
 Der Name ist eine Anspielung auf "UniOS".
+Der offizielle Irc Kanal ist auf dem freenode.net server unter #UniTTT zu finden.
 
-Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benötigt.
+Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder hï¿½her benï¿½tigt.
 
 1) Die Befehle
 
@@ -16,19 +17,19 @@ Zum spielen wird das .Net Framework 4 oder Mono in Version 2.10 oder höher benöt
 	/hoehe:			Die Hoehe des Spielfeldes als Ganzzahl, also z.B: 1, 2, 3...
 	/kigame			Startet ein Spiel zwischen zwei KIs
 	/help			Gibt eine Hilfe aus, die die Befehle beinhaltet
-    /win:			Gibt die für einen Sieg benötigte Anzahl von X oder O nebeneinander,.. an.
+    /win:			Gibt die fï¿½r einen Sieg benï¿½tigte Anzahl von X oder O nebeneinander,.. an.
     /network
     /ip:
     /port:
     /player:
-    Load configname Lädt die Konfiguration configname
+    Load configname Lï¿½dt die Konfiguration configname
     Save /Paramn As configname  Speichert die Parameter Als configname
-    Delete configname   Löscht die Konfiguration configname
+    Delete configname   Lï¿½scht die Konfiguration configname
     
 2) Die KI Systeme
 
 	/ki:1			KIReinforcement         http://de.wikipedia.org/wiki/Best%C3%A4rkendes_Lernen
 	/ki:2			KIRandom                Eine Zufallsbasierte KI.
-    /ki:3           KIBot                   Eine gescriptete KI. Sie lernt nicht, sie weiß muss alles vorher wissen-
+    /ki:3           KIBot                   Eine gescriptete KI. Sie lernt nicht, sie weiï¿½ muss alles vorher wissen-
     /ki:4           KIMiniMax               Eine auf den MiniMax Algorythmus basierende KI.
     /ki:5           KIMiniMaxAlphaBeta      Eine auf den MiniMax Algorythmus mit Alpha-Beta Pruning basierende KI. Sie ist deutlich performanter als die KIMiniMax.
