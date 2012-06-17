@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace UniTTT.Logik.Config
+namespace UniTTT.Logik
 {
     public class ConfigStream
     {
