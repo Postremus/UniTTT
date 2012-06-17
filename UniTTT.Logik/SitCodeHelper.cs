@@ -18,7 +18,12 @@ namespace UniTTT.Logik
         {
             return value == '2' ? 'X' : value == '3' ? 'O' : value == '1' ? ' ' : value;
         }
-        
+
+        public static char PlayerChange(char curr)
+        {
+            return curr == '2' ? '3' : '2';
+        }
+
         public static string GetEmpty(int length)
         {
             return new string('1', length);

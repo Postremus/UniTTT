@@ -14,7 +14,7 @@ namespace UniTTT.Logik.KI
         protected AbstractKI(char kiPlayer, int width, int height)
         {
             KIPlayer = kiPlayer;
-            HumanPlayer = Player.Player.PlayerChange(kiPlayer, kiPlayer, 'X');
+            HumanPlayer = Player.Player.PlayerChange(kiPlayer);
             Width = width;
             Height = height;
         }

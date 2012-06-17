@@ -33,9 +33,9 @@ namespace UniTTT.Logik.Player
             return string.Format(CultureInfo.CurrentCulture, "Spieler {0} ist an der Reihe.", Symbol);
         }
 
-        public static char PlayerChange(char curr, char pl1, char pl2)
+        public static char PlayerChange(char curr)
         {
-            return curr == pl1 ? pl2 : pl1;
+            return curr == 'X' ? 'O' : 'X';
         }
 
         public override string ToString()

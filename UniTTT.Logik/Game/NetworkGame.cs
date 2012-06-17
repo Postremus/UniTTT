@@ -26,7 +26,7 @@ namespace UniTTT.Logik.Game
         public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client)
         {
             this.client = client;
-            base.Initialize(p1, new Player.NetworkPlayer(UniTTT.Logik.Player.Player.PlayerChange(p1.Symbol, p1.Symbol, 'O'), client), bdar, field);
+            base.Initialize(p1, new Player.NetworkPlayer(UniTTT.Logik.Player.Player.PlayerChange(p1.Symbol), client), bdar, field);
             if (p1.Symbol != 'X')
             {
                 PlayerChange();
