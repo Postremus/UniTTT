@@ -8,28 +8,23 @@ namespace UniTTT.Logik.Game
     public class NetworkGame : Game
     {
         #region privates
-        private string ip;
-        private int port;
         private Network.Network client;
-        private const string connectionString = "UniTTT";
         #endregion
 
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
-        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, string ip, int port, Network.Network client) 
+        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client) 
         {
             client.NewMessageReceivedEvent += ReceiveNewGame;
 
             NewGameEvent += SendNewGame;
             PlayerMovedEvent += SendVector;
 
-            Initialize(p1, bdar, field, ip, port, client);
+            Initialize(p1, bdar, field, client);
         }
 
-        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, string ip, int port, Network.Network client)
+        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client)
         {
-            this.ip = ip;
-            this.port = port;
             this.client = client;
             base.Initialize(p1, new Player.NetworkPlayer(UniTTT.Logik.Player.Player.PlayerChange(p1.Symbol, p1.Symbol, 'O'), client), bdar, field);
             if (p1.Symbol != 'X')
