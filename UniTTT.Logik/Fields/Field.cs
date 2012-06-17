@@ -40,11 +40,11 @@ namespace UniTTT.Logik.Fields
                 List<FieldRegion> ret = new List<FieldRegion>();
                 for (int y = 0; y < Height; y++)
                 {
-                    ret.Add(Row(y));
+                    ret.Add(Column(y));
                 }
                 for (int x = 0; x < Width; x++)
                 {
-                    ret.Add(Column(x));
+                    ret.Add(Row(x));
                     ret.Add(LeftTopToRightButtom(x));
                     ret.Add(RightTopToLeftButtom(x));
                 }
@@ -75,31 +75,30 @@ namespace UniTTT.Logik.Fields
 
         public abstract bool IsFieldEmpty(int idx);
 
-        public FieldRegion Row(int count)
+        public FieldRegion Row(int x)
         {
             FieldRegion ret = new FieldRegion();
 
             for (int y = 0; y < Height; y++)
             {
-                ret.Add(count * Width + y, GetField(new Vector2i(count, y)));
+                ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
             }
             return ret;
         }
 
-        public FieldRegion Column(int count)
+        public FieldRegion Column(int y)
         {
             FieldRegion ret = new FieldRegion();
             for (int x = 0; x < Width; x++)
             {
-                ret.Add(x * Width + count, GetField(new Vector2i(x, count)));
+                ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
             }
             return ret;
         }
 
-        public FieldRegion LeftTopToRightButtom(int count)
+        public FieldRegion LeftTopToRightButtom(int x)
         {
             FieldRegion ret = new FieldRegion();
-            int x = count;
             int y = 0;
             for (int i = 0; i < Height; i++)
             {
@@ -114,10 +113,9 @@ namespace UniTTT.Logik.Fields
             return ret;
         }
 
-        public FieldRegion RightTopToLeftButtom(int count)
+        public FieldRegion RightTopToLeftButtom(int x)
         {
             FieldRegion ret = new FieldRegion();
-            int x = count;
             int y = 0;
             for (int i = 0; i < Height; i++)
             {
