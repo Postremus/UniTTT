@@ -67,7 +67,7 @@
     <Compile Include="Command\Commands\MemoryCommand.cs" />
     <Compile Include="Command\ReturnData.cs" />
     <Compile Include="Command\Commands\SaveCommand.cs" />
-    <Compile Include="Config\ConfigStream.cs" />
+    <Compile Include="ConfigStream.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
