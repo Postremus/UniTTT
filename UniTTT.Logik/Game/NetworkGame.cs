@@ -35,7 +35,10 @@ namespace UniTTT.Logik.Game
 
         public void SendVector(Vector2i vect)
         {
-            client.Send(string.Format("UniTTT!Vector:{0}", vect.ToString()));
+            if (!(Player is Player.NetworkPlayer))
+            {
+                client.Send(string.Format("UniTTT!Vector:{0}", vect.ToString()));
+            }
         }
 
         private void ReceiveNewGame(string value)
