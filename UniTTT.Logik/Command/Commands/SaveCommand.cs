@@ -14,9 +14,7 @@ namespace UniTTT.Logik.Command.Commands
 
         public override void Execute(string value)
         {
-            MemoryData = new Config.ParameterConfig();
-            ParameterInterpreter parameter = ParameterInterpreter.InterpretCommandLine(value.TrimStart(' ').TrimEnd(' ').Split(' '));
-            MemoryData.Values = parameter.Arguments;
+            MemoryData = ParameterInterpreter.InterpretCommandLine(value.TrimStart(' ').TrimEnd(' ').Split(' '));
 
             base.Execute(value);
         }

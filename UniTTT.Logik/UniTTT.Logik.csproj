@@ -46,10 +46,10 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -68,7 +68,6 @@
     <Compile Include="Command\ReturnData.cs" />
     <Compile Include="Command\Commands\SaveCommand.cs" />
     <Compile Include="Config\ConfigStream.cs" />
-    <Compile Include="Config\ParameterConfig.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
