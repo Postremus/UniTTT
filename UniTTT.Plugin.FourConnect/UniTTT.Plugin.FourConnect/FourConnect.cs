@@ -24,20 +24,19 @@ namespace UniTTT.Plugin.FourConnect
         {
             Width = 7;
             Height = 6;
-            _varField = InitBrett();
+            _varField = new char[7, 6];
+            InitBrett();
         }
 
-        private char[,] InitBrett()
+        private void InitBrett()
         {
-            char[,] ret = null;
             for (int x = 0; x < Width; x++)
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    ret[x, y] = ' ';
+                    _varField[x, y] = ' ';
                 }
             }
-            return ret;
         }
 
         public override char GetField(Vector2i vect)
@@ -62,17 +61,19 @@ namespace UniTTT.Plugin.FourConnect
 
         public override void SetField(Vector2i vect, char value)
         {
-            int set = 0;
+            int set = -1;
             for (int y = 0; y < Height; y++)
             {
-                if (IsFieldEmpty(new Vector2i(vect.X, y)))
+                if (y < Height && y > -1)
                 {
-                    set++;
-                }
-                else
-                {
-                    set--;
-                    break;
+                    if (IsFieldEmpty(new Vector2i(vect.X, y)))
+                    {
+                        set = y;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
             _varField[vect.X, set] = value;
