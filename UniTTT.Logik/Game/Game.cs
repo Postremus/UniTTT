@@ -19,6 +19,7 @@ namespace UniTTT.Logik.Game
         public event GetIntHandler GetIntEvent;
         public event GetStringHandler GetStringEvent;
         public event ShowMessageHandler ShowMessageEvent;
+        public event NewGameHandler NewGameEvent;
 
         #region Propertys
         public Fields.Field Field
@@ -53,6 +54,17 @@ namespace UniTTT.Logik.Game
             }
         }
         #endregion
+
+        public Game()
+        {
+            NewGameEvent += NewGame;
+        }
+
+        public Game(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
+        {
+            NewGameEvent += NewGame;
+            Initialize(p1, p2, bdar, field);
+        }
 
         public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
         {
@@ -115,6 +127,10 @@ namespace UniTTT.Logik.Game
             if (HasEnd())
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
+                if (IsBDarstellerGraphical())
+                {
+                    ((IGraphicalBrettDarsteller)BDarsteller).Enabled = false;
+                }
             }
         }
 
@@ -138,15 +154,23 @@ namespace UniTTT.Logik.Game
             if (HasEnd())
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
+                if (IsBDarstellerGraphical())
+                {
+                    ((IGraphicalBrettDarsteller)BDarsteller).Enabled = false;
+                }
             }
         }
 
         public virtual void LogikLoop()
         {
+            HasStoped = false;
+            HasStarted = true;
             do
             {
                 Logik();
             } while (!HasEnd());
+            HasStoped = true;
+            HasStarted = false;
         }
 
         public bool IsBDarstellerValid()
@@ -185,6 +209,8 @@ namespace UniTTT.Logik.Game
                 ((Logik.IGraphicalBrettDarsteller)BDarsteller).Enabled = true;
             }
             BDarsteller.Initialize(Field.Width, Field.Height);
+            HasStoped = false;
+            HasStarted = true;
         }
 
         public void WinCounter()
@@ -208,6 +234,15 @@ namespace UniTTT.Logik.Game
             if (playerMovedEvent != null)
             {
                 playerMovedEvent(vect);
+            }
+        }
+
+        public void OnNewGameEvent()
+        {
+            NewGameHandler newGameEvent = NewGameEvent;
+            if (newGameEvent != null)
+            {
+                newGameEvent();
             }
         }
 
@@ -266,6 +301,22 @@ namespace UniTTT.Logik.Game
             if (showMessageEvent != null)
             {
                 showMessageEvent(message);
+            }
+        }
+
+        public override string ToString()
+        {
+            if (Player1 is Player.KIPlayer && Player2 is Player.KIPlayer)
+            {
+                return "KiGame";
+            }
+            else if (Player1 is Player.NetworkPlayer || Player1 is Player.NetworkPlayer)
+            {
+                return "NetworkGame";
+            }
+            else
+            {
+                return "HumanGame";
             }
         }
     }

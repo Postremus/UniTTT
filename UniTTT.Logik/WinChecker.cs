@@ -31,47 +31,21 @@ namespace UniTTT.Logik
                 GewinnBedingung = field.Width > field.Height ? field.Height : field.Width;
             }
 
-            //Horizontal
-            for (int y = 0; y < field.Height; y++)
-                if (DoCheck(field, Directories.Right, player, new Vector2i(0, y)) == GewinnBedingung)
-                    return true;
+            List<Fields.FieldRegion> panels = field.Panels;
 
-            //Vertikal
-            for (int x = 0; x < field.Width; x++)
-                if (DoCheck(field, Directories.Down, player, new Vector2i(x, 0)) == GewinnBedingung)
-                    return true;
-
-            // Diagonal
-            // Oben Links zu unten Rechts
-            for (int x = 0; x < field.Width; x++)
+            foreach (Fields.FieldRegion region in panels)
             {
-                for (int y = 0; y < field.Height; y++)
+                if (region.Count<char>(player) == GewinnBedingung)
                 {
-                    if (x + (GewinnBedingung - 1) < field.Width && y + (GewinnBedingung - 1) < field.Height)
-                    {
-                        if (DoCheck(field, Directories.RightDown, player, new Vector2i(x, y)) == GewinnBedingung)
-                            return true;
-                    }
+                    return true;
                 }
             }
 
-            // Oben Rechts zu unten Links
-            for (int x = 0; x < field.Width; x++)
-            {
-                for (int y = 0; y < field.Height; y++)
-                {
-                    if ((x - (GewinnBedingung - 1) >= 0) && y - (GewinnBedingung - 1) < field.Height)
-                    {
-                        if (DoCheck(field, Directories.LeftDown, player, new Vector2i(x, y)) == GewinnBedingung)
-                            return true;
-                    }
-                }
-            }
             return false;
         }
 
         /// <summary>
-        /// TODO: verbessern
+        /// 
         /// </summary>
         /// <param name="field">Das Spielfeld</param>
         /// <param name="dir">Die Richtung, in die überprüft werden soll.</param>

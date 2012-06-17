@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace UniTTT.Logik.Config
+namespace UniTTT.Logik
 {
     public class ConfigStream
     {
@@ -22,14 +22,14 @@ namespace UniTTT.Logik.Config
             _defaultExtension = ".xml";
             _fileName = fileName;
             _path = Path.Combine(_defaultDir, _fileName + _defaultExtension);
-            _serializer = new XmlSerializer(typeof(ParameterConfig));
+            _serializer = new XmlSerializer(typeof(ParameterInterpreter));
             if (!Directory.Exists(_defaultDir))
             {
                 Directory.CreateDirectory(_defaultDir);
             }
         }
 
-        public void Write(ParameterConfig config)
+        public void Write(ParameterInterpreter config)
         {
             if (File.Exists(_path))
             {

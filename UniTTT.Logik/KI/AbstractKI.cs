@@ -14,7 +14,7 @@ namespace UniTTT.Logik.KI
         protected AbstractKI(char kiPlayer, int width, int height)
         {
             KIPlayer = kiPlayer;
-            HumanPlayer = SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(KIPlayer)));
+            HumanPlayer = Player.Player.PlayerChange(kiPlayer, kiPlayer, 'X');
             Width = width;
             Height = height;
         }
@@ -36,11 +36,6 @@ namespace UniTTT.Logik.KI
                 }
             }
             return idx;
-        }
-
-        public override string ToString()
-        {
-            return "KI";
         }
 
         protected int Valuation(Fields.Field field, char player)
@@ -121,6 +116,11 @@ namespace UniTTT.Logik.KI
             {
                 showMessageEvent(message);
             }
+        }
+
+        public override string ToString()
+        {
+            return "KI";
         }
     }
 }

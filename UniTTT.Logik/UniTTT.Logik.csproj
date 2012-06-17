@@ -46,9 +46,10 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,8 +67,7 @@
     <Compile Include="Command\Commands\MemoryCommand.cs" />
     <Compile Include="Command\ReturnData.cs" />
     <Compile Include="Command\Commands\SaveCommand.cs" />
-    <Compile Include="Config\ConfigStream.cs" />
-    <Compile Include="Config\ParameterConfig.cs" />
+    <Compile Include="ConfigStream.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
@@ -78,7 +78,6 @@
     <Compile Include="Game\Delegates.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\NetworkGame.cs" />
-    <Compile Include="Game\NormalGame.cs" />
     <Compile Include="KI\ILearnableKI.cs" />
     <Compile Include="KI\IPlayableKI.cs" />
     <Compile Include="Network\Delegates.cs" />
@@ -88,6 +87,8 @@
     <Compile Include="Network\TCPServer.cs" />
     <Compile Include="ParameterInterpreter.cs" />
     <Compile Include="Player\NetworkPlayer.cs" />
+    <Compile Include="Plugin\IPlugin.cs" />
+    <Compile Include="Plugin\PluginManager.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="IGraphicalBrettDarsteller.cs" />

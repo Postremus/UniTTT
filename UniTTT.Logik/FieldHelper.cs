@@ -89,10 +89,22 @@ namespace UniTTT.Logik
             char player = '2';
             for (int i = 0; i < field.Length; i++)
             {
-                field.SetField(SitCodeHelper.GetRandomZug(field), player);
-                player = SitCodeHelper.PlayerChange(player);
+                field.SetField(GetRandomZug(field), player);
+                player = Player.Player.PlayerChange(player, '2', '3');
             }
             return field;
+        }
+
+        private static Random Rnd = new Random();
+
+        public static int GetRandomZug(Fields.Field field)
+        {
+            int zug = -1;
+            do
+            {
+                zug = Rnd.Next(0, field.Length);
+            } while (!field.IsFieldEmpty(zug));
+            return zug;
         }
     }
 }

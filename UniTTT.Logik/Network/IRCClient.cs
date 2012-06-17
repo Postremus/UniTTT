@@ -30,11 +30,11 @@ namespace UniTTT.Logik.Network
 
             Client = new TcpClient(host, port);
 
-            sTream = Client.GetStream();
-            Reader = new StreamReader(sTream);
-            Writer = new StreamWriter(sTream);
+            ClientStream = Client.GetStream();
+            Reader = new StreamReader(ClientStream);
+            Writer = new StreamWriter(ClientStream);
 
-            new Thread(Receive).Start();
+            new Thread(ReceiveMessages).Start();
 
             ConnectToChannel();
             NewMessageReceivedEvent += SetConnectingFrom;

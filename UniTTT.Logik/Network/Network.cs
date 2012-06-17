@@ -13,7 +13,7 @@ namespace UniTTT.Logik.Network
     {
         #region Privates
         private TcpClient _client;
-        private Stream _stream;
+        private NetworkStream _clientStream;
         private StreamReader _reader;
         private StreamWriter _writer;
         private string _hostname;
@@ -23,7 +23,7 @@ namespace UniTTT.Logik.Network
         #region Propertys
         public event NewMessageReceivedHandler NewMessageReceivedEvent;
         public TcpClient Client { get { return _client; } set { _client = value; } }
-        public Stream sTream { get { return _stream; } set { _stream = value; } }
+        public NetworkStream ClientStream { get { return _clientStream; } set { _clientStream = value; } }
         public StreamReader Reader { get { return _reader; } set { _reader = value; } }
         public StreamWriter Writer { get { return _writer; } set { _writer = value; } }
         public string Hostname { get { return _hostname; } set { _hostname = value; } }
@@ -61,7 +61,7 @@ namespace UniTTT.Logik.Network
             Writer.Flush();
         }
 
-        public virtual void Receive()
+        public virtual void ReceiveMessages()
         {
             string str = null;
             do

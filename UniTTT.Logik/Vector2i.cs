@@ -103,8 +103,7 @@ namespace UniTTT.Logik
                     return Vector2i.IndexToVector(cor, 3, 3);
                 }
             }
-
-            if (value.Contains(seperator))
+            else
             {
                 string[] splitedValue = value.Split(seperator);
                 int x = 0;

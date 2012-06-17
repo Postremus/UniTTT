@@ -7,9 +7,9 @@ namespace UniTTT.Logik.Command.Commands
 {
     public class MemoryCommand : Command
     {
-        private Config.ParameterConfig _memoryData;
+        private ParameterInterpreter _memoryData;
 
-        public Config.ParameterConfig MemoryData
+        public ParameterInterpreter MemoryData
         {
             get
             {

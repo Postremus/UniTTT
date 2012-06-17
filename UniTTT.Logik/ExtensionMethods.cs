@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections;
 
 namespace UniTTT.Logik
 {
@@ -14,34 +15,20 @@ namespace UniTTT.Logik
             return new List<string>(value.Split(' '));
         }
 
-        public static int GetHighestIndex(this int[] value)
-        {
-            int ret = 0;
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (value[i] > value[ret])
-                {
-                    ret = i;
-                }
-            }
-            return ret;
-        }
-
-        public static int GetHighestIndex(this int[,] value)
+        public static int GetHighestIndex<T>(this T list) where T : IList
         {
             int ret = 0;
             int tmp = 0;
-            for (int i = 0; i < value.GetUpperBound(0) + 1; i++)
+            int indexer = 0;
+            foreach (int i in list)
             {
-                for (int a = 0; a < value.GetUpperBound(1) + 1; a++)
+                if (i > tmp)
                 {
-                    if (value[i, a] > tmp)
-                    {
-                        ret = (i + 1) * (a + 1) - 1;
-                        tmp = value[i, a];
-                    }
+                    ret = indexer;
                 }
+                indexer++;
             }
+            
             return ret;
         }
 
@@ -75,6 +62,22 @@ namespace UniTTT.Logik
                 length = value.Length - first - (value.Length - value.IndexOf(str2));
             }
             return value.Substring(first, length);
+        }
+
+        public static int IndexOfLastChar(this string value, string search)
+        {
+            if (value == null || search == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            if (!value.Contains(search))
+            {
+                return -1;
+            }
+
+            int first = value.IndexOf(search);
+            return first + search.Length;
         }
     }
 }

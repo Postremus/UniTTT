@@ -114,7 +114,7 @@ namespace UniTTT.Logik
                             Command.ReturnData data = CManager.ExecuteReturner(String.Join(" ", args));
                             if (data.HasData)
                             {
-                                return InterpretCommandLine(((Config.ParameterConfig)data.Data).Values.ToArray());
+                                return InterpretCommandLine(((ParameterInterpreter)data.Data).Arguments.ToArray());
                             }
                             break;
                         }

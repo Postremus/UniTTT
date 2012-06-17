@@ -8,72 +8,46 @@ namespace UniTTT.Logik.Game
     public class NetworkGame : Game
     {
         #region privates
-        private string ip;
-        private int port;
         private Network.Network client;
-        private const string connectionString = "UniTTT";
         #endregion
 
-        public event Network.NewGameRequestedHandler newGameRequestedEvent;
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
-        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, string ip, int port, Network.Network client)
+        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client) 
         {
             client.NewMessageReceivedEvent += ReceiveNewGame;
 
-            newGameRequestedEvent += SendNewGame;
-            newGameRequestedEvent += NewGame;
-            newGameRequestReceivedEvent += NewGame;
+            NewGameEvent += SendNewGame;
             PlayerMovedEvent += SendVector;
 
-            Initialize(p1, bdar, field, ip, port, client);
+            Initialize(p1, bdar, field, client);
         }
 
-        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, string ip, int port, Network.Network client)
+        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client)
         {
-            this.ip = ip;
-            this.port = port;
             this.client = client;
-            base.Initialize(p1, new Player.NetworkPlayer(SitCodeHelper.ToPlayer(SitCodeHelper.PlayerChange(SitCodeHelper.PlayertoSitCode(p1.Symbol))), client), bdar, field);
+            base.Initialize(p1, new Player.NetworkPlayer(UniTTT.Logik.Player.Player.PlayerChange(p1.Symbol, p1.Symbol, 'O'), client), bdar, field);
             if (p1.Symbol != 'X')
             {
                 PlayerChange();
             }
         }
 
-        public override void LogikLoop()
-        {
-            HasStoped = false;
-            HasStarted = true;
-            base.LogikLoop();
-            HasStoped = true;
-            HasStarted = false;
-        }
-
         public void SendVector(Vector2i vect)
         {
-            client.Send(string.Format("UniTTT!{0}", vect.ToString()));
+            client.Send(string.Format("UniTTT!Vector:{0}", vect.ToString()));
         }
 
         private void ReceiveNewGame(string value)
         {
-            if (!value.Contains("NewGame"))
+            if (!value.Contains("UniTTT!NewGame"))
                 return;
             OnNewGameRequestReceivedEvent();
         }
 
         private void SendNewGame()
         {
-            client.Send("NewGame");
-        }
-
-        public void OnNewGameRequestedEvent()
-        {
-            Network.NewGameRequestedHandler gameStartedEvent = newGameRequestedEvent;
-            if (gameStartedEvent != null)
-            {
-                gameStartedEvent();
-            }
+            client.Send("UniTTT!NewGame");
         }
 
         public void OnNewGameRequestReceivedEvent()
@@ -92,13 +66,6 @@ namespace UniTTT.Logik.Game
             {
                 PlayerChange();
             }
-            HasStoped = false;
-            HasStarted = true;
-        }
-
-        public override string ToString()
-        {
-            return "Networkgame";
         }
     }
 }

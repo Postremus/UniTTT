@@ -22,6 +22,15 @@ namespace UniTTT.Konsole
             int width = parameters.GetValue<int>("breite");
             int height = parameters.GetValue<int>("hoehe");
 
+            if (!parameters.IsDefined<int>("breite"))
+            {
+                width = 3;
+            }
+            if (!parameters.IsDefined<int>("hoehe"))
+            {
+                height = 3;
+            }
+
             Logik.Fields.Field field = new Logik.Fields.Brett(width, height);
             if (parameters.IsDefined<string>("plugin"))
             {
@@ -30,15 +39,6 @@ namespace UniTTT.Konsole
                 {
                     field = (Logik.Fields.Field)plugin;
                 }
-            }
-
-            if (!parameters.IsDefined<int>("breite"))
-            {
-                width = 3;
-            }
-            if (!parameters.IsDefined<int>("hoehe"))
-            {
-                height = 3;
             }
 
             HumanPlayer hPlayer;
@@ -109,7 +109,7 @@ namespace UniTTT.Konsole
                     }
                 }
                 
-                Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new BrettDarsteller(width, height), field, ip, port, client);
+                Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new BrettDarsteller(width, height), field, client);
                 Game g = new Game(gameMode);
                 g.Run();
             }
@@ -119,17 +119,17 @@ namespace UniTTT.Konsole
                 BrettDarsteller bdar = new BrettDarsteller(width, height);
                 if (parameters.GetValue<bool>("kigame"))
                 {
-                    gameMode = new Logik.Game.NormalGame(kiplayer, kiplayer, bdar, field);
+                    gameMode = new Logik.Game.Game(kiplayer, kiplayer, bdar, field);
                 }
                 else
                 {
                     if (kiplayer != null)
                     {
-                        gameMode = new Logik.Game.NormalGame(hPlayer, kiplayer, bdar, field);
+                        gameMode = new Logik.Game.Game(hPlayer, kiplayer, bdar, field);
                     }
                     else
                     {
-                        gameMode = new Logik.Game.NormalGame(new HumanPlayer('X'), new HumanPlayer('O'), bdar, field);
+                        gameMode = new Logik.Game.Game(new HumanPlayer('X'), new HumanPlayer('O'), bdar, field);
                     }
                 }
                 Game g = new Game(gameMode);
