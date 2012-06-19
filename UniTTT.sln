@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Konsole", "UniTTT.Ko
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.ScreenSaver", "UniTTT.ScreenSaver\UniTTT.ScreenSaver.csproj", "{30D341D4-9587-42B4-8A1E-896F754C44A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Plugin.FourConnect", "UniTTT.Plugin.FourConnect\UniTTT.Plugin.FourConnect.csproj", "{DF9DF131-6DEB-4C51-B4E5-0785429915E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,16 @@ Global
 		{30D341D4-9587-42B4-8A1E-896F754C44A7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{30D341D4-9587-42B4-8A1E-896F754C44A7}.Release|x86.ActiveCfg = Release|x86
 		{30D341D4-9587-42B4-8A1E-896F754C44A7}.Release|x86.Build.0 = Release|x86
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
