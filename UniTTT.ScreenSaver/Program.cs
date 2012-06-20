@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using UniTTT.Logik;
 using System.Drawing;
+using System.IO;
 
 namespace UniTTT.ScreenSaver
 {
@@ -20,19 +21,20 @@ namespace UniTTT.ScreenSaver
             //args = Environment.GetCommandLineArgs();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            File.WriteAllLines("log.txt", args);
             if (args.Length > 0)
             {
                 try
                 {
-                    if (args[1].ToLower().Trim().Substring(0, 2) == "/c")
+                    if (args[1].ToLower().Trim().Contains("/c"))
                     {
                         Application.Run(new ConfigForm());
                     }
-                    else if (args[1].ToLower() == "/s")
+                    else if (args[1].ToLower().Trim().Contains("/s"))
                     {
                         Application.Run(new ScreenSaverForm(Color.Black));
                     }
-                    else if (args[1].ToLower() == "/p")
+                    else if (args[1].ToLower().Trim().Contains("/p"))
                     {
                         Application.Run(new ScreenSaverForm(Color.Transparent));
                     }

@@ -14,6 +14,7 @@ namespace UniTTT.ScreenSaver
         private int _height;
         private int _screenWidth;
         private int _screenHeight;
+        private bool _matrix;
 
         public int Width
         {
@@ -30,10 +31,11 @@ namespace UniTTT.ScreenSaver
         public event EventHandler DrawEvent;
         public Bitmap Image;
 
-        public BrettDarsteller(int width, int height, int screenWidth, int screenHeight)
+        public BrettDarsteller(int width, int height, int screenWidth, int screenHeight, bool matrix)
         {
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
+            _matrix = matrix;
             Initialize(width, height);
         }
 
@@ -46,16 +48,41 @@ namespace UniTTT.ScreenSaver
 
         public void Update(Logik.Fields.IField field)
         {
-            UpdateImageLetters(new Font("consolas", _screenHeight / 4), field);
+            int fontHeight = 0;
+            if (_matrix)
+            {
+                fontHeight = _screenHeight / 10;
+            }
+            else
+            {
+                fontHeight = _screenHeight / 4;
+            }
+            UpdateImageLetters(new Font("consolas", fontHeight), field);
         }
 
         private void UpdateImageLetters(Font font, Logik.Fields.IField field)
         {
+            Bitmap tmpImage = new Bitmap(_screenWidth, _screenHeight);
+            if (_matrix)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Point posi = new Point((_screenWidth / 10) * i);
+                    DrawBrettOnBitMap(tmpImage, font, field, posi);
+                }
+            }
+            else
+            {
+                DrawBrettOnBitMap(tmpImage, font, field, new Point(0, 0));
+            }
+            Image = tmpImage;
+        }
+
+        private Bitmap DrawBrettOnBitMap(Bitmap image, Font font, Logik.Fields.IField field, Point posi)
+        {
             SolidBrush xBrush = new SolidBrush(Color.Green);
             SolidBrush oBrush = new SolidBrush(Color.Blue);
-            Bitmap tmpImg = new Bitmap(_screenWidth, _screenHeight);
-            Point posi = new Point(0, 0);
-            Graphics graphics = Graphics.FromImage(tmpImg);
+            Graphics graphics = Graphics.FromImage(image);
             for (int x = 0; x < field.Width; x++)
             {
                 for (int y = 0; y < field.Height; y++)
@@ -73,8 +100,7 @@ namespace UniTTT.ScreenSaver
                 posi.X += _screenWidth / 4;
                 posi.Y = 0;
             }
-
-            Image = tmpImg;
+            return image;
         }
 
         public void Draw()

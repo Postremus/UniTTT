@@ -13,7 +13,7 @@ namespace UniTTT.ScreenSaver
 {
     public partial class ConfigForm : Form
     {
-        Config c;
+        Config _config;
 
         public ConfigForm()
         {
@@ -27,15 +27,15 @@ namespace UniTTT.ScreenSaver
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Config));
                 FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Open);
-                c = (Config)serializer.Deserialize(stream);
+                _config = (Config)serializer.Deserialize(stream);
                 stream.Close();
 
-                trackBar1.Value = c.PlayVelocity;
-                trackBar2.Value = c.MoveVelocity;
+                trackBar1.Value = _config.PlayVelocity;
+                trackBar2.Value = _config.MoveVelocity;
             }
             catch
             {
-                c = new Config();
+                _config = new Config();
             }
         }
 
@@ -43,18 +43,23 @@ namespace UniTTT.ScreenSaver
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Config));
             FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Create);
-            serializer.Serialize(stream, c);
+            serializer.Serialize(stream, _config);
             stream.Close();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            c.PlayVelocity = trackBar1.Value;
+            _config.PlayVelocity = trackBar1.Value;
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
-            c.MoveVelocity = trackBar2.Value;
+            _config.MoveVelocity = trackBar2.Value;
+        }
+
+        private void matrix_rbtn_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.Matrix = matrix_rbtn.Checked;
         }
     }
 }

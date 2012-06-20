@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace UniTTT.ScreenSaver
 {
@@ -23,12 +24,19 @@ namespace UniTTT.ScreenSaver
         private Random rnd;
         private int screenWidth;
         private int screenHeight;
-        private Config c;
+        private Config _config;
 
         public ScreenSaverForm(Color backColor)
         {
             InitializeComponent();
-            game = new NormalGame(new Logik.Player.KIPlayer(3, 3, 3, 'X'), new Logik.Player.KIPlayer(3, 3, 3, 'O'), new BrettDarsteller(3, 3, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height), null, null);
+            _config = new Config();
+            if (File.Exists("UniTTT.Screensaver.ini"))
+            {
+                XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Config));
+                FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Open);
+                _config = (Config)serializer.Deserialize(stream);
+            }
+            game = new NormalGame(new Logik.Player.KIPlayer(3, 3, 3, 'X'), new Logik.Player.KIPlayer(3, 3, 3, 'O'), new BrettDarsteller(3, 3, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, _config.Matrix), null, null);
             loopThread = new Thread(Loop);
             rnd = new Random();
             moveTo = new Point(0, 0);
@@ -40,11 +48,11 @@ namespace UniTTT.ScreenSaver
             //KeyDown += DoWakeUp;
             FormClosed += AbortThreads;
 
-            //FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            //this.Bounds = Screen.PrimaryScreen.Bounds;
-            //Cursor.Hide();
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Bounds = Screen.PrimaryScreen.Bounds;
+            Cursor.Hide();
             //TopMost = true;
-            //SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             this.TransparencyKey = SystemColors.Control;
             BackColor = backColor;
             LoadConfig();
@@ -70,7 +78,7 @@ namespace UniTTT.ScreenSaver
                 {
                     game.NewGame();
                 }
-                if (elapsed.Seconds != st.Elapsed.Seconds && st.Elapsed.Seconds % c.PlayVelocity / 2 == 0)
+                if (elapsed.Seconds != st.Elapsed.Seconds && st.Elapsed.Seconds % _config.PlayVelocity / 2 == 0)
                 {
                     game.Logik();
                     if (game.HasEnd())
@@ -110,19 +118,19 @@ namespace UniTTT.ScreenSaver
             Point currLocation = pictureBox1.Location;
             if (pictureBox1.Location.X < moveTo.X)
             {
-                currLocation.X += c.MoveVelocity;
+                currLocation.X += _config.MoveVelocity;
             }
             else if (pictureBox1.Location.X > moveTo.Y)
             {
-                currLocation.X -= c.MoveVelocity;
+                currLocation.X -= _config.MoveVelocity;
             }
             if (pictureBox1.Location.Y < moveTo.Y)
             {
-                currLocation.Y += c.MoveVelocity;
+                currLocation.Y += _config.MoveVelocity;
             }
             else if (pictureBox1.Location.Y > moveTo.Y)
             {
-                currLocation.Y -= c.MoveVelocity;
+                currLocation.Y -= _config.MoveVelocity;
             }
             pictureBox1.Location = currLocation;
         }
@@ -150,14 +158,14 @@ namespace UniTTT.ScreenSaver
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Config));
                 FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Open);
-                c = (Config)serializer.Deserialize(stream);
+                _config = (Config)serializer.Deserialize(stream);
                 stream.Close();
             }
             catch
             {
-                c = new Config();
-                c.PlayVelocity = 1;
-                c.MoveVelocity = 1;
+                _config = new Config();
+                _config.PlayVelocity = 1;
+                _config.MoveVelocity = 1;
             }
         }
     }
