@@ -1,5 +1,8 @@
 mkdir bin
 mkdir bin\data\plugins
+
+copy README bin\
+
 cd UniTTT.Logik
 dmcs -optimize -target:library -out:../bin/UniTTT.Logik.dll *.cs  Game/*.cs Fields/*.cs KI/*.cs Player/*.cs Network/*.cs Command/*.cs Command/Commands/*.cs Plugin/*.cs
 cd ..
