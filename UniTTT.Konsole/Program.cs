@@ -16,7 +16,7 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            Logik.ParameterInterpreter parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
+            Logik.Parameterdata parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
             Logik.Plugin.PluginManager plugManager = new Logik.Plugin.PluginManager();
 
             int width = parameters.GetValue<int>("breite");

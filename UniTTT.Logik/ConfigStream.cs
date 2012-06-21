@@ -29,7 +29,7 @@ namespace UniTTT.Logik
             }
         }
 
-        public void Write(ParameterInterpreter config)
+        public void Write(object config)
         {
             if (File.Exists(_path))
             {
