@@ -1,0 +1,10 @@
+Package: UniTTT
+Version: 1.5.0-dev
+Section: main/games
+Priority: extra
+Architecture: all
+Depends:
+Installed-Size: 60
+Maintainer: Postremus <panzer1996@googlemail.com>
+Homepage: https://github.com/Postremus/UniTTT
+Description: Ein konsolenbasiertes TicTacToe Spiel
