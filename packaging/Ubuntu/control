@@ -1,6 +1,6 @@
-Package: UniTTT
+Package: unittt
 Version: 1.5.0-dev
-Section: main/games
+Section: games
 Priority: extra
 Architecture: all
 Depends:
@@ -8,3 +8,6 @@ Installed-Size: 60
 Maintainer: Postremus <panzer1996@googlemail.com>
 Homepage: https://github.com/Postremus/UniTTT
 Description: Ein konsolenbasiertes TicTacToe Spiel
+ Es kann durch verschiedene Parameter die Ki, die Höhe/Breite
+ verändern werden oder aber den Multiplayer 
+ Modus aktivern werden.

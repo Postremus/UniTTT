@@ -10,4 +10,4 @@ cp ../../bin/UniTTT.Logik.dll UniTTT/usr/share/UniTTT/
 cp ../../bin/data UniTTT/usr/share/UniTTT
 cp control UniTTT/DEBIAN/
 
-dpkg -b ./UniTTT unittt.deb
+dpkg -b ./UniTTT UniTTT.deb
