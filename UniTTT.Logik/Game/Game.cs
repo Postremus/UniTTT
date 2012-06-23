@@ -76,13 +76,13 @@ namespace UniTTT.Logik.Game
             {
                 Field = field;
             }
-            if (p1 is Player.KIPlayer)
+            if (p1 is Player.AIPlayer)
             {
-                p1 = RegisterKIEvents((UniTTT.Logik.Player.KIPlayer)p1);
+                p1 = RegisterAIEvents((UniTTT.Logik.Player.AIPlayer)p1);
             }
-            else if (p2 is Player.KIPlayer)
+            else if (p2 is Player.AIPlayer)
             {
-                p2 = RegisterKIEvents((UniTTT.Logik.Player.KIPlayer)p2);
+                p2 = RegisterAIEvents((UniTTT.Logik.Player.AIPlayer)p2);
             }
             BDarsteller = bdar;
             Player1 = p1;
@@ -100,12 +100,12 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        private Player.Player RegisterKIEvents(Player.KIPlayer ki)
+        private Player.Player RegisterAIEvents(Player.AIPlayer ai)
         {
-            ki.KI.GetIntEvent += OnGetIntEvent;
-            ki.KI.GetStringEvent += OnGetStringEvent;
-            ki.KI.ShowMessageEvent += OnShowMessageEvent;
-            return ki;
+            ai.AI.GetIntEvent += OnGetIntEvent;
+            ai.AI.GetStringEvent += OnGetStringEvent;
+            ai.AI.ShowMessageEvent += OnShowMessageEvent;
+            return ai;
         }
 
         public virtual void Logik(Vector2i vect)
@@ -306,7 +306,7 @@ namespace UniTTT.Logik.Game
 
         public override string ToString()
         {
-            if (Player1 is Player.KIPlayer && Player2 is Player.KIPlayer)
+            if (Player1 is Player.AIPlayer && Player2 is Player.AIPlayer)
             {
                 return "KiGame";
             }

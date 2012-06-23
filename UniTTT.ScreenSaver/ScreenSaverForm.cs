@@ -27,7 +27,7 @@ namespace UniTTT.ScreenSaver
         public ScreenSaverForm(Color backColor)
         {
             InitializeComponent();
-            game = new Logik.Game.Game(new Logik.Player.KIPlayer(3, 3, 3, 'X'), new Logik.Player.KIPlayer(3, 3, 3, 'O'), new BrettDarsteller(3, 3, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height), null);
+            game = new Logik.Game.Game(new Logik.Player.AIPlayer(3, 3, 3, 'X'), new Logik.Player.AIPlayer(3, 3, 3, 'O'), new BrettDarsteller(3, 3, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height), null);
             loopThread = new Thread(Loop);
             rnd = new Random();
             moveTo = new Point(0, 0);

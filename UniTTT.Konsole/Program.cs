@@ -42,27 +42,27 @@ namespace UniTTT.Konsole
             }
 
             HumanPlayer hPlayer;
-            char kisymb;
+            char aisymb;
             if (parameters.IsDefined<char>("player"))
             {
                 char symb = parameters.GetValue<char>("player");
-                kisymb = symb == 'X' ? 'O' : 'X';
+                aisymb = symb == 'X' ? 'O' : 'X';
                 hPlayer = new HumanPlayer(symb);
             }
             else
             {
                 hPlayer = new HumanPlayer('X');
-                kisymb = 'O';
+                aisymb = 'O';
             }
 
-            Logik.Player.Player kiplayer = null;
+            Logik.Player.Player aiplayer = null;
             if (parameters.IsDefined<int>("ki"))
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetValue<int>("ki"), width, height, kisymb);
+                aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<int>("ki"), width, height, aisymb);
             }
             else if (parameters.IsDefined<int>("ki"))
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetValue<string>("ki"), width, height, kisymb);
+                aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<string>("ki"), width, height, aisymb);
             }
 
             if (parameters.GetValue<bool>("help"))
@@ -80,12 +80,12 @@ namespace UniTTT.Konsole
                 }
                 else
                 {
-                    if (kiplayer == null) throw new FormatException();
-                    Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus", kiplayer.ToString());
-                    ((Logik.Player.KIPlayer)kiplayer).KI.ShowMessageEvent += Console.WriteLine;
-                    ((Logik.Player.KIPlayer)kiplayer).KI.GetStringEvent += Console.ReadLine;
-                    ((Logik.Player.KIPlayer)kiplayer).KI.GetIntEvent += GetInt;
-                    kiplayer.Learn();
+                    if (aiplayer == null) throw new FormatException();
+                    Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus", aiplayer.ToString());
+                    ((Logik.Player.AIPlayer)aiplayer).AI.ShowMessageEvent += Console.WriteLine;
+                    ((Logik.Player.AIPlayer)aiplayer).AI.GetStringEvent += Console.ReadLine;
+                    ((Logik.Player.AIPlayer)aiplayer).AI.GetIntEvent += GetInt;
+                    aiplayer.Learn();
                 }
             }
             else if (parameters.GetValue<bool>("network"))
@@ -119,13 +119,13 @@ namespace UniTTT.Konsole
                 BrettDarsteller bdar = new BrettDarsteller(width, height);
                 if (parameters.GetValue<bool>("kigame"))
                 {
-                    gameMode = new Logik.Game.Game(kiplayer, kiplayer, bdar, field);
+                    gameMode = new Logik.Game.Game(aiplayer, aiplayer, bdar, field);
                 }
                 else
                 {
-                    if (kiplayer != null)
+                    if (aiplayer != null)
                     {
-                        gameMode = new Logik.Game.Game(hPlayer, kiplayer, bdar, field);
+                        gameMode = new Logik.Game.Game(hPlayer, aiplayer, bdar, field);
                     }
                     else
                     {
