@@ -18,7 +18,7 @@ namespace UniTTT.Logik.Player
         public KIPlayer(int kiZahl, int width, int height, char kiPlayer) : base(kiPlayer)
         {
             GetKITypes();
-            Initialize(kiZahl, width, height, kiPlayer);
+            Initialize(kiZahl -1, width, height, kiPlayer);
         }
 
         public KIPlayer(string ki, int width, int height, char kiPlayer)
@@ -345,11 +345,14 @@ namespace UniTTT.Logik.Player
                 foreach (Fields.FieldRegion region in fpanel)
                 {
                     if (region.Count() < WinChecker.GewinnBedingung) continue;
-                    if (!region.Contains<char>(KIPlayer) && !region.Contains<char>(HumanPlayer))
+                    if (!region.Contains<char>(HumanPlayer))
                     {
                         foreach (Fields.FieldPlaceData data in region)
                         {
-                            posis[data.LocationInField]++;
+                            if (data.FieldValue != KIPlayer && data.FieldValue != HumanPlayer)
+                            {
+                                posis[data.LocationInField]++;
+                            }
                         }
                     }
                 }
