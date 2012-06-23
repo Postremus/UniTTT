@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=UniTTT
+Comment=UniTTT Game from https://github.com/Postremus/UniTTT
+Comment[­de­]=UniTTT Spiel von https://github.com/Postremus/UniTTT
+Exec=/usr/share/UniTTT/UniTTT.exe
+Icon=UniTTT.Icon
+Terminal=true
+Type=Application
+Categories=Development;
+StartupNotify=false
