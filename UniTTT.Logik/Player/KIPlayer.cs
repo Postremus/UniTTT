@@ -286,16 +286,13 @@ namespace UniTTT.Logik.Player
 
         class KIBot : KI.AbstractKI, KI.IPlayableKI
         {
-            private Fields.Field field;
-
             public KIBot(int width, int height, char kiPlayer) : base(kiPlayer, width, height) { }
 
             public int Play(Fields.Field field)
             {
-                this.field = field;
-                int win_zug = TestForOneWin();
-                int block_zug = TestForHumanBlock();
-                int set_zug = TestForBestPosition();
+                int win_zug = TestForOneWin(field);
+                int block_zug = TestForHumanBlock(field);
+                int set_zug = TestForBestPosition(field);
 
                 if (win_zug != -1)
                     return win_zug;
@@ -307,7 +304,7 @@ namespace UniTTT.Logik.Player
                     return FieldHelper.GetRandomZug(field);
             }
 
-            private int TestForOneWin()
+            private int TestForOneWin(Fields.Field field)
             {
                 int win_zug = -1;
                 for (int playerpos = 0; (playerpos < field.Length) && (win_zug == -1); playerpos++)
@@ -323,7 +320,7 @@ namespace UniTTT.Logik.Player
                 return win_zug;
             }
 
-            private int TestForHumanBlock()
+            private int TestForHumanBlock(Fields.Field field)
             {
                 int block_zug = -1;
                 for (int playerpos = 0; (playerpos < field.Length) && (block_zug == -1); playerpos++)
@@ -339,48 +336,27 @@ namespace UniTTT.Logik.Player
                 return block_zug;
             }
 
-            private int TestForBestPosition()
+            private int TestForBestPosition(Fields.Field field)
             {
                 int[] posis = new int[Length];
-                for (int x = 0; x < Width; x++)
+
+                List<Fields.FieldRegion> fpanel = field.Panels;
+
+                foreach (Fields.FieldRegion region in fpanel)
                 {
-                    if (WinChecker.DoCheck(field, WinChecker.Directories.Down, ' ', new Vector2i(x, 0)) == Width)
+                    if (region.Count() < WinChecker.GewinnBedingung) continue;
+                    if (!region.Contains<char>(KIPlayer) && !region.Contains<char>(HumanPlayer))
                     {
-                        posis[x]++;
-                    }
-                }
-                for (int y = 0; y < Height; y++)
-                {
-                    if (WinChecker.DoCheck(field, WinChecker.Directories.Right, ' ', new Vector2i(0, y)) == Height)
-                    {
-                        posis[y]++;
-                    }
-                }
-                for (int x = 0; x < Width; x++)
-                {
-                    for (int y = 0; y < Height; y++)
-                    {
-                        if (x + (Width - 1) < Width && y + (Width - 1) < Height)
+                        foreach (Fields.FieldPlaceData data in region)
                         {
-                            if (WinChecker.DoCheck(field, WinChecker.Directories.RightDown, ' ', new Vector2i(x, y)) == Width)
-                            {
-                                posis[(x + 1) * (y + 1) - 1]++;
-                            }
+                            posis[data.LocationInField]++;
                         }
                     }
                 }
-                for (int x = 0; x < Width; x++)
-                {
-                    for (int y = 0; y < Height; y++)
-                    {
-                        if (WinChecker.DoCheck(field, WinChecker.Directories.LeftDown, ' ', new Vector2i(x, y)) == Width)
-                        {
-                            posis[(x + 1) * (y + 1) - 1]++;
-                        }
-                    }
-                }
+
                 int ret = -1;
                 ret = posis.GetHighestIndex();
+                
                 return ret;
             }
 
