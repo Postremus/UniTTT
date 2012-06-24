@@ -38,6 +38,14 @@ namespace UniTTT.Konsole
                 if (plugin is Logik.Fields.Field)
                 {
                     field = (Logik.Fields.Field)plugin;
+                    if (plugin is Logik.Plugin.IFieldPlugin)
+                    {
+                        if (((Logik.Plugin.IFieldPlugin)plugin).ForceFieldSize)
+                        {
+                            width = field.Width;
+                            height = field.Height;
+                        }
+                    }
                 }
             }
 
@@ -46,7 +54,7 @@ namespace UniTTT.Konsole
             if (parameters.IsDefined<char>("player"))
             {
                 char symb = parameters.GetValue<char>("player");
-                aisymb = symb == 'X' ? 'O' : 'X';
+                aisymb = Logik.Player.Player.PlayerChange(symb);
                 hPlayer = new HumanPlayer(symb);
             }
             else

@@ -88,6 +88,7 @@
     <Compile Include="Parameterdata.cs" />
     <Compile Include="ParameterInterpreter.cs" />
     <Compile Include="Player\NetworkPlayer.cs" />
+    <Compile Include="Plugin\IFieldPlugin.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginManager.cs" />
     <Compile Include="WinChecker.cs" />

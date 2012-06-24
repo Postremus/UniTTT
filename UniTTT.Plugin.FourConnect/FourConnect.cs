@@ -6,7 +6,7 @@ using UniTTT.Logik;
 
 namespace UniTTT.Plugin.FourConnect
 {
-    public class FourConnect : Logik.Fields.Field, Logik.Plugin.IPlugin
+    public class FourConnect : Logik.Fields.Field, Logik.Plugin.IFieldPlugin
     {
         private char[,] _varField;
 
@@ -18,6 +18,11 @@ namespace UniTTT.Plugin.FourConnect
         public Logik.Plugin.PluginTypes PluginType
         {
             get { return Logik.Plugin.PluginTypes.Field; }
+        }
+
+        public bool ForceFieldSize
+        {
+            get { return true; }
         }
 
         public FourConnect()
