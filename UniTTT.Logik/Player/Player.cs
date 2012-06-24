@@ -19,14 +19,14 @@ namespace UniTTT.Logik.Player
 
         public virtual Vector2i Play(Fields.Field field)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Play() ist nicht implementiert");
         }
 
         public virtual void Learn()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Learn() ist nicht implementiert");
         }
-
+        
         //Ausgeben, wer momentan dran ist.
         public string Ausgabe()
         {
