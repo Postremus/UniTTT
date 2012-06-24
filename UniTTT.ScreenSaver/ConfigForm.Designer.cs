@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
+            this.matrix_rbtn = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.SuspendLayout();
@@ -83,11 +84,24 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Bewegungsgeschwindigkeit";
             // 
+            // matrix_rbtn
+            // 
+            this.matrix_rbtn.AutoSize = true;
+            this.matrix_rbtn.Location = new System.Drawing.Point(100, 201);
+            this.matrix_rbtn.Name = "matrix_rbtn";
+            this.matrix_rbtn.Size = new System.Drawing.Size(53, 17);
+            this.matrix_rbtn.TabIndex = 5;
+            this.matrix_rbtn.TabStop = true;
+            this.matrix_rbtn.Text = "Matrix";
+            this.matrix_rbtn.UseVisualStyleBackColor = true;
+            this.matrix_rbtn.CheckedChanged += new System.EventHandler(this.matrix_rbtn_CheckedChanged);
+            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.matrix_rbtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.label1);
@@ -110,5 +124,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.RadioButton matrix_rbtn;
     }
 }
