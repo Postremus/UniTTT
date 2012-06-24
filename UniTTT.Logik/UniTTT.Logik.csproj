@@ -78,7 +78,7 @@
     <Compile Include="Game\Delegates.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\NetworkGame.cs" />
-    <Compile Include="AI\ILearnableKI.cs" />
+    <Compile Include="AI\ILearnableAI.cs" />
     <Compile Include="AI\IPlayableAI.cs" />
     <Compile Include="Network\Delegates.cs" />
     <Compile Include="Network\Network.cs" />
