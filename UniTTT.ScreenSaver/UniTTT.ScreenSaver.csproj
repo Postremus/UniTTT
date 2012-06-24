@@ -58,14 +58,11 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrettDarsteller.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="ConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ConfigForm.cs" />
     <Compile Include="ConfigForm.Designer.cs">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>

@@ -8,9 +8,7 @@ using System.Windows.Forms;
 using UniTTT.Logik;
 using System.Diagnostics;
 using System.Threading;
-using System.Xml.Serialization;
 using System.IO;
-using System.Xml.Serialization;
 
 namespace UniTTT.ScreenSaver
 {
@@ -24,28 +22,18 @@ namespace UniTTT.ScreenSaver
         private int screenWidth;
         private int screenHeight;
         private Config _config;
+        private ConfigStream _confiStream;
 
         public ScreenSaverForm(Color backColor)
         {
-            InitializeComponent();   
-            _config = new Config();
-            if (File.Exists("UniTTT.Screensaver.ini"))
-            {
-                XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Config));
-                FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Open);
-                _config = (Config)serializer.Deserialize(stream);
-            }
-            game = new Logik.Game.Game(new Logik.Player.AIPlayer(3, 3, 3, 'X'), new Logik.Player.AIPlayer(3, 3, 3, 'O'), new BrettDarsteller(3, 3, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height), null);
+            InitializeComponent();
+            LoadConfig();
+            game = new Logik.Game.Game(new Logik.Player.AIPlayer(3, 3, 3, 'X'), new Logik.Player.AIPlayer(3, 3, 3, 'O'), new BrettDarsteller(3, 3, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, _config.Matrix), null);
             loopThread = new Thread(Loop);
             rnd = new Random();
             moveTo = new Point(0, 0);
             screenWidth = Screen.PrimaryScreen.Bounds.Width;
             screenHeight = Screen.PrimaryScreen.Bounds.Height;
-
-            MouseMove += MouseMoveCheck;
-            MouseDown += DoWakeUp;
-            KeyDown += DoWakeUp;
-            FormClosed += AbortThreads;
 
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Bounds = Screen.PrimaryScreen.Bounds;
@@ -54,8 +42,11 @@ namespace UniTTT.ScreenSaver
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             this.TransparencyKey = SystemColors.Control;
             BackColor = backColor;
-            LoadConfig();
 
+            MouseMove += MouseMoveCheck;
+            MouseDown += DoWakeUp;
+            KeyDown += DoWakeUp;
+            FormClosed += AbortThreads;
             ((BrettDarsteller)game.BDarsteller).DrawEvent += Draw;
             loopThread.Start();
         }
@@ -153,12 +144,10 @@ namespace UniTTT.ScreenSaver
 
         private void LoadConfig()
         {
+            _confiStream = new ConfigStream("UniTTT.Screensaver", ".ini");
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Config));
-                FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Open);
-                _config = (Config)serializer.Deserialize(stream);
-                stream.Close();
+                _config = (Config)_confiStream.Read();
             }
             catch
             {

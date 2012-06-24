@@ -78,7 +78,7 @@ namespace UniTTT.ScreenSaver
             Image = tmpImage;
         }
 
-        private Bitmap DrawBrettOnBitMap(Bitmap image, Font font, Logik.Fields.IField field, Point posi)
+        private Bitmap DrawBrettOnBitMap(Bitmap image, Font font, Logik.Fields.Field field, Point posi)
         {
             SolidBrush xBrush = new SolidBrush(Color.Green);
             SolidBrush oBrush = new SolidBrush(Color.Blue);

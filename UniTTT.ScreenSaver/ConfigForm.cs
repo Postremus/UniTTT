@@ -5,14 +5,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 using System.IO;
+using UniTTT.Logik;
 
 namespace UniTTT.ScreenSaver
 {
     public partial class ConfigForm : Form
     {
         Config _config;
+        ConfigStream _confiStream;
 
         public ConfigForm()
         {
@@ -22,12 +23,10 @@ namespace UniTTT.ScreenSaver
 
         private void ConfigForm_Load(object sender, EventArgs e)
         {
+            _confiStream = new ConfigStream("UnITTT.Screensaver", ".ini");
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Config));
-                FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Open);
-                _config = (Config)serializer.Deserialize(stream);
-                stream.Close();
+                _config = (Config)_confiStream.Read();
 
                 trackBar1.Value = _config.PlayVelocity;
                 trackBar2.Value = _config.MoveVelocity;
@@ -40,10 +39,7 @@ namespace UniTTT.ScreenSaver
 
         private void Close(object sender, EventArgs e)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Config));
-            FileStream stream = new FileStream("UniTTT.Screensaver.ini", FileMode.Create);
-            serializer.Serialize(stream, _config);
-            stream.Close();
+            _confiStream.Write(_config);
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
