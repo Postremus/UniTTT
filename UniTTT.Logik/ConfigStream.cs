@@ -16,10 +16,12 @@ namespace UniTTT.Logik
         private string _fileName;
         private string _path;
 
-        public ConfigStream(string fileName)
+        public ConfigStream(string fileName) : this(fileName, ".xml") { }
+
+        public ConfigStream(string fileName, string extension)
         {
             _defaultDir = "data/config/";
-            _defaultExtension = ".xml";
+            _defaultExtension = extension;
             _fileName = fileName;
             _path = Path.Combine(_defaultDir, _fileName + _defaultExtension);
             _serializer = new XmlSerializer(typeof(ParameterInterpreter));
