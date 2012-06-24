@@ -289,8 +289,8 @@ namespace UniTTT.Logik.Player
 
             public int Play(Fields.Field field)
             {
-                int win_zug = TestForOneWin(field);
-                int block_zug = TestForHumanBlock(field);
+                int win_zug = TestForLineComplettings(field, AIPlayer);
+                int block_zug = TestForLineComplettings(field, HumanPlayer);
                 int set_zug = TestForBestPosition(field);
 
                 if (win_zug != -1)
@@ -303,36 +303,20 @@ namespace UniTTT.Logik.Player
                     return FieldHelper.GetRandomZug(field);
             }
 
-            private int TestForOneWin(Fields.Field field)
+            private int TestForLineComplettings(Fields.Field field, char player)
             {
-                int win_zug = -1;
-                for (int playerpos = 0; (playerpos < field.Length) && (win_zug == -1); playerpos++)
+                int ret = -1;
+                for (int playerpos = 0; (playerpos < field.Length) && (ret == -1); playerpos++)
                 {
                     if (field.IsFieldEmpty(playerpos))
                     {
-                        field.SetField(playerpos, AIPlayer);
-                        if ((Logik.WinChecker.Pruefe(AIPlayer, field)) && (win_zug == -1))
-                            win_zug = playerpos;
+                        field.SetField(playerpos, player);
+                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(player), field)) && (ret == -1))
+                            ret = playerpos;
                         field.SetField(playerpos, ' ');
                     }
                 }
-                return win_zug;
-            }
-
-            private int TestForHumanBlock(Fields.Field field)
-            {
-                int block_zug = -1;
-                for (int playerpos = 0; (playerpos < field.Length) && (block_zug == -1); playerpos++)
-                {
-                    if (field.IsFieldEmpty(playerpos))
-                    {
-                        field.SetField(playerpos, HumanPlayer);
-                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(HumanPlayer), field)) && (block_zug == -1))
-                            block_zug = playerpos;
-                        field.SetField(playerpos, ' ');
-                    }
-                }
-                return block_zug;
+                return ret;
             }
 
             private int TestForBestPosition(Fields.Field field)
