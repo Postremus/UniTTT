@@ -61,7 +61,7 @@ namespace UniTTT.Plugin.FourConnect
 
         public override bool IsFieldEmpty(Vector2i vect)
         {
-            return _varField[vect.X, vect.Y] == ' ';
+            return _varField[vect.X, 0] == ' ';
         }
 
         public override void SetField(Vector2i vect, char value)
