@@ -93,11 +93,11 @@ namespace UniTTT.Logik.Player
             public AIReinforcement(int width, int height, char aiPlayer)
                 : base(aiPlayer, width, height)
             {
-                writerreader = new WriterReader("KI_Reinforcement");
+                writerReader = new WriterReader("KI_Reinforcement");
             }
 
             #region Fields
-            private WriterReader writerreader;
+            private WriterReader writerReader;
             #endregion
 
             private int Rundefrage()
@@ -125,7 +125,6 @@ namespace UniTTT.Logik.Player
                 } while (true);
             }
 
-            // KI
             public void Learn()
             {
                 #region Fields
@@ -175,7 +174,7 @@ namespace UniTTT.Logik.Player
                 }
                 OnShowMessageEvent("Fertig mit dem Berechnen der Daten.");
                 OnShowMessageEvent("Speichere Daten");
-                writerreader.Write(zuege, sit_codes, wertungen);
+                writerReader.Write(zuege, sit_codes, wertungen);
                 OnShowMessageEvent("Fertig, Taste drücken zum Beenden");
                 OnGetStringEvent();
             }
@@ -183,20 +182,20 @@ namespace UniTTT.Logik.Player
             public int Play(Fields.Field field)
             {
                 string sitcode = SitCodeHelper.StringToSitCode(field.ToString());
-                List<int> Fields = new List<int>(writerreader.Read(sitcode));
+                List<int> fields = new List<int>(writerReader.Read(sitcode));
                 int zug = -1;
                 do
                 {
-                    zug = Fields.ToArray().GetHighestIndex();
+                    zug = fields.ToArray().GetHighestIndex();
                     if (field.IsFieldEmpty(zug))
                     {
                         break;
                     }
                     else
                     {
-                        Fields.Remove(zug);
+                        fields.Remove(zug);
                     }
-                } while (true);
+                } while (true && fields.Count !=  0);
                 if (zug == -1)
                     zug = FieldHelper.GetRandomZug(field);
                 return zug;
