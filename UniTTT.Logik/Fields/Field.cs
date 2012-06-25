@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik.Fields
 {
-    public abstract class Field
+    public abstract class Field : IEnumerable<FieldPlaceData>
     {
         private int _width;
         private int _height;
@@ -143,6 +143,26 @@ namespace UniTTT.Logik.Fields
         public override string ToString()
         {
             return FieldHelper.GetString(this);
+        }
+
+        public IEnumerator<FieldPlaceData> GetEnumerator()
+        {
+            List<FieldPlaceData> ret = new List<FieldPlaceData>();
+            for (int i = 0; i < Length; i++)
+            {
+                ret.Add(new FieldPlaceData(i, GetField(i)));
+            }
+            return (IEnumerator<FieldPlaceData>)ret.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            List<FieldPlaceData> ret = new List<FieldPlaceData>();
+            for (int i = 0; i < Length; i++)
+            {
+                ret.Add(new FieldPlaceData(i, GetField(i)));
+            }
+            return (System.Collections.IEnumerator)ret.GetEnumerator();
         }
     }
 }
