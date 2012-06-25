@@ -66,22 +66,14 @@ namespace UniTTT.Plugin.FourConnect
 
         public override void SetField(Vector2i vect, char value)
         {
-            int set = -1;
             for (int y = 0; y < Height; y++)
             {
-                if (y < Height && y > -1)
+                if (IsFieldEmpty(new Vector2i(vect.X, y)))
                 {
-                    if (IsFieldEmpty(new Vector2i(vect.X, y)))
-                    {
-                        set = y;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    _varField[vect.X, y] = value;
+                    break;
                 }
             }
-            _varField[vect.X, set] = value;
         }
 
         public override void SetField(int idx, char value)
