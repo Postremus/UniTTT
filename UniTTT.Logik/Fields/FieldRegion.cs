@@ -68,15 +68,16 @@ namespace UniTTT.Logik.Fields
         public int BigestRelatedPice(char fieldValue)
         {
             int ret = 0;
+            int tmp = 0;
             foreach (FieldPlaceData placeData in _fieldDataList)
             {
                 if (placeData.FieldValue == fieldValue)
                 {
-                    ret++;
+                    tmp++;
                 }
-                else
+                else if (tmp > ret)
                 {
-                    ret = 0;
+                    ret = tmp;
                 }
             }
             return ret;
