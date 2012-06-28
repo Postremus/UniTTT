@@ -17,7 +17,21 @@ namespace UniTTT.Konsole
         private char[,] spielfeld;
         private int spielFeldWidth;
         private int spielFeldHeight;
+        private bool _enabled;
         #endregion
+
+
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                _enabled = value;
+            }
+        }
 
         public void Initialize(int width, int height)
         {

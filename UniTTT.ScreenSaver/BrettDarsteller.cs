@@ -15,6 +15,7 @@ namespace UniTTT.ScreenSaver
         private int _screenWidth;
         private int _screenHeight;
         private bool _matrix;
+        private bool _enabled;
 
         public int Width
         {
@@ -26,6 +27,18 @@ namespace UniTTT.ScreenSaver
         {
             get { return _height; }
             set { _height = value; }
+        }
+
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                _enabled = value;
+            }
         }
 
         public event EventHandler DrawEvent;

@@ -93,7 +93,6 @@
     <Compile Include="Plugin\PluginManager.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
-    <Compile Include="IGraphicalBrettDarsteller.cs" />
     <Compile Include="AI\AbstractAI.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\AIPlayer.cs" />

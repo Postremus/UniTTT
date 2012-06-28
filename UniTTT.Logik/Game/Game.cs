@@ -127,10 +127,7 @@ namespace UniTTT.Logik.Game
             if (HasEnd())
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
-                if (IsBDarstellerGraphical())
-                {
-                    ((IGraphicalBrettDarsteller)BDarsteller).Enabled = false;
-                }
+                BDarsteller.Enabled = false;
             }
         }
 
@@ -154,10 +151,7 @@ namespace UniTTT.Logik.Game
             if (HasEnd())
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
-                if (IsBDarstellerGraphical())
-                {
-                    ((IGraphicalBrettDarsteller)BDarsteller).Enabled = false;
-                }
+                BDarsteller.Enabled = false;
             }
         }
 
@@ -183,11 +177,6 @@ namespace UniTTT.Logik.Game
             return Field != null;
         }
 
-        public bool IsBDarstellerGraphical()
-        {
-            return BDarsteller is IGraphicalBrettDarsteller;
-        }
-
         public void PlayerChange()
         {
             Player = Player1 == Player ? Player2 : Player1;
@@ -204,10 +193,7 @@ namespace UniTTT.Logik.Game
         {
             Field.Initialize();
             Player = null;
-            if (IsBDarstellerGraphical())
-            {
-                ((Logik.IGraphicalBrettDarsteller)BDarsteller).Enabled = true;
-            }
+            BDarsteller.Enabled = true;
             BDarsteller.Initialize(Field.Width, Field.Height);
             HasStoped = false;
             HasStarted = true;
