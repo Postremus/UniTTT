@@ -101,7 +101,7 @@ namespace UniTTT.Logik.Fields
             FieldRegion ret = new FieldRegion();
             for (int y = 0; y < Height; y++)
             {
-                if (x < 0 || y < 0 || x >= Width || y >= Height)
+                if (x < 0 || x >= Width)
                 {
                     break;
                 }
@@ -116,7 +116,7 @@ namespace UniTTT.Logik.Fields
             FieldRegion ret = new FieldRegion();
             for (int y = 0; y < Height; y++)
             {
-                if (x < 0 || y < 0 || x >= Width || y >= Height)
+                if (x < 0 || x >= Width)
                 {
                     break;
                 }
