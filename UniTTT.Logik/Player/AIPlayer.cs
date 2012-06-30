@@ -323,7 +323,7 @@ namespace UniTTT.Logik.Player
             {
                 int[] posis = new int[Length];
 
-                List<Fields.FieldRegion> fpanel = field.Panels;
+                List<Fields.FieldRegion> fpanel = field.FieldRegions;
 
                 foreach (Fields.FieldRegion region in fpanel)
                 {

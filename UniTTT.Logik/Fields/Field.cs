@@ -33,7 +33,7 @@ namespace UniTTT.Logik.Fields
             }
         }
         public int Length { get { return Width * Height; } }
-        public List<FieldRegion> Panels
+        public List<FieldRegion> FieldRegions
         {
             get
             {
@@ -99,8 +99,7 @@ namespace UniTTT.Logik.Fields
         public FieldRegion LeftTopToRightButtom(int x)
         {
             FieldRegion ret = new FieldRegion();
-            int y = 0;
-            for (int i = 0; i < Height; i++)
+            for (int y = 0; y < Height; y++)
             {
                 if (x < 0 || y < 0 || x >= Width || y >= Height)
                 {
@@ -108,7 +107,6 @@ namespace UniTTT.Logik.Fields
                 }
                 ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
                 x++;
-                y++;
             }
             return ret;
         }
@@ -116,8 +114,7 @@ namespace UniTTT.Logik.Fields
         public FieldRegion RightTopToLeftButtom(int x)
         {
             FieldRegion ret = new FieldRegion();
-            int y = 0;
-            for (int i = 0; i < Height; i++)
+            for (int y = 0; y < Height; y++)
             {
                 if (x < 0 || y < 0 || x >= Width || y >= Height)
                 {
@@ -125,7 +122,6 @@ namespace UniTTT.Logik.Fields
                 }
                 ret.Add(x * Width + y, GetField(new Vector2i(x, y)));
                 x--;
-                y++;
             }
             return ret;
         }

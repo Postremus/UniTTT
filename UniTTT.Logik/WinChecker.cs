@@ -31,7 +31,7 @@ namespace UniTTT.Logik
                 GewinnBedingung = field.Width > field.Height ? field.Height : field.Width;
             }
 
-            List<Fields.FieldRegion> panels = field.Panels;
+            List<Fields.FieldRegion> panels = field.FieldRegions;
 
             foreach (Fields.FieldRegion region in panels)
             {

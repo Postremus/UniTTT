@@ -27,7 +27,7 @@ namespace UniTTT.Logik.AI
 
         protected int Valuation(Fields.Field field, char player)
         {
-            List<Fields.FieldRegion> fPanel = field.Panels;
+            List<Fields.FieldRegion> fPanel = field.FieldRegions;
             int ret = 0;
             foreach (Fields.FieldRegion region in fPanel)
             {
