@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+[assembly: CLSCompliant(true)]
 namespace UniTTT.Logik.Game
 {
     public class Game
@@ -22,7 +23,7 @@ namespace UniTTT.Logik.Game
         public event NewGameHandler NewGameEvent;
 
         #region Propertys
-        public Fields.Field Field
+        public Fields.BaseField Field
         {
             get;
             set;
@@ -60,13 +61,13 @@ namespace UniTTT.Logik.Game
             NewGameEvent += NewGame;
         }
 
-        public Game(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
+        public Game(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.BaseField field)
         {
             NewGameEvent += NewGame;
             Initialize(p1, p2, bdar, field);
         }
 
-        public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
+        public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.BaseField field)
         {
             if (field == null)
             {

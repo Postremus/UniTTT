@@ -42,7 +42,7 @@ namespace UniTTT.Konsole
             spielfeld = new char[spielFeldWidth, spielFeldHeight];
         }
 
-        public void Update(Logik.Fields.Field field)
+        public void Update(Logik.Fields.BaseField field)
         {
             int realX= 0;
             int realY = 0;

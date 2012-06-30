@@ -59,7 +59,7 @@ namespace UniTTT.ScreenSaver
             Image = new Bitmap(_screenWidth, _screenHeight);
         }
 
-        public void Update(Logik.Fields.Field field)
+        public void Update(Logik.Fields.BaseField field)
         {
             int fontHeight = 0;
             if (_matrix)
@@ -73,7 +73,7 @@ namespace UniTTT.ScreenSaver
             UpdateImageLetters(new Font("consolas", fontHeight), field);
         }
 
-        private void UpdateImageLetters(Font font, Logik.Fields.Field field)
+        private void UpdateImageLetters(Font font, Logik.Fields.BaseField field)
         {
             Bitmap tmpImage = new Bitmap(_screenWidth, _screenHeight);
             if (_matrix)
@@ -91,7 +91,7 @@ namespace UniTTT.ScreenSaver
             Image = tmpImage;
         }
 
-        private Bitmap DrawBrettOnBitMap(Bitmap image, Font font, Logik.Fields.Field field, Point posi)
+        private Bitmap DrawBrettOnBitMap(Bitmap image, Font font, Logik.Fields.BaseField field, Point posi)
         {
             SolidBrush xBrush = new SolidBrush(Color.Green);
             SolidBrush oBrush = new SolidBrush(Color.Blue);

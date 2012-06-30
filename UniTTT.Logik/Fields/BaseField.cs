@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik.Fields
 {
-    public abstract class Field : IEnumerable<FieldPlaceData>
+    public abstract class BaseField : IEnumerable<FieldPlaceData>
     {
         private int _width;
         private int _height;

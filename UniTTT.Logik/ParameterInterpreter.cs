@@ -15,36 +15,37 @@ namespace UniTTT.Logik
         {
             Parameterdata ret = new Parameterdata();
             Command.ComandManager CManager = new Command.ComandManager();
-            if (args.Length >= 0)
+            if (args.Length <= 0)
             {
-                int idx;
-                foreach (string arg in args)
+                return ret;
+            }
+            int idx;
+            foreach (string arg in args)
+            {
+                if (arg != null)
                 {
-                    if (arg != null)
+                    if (CManager.IsStringKeyWord(arg))
                     {
-                        if (arg[0] == '/' || arg[0] == '-' || arg[0] == '?')
+                        Command.ReturnData data = CManager.ExecuteReturner(String.Join(" ", args));
+                        if (data.HasData)
                         {
-                            idx = arg.Contains(':') ? arg.IndexOf(':') : arg.Contains('=') ? arg.IndexOf('=') : -1;
-
-                            if (idx >= 0)
-                            {
-                                string key = arg.Substring(1, idx - 1);
-                                ret.Add(key, arg.Substring(idx + 1));
-                            }
-                            else
-                            {
-                                string key = arg.Substring(1);
-                                ret.Add(key, true);
-                            }
+                            return InterpretCommandLine(((Parameterdata)data.Data).Arguments.ToArray());
                         }
-                        else if (CManager.IsStringKeyWord(arg))
+                        break;
+                    }
+                    else if (arg[0] == '/' || arg[0] == '-' || arg[0] == '?')
+                    {
+                        idx = arg.Contains(':') ? arg.IndexOf(':') : arg.Contains('=') ? arg.IndexOf('=') : -1;
+
+                        if (idx >= 0)
                         {
-                            Command.ReturnData data = CManager.ExecuteReturner(String.Join(" ", args));
-                            if (data.HasData)
-                            {
-                                return InterpretCommandLine(((Parameterdata)data.Data).Arguments.ToArray());
-                            }
-                            break;
+                            string key = arg.Substring(1, idx - 1);
+                            ret.Add(key, arg.Substring(idx + 1));
+                        }
+                        else
+                        {
+                            string key = arg.Substring(1);
+                            ret.Add(key, true);
                         }
                     }
                 }

@@ -72,7 +72,7 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
-    <Compile Include="Fields\Field.cs" />
+    <Compile Include="Fields\BaseField.cs" />
     <Compile Include="Fields\FieldPlaceData.cs" />
     <Compile Include="Fields\FieldRegion.cs" />
     <Compile Include="Game\Delegates.cs" />
@@ -91,6 +91,7 @@
     <Compile Include="Plugin\IFieldPlugin.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginManager.cs" />
+    <Compile Include="Plugin\PluginTypes.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="AI\AbstractAI.cs" />

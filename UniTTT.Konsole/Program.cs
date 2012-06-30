@@ -31,13 +31,13 @@ namespace UniTTT.Konsole
                 height = 3;
             }
 
-            Logik.Fields.Field field = new Logik.Fields.Brett(width, height);
+            Logik.Fields.BaseField field = new Logik.Fields.Brett(width, height);
             if (parameters.IsDefined<string>("plugin"))
             {
                 Logik.Plugin.IPlugin plugin = plugManager.Get(parameters.GetValue<string>("plugin"), Logik.Plugin.PluginTypes.Field);
-                if (plugin is Logik.Fields.Field)
+                if (plugin is Logik.Fields.BaseField)
                 {
-                    field = (Logik.Fields.Field)plugin;
+                    field = (Logik.Fields.BaseField)plugin;
                     if (plugin is Logik.Plugin.IFieldPlugin)
                     {
                         if (((Logik.Plugin.IFieldPlugin)plugin).ForceFieldSize)

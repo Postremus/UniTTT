@@ -17,7 +17,7 @@ namespace UniTTT.Logik.Player
         public char Symbol { get; set; }
         public int WinCounter { get; set; }
 
-        public virtual Vector2i Play(Fields.Field field)
+        public virtual Vector2i Play(Fields.BaseField field)
         {
             throw new NotImplementedException("Play() ist nicht implementiert");
         }

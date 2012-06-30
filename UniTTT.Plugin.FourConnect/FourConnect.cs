@@ -6,7 +6,7 @@ using UniTTT.Logik;
 
 namespace UniTTT.Plugin.FourConnect
 {
-    public class FourConnect : Logik.Fields.Field, Logik.Plugin.IFieldPlugin
+    public class FourConnect : Logik.Fields.BaseField, Logik.Plugin.IFieldPlugin
     {
         private char[,] _varField;
 

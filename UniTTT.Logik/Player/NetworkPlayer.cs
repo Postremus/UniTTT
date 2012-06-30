@@ -29,7 +29,7 @@ namespace UniTTT.Logik.Player
             Client.NewMessageReceivedEvent += ReceiveVector;
         }
 
-        public override Vector2i Play(Fields.Field field)
+        public override Vector2i Play(Fields.BaseField field)
         {
             while (!_newVector) { };
             _newVector = false;

@@ -65,7 +65,7 @@ namespace UniTTT.Logik.Player
             }
         }
 
-        public override Vector2i Play(Fields.Field field)
+        public override Vector2i Play(Fields.BaseField field)
         {
             if (AI is AI.IPlayableAI)
             {
@@ -179,7 +179,7 @@ namespace UniTTT.Logik.Player
                 OnGetStringEvent();
             }
 
-            public int Play(Fields.Field field)
+            public int Play(Fields.BaseField field)
             {
                 string sitcode = SitCodeHelper.StringToSitCode(field.ToString());
                 List<int> fields = new List<int>(writerReader.Read(sitcode));
@@ -287,7 +287,7 @@ namespace UniTTT.Logik.Player
         {
             public AIBot(int width, int height, char aiPlayer) : base(aiPlayer, width, height) { }
 
-            public int Play(Fields.Field field)
+            public int Play(Fields.BaseField field)
             {
                 int win_zug = TestForLineComplettings(field, AIPlayer);
                 int block_zug = TestForLineComplettings(field, HumanPlayer);
@@ -303,7 +303,7 @@ namespace UniTTT.Logik.Player
                     return FieldHelper.GetRandomZug(field);
             }
 
-            private int TestForLineComplettings(Fields.Field field, char player)
+            private int TestForLineComplettings(Fields.BaseField field, char player)
             {
                 int ret = -1;
                 for (int playerpos = 0; (playerpos < field.Length) && (ret == -1); playerpos++)
@@ -319,7 +319,7 @@ namespace UniTTT.Logik.Player
                 return ret;
             }
 
-            private int TestForBestPosition(Fields.Field field)
+            private int TestForBestPosition(Fields.BaseField field)
             {
                 int[] posis = new int[Length];
 
@@ -327,12 +327,11 @@ namespace UniTTT.Logik.Player
 
                 foreach (Fields.FieldRegion region in fpanel)
                 {
-                    if (region.Count() < WinChecker.GewinnBedingung) continue;
-                    if (!region.Contains<char>(HumanPlayer))
+                    if (!region.Contains<char>(HumanPlayer) && region.Count() >= WinChecker.GewinnBedingung)
                     {
                         foreach (Fields.FieldPlaceData data in region)
                         {
-                            if (data.FieldValue != AIPlayer && data.FieldValue != HumanPlayer)
+                            if (data.FieldValue != AIPlayer && data.FieldValue == ' ')
                             {
                                 posis[data.LocationInField]++;
                             }
@@ -356,7 +355,7 @@ namespace UniTTT.Logik.Player
         {
             public AIRandom(int width, int height, char aiPlayer) : base(aiPlayer, width, height) { }
 
-            public int Play(Fields.Field field)
+            public int Play(Fields.BaseField field)
             {
                 return FieldHelper.GetRandomZug(field);
             }
@@ -373,13 +372,13 @@ namespace UniTTT.Logik.Player
 
             private int bestZug;
 
-            public int Play(Fields.Field field)
+            public int Play(Fields.BaseField field)
             {
                 Max(field.Length - 1, field);
                 return bestZug;
             }
 
-            private int Max(int depth, Fields.Field field)
+            private int Max(int depth, Fields.BaseField field)
             {
                 int zugValue = 0;
                 int discovered = int.MinValue + 1;
@@ -406,7 +405,7 @@ namespace UniTTT.Logik.Player
                 return discovered;
             }
 
-            private int Mini(int depth, Fields.Field field)
+            private int Mini(int depth, Fields.BaseField field)
             {
                 int zugValue = 0;
                 int discovered = int.MaxValue - 1;
@@ -446,13 +445,13 @@ namespace UniTTT.Logik.Player
 
             private int bestZug;
 
-            public int Play(Fields.Field field)
+            public int Play(Fields.BaseField field)
             {
                 Max(field.Length - 1, int.MaxValue - 1, int.MinValue + 1, field);
                 return bestZug;
             }
 
-            private int Max(int depth, int alpha, int beta, Fields.Field field)
+            private int Max(int depth, int alpha, int beta, Fields.BaseField field)
             {
                 if (depth == 0)
                 {
@@ -484,7 +483,7 @@ namespace UniTTT.Logik.Player
                 return localAlpha;
             }
 
-            private int Mini(int depth, int alpha, int beta, Fields.Field field)
+            private int Mini(int depth, int alpha, int beta, Fields.BaseField field)
             {
                 if (depth == 0)
                 {

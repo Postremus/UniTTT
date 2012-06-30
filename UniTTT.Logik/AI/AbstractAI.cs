@@ -25,7 +25,7 @@ namespace UniTTT.Logik.AI
         public char AIPlayer { get; private set; }
         public char HumanPlayer { get; private set; }
 
-        protected int Valuation(Fields.Field field, char player)
+        protected int Valuation(Fields.BaseField field, char player)
         {
             List<Fields.FieldRegion> fPanel = field.FieldRegions;
             int ret = 0;

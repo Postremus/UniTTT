@@ -7,11 +7,6 @@ using System.Reflection;
 
 namespace UniTTT.Logik.Plugin
 {
-    public enum PluginTypes
-    {
-        Field
-    }
-
     public class PluginManager
     {
         private Dictionary<string, IPlugin> _plugins;

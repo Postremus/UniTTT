@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UniTTT.Logik.AI
+namespace UniTTT.Logik.Plugin
 {
-    public interface IPlayableAI
+    public enum PluginTypes
     {
-        int Play(Fields.BaseField field);
+        Field
     }
 }
