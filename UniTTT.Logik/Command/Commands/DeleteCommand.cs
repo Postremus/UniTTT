@@ -5,9 +5,9 @@ using System.Text;
 
 namespace UniTTT.Logik.Command.Commands
 {
-    class Delete : MemoryCommand
+    class DeleteCommand : MemoryCommand
     {
-        public Delete()
+        public DeleteCommand()
         {
             base.KeyWords.Add("Delete");
         }

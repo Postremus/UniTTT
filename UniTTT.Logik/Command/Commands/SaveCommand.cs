@@ -5,9 +5,9 @@ using System.Text;
 
 namespace UniTTT.Logik.Command.Commands
 {
-    public class Save : MemoryCommand
+    public class SaveCommand : MemoryCommand
     {
-        public Save()
+        public SaveCommand()
         {
             KeyWords.Add("Save");
         }

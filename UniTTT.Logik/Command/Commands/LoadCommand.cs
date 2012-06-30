@@ -5,11 +5,11 @@ using System.Text;
 
 namespace UniTTT.Logik.Command.Commands
 {
-    public class Load : MemoryCommand, IDataReturner
+    public class LoadCommand : MemoryCommand, IDataReturner
     {
         public event DataReturnHandler DataReturnEvent;
 
-        public Load()
+        public LoadCommand()
         {
             base.KeyWords.Add("Load");
         }

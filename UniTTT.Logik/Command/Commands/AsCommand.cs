@@ -5,12 +5,12 @@ using System.Text;
 
 namespace UniTTT.Logik.Command.Commands
 {
-    public class As : MemoryCommand
+    public class AsCommand : MemoryCommand
     {
-        public As()
+        public AsCommand()
         {
             KeyWords.Add("As");
-            NeededCommands.Add(typeof(Save));
+            NeededCommands.Add(typeof(SaveCommand));
         }
 
         public override void Execute(string value, KeyValuePair<Command, string> neededCommand)
