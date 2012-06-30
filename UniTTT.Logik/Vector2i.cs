@@ -79,7 +79,7 @@ namespace UniTTT.Logik
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException("value isn't seted.");
+                throw new ArgumentNullException("value", "value isn't seted");
             }
             if (containsCoordinate)
             {
