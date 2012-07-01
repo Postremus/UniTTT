@@ -66,9 +66,9 @@ namespace UniTTT.Konsole
             return Console.ReadLine().Trim().ToUpper(CultureInfo.CurrentCulture) == "J";
         }
 
-        private void WinMessage(char player, Logik.FieldHelper.GameStates state)
+        private void WinMessage(char player, GameStates state)
         {
-            if (state == UniTTT.Logik.FieldHelper.GameStates.Gewonnen)
+            if (state == GameStates.Gewonnen)
                 Console.WriteLine("Spieler {0} hat Gewonnen", player);
             else
                 Console.WriteLine(state);

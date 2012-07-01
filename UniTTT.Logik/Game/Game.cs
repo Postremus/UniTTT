@@ -180,7 +180,7 @@ namespace UniTTT.Logik.Game
 
         public bool HasEnd()
         {
-            if (FieldHelper.GetGameState(Field, Player, Player1) != UniTTT.Logik.FieldHelper.GameStates.Laufend)
+            if (FieldHelper.GetGameState(Field, Player, Player1) != GameStates.Laufend)
                 return true;
             return false;
         }
@@ -197,7 +197,7 @@ namespace UniTTT.Logik.Game
 
         public void WinCounter()
         {
-            if (FieldHelper.GetGameState(Field, Player, Player1) == FieldHelper.GameStates.Gewonnen)
+            if (FieldHelper.GetGameState(Field, Player, Player1) == GameStates.Gewonnen)
             {
                 if (Player == Player1)
                 {
@@ -246,7 +246,7 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        public void OnWinMessageEvent(char symbol, FieldHelper.GameStates gameState)
+        public void OnWinMessageEvent(char symbol, GameStates gameState)
         {
             WinMessageHandler winMessageEvent = WinMessageEvent;
             if (winMessageEvent != null)

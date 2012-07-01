@@ -8,14 +8,6 @@ namespace UniTTT.Logik
 {
     public static class FieldHelper
     {
-        public enum GameStates
-        {
-            Gewonnen,
-            Verloren,
-            Unentschieden,
-            Laufend
-        }
-
         public static int GetFullFields(Fields.Field field)
         {
             int count = 0;
@@ -50,7 +42,7 @@ namespace UniTTT.Logik
             return false;
         }
 
-        public static FieldHelper.GameStates GetGameState(Fields.Field field, Player.Player currentPlayer, Player.Player player1)
+        public static GameStates GetGameState(Fields.Field field, Player.Player currentPlayer, Player.Player player1)
         {
             if (currentPlayer == null)
             {

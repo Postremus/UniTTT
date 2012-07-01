@@ -72,9 +72,10 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
-    <Compile Include="Fields\BaseField.cs" />
+    <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\FieldPlaceData.cs" />
     <Compile Include="Fields\FieldRegion.cs" />
+    <Compile Include="GameStates.cs" />
     <Compile Include="Game\Delegates.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\NetworkGame.cs" />

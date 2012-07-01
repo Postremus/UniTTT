@@ -12,7 +12,7 @@ namespace UniTTT.Logik
         public static int GewinnBedingung { get { return _gewinnbeingung; } set { _gewinnbeingung = value; } }
         #endregion
 
-        public enum Directories
+        private enum Directories
         {
             Up,
             Down,
@@ -52,7 +52,7 @@ namespace UniTTT.Logik
         /// <param name="player"></param>
         /// <param name="from">Der inklusive untere Vector der Startposition.</param>
         /// <returns></returns>
-        public static int DoCheck(Fields.Field field, Directories dir, char player, Vector2i from)
+        private static int DoCheck(Fields.Field field, Directories dir, char player, Vector2i from)
         {
             int counter = 0;
             for (int a = 0; a < GewinnBedingung; a++)
@@ -65,7 +65,7 @@ namespace UniTTT.Logik
             return counter;
         }
 
-        public static Vector2i NextField(Directories dir, Vector2i vect)
+        private static Vector2i NextField(Directories dir, Vector2i vect)
         {
             if (dir == Directories.Right)
                 vect.X++;

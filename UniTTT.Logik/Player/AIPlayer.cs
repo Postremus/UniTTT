@@ -206,7 +206,7 @@ namespace UniTTT.Logik.Player
                 return "Reinforcement";
             }
 
-            public class WriterReader
+            private class WriterReader
             {
                 public string FileName { get; set; }
 
