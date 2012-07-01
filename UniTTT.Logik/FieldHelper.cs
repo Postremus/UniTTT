@@ -95,14 +95,14 @@ namespace UniTTT.Logik
             return field;
         }
 
-        private static Random Rnd = new Random();
+        private static Random rnd = new Random();
 
         public static int GetRandomZug(Fields.BaseField field)
         {
             int zug = -1;
             do
             {
-                zug = Rnd.Next(0, field.Length);
+                zug = rnd.Next(0, field.Length);
             } while (!field.IsFieldEmpty(zug));
             return zug;
         }
