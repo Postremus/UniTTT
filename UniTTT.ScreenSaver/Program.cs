@@ -6,6 +6,7 @@ using UniTTT.Logik;
 using System.Drawing;
 using System.IO;
 
+[assembly: CLSCompliant(true)]
 namespace UniTTT.ScreenSaver
 {
     static class Program

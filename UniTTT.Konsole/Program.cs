@@ -4,6 +4,7 @@ using System.Text;
 using System.Globalization;
 using UniTTT.Logik;
 
+[assembly: CLSCompliant(true)]
 namespace UniTTT.Konsole
 {
     class Program

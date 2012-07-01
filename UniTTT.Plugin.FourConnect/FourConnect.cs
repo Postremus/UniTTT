@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UniTTT.Logik;
 
+[assembly: CLSCompliant(true)]
 namespace UniTTT.Plugin.FourConnect
 {
     public class FourConnect : Logik.Fields.Field, Logik.Plugin.IFieldPlugin
