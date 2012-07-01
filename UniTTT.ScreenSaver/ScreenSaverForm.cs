@@ -15,10 +15,9 @@ namespace UniTTT.ScreenSaver
     public partial class ScreenSaverForm : Form
     {
         private Logik.Game.Game game;
-        private Point prevPos;
+        private Point prevMousePos;
         private Thread loopThread;
         private Point moveTo;
-        private Random rnd;
         private int screenWidth;
         private int screenHeight;
         private Config _config;
@@ -29,8 +28,6 @@ namespace UniTTT.ScreenSaver
             InitializeComponent();
             LoadConfig();
             game = new Logik.Game.Game(new Logik.Player.AIPlayer(3, 3, 3, 'X'), new Logik.Player.AIPlayer(3, 3, 3, 'O'), new BrettDarsteller(3, 3, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, _config.Matrix), null);
-            loopThread = new Thread(Loop);
-            rnd = new Random();
             moveTo = new Point(0, 0);
             screenWidth = Screen.PrimaryScreen.Bounds.Width;
             screenHeight = Screen.PrimaryScreen.Bounds.Height;
@@ -43,12 +40,19 @@ namespace UniTTT.ScreenSaver
             this.TransparencyKey = SystemColors.Control;
             BackColor = backColor;
 
+            RegisterEvents();
+
+            ((BrettDarsteller)game.BDarsteller).DrawEvent += Draw;
+            loopThread = new Thread(Loop);
+            loopThread.Start();
+        }
+
+        private void RegisterEvents()
+        {
             MouseMove += MouseMoveCheck;
             MouseDown += DoWakeUp;
             KeyDown += DoWakeUp;
             FormClosed += AbortThreads;
-            ((BrettDarsteller)game.BDarsteller).DrawEvent += Draw;
-            loopThread.Start();
         }
 
         private void AbortThreads(object sender, EventArgs e)
@@ -61,13 +65,8 @@ namespace UniTTT.ScreenSaver
             Stopwatch st = new Stopwatch();
             st.Start();
             TimeSpan elapsed = TimeSpan.Zero;
-            bool locupdate = false;
             while (true)
             {
-                if (game.HasEnd())
-                {
-                    game.NewGame();
-                }
                 if (elapsed.Seconds != st.Elapsed.Seconds && st.Elapsed.Seconds % _config.PlayVelocity / 2 == 0)
                 {
                     game.Logik();
@@ -78,24 +77,19 @@ namespace UniTTT.ScreenSaver
                 }
                 else if (st.Elapsed.Milliseconds % 41 == 0)
                 {
-                    locupdate = true;
-                }
-                else if (locupdate)
-                {
                     pictureBox1.Invoke(new MethodInvoker(UpdateImageLocation));
-                    locupdate = false;
                 }
                 elapsed = st.Elapsed;
             }
         }
 
-        private void Draw(object sender, EventArgs e)
+        private void Draw()
         {
-            pictureBox1.Invoke(new MethodInvoker(DrawImage));
-        }
-
-        private void DrawImage()
-        {
+            if (pictureBox1.InvokeRequired)
+            {
+                pictureBox1.Invoke(new MethodInvoker(Draw));
+                return;
+            }
             pictureBox1.Image = ((BrettDarsteller)game.BDarsteller).Image;
         }
 
@@ -103,7 +97,7 @@ namespace UniTTT.ScreenSaver
         {
             if (pictureBox1.Location == moveTo)
             {
-                moveTo = new Point(rnd.Next(screenWidth - 200), rnd.Next(screenHeight - 200));
+                moveTo = new Point(UniTTT.Logik.FieldHelper.Rnd.Next(screenWidth - 200), UniTTT.Logik.FieldHelper.Rnd.Next(screenHeight - 200));
             }
             Point currLocation = pictureBox1.Location;
             if (pictureBox1.Location.X < moveTo.X)
@@ -127,14 +121,14 @@ namespace UniTTT.ScreenSaver
 
         private void MouseMoveCheck(object sender, MouseEventArgs e)
         {
-            if (!prevPos.IsEmpty)
+            if (!prevMousePos.IsEmpty)
             {
-                if (e.X != prevPos.X || e.Y != prevPos.Y)
+                if (prevMousePos != e.Location)
                 {
                     DoWakeUp(sender, e);
                 }
             }
-            prevPos = new Point(e.X, e.Y);
+            prevMousePos = e.Location;
         }
 
         private void DoWakeUp(object sender, EventArgs e)

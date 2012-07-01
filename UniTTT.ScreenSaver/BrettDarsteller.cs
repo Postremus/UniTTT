@@ -8,6 +8,7 @@ using System.Threading;
 
 namespace UniTTT.ScreenSaver
 {
+    public delegate void DrawHandler();
     public class BrettDarsteller : IBrettDarsteller
     {
         private int _width;
@@ -50,7 +51,7 @@ namespace UniTTT.ScreenSaver
             }
         }
 
-        public event EventHandler DrawEvent;
+        public event DrawHandler DrawEvent;
 
         public BrettDarsteller(int width, int height, int screenWidth, int screenHeight, bool matrix)
         {
