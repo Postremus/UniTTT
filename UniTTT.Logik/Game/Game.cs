@@ -56,11 +56,6 @@ namespace UniTTT.Logik.Game
         }
         #endregion
 
-        public Game()
-        {
-            NewGameEvent += NewGame;
-        }
-
         public Game(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.BaseField field)
         {
             NewGameEvent += NewGame;
