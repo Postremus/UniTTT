@@ -8,6 +8,16 @@ namespace UniTTT.Logik
 {
     public static class FieldHelper
     {
+        private static Random _rnd = new Random();
+
+        public static Random Rnd
+        {
+            get
+            {
+                return _rnd;
+            }
+        }
+
         public static int GetFullFields(Fields.Field field)
         {
             int count = 0;
@@ -86,8 +96,6 @@ namespace UniTTT.Logik
             }
             return field;
         }
-
-        private static Random _rnd = new Random();
 
         public static int GetRandomZug(Fields.Field field)
         {
