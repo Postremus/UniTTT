@@ -15,7 +15,7 @@ namespace UniTTT.Konsole
             Logik.Vector2i ret;
             do
             {
-                ret = abfragexy();
+                ret = PositionQuestion();
                 if (brett.IsFieldEmpty(ret))
                     return ret;
                 else
@@ -37,7 +37,7 @@ namespace UniTTT.Konsole
         }
 
         //Zeile und Spalte abfragen.
-        private Logik.Vector2i abfragexy()
+        private Logik.Vector2i PositionQuestion()
         {
             do
             {
