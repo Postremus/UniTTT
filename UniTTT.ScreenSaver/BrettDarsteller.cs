@@ -16,7 +16,8 @@ namespace UniTTT.ScreenSaver
         private int _screenHeight;
         private bool _matrix;
         private bool _enabled;
-
+        private Bitmap _image;
+        
         public int Width
         {
             get { return _width; }
@@ -41,8 +42,15 @@ namespace UniTTT.ScreenSaver
             }
         }
 
+        public Bitmap Image
+        {
+            get
+            {
+                return _image;
+            }
+        }
+
         public event EventHandler DrawEvent;
-        public Bitmap Image;
 
         public BrettDarsteller(int width, int height, int screenWidth, int screenHeight, bool matrix)
         {
@@ -56,7 +64,7 @@ namespace UniTTT.ScreenSaver
         {
             Width = width;
             Height = height;
-            Image = new Bitmap(_screenWidth, _screenHeight);
+            _image = new Bitmap(_screenWidth, _screenHeight);
         }
 
         public void Update(Logik.Fields.Field field)
@@ -88,7 +96,7 @@ namespace UniTTT.ScreenSaver
             {
                 DrawBrettOnBitMap(tmpImage, font, field, new Point(0, 0));
             }
-            Image = tmpImage;
+            _image = tmpImage;
         }
 
         private Bitmap DrawBrettOnBitMap(Bitmap image, Font font, Logik.Fields.Field field, Point posi)
