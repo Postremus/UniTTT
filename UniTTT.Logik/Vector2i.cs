@@ -54,7 +54,7 @@ namespace UniTTT.Logik
         {
             if (index < 0)
             {
-                throw new NullReferenceException();
+                throw new ArgumentException("index is to low", "index");
             }
 
             Vector2i vect = null;

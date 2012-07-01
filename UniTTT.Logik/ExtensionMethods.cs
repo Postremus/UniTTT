@@ -43,7 +43,7 @@ namespace UniTTT.Logik
         {
             if (value == null || str1 == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentException("value or str1 isn't seted.", "value or str1");
             }
 
             if (!value.Contains(str1))
@@ -68,7 +68,7 @@ namespace UniTTT.Logik
         {
             if (value == null || search == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentException("value or search isn't seted.", "value or search");
             }
 
             if (!value.Contains(search))
