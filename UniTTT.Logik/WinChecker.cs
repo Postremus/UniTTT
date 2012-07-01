@@ -7,9 +7,9 @@ namespace UniTTT.Logik
 {
     public static class WinChecker
     {
-        private static int _gewinnbedungung = -1;
+        private static int _gewinnbeingung = -1;
         #region Fields
-        public static int GewinnBedingung { get { return _gewinnbedungung; } set { _gewinnbedungung = value; } }
+        public static int GewinnBedingung { get { return _gewinnbeingung; } set { _gewinnbeingung = value; } }
         #endregion
 
         public enum Directories
