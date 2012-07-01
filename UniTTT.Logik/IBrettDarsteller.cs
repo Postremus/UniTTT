@@ -11,7 +11,7 @@ namespace UniTTT.Logik
         int Width { get; }
         int Height { get; }
 
-        void Update(Fields.BaseField field);
+        void Update(Fields.Field field);
         void Draw();
         void Initialize(int width, int height);
         bool Enabled { get; set; }

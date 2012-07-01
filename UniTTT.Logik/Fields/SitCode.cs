@@ -6,7 +6,7 @@ using System.Text;
 namespace UniTTT.Logik.Fields
 {
     [Serializable()]
-    public class SitCode : BaseField
+    public class SitCode : Field
     {
 
         #region Privates

@@ -23,7 +23,7 @@ namespace UniTTT.Logik.Game
         public event NewGameHandler NewGameEvent;
 
         #region Propertys
-        public Fields.BaseField Field
+        public Fields.Field Field
         {
             get;
             set;
@@ -56,13 +56,13 @@ namespace UniTTT.Logik.Game
         }
         #endregion
 
-        public Game(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.BaseField field)
+        public Game(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
         {
             NewGameEvent += NewGame;
             Initialize(p1, p2, bdar, field);
         }
 
-        public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.BaseField field)
+        public void Initialize(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field)
         {
             if (field == null)
             {

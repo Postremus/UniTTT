@@ -13,7 +13,7 @@ namespace UniTTT.Logik.Game
 
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
-        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.BaseField field, Network.Network client) : base(p1, new Player.NetworkPlayer(UniTTT.Logik.Player.Player.PlayerChange(p1.Symbol), client), bdar, field)
+        public NetworkGame(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client) : base(p1, new Player.NetworkPlayer(UniTTT.Logik.Player.Player.PlayerChange(p1.Symbol), client), bdar, field)
         {
             client.NewMessageReceivedEvent += ReceiveNewGame;
 
@@ -23,7 +23,7 @@ namespace UniTTT.Logik.Game
             Initialize(p1, bdar, field, client);
         }
 
-        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.BaseField field, Network.Network client)
+        public void Initialize(Logik.Player.Player p1, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client)
         {
             this.client = client;
             if (p1.Symbol != 'X')

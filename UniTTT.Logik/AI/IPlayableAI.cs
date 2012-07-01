@@ -7,6 +7,6 @@ namespace UniTTT.Logik.AI
 {
     public interface IPlayableAI
     {
-        int Play(Fields.BaseField field);
+        int Play(Fields.Field field);
     }
 }

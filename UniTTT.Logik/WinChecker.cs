@@ -24,7 +24,7 @@ namespace UniTTT.Logik
             RightDown
         }
 
-        public static bool Pruefe(char player, Fields.BaseField field)
+        public static bool Pruefe(char player, Fields.Field field)
         {
             if (GewinnBedingung == -1)
             {
@@ -52,7 +52,7 @@ namespace UniTTT.Logik
         /// <param name="player"></param>
         /// <param name="from">Der inklusive untere Vector der Startposition.</param>
         /// <returns></returns>
-        public static int DoCheck(Fields.BaseField field, Directories dir, char player, Vector2i from)
+        public static int DoCheck(Fields.Field field, Directories dir, char player, Vector2i from)
         {
             int counter = 0;
             for (int a = 0; a < GewinnBedingung; a++)

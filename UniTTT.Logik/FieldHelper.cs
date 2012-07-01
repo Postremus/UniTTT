@@ -16,7 +16,7 @@ namespace UniTTT.Logik
             Laufend
         }
 
-        public static int GetFullFields(Fields.BaseField field)
+        public static int GetFullFields(Fields.Field field)
         {
             int count = 0;
             for (int i = 0; i < field.Length; i++)
@@ -27,7 +27,7 @@ namespace UniTTT.Logik
             return count;
         }
 
-        public static List<char> GetAllPlayerSymbols(Fields.BaseField field)
+        public static List<char> GetAllPlayerSymbols(Fields.Field field)
         {
             List<char> ret = new List<char>();
             for (int i = 0; i < field.Length; i++)
@@ -40,7 +40,7 @@ namespace UniTTT.Logik
             return ret;
         }
 
-        public static bool HasEmptyFields(Fields.BaseField field)
+        public static bool HasEmptyFields(Fields.Field field)
         {
             for (int i = 0; i < field.Length; i++)
             {
@@ -50,7 +50,7 @@ namespace UniTTT.Logik
             return false;
         }
 
-        public static FieldHelper.GameStates GetGameState(Fields.BaseField field, Player.Player currentPlayer, Player.Player player1)
+        public static FieldHelper.GameStates GetGameState(Fields.Field field, Player.Player currentPlayer, Player.Player player1)
         {
             if (currentPlayer == null)
             {
@@ -74,7 +74,7 @@ namespace UniTTT.Logik
             return GameStates.Laufend;
         }
 
-        public static string GetString(Fields.BaseField field)
+        public static string GetString(Fields.Field field)
         {
             string ret = null;
             for (int i = 0; i < field.Length; i++)
@@ -84,7 +84,7 @@ namespace UniTTT.Logik
             return ret;
         }
 
-        public static Fields.BaseField GetRandomField(Fields.BaseField field)
+        public static Fields.Field GetRandomField(Fields.Field field)
         {
             char player = '2';
             for (int i = 0; i < field.Length; i++)
@@ -95,14 +95,14 @@ namespace UniTTT.Logik
             return field;
         }
 
-        private static Random rnd = new Random();
+        private static Random _rnd = new Random();
 
-        public static int GetRandomZug(Fields.BaseField field)
+        public static int GetRandomZug(Fields.Field field)
         {
             int zug = -1;
             do
             {
-                zug = rnd.Next(0, field.Length);
+                zug = _rnd.Next(0, field.Length);
             } while (!field.IsFieldEmpty(zug));
             return zug;
         }

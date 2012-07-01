@@ -10,7 +10,7 @@ namespace UniTTT.Konsole
     {
         public HumanPlayer(char startPlayer) : base(startPlayer) { }
 
-        public override Logik.Vector2i Play(Logik.Fields.BaseField brett)
+        public override Logik.Vector2i Play(Logik.Fields.Field brett)
         {
             Logik.Vector2i ret;
             do

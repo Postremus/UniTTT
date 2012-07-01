@@ -5,7 +5,7 @@ using System.Text;
 namespace UniTTT.Logik.Fields
 {
     [Serializable()]
-    public class Brett : BaseField
+    public class Brett : Field
     {
         #region Privates
         private char[,] VarField;
