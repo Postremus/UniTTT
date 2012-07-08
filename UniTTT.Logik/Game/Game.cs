@@ -180,9 +180,7 @@ namespace UniTTT.Logik.Game
 
         public bool HasEnd()
         {
-            if (FieldHelper.GetGameState(Field, Player, Player1) != GameStates.Laufend)
-                return true;
-            return false;
+            return FieldHelper.GetGameState(Field, Player, Player1) != GameStates.Laufend;
         }
 
         public virtual void NewGame()
