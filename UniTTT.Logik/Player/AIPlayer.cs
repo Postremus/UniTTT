@@ -128,43 +128,41 @@ namespace UniTTT.Logik.Player
             public void Learn()
             {
                 #region Fields
-                char player = '2';
                 int runden = Rundefrage();
                 int zug;
                 string momsitcode = SitCodeHelper.GetEmpty(9);
                 int[,] sit_codes = new int[(int)runden, 9];
                 int[,] zuege = new int[(int)runden, 9];
                 int[] wertungen = new int[(int)runden];
-                bool gewonnen = false;
+                GameStates state = GameStates.Laufend;
+                Game.Game game = new Game.Game(new Player('1'), new Player('2'), null, new Fields.SitCode(3, 3));
                 #endregion
                 OnShowMessageEvent("Berechne Daten..");
                 for (int currround = 0; currround < runden; currround++)
                 {
                     for (int i = 0; i < 9; i++)
                     {
-                        player = SitCodeHelper.PlayerChange(player);
+                        momsitcode = SitCodeHelper.StringToSitCode(game.Field.ToString());
                         sit_codes[currround, i] = int.Parse(momsitcode);
                         zug = FieldHelper.GetRandomZug(Fields.SitCode.GetInstance(momsitcode, Width, Height));
                         zuege[currround, i] = zug;
 
-                        momsitcode = momsitcode.Remove(zug, 1).Insert(zug, player.ToString());
+                        game.Logik(Vector2i.IndexToVector(zug, 3, 3));
 
-                        gewonnen = Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(player), Fields.SitCode.GetInstance(momsitcode, Width, Height));
+                        state = FieldHelper.GetGameState(game.Field, game.Player, game.Player1);
                         // Wertungen
                         // Aufwerten
-                        if ((gewonnen) && (player != AIPlayer))
+                        if (state == GameStates.Gewonnen)
                             wertungen[currround] = 1;
-                        else if ((gewonnen) && (player == AIPlayer))
+                        else if (state == GameStates.Verloren)
                             wertungen[currround] = -1;
-                        else if ((i == 8) && (!gewonnen))
+                        else if (state == GameStates.Unentschieden)
                             wertungen[currround] = 0;
 
                         // Ist Spiel Zu Ende?
-                        if ((gewonnen) || (i == 8))
+                        if (game.HasEnd())
                         {
-                            momsitcode = SitCodeHelper.GetEmpty(9);
-                            i = 9;
-                            player = '2';
+                            game.NewGame();
                         }
                     }
                     if (currround % 100 == 0)
