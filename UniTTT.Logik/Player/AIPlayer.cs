@@ -33,7 +33,7 @@ namespace UniTTT.Logik.Player
                 }
             }
         }
-
+        
         private void Initialize(int aiZahl, int width, int height, char aiPlayer)
         {
             AI = (Logik.AI.AbstractAI)Activator.CreateInstance(AITypes[aiZahl], new object[] { width, height, aiPlayer });
@@ -47,7 +47,10 @@ namespace UniTTT.Logik.Player
             {
                 Directory.CreateDirectory("data/plugins/ki");
             }
-            GetAITypesFromOuterAssemblie(Directory.EnumerateFiles("data/plugins/ki").ToArray());
+            else
+            {
+                GetAITypesFromOuterAssemblie(Directory.GetFiles("data/plugins/ki"));
+            }
         }
 
         private void GetAITypesFromOuterAssemblie(string[] files)
@@ -329,7 +332,7 @@ namespace UniTTT.Logik.Player
                     {
                         foreach (Fields.FieldPlaceData data in region)
                         {
-                            if (data.FieldValue != AIPlayer && data.FieldValue == ' ')
+                            if (data.FieldValue == ' ')
                             {
                                 posis[data.LocationInField]++;
                             }
