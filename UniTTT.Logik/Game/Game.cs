@@ -187,8 +187,10 @@ namespace UniTTT.Logik.Game
         {
             Field.Initialize();
             Player = null;
-            BDarsteller.Enabled = true;
             BDarsteller.Initialize(Field.Width, Field.Height);
+            BDarsteller.Update(Field);
+            BDarsteller.Draw();
+            BDarsteller.Enabled = true;
             HasStoped = false;
             HasStarted = true;
         }

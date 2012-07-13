@@ -133,10 +133,10 @@ namespace UniTTT.ScreenSaver
 
         private void OnDrawEvent()
         {
-            EventHandler drawEvent = DrawEvent;
+            DrawHandler drawEvent = DrawEvent;
             if (drawEvent != null)
             {
-                drawEvent(this, EventArgs.Empty);
+                drawEvent();
             }
         }
     }
