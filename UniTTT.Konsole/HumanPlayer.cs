@@ -44,7 +44,7 @@ namespace UniTTT.Konsole
                 try
                 {
                     Console.WriteLine("In welcher Nullbasierenden Zeile und Spalte soll das {0} gesetzt werden? (X.Y)", Symbol);
-                    return Logik.Vector2i.StringToVector(Console.ReadLine(), false, '.');
+                    return Logik.Vector2i.FromString(Console.ReadLine(), false, '.');
                 }
                 catch
                 {

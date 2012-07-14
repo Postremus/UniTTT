@@ -52,12 +52,12 @@ namespace UniTTT.Plugin.FourConnect
 
         public override char GetField(int idx)
         {
-            return GetField(Vector2i.IndexToVector(idx, Width, Height));
+            return GetField(Vector2i.FromIndex(idx, Width, Height));
         }
 
         public override bool IsFieldEmpty(int idx)
         {
-            return IsFieldEmpty(Vector2i.IndexToVector(idx, Width, Height));
+            return IsFieldEmpty(Vector2i.FromIndex(idx, Width, Height));
         }
 
         public override bool IsFieldEmpty(Vector2i vect)
@@ -79,7 +79,7 @@ namespace UniTTT.Plugin.FourConnect
 
         public override void SetField(int idx, char value)
         {
-            SetField(Vector2i.IndexToVector(idx, Width, Height), value);
+            SetField(Vector2i.FromIndex(idx, Width, Height), value);
         }
     }
 }

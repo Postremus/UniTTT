@@ -50,7 +50,7 @@ namespace UniTTT.Logik
             return vect1.X < vect2 && vect1.Y < vect2;
         }
 
-        public static Vector2i IndexToVector(int index, int width, int height)
+        public static Vector2i FromIndex(int index, int width, int height)
         {
             if (index < 0)
             {
@@ -70,12 +70,12 @@ namespace UniTTT.Logik
             return vect;
         }
 
-        public static int VectorToIndex(Vector2i vect, int width)
+        public static int ToIndex(Vector2i vect, int width)
         {
             return vect.X * width + vect.Y;
         }
 
-        public static Vector2i StringToVector(string value, bool containsCoordinate, char seperator)
+        public static Vector2i FromString(string value, bool containsCoordinate, char seperator)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -100,7 +100,7 @@ namespace UniTTT.Logik
                 int cor;
                 if (int.TryParse(value, out cor))
                 {
-                    return Vector2i.IndexToVector(cor, 3, 3);
+                    return Vector2i.FromIndex(cor, 3, 3);
                 }
             }
             else
@@ -116,9 +116,9 @@ namespace UniTTT.Logik
             return null;
         }
 
-        public static Vector2i StringToVector(string value, bool containsCoordinate)
+        public static Vector2i FromString(string value, bool containsCoordinate)
         {
-            return StringToVector(value, containsCoordinate, '|');
+            return FromString(value, containsCoordinate, '|');
         }
 
         public override bool Equals(object obj)

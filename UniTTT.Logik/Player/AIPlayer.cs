@@ -72,7 +72,7 @@ namespace UniTTT.Logik.Player
         {
             if (AI is AI.IPlayableAI)
             {
-                return Vector2i.IndexToVector(((UniTTT.Logik.AI.IPlayableAI)AI).Play(field), field.Width, field.Height);
+                return Vector2i.FromIndex(((UniTTT.Logik.AI.IPlayableAI)AI).Play(field), field.Width, field.Height);
             }
             else
                 return new Vector2i(-1, -1);
@@ -150,7 +150,7 @@ namespace UniTTT.Logik.Player
                         zug = FieldHelper.GetRandomZug(Fields.SitCode.GetInstance(momsitcode, Width, Height));
                         zuege[currround, i] = zug;
 
-                        game.Logik(Vector2i.IndexToVector(zug, 3, 3));
+                        game.Logik(Vector2i.FromIndex(zug, 3, 3));
 
                         state = FieldHelper.GetGameState(game.Field, game.Player, game.Player1);
                         // Wertungen

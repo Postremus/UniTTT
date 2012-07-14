@@ -86,7 +86,7 @@ namespace UniTTT.Gui
             idx--;
             if (_game.Field.IsFieldEmpty(idx))
             {
-                _game.Logik(Vector2i.IndexToVector(idx, 3, 3));
+                _game.Logik(Vector2i.FromIndex(idx, 3, 3));
             }
         }
 

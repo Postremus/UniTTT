@@ -43,7 +43,7 @@ namespace UniTTT.Logik.Player
                 return;
             }
             string str = value.Remove(0, value.IndexOfLastChar("UniTTT!Vector:"));
-            Vector2i vect = Vector2i.StringToVector(str, true);
+            Vector2i vect = Vector2i.FromString(str, true);
             if (vect != null)
             {
                 _vect = vect;

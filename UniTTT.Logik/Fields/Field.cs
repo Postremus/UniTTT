@@ -128,7 +128,7 @@ namespace UniTTT.Logik.Fields
 
         public bool IsEntryPointInTheSize(int vect)
         {
-            return IsEntryPointInTheSize(Vector2i.IndexToVector(vect, Width, Height));
+            return IsEntryPointInTheSize(Vector2i.FromIndex(vect, Width, Height));
         }
 
         public bool IsEntryPointInTheSize(Vector2i vect)

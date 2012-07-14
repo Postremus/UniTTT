@@ -40,7 +40,7 @@ namespace UniTTT.Logik.Fields
 
         public override char GetField(Vector2i vect)
         {
-            return GetField(Vector2i.VectorToIndex(vect, Width));
+            return GetField(Vector2i.ToIndex(vect, Width));
         }
 
         public override void SetField(int idx, char value)
@@ -53,12 +53,12 @@ namespace UniTTT.Logik.Fields
 
         public override void SetField(Vector2i vect, char value)
         {
-            SetField(Vector2i.VectorToIndex(vect, Width), value);
+            SetField(Vector2i.ToIndex(vect, Width), value);
         }
 
         public override bool IsFieldEmpty(Vector2i vect)
         {
-            return IsFieldEmpty(Vector2i.VectorToIndex(vect, Width));
+            return IsFieldEmpty(Vector2i.ToIndex(vect, Width));
         }
 
         public override bool IsFieldEmpty(int idx)
