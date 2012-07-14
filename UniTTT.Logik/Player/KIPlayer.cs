@@ -229,7 +229,7 @@ namespace UniTTT.Logik.Player
 
                 public void Write(int[,] Zuege, int[,] Sit_Code, int[] Wertung)
                 {
-                    BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName + "_tmp"), Encoding.UTF8);
+                    BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName), Encoding.UTF8);
                     string towrite = null;
                     for (int x = 0; x < Wertung.Length; x++)
                     {
@@ -242,48 +242,20 @@ namespace UniTTT.Logik.Player
                     }
                     binwriter.Flush();
                     binwriter.Close();
-                    FileStream stream = new FileStream(FileName + "_tmp", System.IO.FileMode.OpenOrCreate);
-                    GZipStream zipStream = new GZipStream(new FileStream(FileName, FileMode.OpenOrCreate), CompressionMode.Compress);
-                    ASCIIEncoding encoder = new ASCIIEncoding();
-                    byte[] bufffer = new byte[stream.Length];
-                    stream.Read(bufffer, 0, bufffer.Length);
-                    stream.Close();
-                    zipStream.Write(bufffer, 0, bufffer.Length);
-                    zipStream.Flush();
-                    zipStream.Close();
-                    File.Delete(FileName + "_tmp");
                 }
 
                 private string[] lines = null;
 
                 public int[] Read(string sitcode)
                 {
+                    int ret = -1;
                     int[] fields = new int[9];
                     if (File.Exists(FileName))
                     {
                         if (lines == null)
                         {
-                            GZipStream zipStream = new GZipStream(new FileStream(FileName, FileMode.Open), CompressionMode.Decompress);
-                            FileStream stream = new FileStream(FileName + "_tmp", System.IO.FileMode.Create);
-                            ASCIIEncoding encoder = new ASCIIEncoding();
-                            byte[] buffer = new byte[4096];
-                            int bytesReadCount;
-                            do
-                            {
-                                bytesReadCount = zipStream.Read(buffer, 0, buffer.Length);
-                                if (bytesReadCount != 0)
-                                {
-                                    stream.Write(buffer, 0, bytesReadCount);
-                                }
-
-                            } while (bytesReadCount >= buffer.Length);
-                            stream.Close();
-                            zipStream.Close();
-
-                            lines = File.ReadAllLines(FileName + "_tmp", Encoding.UTF8);
-                            File.Delete(FileName + "_tmp");
+                            lines = File.ReadAllLines(FileName, Encoding.UTF8);
                         }
-
                         List<string> substrs;
 
                         foreach (string item in lines.Where<string>(f => f.Contains(sitcode)))
