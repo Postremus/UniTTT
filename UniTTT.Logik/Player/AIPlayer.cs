@@ -147,7 +147,7 @@ namespace UniTTT.Logik.Player
                     {
                         momsitcode = SitCodeHelper.StringToSitCode(game.Field.ToString());
                         sit_codes[currround, i] = int.Parse(momsitcode);
-                        zug = FieldHelper.GetRandomZug(Fields.SitCode.GetInstance(momsitcode, Width, Height));
+                        zug = FieldHelper.GetRandomZug(game.Field);
                         zuege[currround, i] = zug;
 
                         game.Logik(Vector2i.FromIndex(zug, 3, 3));
@@ -237,14 +237,13 @@ namespace UniTTT.Logik.Player
 
                 public int[] Read(string sitcode)
                 {
-                    int ret = -1;
+                    int[] fields = new int[9];
                     if (File.Exists(FileName))
                     {
                         if (lines == null)
                         {
                             lines = File.ReadAllLines(FileName, Encoding.UTF8);
                         }
-                        int[] fields = new int[9];
                         List<string> substrs;
 
                         foreach (string item in lines.Where<string>(f => f.Contains(sitcode)))
@@ -252,9 +251,8 @@ namespace UniTTT.Logik.Player
                             substrs = item.GetSubstrs();
                             fields[int.Parse(substrs[1])] += int.Parse(substrs[2]);
                         }
-                        ret = fields.GetHighestIndex();
                     }
-                    return ret;
+                    return fields;
                 }
             }
         }
