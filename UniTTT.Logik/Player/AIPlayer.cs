@@ -133,10 +133,10 @@ namespace UniTTT.Logik.Player
                 #region Fields
                 int runden = Rundefrage();
                 int zug;
-                string momsitcode = SitCodeHelper.GetEmpty(9);
-                int[,] sit_codes = new int[(int)runden, 9];
-                int[,] zuege = new int[(int)runden, 9];
-                int[] wertungen = new int[(int)runden];
+                string momsitcode = SitCodeHelper.GetEmpty(Length);
+                int[,] sit_codes = new int[runden, Length];
+                int[,] zuege = new int[runden, Length];
+                int[] wertungen = new int[runden];
                 GameStates state = GameStates.Laufend;
                 Game.Game game = new Game.Game(new Player('1'), new Player('2'), null, new Fields.SitCode(3, 3));
                 #endregion
@@ -187,7 +187,7 @@ namespace UniTTT.Logik.Player
                 int zug = -1;
                 do
                 {
-                    zug = fields.ToArray().GetHighestIndex();
+                    zug = fields.GetHighestIndex();
                     if (field.IsFieldEmpty(zug))
                     {
                         break;
@@ -260,7 +260,7 @@ namespace UniTTT.Logik.Player
         class AIBot : AI.AbstractAI, AI.IPlayableAI
         {
             public AIBot(int width, int height, char aiPlayer) : base(aiPlayer, width, height) { }
-
+            
             public int Play(Fields.Field field)
             {
                 int win_zug = TestForLineComplettings(field, AIPlayer);
