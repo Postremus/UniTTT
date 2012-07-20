@@ -25,12 +25,22 @@ namespace UniTTT.Gui
             _game.WinMessageEvent += OutputWinMessage;
             OutputPlayer(_game.Player1.Ausgabe());
             _game.Initialize();
+            MouseClick += MouseNewStart;
         }
 
         private void neustartenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _game.NewGame();
             OutputPlayer(_game.Player1.Ausgabe());
+        }
+
+        private void MouseNewStart(object sender, MouseEventArgs e)
+        {
+            if (_game.HasEnd())
+            {
+                _game.NewGame();
+                OutputPlayer(_game.Player1.Ausgabe());
+            }
         }
 
         private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,6 +61,7 @@ namespace UniTTT.Gui
         public void OutputWinMessage(char symbol, GameStates gameState)
         {
             MessageBox.Show(string.Format("Spieler {0} hat {1}.", symbol, gameState), gameState.ToString());
+            label1.Text = "Klicken Sie zum neustarten irgendwo hin.";
         }
 
         public string GetString()
