@@ -20,6 +20,7 @@ namespace UniTTT.Konsole
             _gameMode.WinMessageEvent += WinMessage;
             _gameMode.PlayerOutputEvent += PlayerOutput;
             _gameMode.WindowTitleChangeEvent += TitleChange;
+            _gameMode.Initialize();
         }
 
         public void Run()
