@@ -42,17 +42,19 @@
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neustartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.überToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.überToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.überToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.infoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.neuesSpielToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prüfeAufUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(42, 65);
+            this.button1.Location = new System.Drawing.Point(39, 57);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(61, 56);
             this.button1.TabIndex = 0;
@@ -61,7 +63,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(42, 124);
+            this.button2.Location = new System.Drawing.Point(39, 116);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(61, 56);
             this.button2.TabIndex = 1;
@@ -70,7 +72,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(42, 186);
+            this.button3.Location = new System.Drawing.Point(39, 178);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(61, 56);
             this.button3.TabIndex = 2;
@@ -79,7 +81,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(109, 65);
+            this.button4.Location = new System.Drawing.Point(106, 57);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(61, 56);
             this.button4.TabIndex = 5;
@@ -88,7 +90,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(109, 127);
+            this.button5.Location = new System.Drawing.Point(106, 119);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(61, 56);
             this.button5.TabIndex = 4;
@@ -97,7 +99,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(109, 186);
+            this.button6.Location = new System.Drawing.Point(106, 178);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(61, 56);
             this.button6.TabIndex = 3;
@@ -106,7 +108,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(176, 65);
+            this.button7.Location = new System.Drawing.Point(173, 57);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(61, 56);
             this.button7.TabIndex = 8;
@@ -115,7 +117,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(176, 124);
+            this.button8.Location = new System.Drawing.Point(173, 116);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(61, 56);
             this.button8.TabIndex = 7;
@@ -124,7 +126,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(176, 186);
+            this.button9.Location = new System.Drawing.Point(173, 178);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(61, 56);
             this.button9.TabIndex = 6;
@@ -145,6 +147,7 @@
             // dateiToolStripMenuItem
             // 
             this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.neuesSpielToolStripMenuItem,
             this.neustartenToolStripMenuItem,
             this.beendenToolStripMenuItem});
             this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
@@ -165,10 +168,25 @@
             this.beendenToolStripMenuItem.Text = "Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
             // 
+            // überToolStripMenuItem1
+            // 
+            this.überToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.infoToolStripMenuItem1,
+            this.prüfeAufUpdatesToolStripMenuItem});
+            this.überToolStripMenuItem1.Name = "überToolStripMenuItem1";
+            this.überToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
+            this.überToolStripMenuItem1.Text = "Über";
+            // 
+            // infoToolStripMenuItem1
+            // 
+            this.infoToolStripMenuItem1.Name = "infoToolStripMenuItem1";
+            this.infoToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
+            this.infoToolStripMenuItem1.Text = "Info";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(83, 40);
+            this.label1.Location = new System.Drawing.Point(80, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 10;
@@ -188,19 +206,18 @@
             this.infoToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.infoToolStripMenuItem.Text = "Info";
             // 
-            // überToolStripMenuItem1
+            // neuesSpielToolStripMenuItem
             // 
-            this.überToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.infoToolStripMenuItem1});
-            this.überToolStripMenuItem1.Name = "überToolStripMenuItem1";
-            this.überToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
-            this.überToolStripMenuItem1.Text = "Über";
+            this.neuesSpielToolStripMenuItem.Name = "neuesSpielToolStripMenuItem";
+            this.neuesSpielToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.neuesSpielToolStripMenuItem.Text = "Neues Spiel";
+            this.neuesSpielToolStripMenuItem.Click += new System.EventHandler(this.neuesSpielToolStripMenuItem_Click);
             // 
-            // infoToolStripMenuItem1
+            // prüfeAufUpdatesToolStripMenuItem
             // 
-            this.infoToolStripMenuItem1.Name = "infoToolStripMenuItem1";
-            this.infoToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.infoToolStripMenuItem1.Text = "Info";
+            this.prüfeAufUpdatesToolStripMenuItem.Name = "prüfeAufUpdatesToolStripMenuItem";
+            this.prüfeAufUpdatesToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.prüfeAufUpdatesToolStripMenuItem.Text = "Prüfe auf Updates";
             // 
             // Form1
             // 
@@ -249,6 +266,8 @@
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem überToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem neuesSpielToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem prüfeAufUpdatesToolStripMenuItem;
     }
 }
 

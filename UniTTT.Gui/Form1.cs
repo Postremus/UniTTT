@@ -115,5 +115,23 @@ namespace UniTTT.Gui
             button8.Enabled = _game.BDarsteller.Enabled;
             button9.Enabled = _game.BDarsteller.Enabled;
         }
+
+        private void neuesSpielToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGameForm f = new NewGameForm();
+            if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _game = f.GameMode;
+                _game.BDarsteller.Enabled = true;
+                EnableBrett();
+                ((BrettDarsteller)_game.BDarsteller).BrettUpdateEvent += UpdateBrett;
+                ((BrettDarsteller)_game.BDarsteller).BrettEnableEvent += EnableBrett;
+                _game.PlayerOutputEvent += OutputPlayer;
+                _game.WindowTitleChangeEvent += ChangeWindowTitle;
+                _game.WinMessageEvent += OutputWinMessage;
+                OutputPlayer(_game.Player1.Ausgabe());
+                _game.Initialize();
+            }
+        }
     }
 }
