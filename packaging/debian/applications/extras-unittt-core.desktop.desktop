@@ -3,7 +3,7 @@
 Version=1.6-dev2
 Type=Application
 Terminal=true
-Exec=/opt/extras.ubuntu.com/unittt-core/bin/unittt.sh
+Exec=bash /opt/extras.ubuntu.com/unittt-core/bin/unittt.sh
 Name=UniTTT-Core
 Comment=Ein flexibles TicTacToe Spiel
 Categories=Game
