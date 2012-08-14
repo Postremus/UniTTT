@@ -207,7 +207,7 @@ namespace UniTTT.Logik.Player
                 return "Reinforcement";
             }
 
-            private class WriterReader
+            private class WriterReader : AI.IReinforcementDataWriterReader
             {
                 public string FileName { get; set; }
 

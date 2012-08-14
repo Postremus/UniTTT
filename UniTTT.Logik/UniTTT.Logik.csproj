@@ -56,6 +56,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\IReinforcementDataWriterReader.cs" />
     <Compile Include="Command\Commands\AsCommand.cs" />
     <Compile Include="Command\ComandManager.cs" />
     <Compile Include="Command\Command.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Network\TCPServer.cs" />
     <Compile Include="Parameterdata.cs" />
     <Compile Include="ParameterInterpreter.cs" />
+    <Compile Include="Player\IPlayerView.cs" />
     <Compile Include="Player\NetworkPlayer.cs" />
     <Compile Include="Plugin\IFieldPlugin.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
