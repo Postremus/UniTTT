@@ -52,8 +52,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Poc">
+      <HintPath>..\lib\Poc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\IReinforcementDataWriterReader.cs" />

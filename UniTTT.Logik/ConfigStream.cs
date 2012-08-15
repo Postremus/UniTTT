@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Xml.Serialization;
+using Poc;
+using Poc.Serializer;
 
 namespace UniTTT.Logik
 {
     public class ConfigStream
     {
         private FileStream _stream;
-        private XmlSerializer _serializer;
+        private ISerializer _serializer;
         private string _defaultDir;
         private string _defaultExtension;
         private string _fileName;
@@ -24,7 +25,7 @@ namespace UniTTT.Logik
             _defaultExtension = extension;
             _fileName = fileName;
             _path = Path.Combine(_defaultDir, _fileName + _defaultExtension);
-            _serializer = new XmlSerializer(typeof(ParameterInterpreter));
+            _serializer = new XMLSerializer();
             if (!Directory.Exists(_defaultDir))
             {
                 Directory.CreateDirectory(_defaultDir);
@@ -37,17 +38,12 @@ namespace UniTTT.Logik
             {
                 File.Delete(_path);
             }
-            _stream = new FileStream(_path, FileMode.Create);
-            _serializer.Serialize(_stream, config);
-            _stream.Close();
+            _serializer.Serialize<object>(_path, config);
         }
 
         public object Read()
         {
-            _stream = new FileStream(_path, FileMode.Open);
-            object ret = _serializer.Deserialize(_stream);
-            _stream.Close();
-            return ret;
+            return _serializer.Deserialize<object>(_path);
         }
 
         public void Delete()
