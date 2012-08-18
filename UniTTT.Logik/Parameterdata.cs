@@ -37,7 +37,7 @@ namespace UniTTT.Logik
             dic.Add(key, value);
             _args.Add(key);
         }
-
+        
         /// <summary>
         /// Liest value von key. Rückgabewert ist im Fehlerfall default(T)
         /// </summary>
@@ -64,10 +64,10 @@ namespace UniTTT.Logik
             }
         }
 
-        public bool IsDefined<T>(string key)
+        public bool IsDefined(string key)
         {
-            T tmp;
-            return TryGetValue<T>(key, out tmp);
+            object tmp;
+            return TryGetValue(key, out tmp);
         }
 
         /// <summary>

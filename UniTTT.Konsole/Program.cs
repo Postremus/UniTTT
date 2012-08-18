@@ -23,17 +23,17 @@ namespace UniTTT.Konsole
             int width = parameters.GetValue<int>("breite");
             int height = parameters.GetValue<int>("hoehe");
 
-            if (!parameters.IsDefined<int>("breite"))
+            if (!parameters.IsDefined("breite"))
             {
                 width = 3;
             }
-            if (!parameters.IsDefined<int>("hoehe"))
+            if (!parameters.IsDefined("hoehe"))
             {
                 height = 3;
             }
 
             Logik.Fields.Field field = new Logik.Fields.Brett(width, height);
-            if (parameters.IsDefined<string>("plugin"))
+            if (parameters.IsDefined("plugin"))
             {
                 Logik.Plugin.IPlugin plugin = plugManager.Get(parameters.GetValue<string>("plugin"), Logik.Plugin.PluginTypes.Field);
                 if (plugin is Logik.Fields.Field)
@@ -52,7 +52,7 @@ namespace UniTTT.Konsole
 
             HumanPlayer hPlayer;
             char aisymb;
-            if (parameters.IsDefined<char>("player"))
+            if (parameters.IsDefined("player"))
             {
                 char symb = parameters.GetValue<char>("player");
                 aisymb = Logik.Player.Player.PlayerChange(symb);
@@ -65,11 +65,11 @@ namespace UniTTT.Konsole
             }
 
             Logik.Player.Player aiplayer = null;
-            if (parameters.IsDefined<int>("ki"))
+            if (parameters.IsDefined("ki"))
             {
                 aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<int>("ki"), width, height, aisymb);
             }
-            else if (parameters.IsDefined<int>("ki"))
+            else if (parameters.IsDefined("ki"))
             {
                 aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<string>("ki"), width, height, aisymb);
             }
