@@ -65,25 +65,22 @@ namespace UniTTT.Konsole
             }
 
             Logik.Player.Player aiplayer = null;
-            if (parameters.IsDefined("ki"))
+            if (parameters.GetValue<int>("int") != default(int))
             {
                 aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<int>("ki"), width, height, aisymb);
             }
-            else if (parameters.IsDefined("ki"))
+            else
             {
                 aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<string>("ki"), width, height, aisymb);
             }
 
-            if (parameters.GetValue<bool>("help"))
+            if (parameters.IsDefined("help") && parameters.Count == 1)
             {
-                if (parameters.Count == 1)
-                {
-                    Help();
-                }
+                Help();
             }
-            else if (parameters.GetValue<bool>("learn"))
+            else if (parameters.IsDefined("learn"))
             {
-                if (parameters.GetValue<bool>("human"))
+                if (parameters.IsDefined("human"))
                 {
                     hPlayer.Learn();
                 }
@@ -97,7 +94,7 @@ namespace UniTTT.Konsole
                     aiplayer.Learn();
                 }
             }
-            else if (parameters.GetValue<bool>("network"))
+            else if (parameters.IsDefined("network"))
             {
                 Logik.Network.Network client;
                 string ip = parameters.GetValue<string>("ip");
@@ -108,7 +105,7 @@ namespace UniTTT.Konsole
                 }
                 else
                 {
-                    if (parameters.GetValue<bool>("server"))
+                    if (parameters.IsDefined("server"))
                     {
                         client = new Logik.Network.TCPServer(ip, port);
                     }
@@ -126,7 +123,7 @@ namespace UniTTT.Konsole
             {
                 Logik.Game.Game gameMode;
                 BrettDarsteller bdar = new BrettDarsteller(width, height);
-                if (parameters.GetValue<bool>("kigame"))
+                if (parameters.IsDefined("kigame"))
                 {
                     gameMode = new Logik.Game.Game(aiplayer, aiplayer, bdar, field);
                 }
