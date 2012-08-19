@@ -12,18 +12,18 @@ namespace UniTTT.Logik.FileSystem
     {
         PathFile _paths;
         ISerializer _serializer;
+        OS.OSInformation _osInfo;
 
         public PathWrapper()
         {
             _serializer = new XMLSerializer();
             _paths = _serializer.Deserialize<PathFile>("paths.xml");
+            _osInfo = new OS.OSInformationCollector().GetCurrOSInformation();
         }
 
         public string GetPathForCurrentOS(string pathName)
         {
-            OS.OSInformationCollector osCol = new OS.OSInformationCollector();
-            OS.OSInformation osInfo = osCol.GetCurrOSInformation();
-            return _paths.Paths.First(f => f.PathOSInformation.OSName.ToLower() == osInfo.OSName.ToLower() && f.Key.ToLower() == pathName.ToLower()).Path;
+            return _paths.Paths.First(f => f.PathOSInformation.OSName.ToLower() == _osInfo.OSName.ToLower() && f.Key.ToLower() == pathName.ToLower()).Path;
         }
     }
 }
