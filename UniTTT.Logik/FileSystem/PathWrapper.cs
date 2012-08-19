@@ -23,7 +23,7 @@ namespace UniTTT.Logik.FileSystem
         {
             OS.OSInformationCollector osCol = new OS.OSInformationCollector();
             OS.OSInformation osInfo = osCol.GetCurrOSInformation();
-            return _paths.Paths.First(f => f.Key.OSName.ToLower() == osInfo.OSName.ToLower() && f.Value.ToLower() == pathName.ToLower()).Value;
+            return _paths.Paths.First(f => f.PathOSInformation.OSName.ToLower() == osInfo.OSName.ToLower() && f.Key.ToLower() == pathName.ToLower()).Path;
         }
     }
 }
