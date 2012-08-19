@@ -7,14 +7,13 @@ namespace UniTTT.Logik
 {
     public class Parameterdata
     {
-        private Dictionary<string, object> dic;
-        private List<string> _args;
+        private Dictionary<string, object> _dic;
 
         public int Count
         {
             get
             {
-                return dic.Count;
+                return _dic.Count;
             }
         }
 
@@ -22,20 +21,18 @@ namespace UniTTT.Logik
         {
             get
             {
-                return _args;
+                return _dic.Keys.ToList();
             }
         }
 
         public Parameterdata()
         {
-            dic = new Dictionary<string, object>();
-            _args = new List<string>();
+            _dic = new Dictionary<string, object>();
         }
 
         public void Add(string key, object value)
         {
-            dic.Add(key, value);
-            _args.Add(key);
+            _dic.Add(key, value);
         }
         
         /// <summary>
@@ -48,18 +45,17 @@ namespace UniTTT.Logik
         public bool TryGetValue<T>(string key, out T value)
         {
             value = default(T);
-            if (!dic.ContainsKey(key))
+            if (!_dic.ContainsKey(key))
             {
                 return false;
             }
             try
             {
-                value = (T)Convert.ChangeType(dic[key], typeof(T));
+                value = (T)Convert.ChangeType(_dic[key], typeof(T));
                 return true;
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
@@ -75,7 +71,7 @@ namespace UniTTT.Logik
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key">der Parameter</param>
-        /// <returns>Rückgabewert ist im Fehlerfall default(T), ansonsten value</returns>
+        /// <returns>Rückgabewert ist im Fehlerfall default(T), ansonsten der Variablen Wert</returns>
         public T GetValue<T>(string key)
         {
             T ret = default(T);
