@@ -5,6 +5,7 @@ using System.Text;
 
 namespace UniTTT.Logik.OS
 {
+    [Serializable()]
     public class OSInformation
     {
         string _version;
@@ -24,6 +25,12 @@ namespace UniTTT.Logik.OS
             {
                 return _osName;
             }
+        }
+
+        public OSInformation()
+        {
+            _version = "";
+            _osName = "";
         }
 
         public OSInformation(string version, string osName)
