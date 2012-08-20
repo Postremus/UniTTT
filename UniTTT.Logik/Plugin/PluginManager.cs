@@ -11,15 +11,19 @@ namespace UniTTT.Logik.Plugin
     {
         private Dictionary<string, IPlugin> _plugins;
         private FileSystemWatcher _watcher;
+        private string _path;
+        private FileSystem.PathWrapper _wrapper;
 
         public PluginManager()
         {
             _plugins = new Dictionary<string, IPlugin>();
-            if (!Directory.Exists("data/plugins"))
+            _wrapper = new FileSystem.PathWrapper();
+            _path = _wrapper.GetPathForCurrentOS("data/plugins");
+            if (!Directory.Exists(_path))
             {
-                Directory.CreateDirectory("data/plugins");
+                Directory.CreateDirectory(_path);
             }
-            _watcher = new FileSystemWatcher("data/plugins");
+            _watcher = new FileSystemWatcher(_path);
             _watcher.Changed += PluginsChanged;
             _watcher.Renamed += PluginsRenamed;
             LoadAllPlugins();
@@ -49,7 +53,7 @@ namespace UniTTT.Logik.Plugin
 
         private void LoadAllPlugins()
         {
-            foreach (string path in Directory.GetFiles("data/plugins"))
+            foreach (string path in Directory.GetFiles(_path))
             {
                 IPlugin plug = LoadPluginFromAssembly(path);
                 if (plug != null)
