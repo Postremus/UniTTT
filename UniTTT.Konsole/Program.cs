@@ -65,11 +65,11 @@ namespace UniTTT.Konsole
             }
 
             Logik.Player.Player aiplayer = null;
-            if (parameters.GetValue<int>("int") != default(int))
+            if (parameters.GetValue<int>("ki") != default(int))
             {
                 aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<int>("ki"), width, height, aisymb);
             }
-            else
+            else if (parameters.GetValue<string>("ki") != default(string))
             {
                 aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<string>("ki"), width, height, aisymb);
             }
