@@ -96,7 +96,6 @@
     <Compile Include="ParameterInterpreter.cs" />
     <Compile Include="FileSystem\PathFile.cs" />
     <Compile Include="FileSystem\PathWrapper.cs" />
-    <Compile Include="Player\IPlayerView.cs" />
     <Compile Include="Player\NetworkPlayer.cs" />
     <Compile Include="Plugin\IFieldPlugin.cs" />
     <Compile Include="Plugin\IPlugin.cs" />

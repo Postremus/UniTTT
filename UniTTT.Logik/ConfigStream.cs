@@ -10,7 +10,6 @@ namespace UniTTT.Logik
 {
     public class ConfigStream
     {
-        private FileStream _stream;
         private ISerializer _serializer;
         private string _defaultDir;
         private string _defaultExtension;
