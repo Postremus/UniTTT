@@ -10,7 +10,8 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@ 
+	dh $@
+
 override_dh_install:
-	dh_install UniTTT/* /opt/extras.ubuntu.com/unittt-core/bin/
+	dh_install UniTTT/* /opt/extras.ubuntu.com/unittt/bin/
 	dh_install applications/* /usr/share/applications/

@@ -1,4 +1,4 @@
-Source: unittt-core
+Source: unittt
 Section: games
 Priority: extra
 Maintainer: Martin Panzer <postremus1996@googlemail.com>
@@ -8,7 +8,7 @@ Homepage: https://github.com/Postremus/UniTTT
 #Vcs-Git: git://git.debian.org/collab-maint/unittt-core.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/unittt-core.git;a=summary
 
-Package: unittt-core
+Package: unittt
 Architecture: any
 Depends: mono-runtime
 Description: Ein flexibles TicTacToe Spiel
