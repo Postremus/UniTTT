@@ -49,6 +49,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "ScreenSaverForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.ScreenSaverForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
