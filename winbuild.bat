@@ -16,5 +16,5 @@ cd UniTTT.Plugin.FourConnect
 dmcs -optimize -target:library -r:../bin/UniTTT.Logik.dll -out:../bin/data/plugins/UniTTT.Plugin.FourConnect.dll *.cs
 cd ..
 cd UniTTT.Gui
-dmcs -optimize -r:../bin/UniTTT.Logik.dll -r:System.Drawing.dll -r:System.Windows.Forms -out:../bin/data/plugins/UniTTT.Gui.exe *.cs
+dmcs -optimize -r:../bin/UniTTT.Logik.dll -r:System.Drawing.dll -r:System.Windows.Forms -out:../bin/UniTTT.Gui.exe *.cs
 cd ..
