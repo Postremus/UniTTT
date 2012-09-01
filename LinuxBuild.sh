@@ -7,7 +7,7 @@ mkdir bin/data/plugins
 cp README bin/
 
 cd UniTTT.Logik/
-dmcs -optimize -target:library -out:../bin/UniTTT.Logik.dll *.cs  Game/*.cs Fields/*.cs AI/*.cs Player/*.cs Network/*.cs Command/*.cs Command/Commands/*.cs Plugin/*.cs
+dmcs -optimize -target:library -out:../bin/UniTTT.Logik.dll *.cs  Game/*.cs Fields/*.cs AI/*.cs Player/*.cs Network/*.cs Command/*.cs Command/Commands/*.cs Plugin/*.cs FileSystem/*.cs OS/*.cs
 cd ..
 cd UniTTT.Konsole/
 dmcs -optimize -r:../bin/UniTTT.Logik.dll -target:exe -out:../bin/UniTTT.exe *.cs
