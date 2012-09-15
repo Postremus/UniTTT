@@ -11,7 +11,7 @@
       <OSName>Ubuntu</OSName>
       <Version>12.04</Version>
       <Key>data/plugins/ki</Key>
-      <Path>%Home%/.config/unittt/data/plugins/ki</Path>
+      <Path>%HOME%/.config/unittt/data/plugins/ki</Path>
     </PathItem>
   </Paths>
 </PathFile>
