@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UniTTT.Logik;
+using System.Threading.Tasks;
 
 [assembly: CLSCompliant(true)]
 namespace UniTTT.Gui
@@ -13,6 +14,8 @@ namespace UniTTT.Gui
     public partial class Form1 : Form
     {
         private Logik.Game.Game _game;
+        private Task _playerWaitTask;
+        private bool _taskTurn;
 
         public Form1()
         {
@@ -26,6 +29,21 @@ namespace UniTTT.Gui
             OutputPlayer(_game.Player1.Ausgabe());
             _game.Initialize();
             MouseClick += MouseNewStart;
+            _playerWaitTask = new Task(new Action(WaitForPlayerTask));
+            _playerWaitTask.Start();
+        }
+
+        private void WaitForPlayerTask()
+        {
+            while (true)
+            {
+                if (_taskTurn)
+                {
+                    Vector2i zug = _game.Player == _game.Player1 ? _game.Player2.Play(_game.Field) : _game.Player1.Play(_game.Field);
+                    _game.Logik(zug);
+                    _taskTurn = false;
+                }
+            }
         }
 
         private void neustartenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -55,11 +73,21 @@ namespace UniTTT.Gui
 
         public void OutputPlayer(string message)
         {
+            if (label1.InvokeRequired)
+            {
+                label1.Invoke(new Logik.ShowMessageHandler(OutputPlayer), new object[] {message});
+                return;
+            }
             label1.Text = message;
         }
 
         public void OutputWinMessage(char symbol, GameStates gameState)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Logik.WinMessageHandler(OutputWinMessage), new object[] { symbol, gameState });
+                return;
+            }
             MessageBox.Show(string.Format("Spieler {0} hat {1}.", symbol, gameState), gameState.ToString());
             label1.Text = "Klicken Sie zum neustarten irgendwo hin.";
         }
@@ -77,6 +105,12 @@ namespace UniTTT.Gui
 
         public void UpdateBrett()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Logik.Network.NewGameRequestReceived(UpdateBrett));
+                return;
+            }
+
             button1.Text = _game.Field.GetField(0).ToString();
             button2.Text = _game.Field.GetField(1).ToString();
             button3.Text = _game.Field.GetField(2).ToString();
@@ -99,9 +133,9 @@ namespace UniTTT.Gui
             {
                 _game.Logik(Vector2i.FromIndex(idx, 3, 3));
             }
-            if (_game.Player1.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player2.GetType() == typeof(Logik.Player.AIPlayer))
+            if (_game.Player1.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player2.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player1.GetType() == typeof(Logik.Player.NetworkPlayer) || _game.Player2.GetType() == typeof(Logik.Player.NetworkPlayer))
             {
-                _game.Logik();
+                _taskTurn = true;
             }
         }
 
