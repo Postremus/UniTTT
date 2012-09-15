@@ -88,7 +88,15 @@ namespace UniTTT.Gui
                 Invoke(new Logik.WinMessageHandler(OutputWinMessage), new object[] { symbol, gameState });
                 return;
             }
-            MessageBox.Show(string.Format("Spieler {0} hat {1}.", symbol, gameState), gameState.ToString());
+            if (gameState == GameStates.Unentschieden)
+            {
+                MessageBox.Show(gameState.ToString(), gameState.ToString());
+            }
+            else
+            {
+                MessageBox.Show(string.Format("Spieler {0} hat {1}.", symbol, gameState), gameState.ToString());
+            }
+            
             label1.Text = "Klicken Sie zum neustarten irgendwo hin.";
         }
 
