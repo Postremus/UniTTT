@@ -99,6 +99,10 @@ namespace UniTTT.Gui
             {
                 _game.Logik(Vector2i.FromIndex(idx, 3, 3));
             }
+            if (_game.Player1.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player2.GetType() == typeof(Logik.Player.AIPlayer))
+            {
+                _game.Logik();
+            }
         }
 
         public void EnableBrett()
