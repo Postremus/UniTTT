@@ -39,7 +39,7 @@ namespace UniTTT.Gui
             {
                 if (_taskTurn)
                 {
-                    Vector2i zug = _game.Player == _game.Player1 ? _game.Player2.Play(_game.Field) : _game.Player1.Play(_game.Field);
+                    Vector2i zug = _game.Player.Play(_game.Field);
                     _game.Logik(zug);
                     _taskTurn = false;
                 }
@@ -134,6 +134,10 @@ namespace UniTTT.Gui
 
         private void button_Click(object sender, EventArgs e)
         {
+            if (_taskTurn)
+            {
+                return;
+            }
             Button send = sender as Button;
             int idx = int.Parse(send.Name.Substring(send.Name.Length - 1));
             idx--;
@@ -141,7 +145,7 @@ namespace UniTTT.Gui
             {
                 _game.Logik(Vector2i.FromIndex(idx, 3, 3));
             }
-            if (_game.Player1.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player2.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player1.GetType() == typeof(Logik.Player.NetworkPlayer) || _game.Player2.GetType() == typeof(Logik.Player.NetworkPlayer))
+            if (_game.Player.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player.GetType() == typeof(Logik.Player.NetworkPlayer))
             {
                 _taskTurn = true;
             }
