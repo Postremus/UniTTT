@@ -88,6 +88,10 @@ namespace UniTTT.Gui
                     client = new Logik.Network.IRCClient(host_tbx.Text, int.Parse(port_tbx.Text), "#UniTTT-play");
                 }
                 _gameMode = new NetworkGame(p, new BrettDarsteller((int)breite_nud.Value, (int)hoehe_nud.Value), new Logik.Fields.Brett((int)breite_nud.Value, (int)hoehe_nud.Value), client);
+                if (p.Symbol.ToString().ToLower() == "o")
+                {
+                    _gameMode.PlayerChange();
+                }
             }
             else
             {

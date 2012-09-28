@@ -153,6 +153,11 @@ namespace UniTTT.Gui
 
         public void EnableBrett()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Logik.Network.NewGameRequestReceived(EnableBrett));
+                return;
+            }
             button1.Enabled = _game.BDarsteller.Enabled;
             button2.Enabled = _game.BDarsteller.Enabled;
             button3.Enabled = _game.BDarsteller.Enabled;
@@ -179,7 +184,16 @@ namespace UniTTT.Gui
                 _game.PlayerOutputEvent += OutputPlayer;
                 _game.WindowTitleChangeEvent += ChangeWindowTitle;
                 _game.WinMessageEvent += OutputWinMessage;
-                OutputPlayer(_game.Player1.Ausgabe());
+                if (_game.Player.Symbol.ToString().ToLower() == "o")
+                {
+                    _game.PlayerChange();
+                    OutputPlayer(_game.Player2.Ausgabe());
+                    _taskTurn = true;
+                }
+                else
+                {
+                    OutputPlayer(_game.Player2.Ausgabe());
+                }
                 _game.Initialize();
             }
         }

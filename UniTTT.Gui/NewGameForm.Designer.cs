@@ -342,7 +342,7 @@
             this.Controls.Add(this.spieler2_lbl);
             this.Controls.Add(this.spieler1_lbl);
             this.Name = "NewGameForm";
-            this.Text = "NewGameForm";
+            this.Text = "Neues Spiel";
             ((System.ComponentModel.ISupportInitialize)(this.gewinnbedingung_nud)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hoehe_nud)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.breite_nud)).EndInit();
