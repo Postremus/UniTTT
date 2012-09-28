@@ -187,7 +187,7 @@ namespace UniTTT.Gui
                 if (_game.Player.Symbol.ToString().ToLower() == "o")
                 {
                     _game.PlayerChange();
-                    OutputPlayer(_game.Player2.Ausgabe());
+                    OutputPlayer(_game.Player.Ausgabe());
                     _taskTurn = true;
                 }
                 else
