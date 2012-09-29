@@ -16,6 +16,7 @@ namespace UniTTT.Gui
         private Logik.Game.Game _game;
         private Task _playerWaitTask;
         private bool _taskTurn;
+        private bool _isGameWindowClosed;
 
         public Form1()
         {
@@ -31,7 +32,14 @@ namespace UniTTT.Gui
             MouseClick += MouseNewStart;
             _playerWaitTask = new Task(new Action(WaitForPlayerTask));
             _playerWaitTask.Start();
+            FormClosed += GameWindowClosedEvent;
         }
+
+        private void GameWindowClosedEvent(object sender, EventArgs e)
+        {
+            _isGameWindowClosed = true;
+        }
+    
 
         private void WaitForPlayerTask()
         {
