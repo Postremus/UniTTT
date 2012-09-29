@@ -192,7 +192,7 @@ namespace UniTTT.Gui
                 }
                 else
                 {
-                    OutputPlayer(_game.Player2.Ausgabe());
+                    OutputPlayer(_game.Player1.Ausgabe());
                 }
                 _game.Initialize();
             }
