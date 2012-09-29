@@ -104,7 +104,8 @@ namespace UniTTT.Gui
             {
                 MessageBox.Show(string.Format("Spieler {0} hat {1}.", symbol, gameState), gameState.ToString());
             }
-            
+
+            label1.Location = new Point(37, label1.Location.Y);
             label1.Text = "Klicken Sie zum neustarten irgendwo hin.";
         }
 
@@ -202,8 +203,14 @@ namespace UniTTT.Gui
                 {
                     OutputPlayer(_game.Player1.Ausgabe());
                 }
+                label1.Location = new Point(80, label1.Location.Y);
                 _game.Initialize();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
