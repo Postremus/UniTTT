@@ -32,6 +32,7 @@ namespace UniTTT.Gui
             MouseClick += MouseNewStart;
             _playerWaitTask = new Task(new Action(WaitForPlayerTask));
             _playerWaitTask.Start();
+            _isGameWindowClosed = false;
             FormClosed += GameWindowClosedEvent;
         }
 
@@ -39,11 +40,10 @@ namespace UniTTT.Gui
         {
             _isGameWindowClosed = true;
         }
-    
 
         private void WaitForPlayerTask()
         {
-            while (true)
+            while (!_isGameWindowClosed)
             {
                 if (_taskTurn)
                 {
