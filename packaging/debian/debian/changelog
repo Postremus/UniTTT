@@ -1,5 +1,5 @@
-unittt-core (1.6-dev7-0extras12.04) precise; urgency=low
+unittt (1.6-pre1-0extras12.04.1) precise; urgency=low
 
-  * UniTTT should now start
+  * Initial Release.
 
- -- Martin Panzer <postremus1996@googlemail.com>  Sat, 28 Jul 2012 13:28:28 +0200
+ -- Martin Panzer <postremus1996@googlemail.com>  Sat, 25 Aug 2012 20:15:45 +0200

@@ -27,6 +27,7 @@ namespace UniTTT.Logik.FileSystem
             try
             {
                 ret = _paths.Paths.First(f => f.OSName.ToLower() == _osInfo.OSName.ToLower() && f.Key.ToLower() == pathName.ToLower()).Path;
+                ret = Environment.ExpandEnvironmentVariables(ret);
             }
             catch (Exception)
             {

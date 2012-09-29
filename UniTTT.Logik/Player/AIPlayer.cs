@@ -200,7 +200,7 @@ namespace UniTTT.Logik.Player
                     {
                         fields.Remove(zug);
                     }
-                } while (true && fields.Count !=  0);
+                } while (fields.Count !=  0);
                 if (zug == -1)
                     zug = FieldHelper.GetRandomZug(field);
                 return zug;

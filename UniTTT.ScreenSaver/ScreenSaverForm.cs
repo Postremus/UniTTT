@@ -44,7 +44,6 @@ namespace UniTTT.ScreenSaver
 
             ((BrettDarsteller)game.BDarsteller).DrawEvent += Draw;
             loopThread = new Thread(Loop);
-            loopThread.Start();
         }
 
         private void RegisterEvents()
@@ -142,6 +141,12 @@ namespace UniTTT.ScreenSaver
             try
             {
                 _config = (Config)_confiStream.Read();
+                if (_config == null)
+                {
+                    _config = new Config();
+                    _config.PlayVelocity = 1;
+                    _config.MoveVelocity = 1;
+                }
             }
             catch
             {
@@ -149,6 +154,11 @@ namespace UniTTT.ScreenSaver
                 _config.PlayVelocity = 1;
                 _config.MoveVelocity = 1;
             }
+        }
+
+        private void ScreenSaverForm_Load(object sender, EventArgs e)
+        {
+            loopThread.Start();
         }
     }
 }

@@ -67,7 +67,7 @@
             0});
             this.gewinnbedingung_nud.Name = "gewinnbedingung_nud";
             this.gewinnbedingung_nud.Size = new System.Drawing.Size(31, 20);
-            this.gewinnbedingung_nud.TabIndex = 25;
+            this.gewinnbedingung_nud.TabIndex = 21;
             this.gewinnbedingung_nud.Value = new decimal(new int[] {
             3,
             0,
@@ -93,7 +93,7 @@
             0});
             this.hoehe_nud.Name = "hoehe_nud";
             this.hoehe_nud.Size = new System.Drawing.Size(25, 20);
-            this.hoehe_nud.TabIndex = 23;
+            this.hoehe_nud.TabIndex = 20;
             this.hoehe_nud.Value = new decimal(new int[] {
             3,
             0,
@@ -110,7 +110,7 @@
             0});
             this.breite_nud.Name = "breite_nud";
             this.breite_nud.Size = new System.Drawing.Size(25, 20);
-            this.breite_nud.TabIndex = 22;
+            this.breite_nud.TabIndex = 19;
             this.breite_nud.Value = new decimal(new int[] {
             3,
             0,
@@ -219,7 +219,7 @@
             this.online_modus_cbx.Location = new System.Drawing.Point(27, 233);
             this.online_modus_cbx.Name = "online_modus_cbx";
             this.online_modus_cbx.Size = new System.Drawing.Size(91, 17);
-            this.online_modus_cbx.TabIndex = 26;
+            this.online_modus_cbx.TabIndex = 22;
             this.online_modus_cbx.Text = "Online Modus";
             this.online_modus_cbx.UseVisualStyleBackColor = true;
             this.online_modus_cbx.CheckedChanged += new System.EventHandler(this.online_modus_cbx_CheckedChanged);
@@ -244,7 +244,7 @@
             this.protokoll_lbx.Location = new System.Drawing.Point(82, 256);
             this.protokoll_lbx.Name = "protokoll_lbx";
             this.protokoll_lbx.Size = new System.Drawing.Size(104, 30);
-            this.protokoll_lbx.TabIndex = 28;
+            this.protokoll_lbx.TabIndex = 23;
             // 
             // host_lbl
             // 
@@ -262,14 +262,14 @@
             this.host_tbx.Location = new System.Drawing.Point(64, 292);
             this.host_tbx.Name = "host_tbx";
             this.host_tbx.Size = new System.Drawing.Size(100, 20);
-            this.host_tbx.TabIndex = 30;
+            this.host_tbx.TabIndex = 24;
             // 
             // abbrechen_btn
             // 
             this.abbrechen_btn.Location = new System.Drawing.Point(152, 388);
             this.abbrechen_btn.Name = "abbrechen_btn";
             this.abbrechen_btn.Size = new System.Drawing.Size(75, 23);
-            this.abbrechen_btn.TabIndex = 31;
+            this.abbrechen_btn.TabIndex = 28;
             this.abbrechen_btn.Text = "Abbrechen";
             this.abbrechen_btn.UseVisualStyleBackColor = true;
             this.abbrechen_btn.Click += new System.EventHandler(this.abbrechen_btn_Click);
@@ -279,7 +279,7 @@
             this.ok_btn.Location = new System.Drawing.Point(71, 388);
             this.ok_btn.Name = "ok_btn";
             this.ok_btn.Size = new System.Drawing.Size(75, 23);
-            this.ok_btn.TabIndex = 32;
+            this.ok_btn.TabIndex = 27;
             this.ok_btn.Text = "OK";
             this.ok_btn.UseVisualStyleBackColor = true;
             this.ok_btn.Click += new System.EventHandler(this.ok_btn_Click);
@@ -300,7 +300,7 @@
             this.port_tbx.Location = new System.Drawing.Point(64, 325);
             this.port_tbx.Name = "port_tbx";
             this.port_tbx.Size = new System.Drawing.Size(100, 20);
-            this.port_tbx.TabIndex = 34;
+            this.port_tbx.TabIndex = 25;
             // 
             // server_cbx
             // 
@@ -309,7 +309,7 @@
             this.server_cbx.Location = new System.Drawing.Point(29, 351);
             this.server_cbx.Name = "server_cbx";
             this.server_cbx.Size = new System.Drawing.Size(57, 17);
-            this.server_cbx.TabIndex = 35;
+            this.server_cbx.TabIndex = 26;
             this.server_cbx.Text = "Server";
             this.server_cbx.UseVisualStyleBackColor = true;
             // 
@@ -342,7 +342,7 @@
             this.Controls.Add(this.spieler2_lbl);
             this.Controls.Add(this.spieler1_lbl);
             this.Name = "NewGameForm";
-            this.Text = "NewGameForm";
+            this.Text = "Neues Spiel";
             ((System.ComponentModel.ISupportInitialize)(this.gewinnbedingung_nud)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hoehe_nud)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.breite_nud)).EndInit();

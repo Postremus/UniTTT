@@ -83,6 +83,7 @@ namespace UniTTT.Logik.Game
             BDarsteller = bdar;
             Player1 = p1;
             Player2 = p2;
+            Player = Player1;
             Initialize();
         }
 
@@ -111,8 +112,6 @@ namespace UniTTT.Logik.Game
             {
                 return;
             }
-            PlayerChange();
-            OnPlayerOutputEvent(Player == Player2 ? Player1.Ausgabe() : Player2.Ausgabe());
             OnPlayerMovedEvent(vect);
             Field.SetField(vect, Player.Symbol);
             if (IsBDarstellerValid())
@@ -125,6 +124,11 @@ namespace UniTTT.Logik.Game
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
                 BDarsteller.Enabled = false;
             }
+            else
+            {
+                PlayerChange();
+                OnPlayerOutputEvent(Player.Ausgabe());
+            }
         }
 
         public virtual void Logik()
@@ -134,8 +138,6 @@ namespace UniTTT.Logik.Game
             {
                 return;
             }
-            PlayerChange();
-            OnPlayerOutputEvent(Player.Ausgabe());
             Vector2i vect = Player.Play(Field);
             OnPlayerMovedEvent(vect);
             Field.SetField(vect, Player.Symbol);
@@ -148,6 +150,11 @@ namespace UniTTT.Logik.Game
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
                 BDarsteller.Enabled = false;
+            }
+            else
+            {
+                PlayerChange();
+                OnPlayerOutputEvent(Player.Ausgabe());
             }
         }
 
@@ -180,13 +187,18 @@ namespace UniTTT.Logik.Game
 
         public bool HasEnd()
         {
-            return FieldHelper.GetGameState(Field, Player, Player1) != GameStates.Laufend;
+            if (FieldHelper.GetGameState(Field, Player, Player1) != GameStates.Laufend)
+            {
+                return true;
+            }
+            UniTTT.Logik.Player.Player nextPlayer = GetNextPlayer();
+            return FieldHelper.GetGameState(Field, nextPlayer, Player1) != GameStates.Laufend;
         }
 
         public virtual void NewGame()
         {
             Field.Initialize();
-            Player = null;
+            Player = Player1;
             BDarsteller.Initialize(Field.Width, Field.Height);
             BDarsteller.Update(Field);
             BDarsteller.Draw();
@@ -208,6 +220,11 @@ namespace UniTTT.Logik.Game
                     Player2.WinCounter++;
                 }
             }
+        }
+
+        public Player.Player GetNextPlayer()
+        {
+            return Player == Player1 ? Player2 : Player1;
         }
 
         public void OnPlayerMovedEvent(Vector2i vect)
