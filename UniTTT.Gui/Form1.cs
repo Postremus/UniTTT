@@ -184,7 +184,7 @@ namespace UniTTT.Gui
                 _game.PlayerOutputEvent += OutputPlayer;
                 _game.WindowTitleChangeEvent += ChangeWindowTitle;
                 _game.WinMessageEvent += OutputWinMessage;
-                if (_game.Player.Symbol.ToString().ToLower() == "o")
+                if (_game.Player.Symbol.ToString().ToLower() == "o" && _game.Player.GetType() == typeof(Logik.Player.NetworkPlayer))
                 {
                     _game.PlayerChange();
                     OutputPlayer(_game.Player.Ausgabe());
