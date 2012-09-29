@@ -239,11 +239,12 @@
             this.protokoll_lbx.Enabled = false;
             this.protokoll_lbx.FormattingEnabled = true;
             this.protokoll_lbx.Items.AddRange(new object[] {
-            "TCP/IP",
-            "IRC"});
+            "IRC",
+            "TCP/IP"});
             this.protokoll_lbx.Location = new System.Drawing.Point(82, 256);
             this.protokoll_lbx.Name = "protokoll_lbx";
             this.protokoll_lbx.Size = new System.Drawing.Size(104, 30);
+            this.protokoll_lbx.Sorted = true;
             this.protokoll_lbx.TabIndex = 23;
             // 
             // host_lbl
