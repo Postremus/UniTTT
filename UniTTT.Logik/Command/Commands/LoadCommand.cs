@@ -5,11 +5,11 @@ using System.Text;
 
 namespace UniTTT.Logik.Command.Commands
 {
-    public class Load : MemoryCommand, IDataReturner
+    public class LoadCommand : MemoryCommand, IDataReturner
     {
         public event DataReturnHandler DataReturnEvent;
 
-        public Load()
+        public LoadCommand()
         {
             base.KeyWords.Add("Load");
         }
@@ -25,7 +25,7 @@ namespace UniTTT.Logik.Command.Commands
 
         public override void Execute(string value)
         {
-            Config.ConfigStream stream = new Config.ConfigStream(value);
+            ConfigStream stream = new ConfigStream(value);
             OnDataReturn(this, stream.Read());
             base.Execute(value);
         }

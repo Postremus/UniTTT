@@ -25,18 +25,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Poc">
+      <HintPath>..\lib\Poc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\IReinforcementDataWriterReader.cs" />
     <Compile Include="Command\Commands\AsCommand.cs" />
     <Compile Include="Command\ComandManager.cs" />
     <Compile Include="Command\Command.cs" />
@@ -45,36 +67,45 @@
     <Compile Include="Command\Commands\DeleteCommand.cs" />
     <Compile Include="Command\IDataReturner.cs" />
     <Compile Include="Command\Commands\LoadCommand.cs" />
-    <Compile Include="Command\MemoryCommand.cs" />
+    <Compile Include="Command\Commands\MemoryCommand.cs" />
     <Compile Include="Command\ReturnData.cs" />
     <Compile Include="Command\Commands\SaveCommand.cs" />
-    <Compile Include="Config\ConfigStream.cs" />
-    <Compile Include="Config\ParameterConfig.cs" />
+    <Compile Include="ConfigStream.cs" />
+    <Compile Include="Delegates.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Fields\Brett.cs" />
     <Compile Include="FieldHelper.cs" />
+    <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\FieldPlaceData.cs" />
     <Compile Include="Fields\FieldRegion.cs" />
+    <Compile Include="FileSystem\PathItem.cs" />
+    <Compile Include="GameStates.cs" />
+    <Compile Include="Game\Delegates.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\NetworkGame.cs" />
-    <Compile Include="Game\NormalGame.cs" />
-    <Compile Include="KI\ILearnableKI.cs" />
-    <Compile Include="KI\IPlayableKI.cs" />
+    <Compile Include="AI\ILearnableAI.cs" />
+    <Compile Include="AI\IPlayableAI.cs" />
     <Compile Include="Network\Delegates.cs" />
     <Compile Include="Network\Network.cs" />
     <Compile Include="Network\IRCClient.cs" />
     <Compile Include="Network\TCPClient.cs" />
     <Compile Include="Network\TCPServer.cs" />
+    <Compile Include="OS\OSInformation.cs" />
+    <Compile Include="OS\OSInformationCollector.cs" />
+    <Compile Include="Parameterdata.cs" />
     <Compile Include="ParameterInterpreter.cs" />
+    <Compile Include="FileSystem\PathFile.cs" />
+    <Compile Include="FileSystem\PathWrapper.cs" />
+    <Compile Include="Player\NetworkPlayer.cs" />
+    <Compile Include="Plugin\IFieldPlugin.cs" />
+    <Compile Include="Plugin\IPlugin.cs" />
+    <Compile Include="Plugin\PluginManager.cs" />
+    <Compile Include="Plugin\PluginTypes.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
-    <Compile Include="Fields\IField.cs" />
-    <Compile Include="IGraphicalBrettDarsteller.cs" />
-    <Compile Include="IOutputDarsteller.cs" />
-    <Compile Include="KI\AbstractKI.cs" />
-    <Compile Include="Player\AbstractPlayer.cs" />
-    <Compile Include="Player\HumanPlayer.cs" />
-    <Compile Include="Player\KIPlayer.cs" />
+    <Compile Include="AI\AbstractAI.cs" />
+    <Compile Include="Player\Player.cs" />
+    <Compile Include="Player\AIPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fields\SitCode.cs" />
     <Compile Include="SitCodeHelper.cs" />

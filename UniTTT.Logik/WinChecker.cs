@@ -7,12 +7,12 @@ namespace UniTTT.Logik
 {
     public static class WinChecker
     {
-        private static int _gewinnbedungung = -1;
+        private static int _gewinnbeingung = -1;
         #region Fields
-        public static int GewinnBedingung { get { return _gewinnbedungung; } set { _gewinnbedungung = value; } }
+        public static int GewinnBedingung { get { return _gewinnbeingung; } set { _gewinnbeingung = value; } }
         #endregion
 
-        public enum Directories
+        private enum Directories
         {
             Up,
             Down,
@@ -24,66 +24,40 @@ namespace UniTTT.Logik
             RightDown
         }
 
-        public static bool Pruefe(char spieler, Fields.IField field)
+        public static bool Pruefe(char player, Fields.Field field)
         {
             if (GewinnBedingung == -1)
             {
                 GewinnBedingung = field.Width > field.Height ? field.Height : field.Width;
             }
 
-            //Horizontal
-            for (int y = 0; y < field.Height; y++)
-                if (DoCheck(field, Directories.Right, spieler, new Vector2i(0, y)) == GewinnBedingung)
-                    return true;
+            List<Fields.FieldRegion> panels = field.FieldRegions;
 
-            //Vertikal
-            for (int x = 0; x < field.Width; x++)
-                if (DoCheck(field, Directories.Down, spieler, new Vector2i(x, 0)) == GewinnBedingung)
-                    return true;
-
-            // Diagonal
-            // Oben Links zu unten Rechts
-            for (int x = 0; x < field.Width; x++)
+            foreach (Fields.FieldRegion region in panels)
             {
-                for (int y = 0; y < field.Height; y++)
+                if (region.Count<char>(player) == GewinnBedingung)
                 {
-                    if (x + (GewinnBedingung - 1) < field.Width && y + (GewinnBedingung - 1) < field.Height)
-                    {
-                        if (DoCheck(field, Directories.RightDown, spieler, new Vector2i(x, y)) == GewinnBedingung)
-                            return true;
-                    }
+                    return true;
                 }
             }
 
-            // Oben Rechts zu unten Links
-            for (int x = 0; x < field.Width; x++)
-            {
-                for (int y = 0; y < field.Height; y++)
-                {
-                    if ((x - (GewinnBedingung - 1) >= 0) && y - (GewinnBedingung - 1) < field.Height)
-                    {
-                        if (DoCheck(field, Directories.LeftDown, spieler, new Vector2i(x, y)) == GewinnBedingung)
-                            return true;
-                    }
-                }
-            }
             return false;
         }
 
         /// <summary>
-        /// TODO: verbessern
+        /// 
         /// </summary>
         /// <param name="field">Das Spielfeld</param>
         /// <param name="dir">Die Richtung, in die überprüft werden soll.</param>
-        /// <param name="spieler"></param>
+        /// <param name="player"></param>
         /// <param name="from">Der inklusive untere Vector der Startposition.</param>
         /// <returns></returns>
-        public static int DoCheck(Fields.IField field, Directories dir, char spieler, Vector2i from)
+        private static int DoCheck(Fields.Field field, Directories dir, char player, Vector2i from)
         {
             int counter = 0;
             for (int a = 0; a < GewinnBedingung; a++)
             {
-                if (field.GetField(from) == spieler)
+                if (field.GetField(from) == player)
                     counter++;
                 else break;
                 from = NextField(dir, from);
@@ -91,7 +65,7 @@ namespace UniTTT.Logik
             return counter;
         }
 
-        public static Vector2i NextField(Directories dir, Vector2i vect)
+        private static Vector2i NextField(Directories dir, Vector2i vect)
         {
             if (dir == Directories.Right)
                 vect.X++;

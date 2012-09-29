@@ -40,21 +40,9 @@ namespace UniTTT.Logik
             return new Vector2i(x, y);
         }
 
-        public static Vector2i operator *(Vector2i vect1, Vector2i vect2)
+        public static bool operator >(Vector2i vect1, int vect2)
         {
-            int x = vect1.X * vect2.X;
-            int y = vect1.Y * vect2.Y;
-            return new Vector2i(x, y);
-        }
-
-        public static bool operator <=(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1.X <= vect2.X && vect1.Y <= vect2.Y;
-        }
-
-        public static bool operator <(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1.X < vect2.X && vect1.Y < vect2.Y;
+            return vect1.X > vect2 && vect1.Y > vect2;
         }
 
         public static bool operator <(Vector2i vect1, int vect2)
@@ -62,26 +50,11 @@ namespace UniTTT.Logik
             return vect1.X < vect2 && vect1.Y < vect2;
         }
 
-        public static bool operator >=(Vector2i vect1, Vector2i vect2)
+        public static Vector2i FromIndex(int index, int width, int height)
         {
-            return vect1.X >= vect2.X && vect1.Y >= vect2.Y;
-        }
-
-        public static bool operator >(Vector2i vect1, Vector2i vect2)
-        {
-            return vect1.X > vect2.X && vect1.Y > vect2.Y;
-        }
-
-        public static bool operator >(Vector2i vect1, int vect2)
-        {
-            return vect1.X > vect2 && vect1.Y > vect2;
-        }
-
-        public static Vector2i IndexToVector(int zug, int width, int height)
-        {
-            if (zug < 0)
+            if (index < 0)
             {
-                throw new NullReferenceException();
+                throw new ArgumentException("index is to low", "index");
             }
 
             Vector2i vect = null;
@@ -89,23 +62,24 @@ namespace UniTTT.Logik
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (x * width + y == zug)
+                    if (x * width + y == index)
                         vect = new Vector2i(x, y);
                 }
             }
+
             return vect;
         }
 
-        public static int VectorToIndex(Vector2i vect, int width)
+        public static int ToIndex(Vector2i vect, int width)
         {
             return vect.X * width + vect.Y;
         }
 
-        public static Vector2i StringToVector(string value, bool containsCoordinate, char seperator)
+        public static Vector2i FromString(string value, bool containsCoordinate, char seperator)
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException("value isn't seted.");
+                throw new ArgumentNullException("value", "value isn't seted");
             }
             if (containsCoordinate)
             {
@@ -126,11 +100,10 @@ namespace UniTTT.Logik
                 int cor;
                 if (int.TryParse(value, out cor))
                 {
-                    return Vector2i.IndexToVector(cor, 3, 3);
+                    return Vector2i.FromIndex(cor, 3, 3);
                 }
             }
-
-            if (value.Contains(seperator))
+            else
             {
                 string[] splitedValue = value.Split(seperator);
                 int x = 0;
@@ -143,9 +116,9 @@ namespace UniTTT.Logik
             return null;
         }
 
-        public static Vector2i StringToVector(string value, bool containsCoordinate)
+        public static Vector2i FromString(string value, bool containsCoordinate)
         {
-            return StringToVector(value, containsCoordinate, '|');
+            return FromString(value, containsCoordinate, '|');
         }
 
         public override bool Equals(object obj)
@@ -155,7 +128,7 @@ namespace UniTTT.Logik
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return X.GetHashCode() + Y.GetHashCode();
         }
 
         public override string ToString()

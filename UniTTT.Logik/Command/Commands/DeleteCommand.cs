@@ -5,16 +5,16 @@ using System.Text;
 
 namespace UniTTT.Logik.Command.Commands
 {
-    class Delete : MemoryCommand
+    class DeleteCommand : MemoryCommand
     {
-        public Delete()
+        public DeleteCommand()
         {
             base.KeyWords.Add("Delete");
         }
 
         public override void Execute(string value)
         {
-            Config.ConfigStream stream = new Config.ConfigStream(value);
+            ConfigStream stream = new ConfigStream(value);
             stream.Delete();
 
             base.Execute(value);

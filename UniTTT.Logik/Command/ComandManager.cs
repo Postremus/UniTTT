@@ -20,6 +20,7 @@ namespace UniTTT.Logik.Command
                 return _command;
             }
         }
+
         public event DataReturnHandler DataReturnEvent;
 
         public ComandManager()
@@ -28,7 +29,7 @@ namespace UniTTT.Logik.Command
             _dataManager = new DataReturnManager();
             _dataReturners = new List<object>();
             Assembly asm = Assembly.GetExecutingAssembly();
-            foreach (Type t in asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(Command)) && t != typeof(MemoryCommand)))
+            foreach (Type t in asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(Command)) && t != typeof(Commands.MemoryCommand)))
             {
                 _command.Add((Command)Activator.CreateInstance(t));
             }

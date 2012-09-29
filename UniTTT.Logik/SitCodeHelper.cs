@@ -5,8 +5,9 @@ using System.Text;
 
 namespace UniTTT.Logik
 {
-    public class SitCodeHelper
+    public static class SitCodeHelper
     {    
+        
         public static char PlayertoSitCode(char value)
         {
             return value == 'X' ? '2' : value == 'O' ? '3' : value == ' ' ? '1' : value;
@@ -17,11 +18,16 @@ namespace UniTTT.Logik
             return value == '2' ? 'X' : value == '3' ? 'O' : value == '1' ? ' ' : value;
         }
 
+        public static char PlayerChange(char curr)
+        {
+            return curr == '2' ? '3' : '2';
+        }
+
         public static string GetEmpty(int length)
         {
             return new string('1', length);
         }
-
+        
         public static string StringToSitCode(string var)
         {
             string ret = null;
@@ -30,23 +36,6 @@ namespace UniTTT.Logik
                 ret += PlayertoSitCode(x);
             }
             return ret;
-        }
-
-        public static char PlayerChange(char spieler)
-        {
-            return spieler == '2' ? '3' : '2';
-        }
-
-        private static Random Rnd = new Random();
-
-        public static int GetRandomZug(string sitcode, int max)
-        {
-            int zug = -1;
-            do
-            {
-                zug = Rnd.Next(0, max);
-            } while (sitcode[zug] != '1');
-            return zug;
         }
     }
 }

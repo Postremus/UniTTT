@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<PathFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Paths>
+    <PathItem>
+      <OSName>Ubuntu</OSName>
+      <Version>12.04</Version>
+      <Key>data/plugins</Key>
+      <Path>%HOME%/.config/unittt/data/plugins</Path>
+    </PathItem>
+    <PathItem>
+      <OSName>Ubuntu</OSName>
+      <Version>12.04</Version>
+      <Key>data/plugins/ki</Key>
+      <Path>%HOME%/.config/unittt/data/plugins/ki</Path>
+    </PathItem>
+  </Paths>
+</PathFile>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections;
 
 namespace UniTTT.Logik
 {
@@ -14,94 +15,22 @@ namespace UniTTT.Logik
             return new List<string>(value.Split(' '));
         }
 
-        public static int GetHighestIndex(this int[] value)
-        {
-            int ret = 0;
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (value[i] > value[ret])
-                {
-                    ret = i;
-                }
-            }
-            return ret;
-        }
-
-        public static int GetHighestIndex(this int[,] value)
+        public static int GetHighestIndex<T>(this T list) where T : IList
         {
             int ret = 0;
             int tmp = 0;
-            for (int i = 0; i < value.GetUpperBound(0) + 1; i++)
+            int indexer = 0;
+            foreach (int i in list)
             {
-                for (int a = 0; a < value.GetUpperBound(1) + 1; a++)
+                if (i > tmp)
                 {
-                    if (value[i, a] > tmp)
-                    {
-                        ret = (i + 1) * (a + 1) - 1;
-                        tmp = value[i, a];
-                    }
+                    ret = indexer;
                 }
+                indexer++;
             }
+            
             return ret;
         }
-
-        public static byte[] GetBytes(this object obj)
-        {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, obj);
-            return ms.ToArray();
-        }
-
-        public static byte[] GetBytes(this string value)
-        {
-            if (value == null)
-                return null;
-            int t;
-            if (!int.TryParse(value, out t))
-            {
-                return null;
-            }
-
-            byte[] ret = new byte[value.Length];
-            for (int i = 0; i < value.Length; i++)
-            {
-                ret[i] = (byte)value[i];
-            }
-            return ret;
-        }
-
-        public static object GetObject(this byte[] value)
-        {
-            MemoryStream memStream = new MemoryStream();
-            BinaryFormatter binForm = new BinaryFormatter();
-            memStream.Write(value, 0, value.Length);
-            memStream.Seek(0, SeekOrigin.Begin);
-            Object obj = null;
-            try
-            {
-                obj = (Object)binForm.Deserialize(memStream);
-            }
-            catch (System.Runtime.Serialization.SerializationException)
-            {
-
-                
-            }
-            return obj;
-        }
-
-        public static object GetObject(this string value)
-        {
-            byte[] b = value.GetBytes();
-            if (b == null)
-            {
-                return value;
-            }
-            return b.GetObject();
-        }
-
 
         /// <summary>
         /// Gibt die Zeichen zwischen str1 und str2 in value zurück. Sollte str2 null sein, wird der String von str1 bis zum Ende zurückgegeben.
@@ -114,7 +43,7 @@ namespace UniTTT.Logik
         {
             if (value == null || str1 == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentException("value or str1 isn't seted.", "value or str1");
             }
 
             if (!value.Contains(str1))
@@ -133,6 +62,22 @@ namespace UniTTT.Logik
                 length = value.Length - first - (value.Length - value.IndexOf(str2));
             }
             return value.Substring(first, length);
+        }
+
+        public static int IndexOfLastChar(this string value, string search)
+        {
+            if (value == null || search == null)
+            {
+                throw new ArgumentException("value or search isn't seted.", "value or search");
+            }
+
+            if (!value.Contains(search))
+            {
+                return -1;
+            }
+
+            int first = value.IndexOf(search);
+            return first + search.Length;
         }
     }
 }

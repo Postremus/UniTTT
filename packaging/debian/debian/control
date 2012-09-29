@@ -1,0 +1,17 @@
+Source: unittt
+Section: games
+Priority: extra
+Maintainer: Martin Panzer <postremus1996@googlemail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+Homepage: https://github.com/Postremus/UniTTT
+#Vcs-Git: git://git.debian.org/collab-maint/unittt-core.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/unittt-core.git;a=summary
+
+Package: unittt
+Architecture: any
+Depends: mono-runtime
+Description: Ein flexibles TicTacToe Spiel
+ Es kann durch verschiedene Parameter die Ki, die Höhe/Breite
+ verändert werden oder aber der Multiplayer-Modus 
+ aktiviert werden.

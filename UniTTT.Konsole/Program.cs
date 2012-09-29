@@ -4,6 +4,7 @@ using System.Text;
 using System.Globalization;
 using UniTTT.Logik;
 
+[assembly: CLSCompliant(true)]
 namespace UniTTT.Konsole
 {
     class Program
@@ -16,67 +17,85 @@ namespace UniTTT.Konsole
         //ki:6 = Bot
         static void Main(string[] args)
         {
-            Logik.ParameterInterpreter parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
+            Logik.Parameterdata parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
+            Logik.Plugin.PluginManager plugManager = new Logik.Plugin.PluginManager();
 
             int width = parameters.GetValue<int>("breite");
             int height = parameters.GetValue<int>("hoehe");
 
-            if (!parameters.IsDefined<int>("breite"))
+            if (!parameters.IsDefined("breite"))
             {
                 width = 3;
             }
-            if (!parameters.IsDefined<int>("hoehe"))
+            if (!parameters.IsDefined("hoehe"))
             {
                 height = 3;
             }
 
+            Logik.Fields.Field field = new Logik.Fields.Brett(width, height);
+            if (parameters.IsDefined("plugin"))
+            {
+                Logik.Plugin.IPlugin plugin = plugManager.Get(parameters.GetValue<string>("plugin"), Logik.Plugin.PluginTypes.Field);
+                if (plugin is Logik.Fields.Field)
+                {
+                    field = (Logik.Fields.Field)plugin;
+                    if (plugin is Logik.Plugin.IFieldPlugin)
+                    {
+                        if (((Logik.Plugin.IFieldPlugin)plugin).ForceFieldSize)
+                        {
+                            width = field.Width;
+                            height = field.Height;
+                        }
+                    }
+                }
+            }
+
             HumanPlayer hPlayer;
-            char kisymb;
-            if (parameters.IsDefined<char>("player"))
+            char aisymb;
+            if (parameters.IsDefined("player"))
             {
                 char symb = parameters.GetValue<char>("player");
-                kisymb = symb == 'X' ? 'O' : 'X';
+                aisymb = Logik.Player.Player.PlayerChange(symb);
                 hPlayer = new HumanPlayer(symb);
             }
             else
             {
                 hPlayer = new HumanPlayer('X');
-                kisymb = 'O';
+                aisymb = 'O';
             }
 
-            Logik.Player.AbstractPlayer kiplayer = null;
-            if (parameters.IsDefined<int>("ki"))
+            Logik.Player.Player aiplayer = null;
+            if (parameters.GetValue<int>("ki") != default(int))
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetValue<int>("ki"), width, height, kisymb);
+                aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<int>("ki"), width, height, aisymb);
             }
-            else if (parameters.IsDefined<int>("ki"))
+            else if (parameters.GetValue<string>("ki") != default(string))
             {
-                kiplayer = new Logik.Player.KIPlayer(parameters.GetValue<string>("ki"), width, height, kisymb);
+                aiplayer = new Logik.Player.AIPlayer(parameters.GetValue<string>("ki"), width, height, aisymb);
             }
 
-            if (parameters.GetValue<bool>("help"))
+            if (parameters.IsDefined("help") && parameters.Count == 1)
             {
-                if (parameters.Count == 1)
-                {
-                    Help();
-                }
+                Help();
             }
-            else if (parameters.GetValue<bool>("learn"))
+            else if (parameters.IsDefined("learn"))
             {
-                if (parameters.GetValue<bool>("human"))
+                if (parameters.IsDefined("human"))
                 {
                     hPlayer.Learn();
                 }
                 else
                 {
-                    if (kiplayer == null) throw new FormatException();
-                    Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus", kiplayer.ToString());
-                    kiplayer.Learn();
+                    if (aiplayer == null) throw new FormatException();
+                    Console.Title = string.Format(CultureInfo.CurrentCulture, "UniTTT - {0} Lernmodus", aiplayer.ToString());
+                    ((Logik.Player.AIPlayer)aiplayer).AI.ShowMessageEvent += Console.WriteLine;
+                    ((Logik.Player.AIPlayer)aiplayer).AI.GetStringEvent += Console.ReadLine;
+                    ((Logik.Player.AIPlayer)aiplayer).AI.GetIntEvent += GetInt;
+                    aiplayer.Learn();
                 }
             }
-            else if (parameters.GetValue<bool>("network"))
+            else if (parameters.IsDefined("network"))
             {
-                Games.NetworkGame game;
                 Logik.Network.Network client;
                 string ip = parameters.GetValue<string>("ip");
                 int port = parameters.GetValue<int>("port");
@@ -86,7 +105,7 @@ namespace UniTTT.Konsole
                 }
                 else
                 {
-                    if (parameters.GetValue<bool>("server"))
+                    if (parameters.IsDefined("server"))
                     {
                         client = new Logik.Network.TCPServer(ip, port);
                     }
@@ -95,29 +114,40 @@ namespace UniTTT.Konsole
                         client = new Logik.Network.TCPClient(ip, port);
                     }
                 }
-                game = new Games.NetworkGame(width, height, hPlayer, null, ip, port, client);
-                game.Run();
+                
+                Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new BrettDarsteller(width, height), field, client);
+                Game g = new Game(gameMode);
+                g.Run();
             }
             else
             {
-                Games.Game game;
-                if (parameters.GetValue<bool>("kigame"))
+                Logik.Game.Game gameMode;
+                BrettDarsteller bdar = new BrettDarsteller(width, height);
+                if (parameters.IsDefined("kigame"))
                 {
-                    game = new Games.Game(width, height, kiplayer, kiplayer, null);
+                    gameMode = new Logik.Game.Game(aiplayer, aiplayer, bdar, field);
                 }
                 else
                 {
-                    if (kiplayer != null)
+                    if (aiplayer != null)
                     {
-                        game = new Games.Game(width, height, hPlayer, kiplayer, null);
+                        gameMode = new Logik.Game.Game(hPlayer, aiplayer, bdar, field);
                     }
                     else
                     {
-                        game = new Games.Game(width, height, new HumanPlayer('X'), new HumanPlayer('O'), null);
+                        gameMode = new Logik.Game.Game(new HumanPlayer('X'), new HumanPlayer('O'), bdar, field);
                     }
                 }
-                game.Start();
+                Game g = new Game(gameMode);
+                g.Run();
             }
+        }
+
+        private static int GetInt()
+        {
+            int ret;
+            int.TryParse(Console.ReadLine(), out ret);
+            return ret;
         }
 
         private static void Help()

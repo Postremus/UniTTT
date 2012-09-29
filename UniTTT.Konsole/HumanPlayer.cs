@@ -6,16 +6,16 @@ using UniTTT;
 
 namespace UniTTT.Konsole
 {
-    class HumanPlayer : Logik.Player.AbstractPlayer
+    class HumanPlayer : Logik.Player.Player
     {
-        public HumanPlayer(char startspieler) : base(startspieler) { }
+        public HumanPlayer(char startPlayer) : base(startPlayer) { }
 
-        public override Logik.Vector2i Play(Logik.Fields.IField brett)
+        public override Logik.Vector2i Play(Logik.Fields.Field brett)
         {
             Logik.Vector2i ret;
             do
             {
-                ret = abfragexy();
+                ret = PositionQuestion();
                 if (brett.IsFieldEmpty(ret))
                     return ret;
                 else
@@ -37,14 +37,14 @@ namespace UniTTT.Konsole
         }
 
         //Zeile und Spalte abfragen.
-        private Logik.Vector2i abfragexy()
+        private Logik.Vector2i PositionQuestion()
         {
             do
             {
                 try
                 {
-                    Console.WriteLine("In welcher Nullbasierenden Zeile und Spalte, soll das {0} gesetzt werden? (X.Y)", Symbol);
-                    return Logik.Vector2i.StringToVector(Console.ReadLine(), false, '.');
+                    Console.WriteLine("In welcher Nullbasierenden Zeile und Spalte soll das {0} gesetzt werden? (X.Y)", Symbol);
+                    return Logik.Vector2i.FromString(Console.ReadLine(), false, '.');
                 }
                 catch
                 {
