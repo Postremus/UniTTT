@@ -43,9 +43,6 @@
             this.neuesSpielToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neustartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.überToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.infoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.prüfeAufUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.überToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -136,8 +133,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dateiToolStripMenuItem,
-            this.überToolStripMenuItem1});
+            this.dateiToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(272, 24);
@@ -157,44 +153,23 @@
             // neuesSpielToolStripMenuItem
             // 
             this.neuesSpielToolStripMenuItem.Name = "neuesSpielToolStripMenuItem";
-            this.neuesSpielToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.neuesSpielToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.neuesSpielToolStripMenuItem.Text = "Neues Spiel";
             this.neuesSpielToolStripMenuItem.Click += new System.EventHandler(this.neuesSpielToolStripMenuItem_Click);
             // 
             // neustartenToolStripMenuItem
             // 
             this.neustartenToolStripMenuItem.Name = "neustartenToolStripMenuItem";
-            this.neustartenToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.neustartenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.neustartenToolStripMenuItem.Text = "Neustarten";
             this.neustartenToolStripMenuItem.Click += new System.EventHandler(this.neustartenToolStripMenuItem_Click);
             // 
             // beendenToolStripMenuItem
             // 
             this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
-            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.beendenToolStripMenuItem.Text = "Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
-            // 
-            // überToolStripMenuItem1
-            // 
-            this.überToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.infoToolStripMenuItem1,
-            this.prüfeAufUpdatesToolStripMenuItem});
-            this.überToolStripMenuItem1.Name = "überToolStripMenuItem1";
-            this.überToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
-            this.überToolStripMenuItem1.Text = "Über";
-            // 
-            // infoToolStripMenuItem1
-            // 
-            this.infoToolStripMenuItem1.Name = "infoToolStripMenuItem1";
-            this.infoToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
-            this.infoToolStripMenuItem1.Text = "Info";
-            // 
-            // prüfeAufUpdatesToolStripMenuItem
-            // 
-            this.prüfeAufUpdatesToolStripMenuItem.Name = "prüfeAufUpdatesToolStripMenuItem";
-            this.prüfeAufUpdatesToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.prüfeAufUpdatesToolStripMenuItem.Text = "Prüfe auf Updates";
             // 
             // label1
             // 
@@ -262,12 +237,9 @@
         private System.Windows.Forms.ToolStripMenuItem neustartenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem beendenToolStripMenuItem;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ToolStripMenuItem überToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem überToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem neuesSpielToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem prüfeAufUpdatesToolStripMenuItem;
     }
 }
 
