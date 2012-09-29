@@ -40,6 +40,14 @@ namespace UniTTT.Gui
             port_lbl.Enabled = online_modus_cbx.Checked;
             port_tbx.Enabled = online_modus_cbx.Checked;
             server_cbx.Enabled = online_modus_cbx.Checked;
+            if (online_modus_cbx.Checked)
+            {
+                protokoll_lbx.SelectedIndex = 0;
+            }
+            else
+            {
+                protokoll_lbx.SelectedIndex = -1;
+            }
         }
 
         private void spieler2_ki_cbx_CheckedChanged_1(object sender, EventArgs e)
@@ -56,7 +64,7 @@ namespace UniTTT.Gui
 
         private void ok_btn_Click(object sender, EventArgs e)
         {
-            if (spieler1_tbx == null || spieler2_tbx == null)
+            if (String.IsNullOrEmpty(spieler1_tbx.Text.Trim()) || String.IsNullOrEmpty(spieler2_tbx.Text.Trim()))
             {
                 return;
             }
@@ -67,7 +75,7 @@ namespace UniTTT.Gui
             }
             if (online_modus_cbx.Checked)
             {
-                if (host_tbx == null || spieler2_tbx == null)
+                if (String.IsNullOrEmpty(host_tbx.Text.Trim()) || String.IsNullOrEmpty(port_tbx.Text.Trim()))
                 {
                     return;
                 }
