@@ -34,7 +34,7 @@ namespace UniTTT.Logik
             List<char> ret = new List<char>();
             for (int i = 0; i < field.Length; i++)
             {
-                if (!ret.Contains(field.GetField(i)))
+                if (!ret.Contains(field.GetField(i)) && !String.IsNullOrEmpty(field.GetField(i).ToString().Trim()))
                 {
                     ret.Add(field.GetField(i));
                 }
@@ -52,24 +52,29 @@ namespace UniTTT.Logik
             return false;
         }
 
-        public static GameStates GetGameState(Fields.Field field, Player.Player currentPlayer, Player.Player player1)
+        public static GameStates GetGameState(Fields.Field field, Player.Player currentPlayer)
         {
             if (currentPlayer == null)
             {
                 return GameStates.Laufend;
             }
-            if (WinChecker.Pruefe(currentPlayer.Symbol, field))
+
+            foreach (char symbol in GetAllPlayerSymbols(field))
             {
-                if (currentPlayer == player1)
+                if (WinChecker.Pruefe(symbol, field))
                 {
-                    return GameStates.Gewonnen;
-                }
-                else
-                {
-                    return GameStates.Verloren;
+                    if (currentPlayer.Symbol == symbol)
+                    {
+                        return GameStates.Gewonnen;
+                    }
+                    else
+                    {
+                        return GameStates.Verloren;
+                    }
                 }
             }
-            else if (!FieldHelper.HasEmptyFields(field))
+
+            if (!FieldHelper.HasEmptyFields(field))
             {
                 return GameStates.Unentschieden;
             }

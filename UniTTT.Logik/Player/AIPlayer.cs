@@ -156,7 +156,7 @@ namespace UniTTT.Logik.Player
 
                         game.Logik(Vector2i.FromIndex(zug, 3, 3));
 
-                        state = FieldHelper.GetGameState(game.Field, game.Player, game.Player1);
+                        state = FieldHelper.GetGameState(game.Field, game.Player);
                         // Wertungen
                         // Aufwerten
                         if (state == GameStates.Gewonnen)

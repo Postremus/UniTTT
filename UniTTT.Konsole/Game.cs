@@ -33,7 +33,7 @@ namespace UniTTT.Konsole
                 }
                 if (_gameMode is Logik.Game.NetworkGame)
                 {
-                    ((Logik.Game.NetworkGame)_gameMode).OnWinMessageEvent(_gameMode.Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(_gameMode.Field, _gameMode.Player, _gameMode.Player1));
+                    ((Logik.Game.NetworkGame)_gameMode).OnWinMessageEvent(_gameMode.Player1.Symbol, UniTTT.Logik.FieldHelper.GetGameState(_gameMode.Field, _gameMode.Player));
                     if (_gameMode.Player1.Symbol == 'X')
                     {
                         if (NewGameQuestion())
