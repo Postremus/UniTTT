@@ -121,7 +121,7 @@ namespace UniTTT.Logik.Game
             }
             if (HasEnd())
             {
-                OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
+                OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player));
                 BDarsteller.Enabled = false;
             }
             else
@@ -148,7 +148,7 @@ namespace UniTTT.Logik.Game
             }
             if (HasEnd())
             {
-                OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player, Player1));
+                OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player));
                 BDarsteller.Enabled = false;
             }
             else
@@ -187,12 +187,12 @@ namespace UniTTT.Logik.Game
 
         public bool HasEnd()
         {
-            if (FieldHelper.GetGameState(Field, Player, Player1) != GameStates.Laufend)
+            if (FieldHelper.GetGameState(Field, Player) != GameStates.Laufend)
             {
                 return true;
             }
             UniTTT.Logik.Player.Player nextPlayer = GetNextPlayer();
-            return FieldHelper.GetGameState(Field, nextPlayer, Player1) != GameStates.Laufend;
+            return FieldHelper.GetGameState(Field, nextPlayer) != GameStates.Laufend;
         }
 
         public virtual void NewGame()
@@ -209,7 +209,7 @@ namespace UniTTT.Logik.Game
 
         public void WinCounter()
         {
-            if (FieldHelper.GetGameState(Field, Player, Player1) == GameStates.Gewonnen)
+            if (FieldHelper.GetGameState(Field, Player) == GameStates.Gewonnen)
             {
                 if (Player == Player1)
                 {
