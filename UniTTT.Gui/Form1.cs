@@ -57,6 +57,7 @@ namespace UniTTT.Gui
         private void neustartenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _game.NewGame();
+            label1.Location = new Point(80, label1.Location.Y);
             OutputPlayer(_game.Player1.Ausgabe());
         }
 
@@ -64,6 +65,7 @@ namespace UniTTT.Gui
         {
             if (_game.HasEnd())
             {
+                label1.Location = new Point(80, label1.Location.Y);
                 _game.NewGame();
                 OutputPlayer(_game.Player1.Ausgabe());
             }
@@ -153,10 +155,7 @@ namespace UniTTT.Gui
             if (_game.Field.IsFieldEmpty(idx))
             {
                 _game.Logik(Vector2i.FromIndex(idx, 3, 3));
-            }
-            if (_game.Player.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player.GetType() == typeof(Logik.Player.NetworkPlayer))
-            {
-                _taskTurn = true;
+                _taskTurn = _game.Player.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player.GetType() == typeof(Logik.Player.NetworkPlayer);
             }
         }
 
@@ -203,14 +202,9 @@ namespace UniTTT.Gui
                 {
                     OutputPlayer(_game.Player1.Ausgabe());
                 }
-                label1.Location = new Point(80, label1.Location.Y);
                 _game.Initialize();
+                label1.Location = new Point(80, label1.Location.Y);
             }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
