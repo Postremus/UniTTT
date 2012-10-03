@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewGameForm));
             this.gewinnbedingung_nud = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.hoehe_nud = new System.Windows.Forms.NumericUpDown();
@@ -318,6 +319,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(239, 423);
             this.Controls.Add(this.server_cbx);
             this.Controls.Add(this.port_tbx);
@@ -342,7 +344,9 @@
             this.Controls.Add(this.spieler1_tbx);
             this.Controls.Add(this.spieler2_lbl);
             this.Controls.Add(this.spieler1_lbl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewGameForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Neues Spiel";
             ((System.ComponentModel.ISupportInitialize)(this.gewinnbedingung_nud)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hoehe_nud)).EndInit();
