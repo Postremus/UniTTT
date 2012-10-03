@@ -18,6 +18,7 @@ namespace UniTTT.Logik.Game
             client.NewMessageReceivedEvent += ReceiveNewGame;
 
             NewGameEvent += SendNewGame;
+            newGameRequestReceivedEvent += NewGame;
             PlayerMovedEvent += SendVector;
 
             Initialize(p1, bdar, field, client);
