@@ -305,7 +305,7 @@ namespace UniTTT.Logik.Player
 
                 foreach (Fields.FieldRegion region in fpanel)
                 {
-                    if (!region.Contains<char>(HumanPlayer) && region.Count() >= WinChecker.GewinnBedingung)
+                    if (region.Count() >= WinChecker.GewinnBedingung)
                     {
                         foreach (Fields.FieldPlaceData data in region)
                         {
