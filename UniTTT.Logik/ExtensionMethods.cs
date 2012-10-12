@@ -25,6 +25,7 @@ namespace UniTTT.Logik
                 if (i > tmp)
                 {
                     ret = indexer;
+                    tmp = i;
                 }
                 indexer++;
             }
