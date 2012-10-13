@@ -40,6 +40,8 @@ namespace UniTTT.Gui
             port_lbl.Enabled = online_modus_cbx.Checked;
             port_tbx.Enabled = online_modus_cbx.Checked;
             server_cbx.Enabled = online_modus_cbx.Checked;
+            spieler1_anfang_cbx.Enabled = online_modus_cbx.Checked;
+            spieler2_anfang_cbx.Enabled = !online_modus_cbx.Checked;
             if (online_modus_cbx.Checked)
             {
                 protokoll_lbx.SelectedIndex = 0;
@@ -68,17 +70,16 @@ namespace UniTTT.Gui
             {
                 return;
             }
-            Logik.Player.Player p = new Logik.Player.Player(spieler1_tbx.Text[0]);
+            Logik.Player.Player p1 = new Logik.Player.Player(spieler1_tbx.Text[0]);
+            Logik.Player.Player p2 = new Logik.Player.Player(spieler2_tbx.Text[0]);
+
             if (spieler2_ki_cbx.Checked)
             {
-                p = new Logik.Player.AIPlayer((int)ki_nud.Value, (int)breite_nud.Value, (int)hoehe_nud.Value, spieler1_tbx.Text[0]);
+                p2 = new Logik.Player.AIPlayer((int)ki_nud.Value, 3, 3, p2.Symbol);
             }
+
             if (online_modus_cbx.Checked)
             {
-                if (String.IsNullOrEmpty(host_tbx.Text.Trim()) || String.IsNullOrEmpty(port_tbx.Text.Trim()))
-                {
-                    return;
-                }
                 Logik.Network.Network client = null;
                 if ((string)protokoll_lbx.SelectedItem == "TCP/IP")
                 {
@@ -95,19 +96,29 @@ namespace UniTTT.Gui
                 {
                     client = new Logik.Network.IRCClient(host_tbx.Text, int.Parse(port_tbx.Text), "#UniTTT-play");
                 }
-                _gameMode = new NetworkGame(p, new BrettDarsteller((int)breite_nud.Value, (int)hoehe_nud.Value), new Logik.Fields.Brett((int)breite_nud.Value, (int)hoehe_nud.Value), client);
-                if (p.Symbol.ToString().ToLower() == "o")
+                p2 = new Logik.Player.NetworkPlayer(p2.Symbol, client);
+                _gameMode = new NetworkGame(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3), client);
+                if (spieler1_anfang_cbx.Checked)
                 {
                     _gameMode.PlayerChange();
                 }
             }
             else
             {
-                p.Symbol = spieler2_tbx.Text[0];
-                _gameMode = new Game(new Logik.Player.Player(spieler1_tbx.Text[0]), p, new BrettDarsteller((int)breite_nud.Value, (int)hoehe_nud.Value), new Logik.Fields.Brett((int)breite_nud.Value, (int)hoehe_nud.Value));
+                _gameMode = new Game(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3));
             }
+            if (spieler2_anfang_cbx.Checked && !online_modus_cbx.Checked)
+            {
+                _gameMode.PlayerChange();
+            }
+            Logik.WinChecker.GewinnBedingung = (int)gewinnbedingung_nud.Value;
             DialogResult = System.Windows.Forms.DialogResult.OK;
             Close();
+        }
+
+        private void spieler2_anfang_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
