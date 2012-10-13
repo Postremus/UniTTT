@@ -52,6 +52,8 @@
             this.port_lbl = new System.Windows.Forms.Label();
             this.port_tbx = new System.Windows.Forms.TextBox();
             this.server_cbx = new System.Windows.Forms.CheckBox();
+            this.spieler2_anfang_cbx = new System.Windows.Forms.CheckBox();
+            this.spieler1_anfang_cbx = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.gewinnbedingung_nud)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hoehe_nud)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.breite_nud)).BeginInit();
@@ -60,7 +62,7 @@
             // 
             // gewinnbedingung_nud
             // 
-            this.gewinnbedingung_nud.Location = new System.Drawing.Point(119, 181);
+            this.gewinnbedingung_nud.Location = new System.Drawing.Point(125, 197);
             this.gewinnbedingung_nud.Minimum = new decimal(new int[] {
             1,
             0,
@@ -78,7 +80,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 183);
+            this.label1.Location = new System.Drawing.Point(23, 204);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 24;
@@ -86,7 +88,7 @@
             // 
             // hoehe_nud
             // 
-            this.hoehe_nud.Location = new System.Drawing.Point(68, 159);
+            this.hoehe_nud.Location = new System.Drawing.Point(67, 180);
             this.hoehe_nud.Minimum = new decimal(new int[] {
             1,
             0,
@@ -103,7 +105,7 @@
             // 
             // breite_nud
             // 
-            this.breite_nud.Location = new System.Drawing.Point(68, 136);
+            this.breite_nud.Location = new System.Drawing.Point(67, 157);
             this.breite_nud.Minimum = new decimal(new int[] {
             1,
             0,
@@ -121,7 +123,7 @@
             // hoehe_lbl
             // 
             this.hoehe_lbl.AutoSize = true;
-            this.hoehe_lbl.Location = new System.Drawing.Point(25, 161);
+            this.hoehe_lbl.Location = new System.Drawing.Point(24, 182);
             this.hoehe_lbl.Name = "hoehe_lbl";
             this.hoehe_lbl.Size = new System.Drawing.Size(36, 13);
             this.hoehe_lbl.TabIndex = 21;
@@ -130,7 +132,7 @@
             // breite_lbl
             // 
             this.breite_lbl.AutoSize = true;
-            this.breite_lbl.Location = new System.Drawing.Point(25, 138);
+            this.breite_lbl.Location = new System.Drawing.Point(24, 159);
             this.breite_lbl.Name = "breite_lbl";
             this.breite_lbl.Size = new System.Drawing.Size(37, 13);
             this.breite_lbl.TabIndex = 20;
@@ -140,7 +142,7 @@
             // 
             this.ki_lbl.AutoSize = true;
             this.ki_lbl.Enabled = false;
-            this.ki_lbl.Location = new System.Drawing.Point(39, 110);
+            this.ki_lbl.Location = new System.Drawing.Point(38, 131);
             this.ki_lbl.Name = "ki_lbl";
             this.ki_lbl.Size = new System.Drawing.Size(20, 13);
             this.ki_lbl.TabIndex = 19;
@@ -149,7 +151,7 @@
             // ki_nud
             // 
             this.ki_nud.Enabled = false;
-            this.ki_nud.Location = new System.Drawing.Point(65, 108);
+            this.ki_nud.Location = new System.Drawing.Point(64, 129);
             this.ki_nud.Maximum = new decimal(new int[] {
             5,
             0,
@@ -268,7 +270,7 @@
             // 
             // abbrechen_btn
             // 
-            this.abbrechen_btn.Location = new System.Drawing.Point(152, 388);
+            this.abbrechen_btn.Location = new System.Drawing.Point(152, 404);
             this.abbrechen_btn.Name = "abbrechen_btn";
             this.abbrechen_btn.Size = new System.Drawing.Size(75, 23);
             this.abbrechen_btn.TabIndex = 28;
@@ -278,7 +280,7 @@
             // 
             // ok_btn
             // 
-            this.ok_btn.Location = new System.Drawing.Point(71, 388);
+            this.ok_btn.Location = new System.Drawing.Point(71, 404);
             this.ok_btn.Name = "ok_btn";
             this.ok_btn.Size = new System.Drawing.Size(75, 23);
             this.ok_btn.TabIndex = 27;
@@ -315,12 +317,36 @@
             this.server_cbx.Text = "Server";
             this.server_cbx.UseVisualStyleBackColor = true;
             // 
+            // spieler2_anfang_cbx
+            // 
+            this.spieler2_anfang_cbx.AutoSize = true;
+            this.spieler2_anfang_cbx.Location = new System.Drawing.Point(29, 102);
+            this.spieler2_anfang_cbx.Name = "spieler2_anfang_cbx";
+            this.spieler2_anfang_cbx.Size = new System.Drawing.Size(109, 17);
+            this.spieler2_anfang_cbx.TabIndex = 34;
+            this.spieler2_anfang_cbx.Text = "Spieler 2 fängt an";
+            this.spieler2_anfang_cbx.UseVisualStyleBackColor = true;
+            this.spieler2_anfang_cbx.CheckedChanged += new System.EventHandler(this.spieler2_anfang_CheckedChanged);
+            // 
+            // spieler1_anfang_cbx
+            // 
+            this.spieler1_anfang_cbx.AutoSize = true;
+            this.spieler1_anfang_cbx.Enabled = false;
+            this.spieler1_anfang_cbx.Location = new System.Drawing.Point(29, 375);
+            this.spieler1_anfang_cbx.Name = "spieler1_anfang_cbx";
+            this.spieler1_anfang_cbx.Size = new System.Drawing.Size(70, 17);
+            this.spieler1_anfang_cbx.TabIndex = 35;
+            this.spieler1_anfang_cbx.Text = "1. Spieler";
+            this.spieler1_anfang_cbx.UseVisualStyleBackColor = true;
+            // 
             // NewGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(239, 423);
+            this.ClientSize = new System.Drawing.Size(239, 439);
+            this.Controls.Add(this.spieler1_anfang_cbx);
+            this.Controls.Add(this.spieler2_anfang_cbx);
             this.Controls.Add(this.server_cbx);
             this.Controls.Add(this.port_tbx);
             this.Controls.Add(this.port_lbl);
@@ -382,6 +408,8 @@
         private System.Windows.Forms.Label port_lbl;
         private System.Windows.Forms.TextBox port_tbx;
         private System.Windows.Forms.CheckBox server_cbx;
+        private System.Windows.Forms.CheckBox spieler2_anfang_cbx;
+        private System.Windows.Forms.CheckBox spieler1_anfang_cbx;
 
 
 
