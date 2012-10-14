@@ -97,9 +97,15 @@ namespace UniTTT.Gui
                     client = new Logik.Network.IRCClient(host_tbx.Text, int.Parse(port_tbx.Text), "#UniTTT-play");
                 }
                 p2 = new Logik.Player.NetworkPlayer(p2.Symbol, client);
-                _gameMode = new NetworkGame(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3), client);
-                if (spieler1_anfang_cbx.Checked)
+                if (!spieler1_anfang_cbx.Checked)
                 {
+                    p1.Symbol = p2.Symbol;
+                    p2.Symbol = spieler1_tbx.Text[0];
+                }
+                _gameMode = new NetworkGame(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3), client);
+                if (!spieler1_anfang_cbx.Checked)
+                {
+                    _gameMode.PlayerChange();
                     _gameMode.PlayerChange();
                 }
             }

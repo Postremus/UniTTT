@@ -56,7 +56,7 @@ namespace UniTTT.Gui
 
         private void neustartenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _game.NewGame();
+            _game.OnNewGameEvent();
             label1.Location = new Point(80, label1.Location.Y);
             OutputPlayer(_game.Player1.Ausgabe());
         }
@@ -192,18 +192,13 @@ namespace UniTTT.Gui
                 _game.PlayerOutputEvent += OutputPlayer;
                 _game.WindowTitleChangeEvent += ChangeWindowTitle;
                 _game.WinMessageEvent += OutputWinMessage;
-                if (_game.Player.Symbol.ToString().ToLower() == "o" && _game.Player.GetType() == typeof(Logik.Player.NetworkPlayer))
-                {
-                    _game.PlayerChange();
-                    OutputPlayer(_game.Player.Ausgabe());
-                    _taskTurn = true;
-                }
-                else
-                {
-                    OutputPlayer(_game.Player1.Ausgabe());
-                }
+                OutputPlayer(_game.Player.Ausgabe());
                 _game.Initialize();
                 label1.Location = new Point(80, label1.Location.Y);
+                if (_game.Player.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player.GetType() == typeof(Logik.Player.NetworkPlayer))
+                {
+                    _taskTurn = true;
+                }
             }
         }
     }
