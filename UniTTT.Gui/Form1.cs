@@ -56,19 +56,30 @@ namespace UniTTT.Gui
 
         private void neustartenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _game.OnNewGameEvent();
-            label1.Location = new Point(80, label1.Location.Y);
-            OutputPlayer(_game.Player1.Ausgabe());
+            NewStart();
         }
 
         private void MouseNewStart(object sender, MouseEventArgs e)
         {
             if (_game.HasEnd())
             {
-                label1.Location = new Point(80, label1.Location.Y);
-                _game.NewGame();
-                OutputPlayer(_game.Player1.Ausgabe());
+                NewStart();
             }
+        }
+
+        private void NewStart()
+        {
+            _game.OnNewGameEvent();
+            label1.Location = new Point(80, label1.Location.Y);
+            if (_game.GetType() != typeof(Logik.Game.NetworkGame))
+            {
+                _game.Player = _game.Player1;
+            }
+            else
+            {
+                _game.Player = _game.Player2;
+            }
+            OutputPlayer(_game.Player.Ausgabe());
         }
 
         private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
