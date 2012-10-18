@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UniTTT.Logik;
+using UniTTT.Logik.Player;
 using System.Threading.Tasks;
 
 [assembly: CLSCompliant(true)]
@@ -17,6 +18,7 @@ namespace UniTTT.Gui
         private Task _playerWaitTask;
         private bool _taskTurn;
         private bool _isGameWindowClosed;
+        private bool _spieler1Anfang;
 
         public Form1()
         {
@@ -70,6 +72,15 @@ namespace UniTTT.Gui
         private void NewStart()
         {
             _game.OnNewGameEvent();
+            ResetGame();
+        }
+
+        private void ResetGame()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Logik.Network.NewGameRequestReceived(ResetGame));
+            }
             label1.Location = new Point(80, label1.Location.Y);
             if (_game.GetType() != typeof(Logik.Game.NetworkGame))
             {
@@ -77,7 +88,29 @@ namespace UniTTT.Gui
             }
             else
             {
-                _game.Player = _game.Player2;
+                if (_spieler1Anfang)
+                {
+                    if (_game.Player1 is NetworkPlayer)
+                    {
+                        _game.Player = _game.Player2;
+                    }
+                    else
+                    {
+                        _game.Player = _game.Player1;
+                    }
+                }
+                else
+                {
+                    if (_game.Player1 is NetworkPlayer)
+                    {
+                        _game.Player = _game.Player1;
+                    }
+                    else
+                    {
+                        _game.Player = _game.Player2;
+                    }
+                    _taskTurn = true;
+                }
             }
             OutputPlayer(_game.Player.Ausgabe());
         }
@@ -206,10 +239,15 @@ namespace UniTTT.Gui
                 OutputPlayer(_game.Player.Ausgabe());
                 _game.Initialize();
                 label1.Location = new Point(80, label1.Location.Y);
-                if (_game.Player.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player.GetType() == typeof(Logik.Player.NetworkPlayer))
+                if (_game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer)
                 {
                     _taskTurn = true;
                 }
+                if (_game is Logik.Game.NetworkGame)
+                {
+                    ((Logik.Game.NetworkGame)_game).newGameRequestReceivedEvent += ResetGame;
+                }
+                _spieler1Anfang = f.Spieler1Anfang;
             }
         }
     }

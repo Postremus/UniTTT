@@ -6,18 +6,30 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UniTTT.Logik.Game;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
 
 namespace UniTTT.Gui
 {
     public partial class NewGameForm : Form
     {
         private Game _gameMode;
+        private bool _spieler1Anfang;
 
         public Game GameMode
         {
             get
             {
                 return _gameMode;
+            }
+        }
+
+        public bool Spieler1Anfang
+        {
+            get
+            {
+                return _spieler1Anfang;
             }
         }
 
@@ -119,6 +131,7 @@ namespace UniTTT.Gui
             }
             Logik.WinChecker.GewinnBedingung = (int)gewinnbedingung_nud.Value;
             DialogResult = System.Windows.Forms.DialogResult.OK;
+            _spieler1Anfang = spieler1_anfang_cbx.Checked;
             Close();
         }
 
