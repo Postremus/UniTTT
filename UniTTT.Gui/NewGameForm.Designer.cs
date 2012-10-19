@@ -273,7 +273,7 @@
             this.abbrechen_btn.Location = new System.Drawing.Point(152, 404);
             this.abbrechen_btn.Name = "abbrechen_btn";
             this.abbrechen_btn.Size = new System.Drawing.Size(75, 23);
-            this.abbrechen_btn.TabIndex = 28;
+            this.abbrechen_btn.TabIndex = 29;
             this.abbrechen_btn.Text = "Abbrechen";
             this.abbrechen_btn.UseVisualStyleBackColor = true;
             this.abbrechen_btn.Click += new System.EventHandler(this.abbrechen_btn_Click);
@@ -283,7 +283,7 @@
             this.ok_btn.Location = new System.Drawing.Point(71, 404);
             this.ok_btn.Name = "ok_btn";
             this.ok_btn.Size = new System.Drawing.Size(75, 23);
-            this.ok_btn.TabIndex = 27;
+            this.ok_btn.TabIndex = 28;
             this.ok_btn.Text = "OK";
             this.ok_btn.UseVisualStyleBackColor = true;
             this.ok_btn.Click += new System.EventHandler(this.ok_btn_Click);
@@ -335,7 +335,7 @@
             this.spieler1_anfang_cbx.Location = new System.Drawing.Point(29, 375);
             this.spieler1_anfang_cbx.Name = "spieler1_anfang_cbx";
             this.spieler1_anfang_cbx.Size = new System.Drawing.Size(70, 17);
-            this.spieler1_anfang_cbx.TabIndex = 35;
+            this.spieler1_anfang_cbx.TabIndex = 27;
             this.spieler1_anfang_cbx.Text = "1. Spieler";
             this.spieler1_anfang_cbx.UseVisualStyleBackColor = true;
             // 
