@@ -19,6 +19,7 @@ namespace UniTTT.Gui
         private bool _taskTurn;
         private bool _isGameWindowClosed;
         private bool _spieler1Anfang;
+        private bool _spieler2Anfang;
 
         public Form1()
         {
@@ -88,7 +89,7 @@ namespace UniTTT.Gui
             }
             else
             {
-                if (_spieler1Anfang)
+                if (_spieler1Anfang && _game is Logik.Game.NetworkGame)
                 {
                     if (_game.Player1 is NetworkPlayer)
                     {
@@ -111,6 +112,12 @@ namespace UniTTT.Gui
                     }
                     _taskTurn = true;
                 }
+
+                if (_spieler2Anfang && !(_game is Logik.Game.NetworkGame))
+                {
+                    _game.PlayerChange();
+                    _game.PlayerChange();
+                }
             }
             OutputPlayer(_game.Player.Ausgabe());
         }
@@ -132,7 +139,14 @@ namespace UniTTT.Gui
                 label1.Invoke(new Logik.ShowMessageHandler(OutputPlayer), new object[] {message});
                 return;
             }
-            label1.Text = message;
+
+            string spielerName = "Gegner";
+            if (_game.Player == _game.Player1)
+            {
+                spielerName = "Spieler";
+            }
+
+            label1.Text = string.Format("Der {0} {1} ist an der Reihe", spielerName, _game.Player.Symbol);
         }
 
         public void OutputWinMessage(char symbol, GameStates gameState)
@@ -248,6 +262,7 @@ namespace UniTTT.Gui
                     ((Logik.Game.NetworkGame)_game).newGameRequestReceivedEvent += ResetGame;
                 }
                 _spieler1Anfang = f.Spieler1Anfang;
+                _spieler2Anfang = f.Spieler2Anfang;
             }
         }
     }

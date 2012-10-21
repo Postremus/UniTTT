@@ -62,7 +62,7 @@
             // 
             // gewinnbedingung_nud
             // 
-            this.gewinnbedingung_nud.Location = new System.Drawing.Point(125, 197);
+            this.gewinnbedingung_nud.Location = new System.Drawing.Point(125, 204);
             this.gewinnbedingung_nud.Minimum = new decimal(new int[] {
             1,
             0,
@@ -176,9 +176,9 @@
             this.spieler2_ki_cbx.AutoSize = true;
             this.spieler2_ki_cbx.Location = new System.Drawing.Point(28, 79);
             this.spieler2_ki_cbx.Name = "spieler2_ki_cbx";
-            this.spieler2_ki_cbx.Size = new System.Drawing.Size(122, 17);
+            this.spieler2_ki_cbx.Size = new System.Drawing.Size(116, 17);
             this.spieler2_ki_cbx.TabIndex = 17;
-            this.spieler2_ki_cbx.Text = "Spieler 2, sei eine KI";
+            this.spieler2_ki_cbx.Text = "Gegner, sei eine KI";
             this.spieler2_ki_cbx.UseVisualStyleBackColor = true;
             this.spieler2_ki_cbx.CheckedChanged += new System.EventHandler(this.spieler2_ki_cbx_CheckedChanged_1);
             // 
@@ -203,18 +203,18 @@
             this.spieler2_lbl.AutoSize = true;
             this.spieler2_lbl.Location = new System.Drawing.Point(25, 56);
             this.spieler2_lbl.Name = "spieler2_lbl";
-            this.spieler2_lbl.Size = new System.Drawing.Size(48, 13);
+            this.spieler2_lbl.Size = new System.Drawing.Size(42, 13);
             this.spieler2_lbl.TabIndex = 14;
-            this.spieler2_lbl.Text = "Spieler 2";
+            this.spieler2_lbl.Text = "Gegner";
             // 
             // spieler1_lbl
             // 
             this.spieler1_lbl.AutoSize = true;
             this.spieler1_lbl.Location = new System.Drawing.Point(25, 27);
             this.spieler1_lbl.Name = "spieler1_lbl";
-            this.spieler1_lbl.Size = new System.Drawing.Size(48, 13);
+            this.spieler1_lbl.Size = new System.Drawing.Size(39, 13);
             this.spieler1_lbl.TabIndex = 13;
-            this.spieler1_lbl.Text = "Spieler 1";
+            this.spieler1_lbl.Text = "Spieler";
             // 
             // online_modus_cbx
             // 
@@ -322,9 +322,9 @@
             this.spieler2_anfang_cbx.AutoSize = true;
             this.spieler2_anfang_cbx.Location = new System.Drawing.Point(29, 102);
             this.spieler2_anfang_cbx.Name = "spieler2_anfang_cbx";
-            this.spieler2_anfang_cbx.Size = new System.Drawing.Size(109, 17);
+            this.spieler2_anfang_cbx.Size = new System.Drawing.Size(103, 17);
             this.spieler2_anfang_cbx.TabIndex = 34;
-            this.spieler2_anfang_cbx.Text = "Spieler 2 fängt an";
+            this.spieler2_anfang_cbx.Text = "Gegner fängt an";
             this.spieler2_anfang_cbx.UseVisualStyleBackColor = true;
             this.spieler2_anfang_cbx.CheckedChanged += new System.EventHandler(this.spieler2_anfang_CheckedChanged);
             // 
@@ -334,9 +334,9 @@
             this.spieler1_anfang_cbx.Enabled = false;
             this.spieler1_anfang_cbx.Location = new System.Drawing.Point(29, 375);
             this.spieler1_anfang_cbx.Name = "spieler1_anfang_cbx";
-            this.spieler1_anfang_cbx.Size = new System.Drawing.Size(70, 17);
+            this.spieler1_anfang_cbx.Size = new System.Drawing.Size(96, 17);
             this.spieler1_anfang_cbx.TabIndex = 27;
-            this.spieler1_anfang_cbx.Text = "1. Spieler";
+            this.spieler1_anfang_cbx.Text = "Spieler beginnt";
             this.spieler1_anfang_cbx.UseVisualStyleBackColor = true;
             // 
             // NewGameForm
