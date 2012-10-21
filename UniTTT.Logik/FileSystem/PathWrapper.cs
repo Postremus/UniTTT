@@ -21,18 +21,18 @@ namespace UniTTT.Logik.FileSystem
             _osInfo = new OS.OSInformationCollector().GetCurrOSInformation();
         }
 
-        public string GetPathForCurrentOS(string pathName)
+        public string GetPathForCurrentOS(string key)
         {
             string ret = null;
             try
             {
-                ret = _paths.Paths.First(f => f.OSName.ToLower() == _osInfo.OSName.ToLower() && f.Key.ToLower() == pathName.ToLower()).Path;
+                ret = _paths.Paths.First(f => f.OSName.ToLower() == _osInfo.OSName.ToLower() && f.Key.ToLower() == key.ToLower()).Path;
                 ret = Environment.ExpandEnvironmentVariables(ret);
             }
             catch (Exception)
             {
 
-                ret = pathName;
+                ret = key;
             }
             return ret;
         }

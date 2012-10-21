@@ -9,9 +9,10 @@ namespace UniTTT.Logik.FileSystem
     public class PathItem
     {
         private string _osName;
+        private string _version;
         private string _key;
         private string _path;
-        private string _version;
+        private string _defaultPath;
 
         public string OSName
         {
@@ -58,6 +59,18 @@ namespace UniTTT.Logik.FileSystem
             set
             {
                 _path = value;
+            }
+        }
+
+        public string DefaultPath
+        {
+            get
+            {
+                return _defaultPath;
+            }
+            set
+            {
+                _defaultPath = value;
             }
         }
 
