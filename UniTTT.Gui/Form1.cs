@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using UniTTT.Logik;
 using UniTTT.Logik.Player;
 using System.Threading.Tasks;
+using System.Threading;
 
 [assembly: CLSCompliant(true)]
 namespace UniTTT.Gui
@@ -20,6 +21,7 @@ namespace UniTTT.Gui
         private bool _isGameWindowClosed;
         private bool _spieler1Anfang;
         private bool _spieler2Anfang;
+        CancellationTokenSource _taskToken;
 
         public Form1()
         {
@@ -33,7 +35,8 @@ namespace UniTTT.Gui
             OutputPlayer(_game.Player1.Ausgabe());
             _game.Initialize();
             MouseClick += MouseNewStart;
-            _playerWaitTask = new Task(new Action(WaitForPlayerTask));
+            _taskToken = new CancellationTokenSource();
+            _playerWaitTask = new Task(new Action(WaitForPlayerTask), _taskToken.Token);
             _playerWaitTask.Start();
             _isGameWindowClosed = false;
             FormClosed += GameWindowClosedEvent;
@@ -42,6 +45,7 @@ namespace UniTTT.Gui
         private void GameWindowClosedEvent(object sender, EventArgs e)
         {
             _isGameWindowClosed = true;
+            _taskToken.Cancel();
         }
 
         private void WaitForPlayerTask()
@@ -83,9 +87,13 @@ namespace UniTTT.Gui
                 Invoke(new Logik.Network.NewGameRequestReceived(ResetGame));
             }
             label1.Location = new Point(80, label1.Location.Y);
-            if (_game.GetType() != typeof(Logik.Game.NetworkGame))
+            if (!(_game is Logik.Game.NetworkGame))
             {
                 _game.Player = _game.Player1;
+                if (_spieler2Anfang)
+                {
+                    _game.PlayerChange();
+                }
             }
             else
             {
@@ -112,12 +120,6 @@ namespace UniTTT.Gui
                     }
                     _taskTurn = true;
                 }
-
-                if (_spieler2Anfang && !(_game is Logik.Game.NetworkGame))
-                {
-                    _game.PlayerChange();
-                    _game.PlayerChange();
-                }
             }
             OutputPlayer(_game.Player.Ausgabe());
         }
@@ -141,7 +143,7 @@ namespace UniTTT.Gui
             }
 
             string spielerName = "Gegner";
-            if (_game.Player == _game.Player1)
+            if (IsPlayerGegner())
             {
                 spielerName = "Spieler";
             }
@@ -158,15 +160,25 @@ namespace UniTTT.Gui
             }
             if (gameState == GameStates.Unentschieden)
             {
-                MessageBox.Show(gameState.ToString(), gameState.ToString());
+                MessageBox.Show("    " + gameState.ToString() + "   ", gameState.ToString());
             }
             else
             {
-                MessageBox.Show(string.Format("Spieler {0} hat {1}.", symbol, gameState), gameState.ToString());
+                string spielerName = "Gegner";
+                if (IsPlayerGegner())
+                {
+                    spielerName = "Spieler";
+                }
+                MessageBox.Show(string.Format("Der {0} {1} hat {2}.", spielerName, symbol, gameState), gameState.ToString());
             }
 
             label1.Location = new Point(37, label1.Location.Y);
             label1.Text = "Klicken Sie zum neustarten irgendwo hin.";
+        }
+
+        private bool IsPlayerGegner()
+        {
+            return _game.Player == _game.Player1;
         }
 
         public string GetString()
