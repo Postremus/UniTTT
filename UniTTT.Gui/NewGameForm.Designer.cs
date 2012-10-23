@@ -326,7 +326,6 @@
             this.spieler2_anfang_cbx.TabIndex = 34;
             this.spieler2_anfang_cbx.Text = "Gegner fängt an";
             this.spieler2_anfang_cbx.UseVisualStyleBackColor = true;
-            this.spieler2_anfang_cbx.CheckedChanged += new System.EventHandler(this.spieler2_anfang_CheckedChanged);
             // 
             // spieler1_anfang_cbx
             // 

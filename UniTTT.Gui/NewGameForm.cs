@@ -131,13 +131,8 @@ namespace UniTTT.Gui
             Logik.WinChecker.GewinnBedingung = (int)gewinnbedingung_nud.Value;
             DialogResult = System.Windows.Forms.DialogResult.OK;
             _spieler1Anfang = spieler1_anfang_cbx.Checked && online_modus_cbx.Checked;
-            _spieler2Anfang = spieler1_anfang_cbx.Checked && !online_modus_cbx.Checked;
+            _spieler2Anfang = spieler2_anfang_cbx.Checked && !online_modus_cbx.Checked;
             Close();
-        }
-
-        private void spieler2_anfang_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
