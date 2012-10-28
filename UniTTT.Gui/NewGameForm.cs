@@ -47,11 +47,6 @@ namespace UniTTT.Gui
             InitializeComponent();
         }
 
-        private void spieler2_lbl_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void online_modus_cbx_CheckedChanged(object sender, EventArgs e)
         {
             protokol_lbl.Enabled = online_modus_cbx.Checked;
