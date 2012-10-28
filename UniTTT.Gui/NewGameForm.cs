@@ -16,6 +16,7 @@ namespace UniTTT.Gui
     {
         private Game _gameMode;
         private bool _spieler1Anfang;
+        private bool _spieler2Anfang;
 
         public Game GameMode
         {
@@ -30,6 +31,14 @@ namespace UniTTT.Gui
             get
             {
                 return _spieler1Anfang;
+            }
+        }
+
+        public bool Spieler2Anfang
+        {
+            get
+            {
+                return _spieler2Anfang;
             }
         }
 
@@ -109,17 +118,7 @@ namespace UniTTT.Gui
                     client = new Logik.Network.IRCClient(host_tbx.Text, int.Parse(port_tbx.Text), "#UniTTT-play");
                 }
                 p2 = new Logik.Player.NetworkPlayer(p2.Symbol, client);
-                if (!spieler1_anfang_cbx.Checked)
-                {
-                    p1.Symbol = p2.Symbol;
-                    p2.Symbol = spieler1_tbx.Text[0];
-                }
                 _gameMode = new NetworkGame(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3), client);
-                if (!spieler1_anfang_cbx.Checked)
-                {
-                    _gameMode.PlayerChange();
-                    _gameMode.PlayerChange();
-                }
             }
             else
             {
@@ -131,13 +130,9 @@ namespace UniTTT.Gui
             }
             Logik.WinChecker.GewinnBedingung = (int)gewinnbedingung_nud.Value;
             DialogResult = System.Windows.Forms.DialogResult.OK;
-            _spieler1Anfang = spieler1_anfang_cbx.Checked;
+            _spieler1Anfang = spieler1_anfang_cbx.Checked && online_modus_cbx.Checked;
+            _spieler2Anfang = spieler2_anfang_cbx.Checked && !online_modus_cbx.Checked;
             Close();
-        }
-
-        private void spieler2_anfang_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
