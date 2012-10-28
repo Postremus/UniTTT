@@ -225,7 +225,7 @@ namespace UniTTT.Gui
             if (_game.Field.IsFieldEmpty(idx))
             {
                 _game.Logik(Vector2i.FromIndex(idx, 3, 3));
-                _taskTurn = _game.Player.GetType() == typeof(Logik.Player.AIPlayer) || _game.Player.GetType() == typeof(Logik.Player.NetworkPlayer);
+                _taskTurn = _game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer;
             }
         }
 
