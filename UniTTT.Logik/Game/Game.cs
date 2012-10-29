@@ -122,7 +122,10 @@ namespace UniTTT.Logik.Game
             if (HasEnd())
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player));
-                BDarsteller.Enabled = false;
+                if (IsBDarstellerValid())
+                {
+                    BDarsteller.Enabled = false;
+                }
             }
             else
             {
@@ -149,7 +152,10 @@ namespace UniTTT.Logik.Game
             if (HasEnd())
             {
                 OnWinMessageEvent(Player.Symbol, FieldHelper.GetGameState(Field, Player));
-                BDarsteller.Enabled = false;
+                if (IsBDarstellerValid())
+                {
+                    BDarsteller.Enabled = false;
+                }
             }
             else
             {
@@ -199,10 +205,13 @@ namespace UniTTT.Logik.Game
         {
             Field.Initialize();
             Player = Player1;
-            BDarsteller.Initialize(Field.Width, Field.Height);
-            BDarsteller.Update(Field);
-            BDarsteller.Draw();
-            BDarsteller.Enabled = true;
+            if (IsBDarstellerValid())
+            {
+                BDarsteller.Initialize(Field.Width, Field.Height);
+                BDarsteller.Update(Field);
+                BDarsteller.Draw();
+                BDarsteller.Enabled = true;
+            }
             HasStoped = false;
             HasStarted = true;
         }
