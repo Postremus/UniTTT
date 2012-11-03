@@ -188,7 +188,12 @@ namespace UniTTT.Logik.Game
 
         public void PlayerChange()
         {
-            Player = Player1 == Player ? Player2 : Player1;
+            Player = Player == Player2 ? Player1 : Player2;
+        }
+
+        public Player.Player GetNextPlayer()
+        {
+            return Player == Player2 ? Player1 : Player2;
         }
 
         public bool HasEnd()
@@ -229,11 +234,6 @@ namespace UniTTT.Logik.Game
                     Player2.WinCounter++;
                 }
             }
-        }
-
-        public Player.Player GetNextPlayer()
-        {
-            return Player == Player1 ? Player2 : Player1;
         }
 
         public void OnPlayerMovedEvent(Vector2i vect)
