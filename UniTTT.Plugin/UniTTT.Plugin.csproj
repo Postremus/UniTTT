@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DF9DF131-6DEB-4C51-B4E5-0785429915E1}</ProjectGuid>
+    <ProjectGuid>{B50DA348-A5DF-40BA-B2EF-90C922A613C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UniTTT.Plugin.FourConnect</RootNamespace>
-    <AssemblyName>UniTTT.Plugin.FourConnect</AssemblyName>
+    <RootNamespace>UniTTT.Plugin</RootNamespace>
+    <AssemblyName>UniTTT.Plugin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,19 +32,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FourConnect.cs" />
+    <Compile Include="IFieldPlugin.cs" />
+    <Compile Include="IPlugin.cs" />
+    <Compile Include="PluginManager.cs" />
+    <Compile Include="PluginTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UniTTT.Logik\UniTTT.Logik.csproj">
       <Project>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</Project>
       <Name>UniTTT.Logik</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UniTTT.Plugin\UniTTT.Plugin.csproj">
-      <Project>{B50DA348-A5DF-40BA-B2EF-90C922A613C1}</Project>
-      <Name>UniTTT.Plugin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

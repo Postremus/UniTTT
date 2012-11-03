@@ -4,20 +4,21 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using UniTTT.Logik;
 
-namespace UniTTT.Logik.Plugin
+namespace UniTTT.Plugin
 {
     public class PluginManager
     {
         private Dictionary<string, IPlugin> _plugins;
         private FileSystemWatcher _watcher;
         private string _path;
-        private FileSystem.PathWrapper _wrapper;
+        private Logik.FileSystem.PathWrapper _wrapper;
 
         public PluginManager()
         {
             _plugins = new Dictionary<string, IPlugin>();
-            _wrapper = new FileSystem.PathWrapper();
+            _wrapper = new Logik.FileSystem.PathWrapper();
             _path = _wrapper.GetPathForCurrentOS("data/plugins");
             if (!Directory.Exists(_path))
             {

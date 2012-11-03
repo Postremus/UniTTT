@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UniTTT.Logik.Plugin
+namespace UniTTT.Plugin
 {
     public interface IPlugin
     {

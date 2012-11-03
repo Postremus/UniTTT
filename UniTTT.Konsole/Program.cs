@@ -18,7 +18,7 @@ namespace UniTTT.Konsole
         static void Main(string[] args)
         {
             Logik.Parameterdata parameters = Logik.ParameterInterpreter.InterpretCommandLine(args);
-            Logik.Plugin.PluginManager plugManager = new Logik.Plugin.PluginManager();
+            //Logik.Plugin.PluginManager plugManager = new Logik.Plugin.PluginManager();
 
             int width = parameters.GetValue<int>("breite");
             int height = parameters.GetValue<int>("hoehe");
@@ -33,9 +33,9 @@ namespace UniTTT.Konsole
             }
 
             Logik.Fields.Field field = new Logik.Fields.Brett(width, height);
-            if (parameters.IsDefined("plugin"))
+            /*if (parameters.IsDefined("plugin"))
             {
-                Logik.Plugin.IPlugin plugin = plugManager.Get(parameters.GetValue<string>("plugin"), Logik.Plugin.PluginTypes.Field);
+                //Logik.Plugin.IPlugin plugin = plugManager.Get(parameters.GetValue<string>("plugin"), Logik.Plugin.PluginTypes.Field);
                 if (plugin is Logik.Fields.Field)
                 {
                     field = (Logik.Fields.Field)plugin;
@@ -48,7 +48,7 @@ namespace UniTTT.Konsole
                         }
                     }
                 }
-            }
+            }*/
 
             HumanPlayer hPlayer;
             char aisymb;
