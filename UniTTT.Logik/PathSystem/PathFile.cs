@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UniTTT.Logik.FileSystem
+namespace UniTTT.Logik.PathSystem
 {
     [Serializable()]
     public class PathFile

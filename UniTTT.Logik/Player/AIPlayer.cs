@@ -14,7 +14,7 @@ namespace UniTTT.Logik.Player
     {
         public AI.AbstractAI AI { get; private set; }
         private List<Type> AITypes;
-        private FileSystem.PathWrapper _wrapper;
+        private PathSystem.PathWrapper _wrapper;
         private string _path;
 
         public AIPlayer(int aiZahl, int width, int height, char aiPlayer) : base(aiPlayer)
@@ -43,7 +43,7 @@ namespace UniTTT.Logik.Player
 
         private void GetAITypes()
         {
-            _wrapper = new FileSystem.PathWrapper();
+            _wrapper = new PathSystem.PathWrapper();
             _path = _wrapper.GetPathForCurrentOS("data/plugins/ki");
             Assembly asm = Assembly.GetExecutingAssembly();
             AITypes = new List<Type>(asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(AI.AbstractAI))));
