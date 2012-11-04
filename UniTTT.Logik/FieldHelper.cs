@@ -93,7 +93,7 @@ namespace UniTTT.Logik
 
         public static Fields.Field GetRandomField(Fields.Field field)
         {
-            char player = '2';
+            char player = 'X';
             for (int i = 0; i < field.Length; i++)
             {
                 field.SetField(GetRandomZug(field), player);
