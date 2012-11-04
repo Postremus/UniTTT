@@ -20,13 +20,7 @@ namespace UniTTT.Logik
 
         public static int GetFullFields(Fields.Field field)
         {
-            int count = 0;
-            for (int i = 0; i < field.Length; i++)
-            {
-                if (!field.IsFieldEmpty(i))
-                    count++;
-            }
-            return count;
+            return field.Count(f => !field.IsFieldEmpty(f.LocationInField));
         }
 
         public static List<char> GetAllPlayerSymbols(Fields.Field field)
