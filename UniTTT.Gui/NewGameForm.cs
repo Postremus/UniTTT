@@ -123,7 +123,7 @@ namespace UniTTT.Gui
             {
                 _gameMode.PlayerChange();
             }
-            Logik.WinChecker.GewinnBedingung = (int)gewinnbedingung_nud.Value;
+            Logik.WinChecker.WinCondition = (int)gewinnbedingung_nud.Value;
             DialogResult = System.Windows.Forms.DialogResult.OK;
             _spieler1Anfang = spieler1_anfang_cbx.Checked && online_modus_cbx.Checked;
             _spieler2Anfang = spieler2_anfang_cbx.Checked && !online_modus_cbx.Checked;

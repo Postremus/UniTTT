@@ -305,7 +305,7 @@ namespace UniTTT.Logik.Player
 
                 foreach (Fields.FieldRegion region in fpanel)
                 {
-                    if (region.Count() >= WinChecker.GewinnBedingung)
+                    if (region.Count() >= WinChecker.WinCondition)
                     {
                         foreach (Fields.FieldPlaceData data in region)
                         {

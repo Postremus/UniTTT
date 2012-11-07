@@ -7,9 +7,9 @@ namespace UniTTT.Logik
 {
     public static class WinChecker
     {
-        private static int _gewinnbeingung = -1;
+        private static int _winCondition = -1;
         #region Fields
-        public static int GewinnBedingung { get { return _gewinnbeingung; } set { _gewinnbeingung = value; } }
+        public static int WinCondition { get { return _winCondition; } set { _winCondition = value; } }
         #endregion
 
         private enum Directories
@@ -26,14 +26,14 @@ namespace UniTTT.Logik
 
         public static bool Pruefe(char player, Fields.Field field)
         {
-            if (GewinnBedingung == -1)
+            if (WinCondition == -1)
             {
-                GewinnBedingung = field.Width > field.Height ? field.Height : field.Width;
+                WinCondition = field.Width > field.Height ? field.Height : field.Width;
             }
 
             List<Fields.FieldRegion> panels = field.FieldRegions;
 
-            return panels.Count(f => f.Count<char>(player) == GewinnBedingung) > 0;
+            return panels.Count(f => f.Count<char>(player) == WinCondition) > 0;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace UniTTT.Logik
         private static int DoCheck(Fields.Field field, Directories dir, char player, Vector2i from)
         {
             int counter = 0;
-            for (int a = 0; a < GewinnBedingung; a++)
+            for (int a = 0; a < WinCondition; a++)
             {
                 if (field.GetField(from) == player)
                     counter++;
