@@ -10,7 +10,8 @@ namespace UniTTT.Logik
         
         public static char PlayertoSitCode(char value)
         {
-            return value == 'X' ? '2' : value == 'O' ? '3' : value == ' ' ? '1' : value;
+            value = value.ToString().ToLower()[0];
+            return value == 'x' ? '2' : value == 'o' ? '3' : value == ' ' ? '1' : value;
         }
 
         public static char ToPlayer(char value)
