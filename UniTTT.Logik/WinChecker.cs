@@ -33,23 +33,15 @@ namespace UniTTT.Logik
 
             List<Fields.FieldRegion> panels = field.FieldRegions;
 
-            foreach (Fields.FieldRegion region in panels)
-            {
-                if (region.Count<char>(player) == GewinnBedingung)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return panels.Count(f => f.Count<char>(player) == GewinnBedingung) > 0;
         }
 
         /// <summary>
-        /// 
+        /// Prüft von einer angebenen Position aus, ob der Spieler in der angegebenen Richtung gewonnen hat.
         /// </summary>
         /// <param name="field">Das Spielfeld</param>
         /// <param name="dir">Die Richtung, in die überprüft werden soll.</param>
-        /// <param name="player"></param>
+        /// <param name="player">Der Spieler auf den geprüft wird.</param>
         /// <param name="from">Der inklusive untere Vector der Startposition.</param>
         /// <returns></returns>
         private static int DoCheck(Fields.Field field, Directories dir, char player, Vector2i from)
