@@ -40,6 +40,8 @@
     <Compile Include="FieldhelperTest.cs" />
     <Compile Include="GameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SitCodeHelperTest.cs" />
+    <Compile Include="Vector2iTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UniTTT.Logik\UniTTT.Logik.csproj">
