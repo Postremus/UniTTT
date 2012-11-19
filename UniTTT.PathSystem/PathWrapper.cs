@@ -6,7 +6,7 @@ using Poc.Serializer;
 using Poc;
 using System.IO;
 
-namespace UniTTT.Logik.PathSystem
+namespace UniTTT.PathSystem
 {
     public class PathWrapper
     {

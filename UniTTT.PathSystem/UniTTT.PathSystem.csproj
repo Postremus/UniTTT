@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8AAF9AFB-8E8D-42B7-9D74-32A228852682}</ProjectGuid>
+    <ProjectGuid>{29C31570-3C5C-4331-98B9-0A60190E4461}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UniTTT.PathSystem.Tests</RootNamespace>
-    <AssemblyName>UniTTT.Logik.Tests</AssemblyName>
+    <RootNamespace>UniTTT.PathSystem</RootNamespace>
+    <AssemblyName>UniTTT.PathSystem</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,23 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
-    <Reference Include="nunit.mocks, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="Poc">
+      <HintPath>..\lib\Poc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FieldhelperTest.cs" />
-    <Compile Include="GameTest.cs" />
+    <Compile Include="OS\OSInformation.cs" />
+    <Compile Include="OS\OSInformationCollector.cs" />
+    <Compile Include="PathFile.cs" />
+    <Compile Include="PathItem.cs" />
+    <Compile Include="PathWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SitCodeHelperTest.cs" />
-    <Compile Include="Vector2iTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UniTTT.Logik\UniTTT.Logik.csproj">
-      <Project>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</Project>
-      <Name>UniTTT.Logik</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

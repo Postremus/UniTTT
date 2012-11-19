@@ -46,6 +46,10 @@
       <Project>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</Project>
       <Name>UniTTT.Logik</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UniTTT.PathSystem\UniTTT.PathSystem.csproj">
+      <Project>{29C31570-3C5C-4331-98B9-0A60190E4461}</Project>
+      <Name>UniTTT.PathSystem</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

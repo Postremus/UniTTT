@@ -6,8 +6,7 @@ using System.Text;
 namespace UniTTT.Logik
 {
     public static class SitCodeHelper
-    {    
-        
+    {
         public static char PlayertoSitCode(char value)
         {
             value = value.ToString().ToLower()[0];

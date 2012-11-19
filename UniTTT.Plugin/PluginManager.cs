@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using UniTTT.Logik;
+using UniTTT.PathSystem;
 
 namespace UniTTT.Plugin
 {
@@ -13,12 +13,12 @@ namespace UniTTT.Plugin
         private Dictionary<string, IPlugin> _plugins;
         private FileSystemWatcher _watcher;
         private string _path;
-        private Logik.FileSystem.PathWrapper _wrapper;
+        private PathWrapper _wrapper;
 
         public PluginManager()
         {
             _plugins = new Dictionary<string, IPlugin>();
-            _wrapper = new Logik.FileSystem.PathWrapper();
+            _wrapper = new PathSystem.PathWrapper();
             _path = _wrapper.GetPathForCurrentOS("data/plugins");
             if (!Directory.Exists(_path))
             {

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Logik.Tests", "UniTT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Plugin", "UniTTT.Plugin\UniTTT.Plugin.csproj", "{B50DA348-A5DF-40BA-B2EF-90C922A613C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.PathSystem", "UniTTT.PathSystem\UniTTT.PathSystem.csproj", "{29C31570-3C5C-4331-98B9-0A60190E4461}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +102,16 @@ Global
 		{B50DA348-A5DF-40BA-B2EF-90C922A613C1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B50DA348-A5DF-40BA-B2EF-90C922A613C1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B50DA348-A5DF-40BA-B2EF-90C922A613C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{29C31570-3C5C-4331-98B9-0A60190E4461}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using UniTTT.Logik.Game;
+using UniTTT.PathSystem.Game;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
@@ -86,44 +86,44 @@ namespace UniTTT.Gui
             {
                 return;
             }
-            Logik.Player.Player p1 = new Logik.Player.Player(spieler1_tbx.Text[0]);
-            Logik.Player.Player p2 = new Logik.Player.Player(spieler2_tbx.Text[0]);
+            PathSystem.Player.Player p1 = new PathSystem.Player.Player(spieler1_tbx.Text[0]);
+            PathSystem.Player.Player p2 = new PathSystem.Player.Player(spieler2_tbx.Text[0]);
 
             if (spieler2_ki_cbx.Checked)
             {
-                p2 = new Logik.Player.AIPlayer((int)ki_nud.Value, 3, 3, p2.Symbol);
+                p2 = new PathSystem.Player.AIPlayer((int)ki_nud.Value, 3, 3, p2.Symbol);
             }
 
             if (online_modus_cbx.Checked)
             {
-                Logik.Network.Network client = null;
+                PathSystem.Network.Network client = null;
                 if ((string)protokoll_lbx.SelectedItem == "TCP/IP")
                 {
                     if (server_cbx.Checked)
                     {
-                        client = new Logik.Network.TCPServer(host_tbx.Text, int.Parse(port_tbx.Text));
+                        client = new PathSystem.Network.TCPServer(host_tbx.Text, int.Parse(port_tbx.Text));
                     }
                     else
                     {
-                        client = new Logik.Network.TCPClient(host_tbx.Text, int.Parse(port_tbx.Text));
+                        client = new PathSystem.Network.TCPClient(host_tbx.Text, int.Parse(port_tbx.Text));
                     }
                 }
                 else
                 {
-                    client = new Logik.Network.IRCClient(host_tbx.Text, int.Parse(port_tbx.Text), "#UniTTT-play");
+                    client = new PathSystem.Network.IRCClient(host_tbx.Text, int.Parse(port_tbx.Text), "#UniTTT-play");
                 }
-                p2 = new Logik.Player.NetworkPlayer(p2.Symbol, client);
-                _gameMode = new NetworkGame(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3), client);
+                p2 = new PathSystem.Player.NetworkPlayer(p2.Symbol, client);
+                _gameMode = new NetworkGame(p1, p2, new BrettDarsteller(3, 3), new PathSystem.Fields.Brett(3, 3), client);
             }
             else
             {
-                _gameMode = new Game(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3));
+                _gameMode = new Game(p1, p2, new BrettDarsteller(3, 3), new PathSystem.Fields.Brett(3, 3));
             }
             if (spieler2_anfang_cbx.Checked && !online_modus_cbx.Checked)
             {
                 _gameMode.PlayerChange();
             }
-            Logik.WinChecker.WinCondition = (int)gewinnbedingung_nud.Value;
+            PathSystem.WinChecker.WinCondition = (int)gewinnbedingung_nud.Value;
             DialogResult = System.Windows.Forms.DialogResult.OK;
             _spieler1Anfang = spieler1_anfang_cbx.Checked && online_modus_cbx.Checked;
             _spieler2Anfang = spieler2_anfang_cbx.Checked && !online_modus_cbx.Checked;

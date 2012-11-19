@@ -114,7 +114,7 @@ namespace UniTTT.Konsole
                         client = new Logik.Network.TCPClient(ip, port);
                     }
                 }
-                
+
                 Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new Logik.Player.NetworkPlayer(Logik.Player.Player.PlayerChange(hPlayer.Symbol), client), new BrettDarsteller(width, height), field, client);
                 Game g = new Game(gameMode);
                 g.Run();

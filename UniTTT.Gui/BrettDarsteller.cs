@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UniTTT.Logik;
+using UniTTT.PathSystem;
 
 namespace UniTTT.Gui
 {
@@ -54,7 +54,7 @@ namespace UniTTT.Gui
             _height = height;
         }
 
-        public void Update(Logik.Fields.Field field)
+        public void Update(PathSystem.Fields.Field field)
         {
             OnBrettUpdate();
         }

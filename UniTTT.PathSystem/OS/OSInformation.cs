@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UniTTT.Logik.OS
+namespace UniTTT.PathSystem.OS
 {
     [Serializable()]
     public class OSInformation

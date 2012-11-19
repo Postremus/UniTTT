@@ -13,7 +13,8 @@ namespace UniTTT.Logik.Game
 
         public event Network.NewGameRequestReceived newGameRequestReceivedEvent;
 
-        public NetworkGame(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client) : base(p1, p2, bdar, field)
+        public NetworkGame(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, Network.Network client)
+            : base(p1, p2, bdar, field)
         {
             client.NewMessageReceivedEvent += ReceiveNewGame;
 

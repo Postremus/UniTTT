@@ -8,7 +8,7 @@
     <ProjectGuid>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UniTTT.Logik</RootNamespace>
+    <RootNamespace>UniTTT.PathSystem</RootNamespace>
     <AssemblyName>UniTTT.Logik</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -79,7 +79,6 @@
     <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\FieldPlaceData.cs" />
     <Compile Include="Fields\FieldRegion.cs" />
-    <Compile Include="PathSystem\PathItem.cs" />
     <Compile Include="GameStates.cs" />
     <Compile Include="Game\Delegates.cs" />
     <Compile Include="Game\Game.cs" />
@@ -91,12 +90,8 @@
     <Compile Include="Network\IRCClient.cs" />
     <Compile Include="Network\TCPClient.cs" />
     <Compile Include="Network\TCPServer.cs" />
-    <Compile Include="OS\OSInformation.cs" />
-    <Compile Include="OS\OSInformationCollector.cs" />
     <Compile Include="Parameterdata.cs" />
     <Compile Include="ParameterInterpreter.cs" />
-    <Compile Include="PathSystem\PathFile.cs" />
-    <Compile Include="PathSystem\PathWrapper.cs" />
     <Compile Include="Player\NetworkPlayer.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />

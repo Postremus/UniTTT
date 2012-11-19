@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace UniTTT.Logik.OS
+namespace UniTTT.PathSystem.OS
 {
     public class OSInformationCollector
     {
