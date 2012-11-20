@@ -72,14 +72,8 @@ namespace UniTTT.Logik.Game
             {
                 Field = field;
             }
-            if (p1 is Player.AIPlayer)
-            {
-                p1 = RegisterAIEvents((UniTTT.Logik.Player.AIPlayer)p1);
-            }
-            else if (p2 is Player.AIPlayer)
-            {
-                p2 = RegisterAIEvents((UniTTT.Logik.Player.AIPlayer)p2);
-            }
+            p1 = RegisterAIEvents(p1);
+            p2 = RegisterAIEvents(p2);
             BDarsteller = bdar;
             Player1 = p1;
             Player2 = p2;
@@ -97,8 +91,13 @@ namespace UniTTT.Logik.Game
             }
         }
 
-        private Player.Player RegisterAIEvents(Player.AIPlayer ai)
+        private Player.Player RegisterAIEvents(Player.Player player)
         {
+            if (!(player is Player.AIPlayer))
+            {
+                return player;
+            }
+            UniTTT.Logik.Player.AIPlayer ai = player as Player.AIPlayer;
             ai.AI.GetIntEvent += OnGetIntEvent;
             ai.AI.GetStringEvent += OnGetStringEvent;
             ai.AI.ShowMessageEvent += OnShowMessageEvent;
