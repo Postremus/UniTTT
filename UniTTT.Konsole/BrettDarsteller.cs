@@ -87,16 +87,16 @@ namespace UniTTT.Konsole
         public void Draw()
         {
             Console.Clear();
-            string tooutput = null;
+            string toOutput = null;
             for (int y = 0; y < spielFeldHeight; y++)
             {
                 for (int x = 0; x < spielFeldWidth; x++)
                 {
-                    tooutput += spielfeld[x, y];
+                    toOutput += spielfeld[x, y];
                 }
-                Console.WriteLine(tooutput);
-                tooutput = null;
+                toOutput += Environment.NewLine;
             }
+            Console.Write(toOutput);
             Console.WriteLine();
             Console.WriteLine();
         }
