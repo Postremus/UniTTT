@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using UniTTT.PathSystem;
 
+[assembly: CLSCompliant(true)]
 namespace UniTTT.Plugin
 {
     public class PluginManager
@@ -14,6 +15,7 @@ namespace UniTTT.Plugin
         private FileSystemWatcher _watcher;
         private string _path;
         private PathWrapper _wrapper;
+        private List<Type> _interfaceTyps;
 
         public PluginManager()
         {
@@ -27,6 +29,9 @@ namespace UniTTT.Plugin
             _watcher = new FileSystemWatcher(_path);
             _watcher.Changed += PluginsChanged;
             _watcher.Renamed += PluginsRenamed;
+
+            _interfaceTyps = new List<Type>(Assembly.LoadFile("UniTTT.Interfaces.dll").GetTypes());
+
             LoadAllPlugins();
         }
 
@@ -70,7 +75,7 @@ namespace UniTTT.Plugin
 
             foreach (Type t in asm.GetTypes())
             {
-                if (t.GetInterfaces().Count(f => f == typeof(IPlugin)) > 0)
+                if (t.GetInterfaces().Count(f => _interfaceTyps.Contains(f)) > 0)
                 {
                     try
                     {
@@ -89,16 +94,17 @@ namespace UniTTT.Plugin
             return (PluginTypes)t.GetProperty("PluginType").GetValue(t, null);
         }
 
-        public IPlugin Get(string name, PluginTypes type)
+        public List<T> GetPlugins<T>(PluginTypes pluginType)
         {
-            foreach (KeyValuePair<string, IPlugin> pair in _plugins)
+            List<T> ret = new List<T>();
+            foreach (IPlugin item in _plugins.Values)
             {
-                if (pair.Value.PluginName == name && pair.Value.PluginType == type)
+                if (item.PluginType == pluginType)
                 {
-                    return pair.Value;
+                    ret.Add((T)Convert.ChangeType(item, typeof(T)));
                 }
             }
-            return null;
+            return ret;
         }
     }
 }
