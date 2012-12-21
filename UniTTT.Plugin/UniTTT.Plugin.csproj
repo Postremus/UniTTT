@@ -35,17 +35,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IFieldPlugin.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="PluginTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UniTTT.Logik\UniTTT.Logik.csproj">
-      <Project>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</Project>
-      <Name>UniTTT.Logik</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UniTTT.PathSystem\UniTTT.PathSystem.csproj">
       <Project>{29C31570-3C5C-4331-98B9-0A60190E4461}</Project>
       <Name>UniTTT.PathSystem</Name>
