@@ -7,9 +7,35 @@ using UniTTT.Logik;
 [assembly: CLSCompliant(true)]
 namespace UniTTT.Plugin.FourConnect
 {
-    public class FourConnect : Logik.Fields.Field, Plugin.IFieldPlugin
+    public class FourConnect : Interfaces.IField, IPlugin
     {
         private char[,] _varField;
+        private int _width;
+        private int _height;
+
+        public int Width
+        {
+            get
+            {
+                return _width;
+            }
+            private set
+            {
+                _width = value;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return _height;
+            }
+            private set
+            {
+                _height = value;
+            }
+        }
 
         public string PluginName
         {
@@ -45,27 +71,27 @@ namespace UniTTT.Plugin.FourConnect
             }
         }
 
-        public override char GetField(Vector2i vect)
+        public char GetField(Vector2i vect)
         {
             return _varField[vect.X, vect.Y];
         }
 
-        public override char GetField(int idx)
+        public char GetField(int idx)
         {
             return GetField(Vector2i.FromIndex(idx, Width, Height));
         }
 
-        public override bool IsFieldEmpty(int idx)
+        public bool IsFieldEmpty(int idx)
         {
             return IsFieldEmpty(Vector2i.FromIndex(idx, Width, Height));
         }
 
-        public override bool IsFieldEmpty(Vector2i vect)
+        public bool IsFieldEmpty(Vector2i vect)
         {
             return _varField[vect.X, 0] == ' ';
         }
 
-        public override void SetField(Vector2i vect, char value)
+        public void SetField(Vector2i vect, char value)
         {
             for (int y = 0; y < Height; y++)
             {
@@ -77,7 +103,7 @@ namespace UniTTT.Plugin.FourConnect
             }
         }
 
-        public override void SetField(int idx, char value)
+        public void SetField(int idx, char value)
         {
             SetField(Vector2i.FromIndex(idx, Width, Height), value);
         }

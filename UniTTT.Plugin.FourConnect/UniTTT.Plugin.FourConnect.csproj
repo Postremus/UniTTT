@@ -38,6 +38,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UniTTT.Interfaces\UniTTT.Interfaces.csproj">
+      <Project>{ACE0D093-F0E3-4831-B258-0E425BCAB321}</Project>
+      <Name>UniTTT.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UniTTT.Logik\UniTTT.Logik.csproj">
       <Project>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</Project>
       <Name>UniTTT.Logik</Name>
