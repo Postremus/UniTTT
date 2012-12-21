@@ -8,7 +8,7 @@ using UniTTT.Logik;
 namespace UniTTT.Logik.Tests
 {
     [TestFixture]
-    public class FieldhelperTest
+    public class FieldHelperTest
     {
         [Test]
         public void TestGetFullFields()
@@ -67,7 +67,7 @@ namespace UniTTT.Logik.Tests
             Assert.AreEqual(GameStates.Laufend, FieldHelper.GetGameState(field, new Logik.Player.Player('X')));
 
             field.SetField(0, 'X');
-            field.SetField(1, 'X');
+            field.SetField(1, 'X'); 
             field.SetField(2, 'X');
             Assert.AreEqual(GameStates.Gewonnen, FieldHelper.GetGameState(field, new Player.Player('X')));
 
