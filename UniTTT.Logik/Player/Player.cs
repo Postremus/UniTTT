@@ -26,12 +26,6 @@ namespace UniTTT.Logik.Player
         {
             throw new NotImplementedException("Learn() ist nicht implementiert");
         }
-        
-        //Ausgeben, wer momentan dran ist.
-        public string Ausgabe()
-        {
-            return string.Format(CultureInfo.CurrentCulture, "Spieler {0} ist an der Reihe.", Symbol);
-        }
 
         public static char PlayerChange(char curr)
         {
