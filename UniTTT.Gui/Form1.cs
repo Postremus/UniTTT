@@ -5,8 +5,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using UniTTT.PathSystem;
-using UniTTT.PathSystem.Player;
+using UniTTT.Logik;
+using UniTTT.Logik.Player;
 using System.Threading.Tasks;
 using System.Threading;
 
@@ -15,7 +15,7 @@ namespace UniTTT.Gui
 {
     public partial class Form1 : Form
     {
-        private PathSystem.Game.Game _game;
+        private Logik.Game.Game _game;
         private Task _playerWaitTask;
         private bool _taskTurn;
         private bool _isGameWindowClosed;
@@ -26,7 +26,7 @@ namespace UniTTT.Gui
         public Form1()
         {
             InitializeComponent();
-            _game = new PathSystem.Game.Game(new PathSystem.Player.Player('X'), new PathSystem.Player.Player('O'), new BrettDarsteller(3, 3), new PathSystem.Fields.Brett(3, 3));
+            _game = new Logik.Game.Game(new Logik.Player.Player('X'), new Logik.Player.Player('O'), new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3));
             ((BrettDarsteller)_game.BDarsteller).BrettUpdateEvent += UpdateBrett;
             ((BrettDarsteller)_game.BDarsteller).BrettEnableEvent += EnableBrett;
             _game.PlayerOutputEvent += OutputPlayer;
@@ -84,10 +84,10 @@ namespace UniTTT.Gui
         {
             if (InvokeRequired)
             {
-                Invoke(new PathSystem.Network.NewGameRequestReceived(ResetGame));
+                Invoke(new Logik.Network.NewGameRequestReceived(ResetGame));
             }
             label1.Location = new Point(80, label1.Location.Y);
-            if (!(_game is PathSystem.Game.NetworkGame))
+            if (!(_game is Logik.Game.NetworkGame))
             {
                 _game.Player = _game.Player1;
                 if (_spieler2Anfang)
@@ -97,7 +97,7 @@ namespace UniTTT.Gui
             }
             else
             {
-                if (_spieler1Anfang && _game is PathSystem.Game.NetworkGame)
+                if (_spieler1Anfang && _game is Logik.Game.NetworkGame)
                 {
                     if (_game.Player1 is NetworkPlayer)
                     {
@@ -138,7 +138,7 @@ namespace UniTTT.Gui
         {
             if (label1.InvokeRequired)
             {
-                label1.Invoke(new PathSystem.ShowMessageHandler(OutputPlayer), new object[] {message});
+                label1.Invoke(new Logik.ShowMessageHandler(OutputPlayer), new object[] { message });
                 return;
             }
 
@@ -155,7 +155,7 @@ namespace UniTTT.Gui
         {
             if (InvokeRequired)
             {
-                Invoke(new PathSystem.WinMessageHandler(OutputWinMessage), new object[] { symbol, gameState });
+                Invoke(new Logik.WinMessageHandler(OutputWinMessage), new object[] { symbol, gameState });
                 return;
             }
             if (gameState == GameStates.Unentschieden)
@@ -196,7 +196,7 @@ namespace UniTTT.Gui
         {
             if (InvokeRequired)
             {
-                Invoke(new PathSystem.Network.NewGameRequestReceived(UpdateBrett));
+                Invoke(new Logik.Network.NewGameRequestReceived(UpdateBrett));
                 return;
             }
 
@@ -225,7 +225,7 @@ namespace UniTTT.Gui
             if (_game.Field.IsFieldEmpty(idx))
             {
                 _game.Logik(Vector2i.FromIndex(idx, 3, 3));
-                _taskTurn = _game.Player is PathSystem.Player.AIPlayer || _game.Player is PathSystem.Player.NetworkPlayer;
+                _taskTurn = _game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer;
             }
         }
 
@@ -233,7 +233,7 @@ namespace UniTTT.Gui
         {
             if (InvokeRequired)
             {
-                Invoke(new PathSystem.Network.NewGameRequestReceived(EnableBrett));
+                Invoke(new Logik.Network.NewGameRequestReceived(EnableBrett));
                 return;
             }
             button1.Enabled = _game.BDarsteller.Enabled;
@@ -265,13 +265,13 @@ namespace UniTTT.Gui
                 OutputPlayer(_game.Player.Ausgabe());
                 _game.Initialize();
                 label1.Location = new Point(80, label1.Location.Y);
-                if (_game.Player is PathSystem.Player.AIPlayer || _game.Player is PathSystem.Player.NetworkPlayer)
+                if (_game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer)
                 {
                     _taskTurn = true;
                 }
-                if (_game is PathSystem.Game.NetworkGame)
+                if (_game is Logik.Game.NetworkGame)
                 {
-                    ((PathSystem.Game.NetworkGame)_game).newGameRequestReceivedEvent += ResetGame;
+                    ((Logik.Game.NetworkGame)_game).newGameRequestReceivedEvent += ResetGame;
                 }
                 _spieler1Anfang = f.Spieler1Anfang;
                 _spieler2Anfang = f.Spieler2Anfang;
