@@ -120,12 +120,9 @@ namespace UniTTT.ScreenSaver
 
         private void MouseMoveCheck(object sender, MouseEventArgs e)
         {
-            if (!prevMousePos.IsEmpty)
+            if (!prevMousePos.IsEmpty && prevMousePos != e.Location)
             {
-                if (prevMousePos != e.Location)
-                {
-                    DoWakeUp(sender, e);
-                }
+                DoWakeUp(sender, e);
             }
             prevMousePos = e.Location;
         }
