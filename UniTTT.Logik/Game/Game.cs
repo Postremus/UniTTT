@@ -129,7 +129,7 @@ namespace UniTTT.Logik.Game
             else
             {
                 PlayerChange();
-                OnPlayerOutputEvent(Player.Ausgabe());
+                OnPlayerOutputEvent(string.Format("Spieler {0} ist an der Reihe.", Player.Symbol));
             }
         }
 
@@ -159,7 +159,7 @@ namespace UniTTT.Logik.Game
             else
             {
                 PlayerChange();
-                OnPlayerOutputEvent(Player.Ausgabe());
+                OnPlayerOutputEvent(string.Format("Spieler {0} ist an der Reihe.", Player.Symbol));
             }
         }
 
