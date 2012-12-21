@@ -14,8 +14,6 @@ namespace UniTTT.Logik.Player
     {
         public AI.AbstractAI AI { get; private set; }
         private List<Type> AITypes;
-        //private Logik.PathWrapper _wrapper;
-        private string _path;
 
         public AIPlayer(int aiZahl, int width, int height, char aiPlayer) : base(aiPlayer)
         {
@@ -43,33 +41,15 @@ namespace UniTTT.Logik.Player
 
         private void GetAITypes()
         {
-            //_wrapper = new PathSystem.PathWrapper();
-            //_path = _wrapper.GetPathForCurrentOS("data/plugins/ki");
             Assembly asm = Assembly.GetExecutingAssembly();
             AITypes = new List<Type>(asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(AI.AbstractAI))));
-            if (!Directory.Exists(_path))
-            {
-                Directory.CreateDirectory(_path);
-            }
-            else
-            {
-                GetAITypesFromOuterAssemblie(Directory.GetFiles(_path));
-            }
+            GetAITypesFromOuterAssemblie();
         }
 
-        private void GetAITypesFromOuterAssemblie(string[] files)
+        private void GetAITypesFromOuterAssemblie()
         {
-            foreach (string file in files)
-            {
-                try
-                {
-                    Assembly asm = Assembly.LoadFile(file);
-                    AITypes.AddRange(asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(AI.AbstractAI))));
-                }
-                catch (Exception)
-                {
-                }
-            }
+            AITypes.AddRange(Statics.PManager.GetPlugins<Type>(Plugin.PluginTypes.PlayableAI));
+            AITypes.AddRange(Statics.PManager.GetPlugins<Type>(Plugin.PluginTypes.LearnableAI));
         }
 
         public override Vector2i Play(Fields.Field field)
@@ -280,7 +260,7 @@ namespace UniTTT.Logik.Player
                 else
                     return FieldHelper.GetRandomZug(field);
             }
-
+            
             private int TestForLineComplettings(Fields.Field field, char player)
             {
                 int ret = -1;
@@ -289,7 +269,7 @@ namespace UniTTT.Logik.Player
                     if (field.IsFieldEmpty(playerpos))
                     {
                         field.SetField(playerpos, player);
-                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(player), field)) && (ret == -1))
+                        if ((Logik.WinChecker.Pruefe(SitCodeHelper.ToPlayer(player), field)))
                             ret = playerpos;
                         field.SetField(playerpos, ' ');
                     }
