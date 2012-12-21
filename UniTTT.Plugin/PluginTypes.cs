@@ -7,6 +7,9 @@ namespace UniTTT.Plugin
 {
     public enum PluginTypes
     {
-        Field
+        Field,
+        LearnableAI,
+        PlayableAI,
+        Player
     }
 }
