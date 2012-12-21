@@ -8,7 +8,7 @@
     <ProjectGuid>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UniTTT.PathSystem</RootNamespace>
+    <RootNamespace>UniTTT.Logik</RootNamespace>
     <AssemblyName>UniTTT.Logik</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -93,6 +93,7 @@
     <Compile Include="Parameterdata.cs" />
     <Compile Include="ParameterInterpreter.cs" />
     <Compile Include="Player\NetworkPlayer.cs" />
+    <Compile Include="Statics.cs" />
     <Compile Include="WinChecker.cs" />
     <Compile Include="IBrettDarsteller.cs" />
     <Compile Include="AI\AbstractAI.cs" />
@@ -103,7 +104,12 @@
     <Compile Include="SitCodeHelper.cs" />
     <Compile Include="Vector2i.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\UniTTT.Plugin\UniTTT.Plugin.csproj">
+      <Project>{B50DA348-A5DF-40BA-B2EF-90C922A613C1}</Project>
+      <Name>UniTTT.Plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
