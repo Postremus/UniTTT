@@ -43,7 +43,7 @@ namespace UniTTT.Logik.Network
             NewMessageReceivedEvent += VisiblePeople;
         }
 
-        public void ConnectToChannel()
+        private void ConnectToChannel()
         {
             SendCommand("USER " + user);
             SendCommand("NICK " + nick);
@@ -60,7 +60,7 @@ namespace UniTTT.Logik.Network
             base.Send(string.Format("PRIVMSG {0} {1}", channel, message));
         }
 
-        public void CountPeople(string message)
+        private void CountPeople(string message)
         {
             if (message.Contains("353"))
             {
@@ -69,7 +69,7 @@ namespace UniTTT.Logik.Network
             }
         }
 
-        public void VisiblePeople(string message)
+        private void VisiblePeople(string message)
         {
             if (message.Contains("353"))
             {
@@ -78,16 +78,19 @@ namespace UniTTT.Logik.Network
             }
         }
 
-        public void SetConnectingFrom(string message)
+        private void SetConnectingFrom(string message)
         {
             if (message.Contains("JOIN"))
             {
                 message = message.Replace(":", null);
-                connectingFrom = message.Substring(0, message.IndexOf(' '));
+                if (string.IsNullOrEmpty(connectingFrom.Trim()))
+                {
+                    connectingFrom = message.Substring(0, message.IndexOf(' '));
+                }
             }
         }
 
-        public void Pong(string message)
+        private void Pong(string message)
         {
             if (message.Contains("PING"))
             {
