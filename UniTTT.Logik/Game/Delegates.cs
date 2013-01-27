@@ -7,4 +7,5 @@ namespace UniTTT.Logik.Game
 {
     public delegate void PlayerMovedHandler(Vector2i vect);
     public delegate void NewGameHandler();
+    public delegate void GameReadyStateChangedHandler(bool currState);
 }
