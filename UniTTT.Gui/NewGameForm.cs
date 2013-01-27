@@ -101,19 +101,19 @@ namespace UniTTT.Gui
                 {
                     if (server_cbx.Checked)
                     {
-                        client = new Logik.Network.TCPServer(host_tbx.Text, int.Parse(port_tbx.Text));
+                        client = new Logik.Network.TCPServer(host_tbx.Text, int.Parse(port_tbx.Text), "UniTTT"+DateTime.Now.Millisecond);
                     }
                     else
                     {
-                        client = new Logik.Network.TCPClient(host_tbx.Text, int.Parse(port_tbx.Text));
+                        client = new Logik.Network.TCPClient(host_tbx.Text, int.Parse(port_tbx.Text), "UniTTT" + DateTime.Now.Millisecond);
                     }
                 }
                 else
                 {
-                    client = new Logik.Network.IRCClient(host_tbx.Text, int.Parse(port_tbx.Text), "#UniTTT-play");
+                    client = new Logik.Network.IRCClient(host_tbx.Text, int.Parse(port_tbx.Text), "#UniTTT-play", "UniTTT" + DateTime.Now.Millisecond);
                 }
-                p2 = new Logik.Player.NetworkPlayer(p2.Symbol, client);
-                _gameMode = new NetworkGame(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3), client);
+                p2 = new Logik.Player.NetworkPlayer(p2.Symbol, ref client);
+                _gameMode = new NetworkGame(p1, p2, new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3), ref client, true);
             }
             else
             {
