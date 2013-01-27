@@ -11,22 +11,28 @@ namespace UniTTT.Logik.Network
 {
     public class IRCClient : Network
     {
-        private string nick;
         private string user;
         private string channel;
         private string connectingFrom;
         private int _peopleCount;
         private List<string> _people;
+        private bool _isConnected;
 
         public int PeopleCount { get { return _peopleCount; } set { _peopleCount = value; } }
         public List<string> People { get { return _people; } set { _people = value; } }
-
-        public IRCClient(string host, int port, string channel)
+        public bool IsConnected
         {
+            get
+            {
+                return _isConnected;
+            }
+        }
 
-            this.nick = "UniTTT" + DateTime.Now.Millisecond + "" + DateTime.Now.Second;
+        public IRCClient(string host, int port, string channel, string myNick)
+        {
             this.user = "UniTTT UniTTT UniTTT UniTTT";
             this.channel = channel;
+            base.MyNick = myNick;
 
             Client = new TcpClient(host, port);
 
@@ -34,19 +40,22 @@ namespace UniTTT.Logik.Network
             Reader = new StreamReader(ClientStream);
             Writer = new StreamWriter(ClientStream);
 
-            new Thread(ReceiveMessages).Start();
-
-            ConnectToChannel();
             NewMessageReceivedEvent += SetConnectingFrom;
             NewMessageReceivedEvent += Pong;
             NewMessageReceivedEvent += CountPeople;
             NewMessageReceivedEvent += VisiblePeople;
         }
 
+        public override void Connect()
+        {
+            base.Connect();
+            ConnectToChannel();
+        }
+
         private void ConnectToChannel()
         {
             SendCommand("USER " + user);
-            SendCommand("NICK " + nick);
+            SendCommand("NICK " + MyNick);
             SendCommand("Join " + channel);
         }
 
@@ -57,7 +66,7 @@ namespace UniTTT.Logik.Network
 
         public override void Send(string message)
         {
-            base.Send(string.Format("PRIVMSG {0} {1}", channel, message));
+            base.Send(string.Format("PRIVMSG {0} :{1}", channel, message));
         }
 
         private void CountPeople(string message)
@@ -73,8 +82,22 @@ namespace UniTTT.Logik.Network
         {
             if (message.Contains("353"))
             {
-                string value = message.Substring(message.LastIndexOf(':'));
-                People = value.GetSubstrs();
+                string value = message.Substring(message.LastIndexOf(':')+1);
+                
+                List<string> tmp = value.Split(new char[]{ ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+                People = new List<string>();
+                foreach (string nick in tmp)
+                {
+                    if (nick.StartsWith("@"))
+                    {
+                        People.Add(nick.Substring(1));
+                    }
+                    else
+                    {
+                        People.Add(nick);
+                    }
+                }
+                _isConnected = true;
             }
         }
 
@@ -83,7 +106,7 @@ namespace UniTTT.Logik.Network
             if (message.Contains("JOIN"))
             {
                 message = message.Replace(":", null);
-                if (string.IsNullOrEmpty(connectingFrom.Trim()))
+                if (connectingFrom == null || string.IsNullOrEmpty(connectingFrom.Trim()))
                 {
                     connectingFrom = message.Substring(0, message.IndexOf(' '));
                 }
@@ -96,7 +119,7 @@ namespace UniTTT.Logik.Network
             {
                 if (connectingFrom == null)
                 {
-                    SendCommand(string.Format("/whois {0}", nick));
+                    SendCommand(string.Format("/whois {0}", MyNick));
                 }
                 else
                 {
