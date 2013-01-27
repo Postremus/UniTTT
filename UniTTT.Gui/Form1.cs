@@ -22,24 +22,19 @@ namespace UniTTT.Gui
         private bool _spieler1Anfang;
         private bool _spieler2Anfang;
         CancellationTokenSource _taskToken;
+        StartHelper _startHelperForm;
 
         public Form1()
         {
             InitializeComponent();
-            _game = new Logik.Game.Game(new Logik.Player.Player('X'), new Logik.Player.Player('O'), new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3));
-            ((BrettDarsteller)_game.BDarsteller).BrettUpdateEvent += UpdateBrett;
-            ((BrettDarsteller)_game.BDarsteller).BrettEnableEvent += EnableBrett;
-            _game.PlayerOutputEvent += OutputPlayer;
-            _game.WindowTitleChangeEvent += ChangeWindowTitle;
-            _game.WinMessageEvent += OutputWinMessage;
-            OutputPlayer(_game.Player1.Ausgabe());
-            _game.Initialize();
             MouseClick += MouseNewStart;
             _taskToken = new CancellationTokenSource();
             _playerWaitTask = new Task(new Action(WaitForPlayerTask), _taskToken.Token);
             _playerWaitTask.Start();
             _isGameWindowClosed = false;
             FormClosed += GameWindowClosedEvent;
+            _startHelperForm = new StartHelper();
+            _startHelperForm.ShowDialog(this);
         }
 
         private void GameWindowClosedEvent(object sender, EventArgs e)
@@ -121,7 +116,7 @@ namespace UniTTT.Gui
                     _taskTurn = true;
                 }
             }
-            OutputPlayer(_game.Player.Ausgabe());
+            OutputPlayer(string.Format("Spieler {0} ist an der Reihe.", _game.Player.Symbol));
         }
 
         private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -262,7 +257,7 @@ namespace UniTTT.Gui
                 _game.PlayerOutputEvent += OutputPlayer;
                 _game.WindowTitleChangeEvent += ChangeWindowTitle;
                 _game.WinMessageEvent += OutputWinMessage;
-                OutputPlayer(_game.Player.Ausgabe());
+                OutputPlayer(string.Format("Spieler {0} ist an der Reihe.", _game.Player.Symbol));
                 _game.Initialize();
                 label1.Location = new Point(80, label1.Location.Y);
                 if (_game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer)
@@ -271,10 +266,29 @@ namespace UniTTT.Gui
                 }
                 if (_game is Logik.Game.NetworkGame)
                 {
-                    ((Logik.Game.NetworkGame)_game).newGameRequestReceivedEvent += ResetGame;
+                    ((Logik.Game.NetworkGame)_game).NewGameRequestReceivedEvent += ResetGame;
                 }
                 _spieler1Anfang = f.Spieler1Anfang;
                 _spieler2Anfang = f.Spieler2Anfang;
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            if (_startHelperForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                _game = _startHelperForm.GameMode;
+                ((BrettDarsteller)_game.BDarsteller).BrettUpdateEvent += UpdateBrett;
+                ((BrettDarsteller)_game.BDarsteller).BrettEnableEvent += EnableBrett;
+                _game.PlayerOutputEvent += OutputPlayer;
+                _game.WindowTitleChangeEvent += ChangeWindowTitle;
+                _game.WinMessageEvent += OutputWinMessage;
+                OutputPlayer(string.Format("Spieler {0} ist an der Reihe.", _game.Player1.Symbol));
+                _game.Initialize();
+            }
+            else
+            {
+                Close();
             }
         }
     }
