@@ -9,7 +9,7 @@ namespace UniTTT.Logik.Network
 {
     public class TCPClient : Network
     {
-        public TCPClient(string host, int port)
+        public TCPClient(string host, int port, string myNick)
         {
             Hostname = host;
             TargetPort = port;
@@ -17,7 +17,7 @@ namespace UniTTT.Logik.Network
             ClientStream = Client.GetStream();
             Writer = new StreamWriter(ClientStream);
             Reader = new StreamReader(ClientStream);
-            new Thread(ReceiveMessages).Start();
+            MyNick = myNick;
         }
     }
 }
