@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace UniTTT.Logik.Network
 {
-    public class Network
+    public abstract class Network
     {
         #region Privates
         private TcpClient _client;
@@ -18,16 +18,19 @@ namespace UniTTT.Logik.Network
         private StreamWriter _writer;
         private string _hostname;
         private int _targetPort;
+        private string _myNick;
         #endregion
 
         #region Propertys
         public event NewMessageReceivedHandler NewMessageReceivedEvent;
+        public event NewNetworkMessageReceivedHandler NewNetworkMessageReceivedEvent;
         public TcpClient Client { get { return _client; } set { _client = value; } }
         public NetworkStream ClientStream { get { return _clientStream; } set { _clientStream = value; } }
         public StreamReader Reader { get { return _reader; } set { _reader = value; } }
         public StreamWriter Writer { get { return _writer; } set { _writer = value; } }
         public string Hostname { get { return _hostname; } set { _hostname = value; } }
         public int TargetPort { get { return _targetPort; } set { _targetPort = value; } }
+        public string MyNick { get { return _myNick; } set { _myNick = value; } }
         public string SourceHost
         {
             get
@@ -46,6 +49,11 @@ namespace UniTTT.Logik.Network
         }
         #endregion
 
+        public Network()
+        {
+            NewMessageReceivedEvent += MakeNetworkMessage;
+        }
+
         public virtual void OnNewMassageReceivedEvent(string value)
         {
             NewMessageReceivedHandler newMessageReceived = NewMessageReceivedEvent;
@@ -61,6 +69,11 @@ namespace UniTTT.Logik.Network
             Writer.Flush();
         }
 
+        public void SendTo(string message, string nick)
+        {
+            Send(string.Format("{0}: {1}", nick, message));
+        }
+
         public virtual void ReceiveMessages()
         {
             string str = null;
@@ -69,9 +82,34 @@ namespace UniTTT.Logik.Network
                 if (str != null)
                 {
                     OnNewMassageReceivedEvent(str);
+                    /*if (!File.Exists("netlog.txt"))
+                    {
+                        File.Create("netlog.txt").Close();
+                    }
+                    File.AppendAllText("netlog.txt", str + Environment.NewLine);*/
                 }
                 str = Reader.ReadLine();
             } while (true);
+        }
+
+        public virtual void Connect()
+        {
+
+            new Thread(ReceiveMessages).Start();
+        }
+
+        private void MakeNetworkMessage(string message)
+        {
+            OnNewNetworkMessageReceivedevent(NetworkMessage.ParseMessage(message));
+        }
+
+        public void OnNewNetworkMessageReceivedevent(NetworkMessage received)
+        {
+            NewNetworkMessageReceivedHandler newNetworkMessageReceived = NewNetworkMessageReceivedEvent;
+            if (newNetworkMessageReceived != null)
+            {
+                newNetworkMessageReceived(received);
+            }
         }
     }
 }
