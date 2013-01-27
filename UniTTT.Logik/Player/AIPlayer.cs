@@ -27,7 +27,7 @@ namespace UniTTT.Logik.Player
             GetAITypes();
             for (int i = 0; i < AITypes.Count; i++)
             {
-                if (AITypes[i].Name.ToLower() == ai.ToLower())
+                if (AITypes[i].Name.ToLower().Contains(ai.ToLower()))
                 {
                     Initialize(i, width, height, aiPlayer);
                 }
@@ -43,7 +43,7 @@ namespace UniTTT.Logik.Player
         {
             Assembly asm = Assembly.GetExecutingAssembly();
             AITypes = new List<Type>(asm.GetTypes().Where<Type>(t => t.IsSubclassOf(typeof(AI.AbstractAI))));
-            GetAITypesFromOuterAssemblie();
+            //GetAITypesFromOuterAssemblie();
         }
 
         private void GetAITypesFromOuterAssemblie()
@@ -64,181 +64,11 @@ namespace UniTTT.Logik.Player
 
         public override void Learn()
         {
-            if (AI is AI.ILearnableAI)
-            {
-                ((Logik.AI.ILearnableAI)AI).Learn();
-            }
         }
 
         public override string ToString()
         {
             return AI.ToString();
-        }
-
-        class AIReinforcement : AI.AbstractAI, AI.IPlayableAI, AI.ILearnableAI
-        {
-            public AIReinforcement(int width, int height, char aiPlayer)
-                : base(aiPlayer, width, height)
-            {
-                writerReader = new WriterReader("KI_Reinforcement");
-            }
-
-            #region Fields
-            private WriterReader writerReader;
-            #endregion
-
-            private int Rundefrage()
-            {
-                int ret = new int();
-                do
-                {
-                    OnShowMessageEvent("Wie viele Runden sollen durchlaufen werden? (als Zahl)");
-                    if (int.TryParse(OnGetIntEvent().ToString(), out ret))
-                    {
-                        if (ret < 0)
-                        {
-                            OnShowMessageEvent("Zahl zu klein.");
-                        }
-                        else
-                        {
-                            return ret;
-                        }
-                    }
-                    else
-                    {
-                        OnShowMessageEvent("Irgendetwas wurde falsch eingegeben.");
-                        OnShowMessageEvent("Eventuell ein Lerrzeichen, oder ein anderes nicht Zahl Zeichen");
-                    }
-                } while (true);
-            }
-
-            public void Learn()
-            {
-                #region Fields
-                int runden = Rundefrage();
-                int zug;
-                string momsitcode = SitCodeHelper.GetEmpty(Length);
-                int[,] sit_codes = new int[runden, Length];
-                int[,] zuege = new int[runden, Length];
-                int[] wertungen = new int[runden];
-                GameStates state = GameStates.Laufend;
-                Game.Game game = new Game.Game(new Player('1'), new Player('2'), null, new Fields.SitCode(3, 3));
-                #endregion
-                OnShowMessageEvent("Berechne Daten..");
-                for (int currround = 0; currround < runden; currround++)
-                {
-                    for (int i = 0; i < 9; i++)
-                    {
-                        momsitcode = SitCodeHelper.StringToSitCode(game.Field.ToString());
-                        sit_codes[currround, i] = int.Parse(momsitcode);
-                        zug = FieldHelper.GetRandomZug(game.Field);
-                        zuege[currround, i] = zug;
-
-                        game.Logik(Vector2i.FromIndex(zug, 3, 3));
-
-                        state = FieldHelper.GetGameState(game.Field, game.Player);
-                        // Wertungen
-                        // Aufwerten
-                        if (state == GameStates.Gewonnen)
-                            wertungen[currround] = 1;
-                        else if (state == GameStates.Verloren)
-                            wertungen[currround] = -1;
-                        else if (state == GameStates.Unentschieden)
-                            wertungen[currround] = 0;
-
-                        // Ist Spiel Zu Ende?
-                        if (game.HasEnd())
-                        {
-                            game.NewGame();
-                        }
-                    }
-                    if (currround % 100 == 0)
-                    {
-                        OnShowMessageEvent("Spielrunde Nr. " + currround);
-                    }
-                }
-                OnShowMessageEvent("Fertig mit dem Berechnen der Daten.");
-                OnShowMessageEvent("Speichere Daten");
-                writerReader.Write(zuege, sit_codes, wertungen);
-                OnShowMessageEvent("Fertig, Taste drücken zum Beenden");
-                OnGetStringEvent();
-            }
-
-            public int Play(Fields.Field field)
-            {
-                string sitcode = SitCodeHelper.StringToSitCode(field.ToString());
-                List<int> fields = new List<int>(writerReader.Read(sitcode));
-                int zug = -1;
-                do
-                {
-                    zug = fields.GetHighestIndex();
-                    if (field.IsFieldEmpty(zug))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        fields.Remove(zug);
-                    }
-                } while (fields.Count !=  0);
-                if (zug == -1)
-                    zug = FieldHelper.GetRandomZug(field);
-                return zug;
-            }
-
-            public override string ToString()
-            {
-                return "Reinforcement";
-            }
-
-            private class WriterReader : AI.IReinforcementDataWriterReader
-            {
-                public string FileName { get; set; }
-
-                public WriterReader(string filename)
-                {
-                    FileName = "data/" + filename;
-                }
-
-                public void Write(int[,] Zuege, int[,] Sit_Code, int[] Wertung)
-                {
-                    BinaryWriter binwriter = new BinaryWriter(File.OpenWrite(FileName), Encoding.UTF8);
-                    string towrite = null;
-                    for (int x = 0; x < Wertung.Length; x++)
-                    {
-                        for (int i = 0; i < 9 && Sit_Code[x, i] != 0; i++)
-                        {
-                            // Sitcode field_id Wertung
-                            towrite = string.Format(CultureInfo.CurrentCulture, "{0} {1} {2}", Sit_Code[x, i], Zuege[x, i], Wertung[x]);
-                            binwriter.Write(towrite);
-                        }
-                    }
-                    binwriter.Flush();
-                    binwriter.Close();
-                }
-
-                private string[] lines = null;
-
-                public int[] Read(string sitcode)
-                {
-                    int[] fields = new int[9];
-                    if (File.Exists(FileName))
-                    {
-                        if (lines == null)
-                        {
-                            lines = File.ReadAllLines(FileName, Encoding.UTF8);
-                        }
-                        List<string> substrs;
-
-                        foreach (string item in lines.Where<string>(f => f.Contains(sitcode)))
-                        {
-                            substrs = item.GetSubstrs();
-                            fields[int.Parse(substrs[1])] += int.Parse(substrs[2]);
-                        }
-                    }
-                    return fields;
-                }
-            }
         }
 
         class AIBot : AI.AbstractAI, AI.IPlayableAI
