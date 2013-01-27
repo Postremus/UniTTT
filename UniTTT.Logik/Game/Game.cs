@@ -11,6 +11,7 @@ namespace UniTTT.Logik.Game
         #region privates
         private bool _hasStoped;
         private bool _hasStarted;
+        private bool _gameReady;
         #endregion
 
         public event PlayerMovedHandler PlayerMovedEvent;
@@ -21,6 +22,7 @@ namespace UniTTT.Logik.Game
         public event GetStringHandler GetStringEvent;
         public event ShowMessageHandler ShowMessageEvent;
         public event NewGameHandler NewGameEvent;
+        public event GameReadyStateChangedHandler GameReadyStateChangedEvent;
 
         #region Propertys
         public Fields.Field Field
@@ -52,6 +54,17 @@ namespace UniTTT.Logik.Game
             set
             {
                 _hasStarted = value;
+            }
+        }
+        public bool GameReady
+        {
+            get
+            {
+                return _gameReady;
+            }
+            set
+            {
+                _gameReady = value;
             }
         }
         #endregion
@@ -235,6 +248,11 @@ namespace UniTTT.Logik.Game
             }
         }
 
+        private void SetGameReadyState(bool currState)
+        {
+            GameReady = currState;
+        }
+
         public void OnPlayerMovedEvent(Vector2i vect)
         {
             PlayerMovedHandler playerMovedEvent = PlayerMovedEvent;
@@ -308,6 +326,15 @@ namespace UniTTT.Logik.Game
             if (showMessageEvent != null)
             {
                 showMessageEvent(message);
+            }
+        }
+
+        public void OnGameReadyStanteChangedEvent(bool currState)
+        {
+            GameReadyStateChangedHandler gameReadyStateChangedEvent = GameReadyStateChangedEvent;
+            if (gameReadyStateChangedEvent != null)
+            {
+                gameReadyStateChangedEvent(currState);
             }
         }
 
