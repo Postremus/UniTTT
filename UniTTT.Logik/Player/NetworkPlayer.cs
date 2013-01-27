@@ -23,10 +23,9 @@ namespace UniTTT.Logik.Player
             }
         }
 
-        public NetworkPlayer(char symbol, Network.Network client) : base(symbol)
+        public NetworkPlayer(char symbol, ref Network.Network client) : base(symbol)
         {
             Client = client;
-            Client.NewMessageReceivedEvent += ReceiveVector;
         }
 
         public override Vector2i Play(Fields.Field field)
@@ -36,13 +35,13 @@ namespace UniTTT.Logik.Player
             return _vect;
         }
 
-        private void ReceiveVector(string value)
+        public void ReceiveVector(Network.NetworkMessage received)
         {
-            if (!value.Contains("UniTTT!Vector:"))
+            if (!received.Content.Contains("UniTTT!Vector:"))
             {
                 return;
             }
-            string str = value.Remove(0, value.IndexOfLastChar("UniTTT!Vector:"));
+            string str = received.Content.Remove(0, received.Content.IndexOfLastChar("UniTTT!Vector:"));
             Vector2i vect = Vector2i.FromString(str, true);
             if (vect != null)
             {
