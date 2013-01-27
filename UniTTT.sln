@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Logik", "UniTTT.Logik\UniTTT.Logik.csproj", "{780D5F11-6414-4E55-A0C3-E3832DC3FA05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Konsole", "UniTTT.Konsole\UniTTT.Konsole.csproj", "{7244EDB5-5D80-44D9-931F-F91A74483DE8}"
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.PathSystem", "UniTTT.PathSystem\UniTTT.PathSystem.csproj", "{29C31570-3C5C-4331-98B9-0A60190E4461}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTTT.Interfaces", "UniTTT.Interfaces\UniTTT.Interfaces.csproj", "{ACE0D093-F0E3-4831-B258-0E425BCAB321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizardFramework", "WizardFramework\WizardFramework.csproj", "{B0DE6FA7-7A61-476D-9345-A7FC76453207}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,7 +75,8 @@ Global
 		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DF9DF131-6DEB-4C51-B4E5-0785429915E1}.Release|x86.ActiveCfg = Release|Any CPU
-		{9510897F-673C-4649-BF67-6E0E2625A5C2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9510897F-673C-4649-BF67-6E0E2625A5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9510897F-673C-4649-BF67-6E0E2625A5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9510897F-673C-4649-BF67-6E0E2625A5C2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{9510897F-673C-4649-BF67-6E0E2625A5C2}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{9510897F-673C-4649-BF67-6E0E2625A5C2}.Debug|x86.ActiveCfg = Debug|x86
@@ -124,6 +127,16 @@ Global
 		{ACE0D093-F0E3-4831-B258-0E425BCAB321}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{ACE0D093-F0E3-4831-B258-0E425BCAB321}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{ACE0D093-F0E3-4831-B258-0E425BCAB321}.Release|x86.ActiveCfg = Release|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B0DE6FA7-7A61-476D-9345-A7FC76453207}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

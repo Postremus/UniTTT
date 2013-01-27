@@ -58,8 +58,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\IReinforcementDataWriterReader.cs" />
-    <Compile Include="AI\ReinforcementMysqlWriterReader.cs" />
     <Compile Include="Command\Commands\AsCommand.cs" />
     <Compile Include="Command\ComandManager.cs" />
     <Compile Include="Command\Command.cs" />
@@ -83,11 +81,11 @@
     <Compile Include="Game\Delegates.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\NetworkGame.cs" />
-    <Compile Include="AI\ILearnableAI.cs" />
     <Compile Include="AI\IPlayableAI.cs" />
     <Compile Include="Network\Delegates.cs" />
     <Compile Include="Network\Network.cs" />
     <Compile Include="Network\IRCClient.cs" />
+    <Compile Include="Network\NetworkMessage.cs" />
     <Compile Include="Network\TCPClient.cs" />
     <Compile Include="Network\TCPServer.cs" />
     <Compile Include="Parameterdata.cs" />
