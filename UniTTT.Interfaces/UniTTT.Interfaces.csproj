@@ -35,7 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IField.cs" />
-    <Compile Include="ILearnableAI.cs" />
     <Compile Include="IPlayableAI.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
