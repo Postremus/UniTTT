@@ -29,7 +29,7 @@ namespace UniTTT.Logik
         static Statics()
         {
             _rnd = new Random();
-            _pManager = new PluginManager();
+            //_pManager = new PluginManager();
         }
     }
 }
