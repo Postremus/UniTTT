@@ -72,7 +72,7 @@ namespace UniTTT.Logik.Game
 
             if (p2 is Player.NetworkPlayer)
             {
-                NewNetworkMessageForMeEvent += ((UniTTT.Logik.Player.NetworkPlayer)p2).ReceiveVector);
+                NewNetworkMessageForMeEvent += ((UniTTT.Logik.Player.NetworkPlayer)p2).ReceiveVector;
             }
 
             PlayerMovedEvent += SendVector;
