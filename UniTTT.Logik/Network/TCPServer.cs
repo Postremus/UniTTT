@@ -15,7 +15,7 @@ namespace UniTTT.Logik.Network
         private TcpListener listener;
         #endregion
 
-        public TCPServer(string host, int port)
+        public TCPServer(string host, int port, string myNick)
         {
             Hostname = host;
             TargetPort = port;
@@ -27,7 +27,7 @@ namespace UniTTT.Logik.Network
             ClientStream = Client.GetStream();
             Reader = new StreamReader(ClientStream);
             Writer = new StreamWriter(ClientStream);
-            new Thread(ReceiveMessages).Start();
+            MyNick = myNick;
         }
     }
 }
