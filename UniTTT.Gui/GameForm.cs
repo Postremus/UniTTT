@@ -13,7 +13,7 @@ using System.Threading;
 [assembly: CLSCompliant(true)]
 namespace UniTTT.Gui
 {
-    public partial class Form1 : Form
+    public partial class GameForm : Form
     {
         private Logik.Game.Game _game;
         private Task _playerWaitTask;
@@ -24,7 +24,7 @@ namespace UniTTT.Gui
         CancellationTokenSource _taskToken;
         StartHelper _startHelperForm;
 
-        public Form1()
+        public GameForm()
         {
             InitializeComponent();
             MouseClick += MouseNewStart;
@@ -246,7 +246,7 @@ namespace UniTTT.Gui
 
         private void neuesSpielToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NewGameForm f = new NewGameForm();
+            StartHelper f = new StartHelper();
             if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 _game = f.GameMode;
@@ -268,8 +268,8 @@ namespace UniTTT.Gui
                 {
                     ((Logik.Game.NetworkGame)_game).NewGameRequestReceivedEvent += ResetGame;
                 }
-                _spieler1Anfang = f.Spieler1Anfang;
-                _spieler2Anfang = f.Spieler2Anfang;
+                //_spieler1Anfang = f.Spieler1Anfang;
+                //_spieler2Anfang = f.Spieler2Anfang;
             }
         }
 
