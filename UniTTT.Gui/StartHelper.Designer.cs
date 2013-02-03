@@ -463,9 +463,9 @@
             this.network_play_cbx.AutoSize = true;
             this.network_play_cbx.Location = new System.Drawing.Point(43, 117);
             this.network_play_cbx.Name = "network_play_cbx";
-            this.network_play_cbx.Size = new System.Drawing.Size(337, 17);
+            this.network_play_cbx.Size = new System.Drawing.Size(339, 17);
             this.network_play_cbx.TabIndex = 2;
-            this.network_play_cbx.Text = "Ich möchte gegen eine Person an einen anderen Rechner spielen";
+            this.network_play_cbx.Text = "Ich möchte gegen eine Person an einem anderen Rechner spielen";
             this.network_play_cbx.UseVisualStyleBackColor = true;
             // 
             // computer_play_cbx
