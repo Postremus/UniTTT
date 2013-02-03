@@ -77,6 +77,7 @@
     <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\FieldPlaceData.cs" />
     <Compile Include="Fields\FieldRegion.cs" />
+    <Compile Include="GameFactory.cs" />
     <Compile Include="GameStates.cs" />
     <Compile Include="Game\Delegates.cs" />
     <Compile Include="Game\Game.cs" />
