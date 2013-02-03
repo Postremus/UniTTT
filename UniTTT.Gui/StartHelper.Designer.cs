@@ -66,9 +66,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.network_play_cbx = new System.Windows.Forms.CheckBox();
-            this.computer_play_cbx = new System.Windows.Forms.CheckBox();
-            this.human_play_cbx = new System.Windows.Forms.CheckBox();
+            this.game_mode_lbx = new System.Windows.Forms.ListBox();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
@@ -202,7 +200,7 @@
             // 
             this.network_server_connect_btn.Location = new System.Drawing.Point(182, 151);
             this.network_server_connect_btn.Name = "network_server_connect_btn";
-            this.network_server_connect_btn.Size = new System.Drawing.Size(125, 23);
+            this.network_server_connect_btn.Size = new System.Drawing.Size(141, 23);
             this.network_server_connect_btn.TabIndex = 7;
             this.network_server_connect_btn.Text = "Verbinde mit dem Server";
             this.network_server_connect_btn.UseVisualStyleBackColor = true;
@@ -447,9 +445,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.network_play_cbx);
-            this.tabPage1.Controls.Add(this.computer_play_cbx);
-            this.tabPage1.Controls.Add(this.human_play_cbx);
+            this.tabPage1.Controls.Add(this.game_mode_lbx);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -458,37 +454,17 @@
             this.tabPage1.Text = "Start";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // network_play_cbx
+            // game_mode_lbx
             // 
-            this.network_play_cbx.AutoSize = true;
-            this.network_play_cbx.Location = new System.Drawing.Point(43, 117);
-            this.network_play_cbx.Name = "network_play_cbx";
-            this.network_play_cbx.Size = new System.Drawing.Size(339, 17);
-            this.network_play_cbx.TabIndex = 2;
-            this.network_play_cbx.Text = "Ich möchte gegen eine Person an einem anderen Rechner spielen";
-            this.network_play_cbx.UseVisualStyleBackColor = true;
-            // 
-            // computer_play_cbx
-            // 
-            this.computer_play_cbx.AutoSize = true;
-            this.computer_play_cbx.Checked = true;
-            this.computer_play_cbx.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.computer_play_cbx.Location = new System.Drawing.Point(43, 94);
-            this.computer_play_cbx.Name = "computer_play_cbx";
-            this.computer_play_cbx.Size = new System.Drawing.Size(217, 17);
-            this.computer_play_cbx.TabIndex = 1;
-            this.computer_play_cbx.Text = "Ich möchte gegen den Computer spielen";
-            this.computer_play_cbx.UseVisualStyleBackColor = true;
-            // 
-            // human_play_cbx
-            // 
-            this.human_play_cbx.AutoSize = true;
-            this.human_play_cbx.Location = new System.Drawing.Point(43, 71);
-            this.human_play_cbx.Name = "human_play_cbx";
-            this.human_play_cbx.Size = new System.Drawing.Size(230, 17);
-            this.human_play_cbx.TabIndex = 0;
-            this.human_play_cbx.Text = "Ich möchte gegen einen Menschen spielen";
-            this.human_play_cbx.UseVisualStyleBackColor = true;
+            this.game_mode_lbx.FormattingEnabled = true;
+            this.game_mode_lbx.Items.AddRange(new object[] {
+            "Ich möchte gegen einen Menschen spielen",
+            "Ich möchte gegen den Computer spielen",
+            "Ich möchte gegen eine Person an einem anderen Rechner spielen"});
+            this.game_mode_lbx.Location = new System.Drawing.Point(64, 82);
+            this.game_mode_lbx.Name = "game_mode_lbx";
+            this.game_mode_lbx.Size = new System.Drawing.Size(392, 147);
+            this.game_mode_lbx.TabIndex = 3;
             // 
             // mainTabControl
             // 
@@ -551,7 +527,6 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.mainTabControl.ResumeLayout(false);
             this.tabPage8.ResumeLayout(false);
             this.tabPage8.PerformLayout();
@@ -595,14 +570,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.CheckBox network_play_cbx;
-        private System.Windows.Forms.CheckBox computer_play_cbx;
-        private System.Windows.Forms.CheckBox human_play_cbx;
         private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button network_server_connect_btn;
         private System.Windows.Forms.Button refresh_listbox4;
+        private System.Windows.Forms.ListBox game_mode_lbx;
     }
 }

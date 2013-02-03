@@ -74,15 +74,11 @@ namespace UniTTT.Gui
         {
             if (piPageNumber == 0)
             {
-                if (!human_play_cbx.Checked && !computer_play_cbx.Checked && !network_play_cbx.Checked)
-                {
-                    return false;
-                }
-                if (human_play_cbx.Checked)
+                if (game_mode_lbx.SelectedIndex == 0)
                 {
                     _indexes.Add(1);
                 }
-                else if (computer_play_cbx.Checked)
+                else if (game_mode_lbx.SelectedIndex == 1)
                 {
                     _indexes.Add(2);
                 }
@@ -99,7 +95,7 @@ namespace UniTTT.Gui
                 }
 
                 _p1 = new Logik.Player.Player(human_symbol_player_tbx.Text[0]);
-                if (human_play_cbx.Checked)
+                if (game_mode_lbx.SelectedIndex == 0)
                 {
                     _p2 = new Logik.Player.Player(human_symbol_enemie_tbx.Text[0]);
                     if (human_start_player_lbx.SelectedIndex == 0)
@@ -109,7 +105,7 @@ namespace UniTTT.Gui
                         _p2 = temp;
                     }
                 }
-                else if (computer_play_cbx.Checked)
+                else if (game_mode_lbx.SelectedIndex == 1)
                 {
                     _p2 = new Logik.Player.AIPlayer((string)ai_selection_lbx.SelectedItem, 3, 3, human_symbol_enemie_tbx.Text[0]);
                     if (human_start_player_lbx.SelectedIndex == 0)
@@ -224,7 +220,7 @@ namespace UniTTT.Gui
             }
             if (piPageNumber == 7)
             {
-                finish_btn.Enabled = !network_play_cbx.Checked;
+                finish_btn.Enabled = game_mode_lbx.SelectedIndex != 2;
             }
         }
 
