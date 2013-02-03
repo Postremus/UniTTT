@@ -39,6 +39,7 @@ namespace UniTTT.Gui
             base._oPreviousBtn = previous_btn;
             base._oMainTabControl = mainTabControl;
             this.Load += base.WizardForm_Load;
+            base.AllowTitleChange(false);
 
             base._oNextBtn.Click += base._oNextBtn_Click;
             base._oPreviousBtn.Click += base._oPreviousBtn_Click;
