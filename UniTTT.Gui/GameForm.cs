@@ -254,6 +254,35 @@ namespace UniTTT.Gui
 
         private void assistentToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StartHelper f = new StartHelper();
+            if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _game = f.GameMode;
+                _game.BDarsteller.Enabled = true;
+                EnableBrett();
+                ((BrettDarsteller)_game.BDarsteller).BrettUpdateEvent += UpdateBrett;
+                ((BrettDarsteller)_game.BDarsteller).BrettEnableEvent += EnableBrett;
+                _game.PlayerOutputEvent += OutputPlayer;
+                _game.WindowTitleChangeEvent += ChangeWindowTitle;
+                _game.WinMessageEvent += OutputWinMessage;
+                OutputPlayer(string.Format("Spieler {0} ist an der Reihe.", _game.Player.Symbol));
+                _game.Initialize();
+                label1.Location = new Point(80, label1.Location.Y);
+                if (_game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer)
+                {
+                    _taskTurn = true;
+                }
+                if (_game is Logik.Game.NetworkGame)
+                {
+                    ((Logik.Game.NetworkGame)_game).NewGameRequestReceivedEvent += ResetGame;
+                }
+                //_spieler1Anfang = f.Spieler1Anfang;
+                //_spieler2Anfang = f.Spieler2Anfang;
+            }
+        }
+
+        private void profiModusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             ProfiModeForm f = new ProfiModeForm();
             if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

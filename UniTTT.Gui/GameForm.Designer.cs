@@ -41,13 +41,13 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neuesSpielToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.assistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.profiModusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neustartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.überToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.assistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.profiModusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -161,6 +161,20 @@
             this.neuesSpielToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.neuesSpielToolStripMenuItem.Text = "Neues Spiel";
             // 
+            // assistentToolStripMenuItem
+            // 
+            this.assistentToolStripMenuItem.Name = "assistentToolStripMenuItem";
+            this.assistentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.assistentToolStripMenuItem.Text = "Assistent";
+            this.assistentToolStripMenuItem.Click += new System.EventHandler(this.assistentToolStripMenuItem_Click);
+            // 
+            // profiModusToolStripMenuItem
+            // 
+            this.profiModusToolStripMenuItem.Name = "profiModusToolStripMenuItem";
+            this.profiModusToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.profiModusToolStripMenuItem.Text = "Profi Modus";
+            this.profiModusToolStripMenuItem.Click += new System.EventHandler(this.profiModusToolStripMenuItem_Click);
+            // 
             // neustartenToolStripMenuItem
             // 
             this.neustartenToolStripMenuItem.Name = "neustartenToolStripMenuItem";
@@ -197,19 +211,6 @@
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
             this.infoToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.infoToolStripMenuItem.Text = "Info";
-            // 
-            // assistentToolStripMenuItem
-            // 
-            this.assistentToolStripMenuItem.Name = "assistentToolStripMenuItem";
-            this.assistentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.assistentToolStripMenuItem.Text = "Assistent";
-            this.assistentToolStripMenuItem.Click += new System.EventHandler(this.assistentToolStripMenuItem_Click);
-            // 
-            // profiModusToolStripMenuItem
-            // 
-            this.profiModusToolStripMenuItem.Name = "profiModusToolStripMenuItem";
-            this.profiModusToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.profiModusToolStripMenuItem.Text = "Profi Modus";
             // 
             // GameForm
             // 
