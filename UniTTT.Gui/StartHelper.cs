@@ -290,5 +290,10 @@ namespace UniTTT.Gui
                 return;
             ((Logik.Game.NetworkGame)_gameMode).UpdateServerListStarter();
         }
+
+        private void cancel_btn_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

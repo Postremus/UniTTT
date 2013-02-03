@@ -99,6 +99,7 @@
             this.cancel_btn.TabIndex = 2;
             this.cancel_btn.Text = "Abbrechen";
             this.cancel_btn.UseVisualStyleBackColor = true;
+            this.cancel_btn.Click += new System.EventHandler(this.cancel_btn_Click);
             // 
             // next_btn
             // 
