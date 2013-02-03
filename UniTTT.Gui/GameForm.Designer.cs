@@ -46,6 +46,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.überToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.assistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.profiModusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,22 +154,24 @@
             // 
             // neuesSpielToolStripMenuItem
             // 
+            this.neuesSpielToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.assistentToolStripMenuItem,
+            this.profiModusToolStripMenuItem});
             this.neuesSpielToolStripMenuItem.Name = "neuesSpielToolStripMenuItem";
-            this.neuesSpielToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.neuesSpielToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.neuesSpielToolStripMenuItem.Text = "Neues Spiel";
-            this.neuesSpielToolStripMenuItem.Click += new System.EventHandler(this.neuesSpielToolStripMenuItem_Click);
             // 
             // neustartenToolStripMenuItem
             // 
             this.neustartenToolStripMenuItem.Name = "neustartenToolStripMenuItem";
-            this.neustartenToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.neustartenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.neustartenToolStripMenuItem.Text = "Neustarten";
             this.neustartenToolStripMenuItem.Click += new System.EventHandler(this.neustartenToolStripMenuItem_Click);
             // 
             // beendenToolStripMenuItem
             // 
             this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
-            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.beendenToolStripMenuItem.Text = "Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
             // 
@@ -194,7 +198,20 @@
             this.infoToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.infoToolStripMenuItem.Text = "Info";
             // 
-            // Form1
+            // assistentToolStripMenuItem
+            // 
+            this.assistentToolStripMenuItem.Name = "assistentToolStripMenuItem";
+            this.assistentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.assistentToolStripMenuItem.Text = "Assistent";
+            this.assistentToolStripMenuItem.Click += new System.EventHandler(this.assistentToolStripMenuItem_Click);
+            // 
+            // profiModusToolStripMenuItem
+            // 
+            this.profiModusToolStripMenuItem.Name = "profiModusToolStripMenuItem";
+            this.profiModusToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.profiModusToolStripMenuItem.Text = "Profi Modus";
+            // 
+            // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -213,10 +230,9 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "GameForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -243,6 +259,8 @@
         private System.Windows.Forms.ToolStripMenuItem überToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem neuesSpielToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem assistentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem profiModusToolStripMenuItem;
     }
 }
 

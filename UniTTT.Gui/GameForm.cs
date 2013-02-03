@@ -22,7 +22,6 @@ namespace UniTTT.Gui
         private bool _spieler1Anfang;
         private bool _spieler2Anfang;
         CancellationTokenSource _taskToken;
-        StartHelper _startHelperForm;
 
         public GameForm()
         {
@@ -33,8 +32,17 @@ namespace UniTTT.Gui
             _playerWaitTask.Start();
             _isGameWindowClosed = false;
             FormClosed += GameWindowClosedEvent;
-            _startHelperForm = new StartHelper();
-            _startHelperForm.ShowDialog(this);
+
+            _game = new Logik.Game.Game(new Player('X'), new Player('O'), new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3));
+            _game.BDarsteller.Enabled = true;
+            EnableBrett();
+            ((BrettDarsteller)_game.BDarsteller).BrettUpdateEvent += UpdateBrett;
+            ((BrettDarsteller)_game.BDarsteller).BrettEnableEvent += EnableBrett;
+            _game.PlayerOutputEvent += OutputPlayer;
+            _game.WindowTitleChangeEvent += ChangeWindowTitle;
+            _game.WinMessageEvent += OutputWinMessage;
+            OutputPlayer(string.Format("Spieler {0} ist an der Reihe.", _game.Player.Symbol));
+            _game.Initialize();
         }
 
         private void GameWindowClosedEvent(object sender, EventArgs e)
@@ -244,12 +252,13 @@ namespace UniTTT.Gui
             button9.Enabled = _game.BDarsteller.Enabled;
         }
 
-        private void neuesSpielToolStripMenuItem_Click(object sender, EventArgs e)
+        private void assistentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StartHelper f = new StartHelper();
+            ProfiModeForm f = new ProfiModeForm();
             if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 _game = f.GameMode;
+                _game.BDarsteller = new BrettDarsteller(_game.Field.Width, _game.Field.Height);
                 _game.BDarsteller.Enabled = true;
                 EnableBrett();
                 ((BrettDarsteller)_game.BDarsteller).BrettUpdateEvent += UpdateBrett;
@@ -270,25 +279,6 @@ namespace UniTTT.Gui
                 }
                 //_spieler1Anfang = f.Spieler1Anfang;
                 //_spieler2Anfang = f.Spieler2Anfang;
-            }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            if (_startHelperForm.DialogResult == System.Windows.Forms.DialogResult.OK)
-            {
-                _game = _startHelperForm.GameMode;
-                ((BrettDarsteller)_game.BDarsteller).BrettUpdateEvent += UpdateBrett;
-                ((BrettDarsteller)_game.BDarsteller).BrettEnableEvent += EnableBrett;
-                _game.PlayerOutputEvent += OutputPlayer;
-                _game.WindowTitleChangeEvent += ChangeWindowTitle;
-                _game.WinMessageEvent += OutputWinMessage;
-                OutputPlayer(string.Format("Spieler {0} ist an der Reihe.", _game.Player1.Symbol));
-                _game.Initialize();
-            }
-            else
-            {
-                Close();
             }
         }
     }

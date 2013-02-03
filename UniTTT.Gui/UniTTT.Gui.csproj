@@ -99,6 +99,12 @@
     <Compile Include="NewGameForm.Designer.cs">
       <DependentUpon>NewGameForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProfiModeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProfiModeForm.Designer.cs">
+      <DependentUpon>ProfiModeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartHelper.cs">
@@ -112,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewGameForm.resx">
       <DependentUpon>NewGameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProfiModeForm.resx">
+      <DependentUpon>ProfiModeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
