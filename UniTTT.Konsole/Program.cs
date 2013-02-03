@@ -99,23 +99,24 @@ namespace UniTTT.Konsole
                 Logik.Network.Network client;
                 string ip = parameters.GetValue<string>("ip");
                 int port = parameters.GetValue<int>("port");
+                string nick = parameters.GetValue<string>("nick");
                 if (parameters.GetValue<string>("protokoll") == "irc")
                 {
-                    client = new Logik.Network.IRCClient(ip, port, parameters.GetValue<string>("channel"));
+                    client = new Logik.Network.IRCClient(ip, port, parameters.GetValue<string>("channel"), nick);
                 }
                 else
                 {
                     if (parameters.IsDefined("server"))
                     {
-                        client = new Logik.Network.TCPServer(ip, port);
+                        client = new Logik.Network.TCPServer(ip, port, nick);
                     }
                     else
                     {
-                        client = new Logik.Network.TCPClient(ip, port);
+                        client = new Logik.Network.TCPClient(ip, port, nick);
                     }
                 }
 
-                Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new Logik.Player.NetworkPlayer(Logik.Player.Player.PlayerChange(hPlayer.Symbol), client), new BrettDarsteller(width, height), field, client);
+                Logik.Game.Game gameMode = new Logik.Game.NetworkGame(hPlayer, new Logik.Player.NetworkPlayer(Logik.Player.Player.PlayerChange(hPlayer.Symbol), ref client), new BrettDarsteller(width, height), field, ref client, true);
                 Game g = new Game(gameMode);
                 g.Run();
             }
