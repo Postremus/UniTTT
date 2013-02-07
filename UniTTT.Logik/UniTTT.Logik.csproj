@@ -55,6 +55,9 @@
     <Reference Include="Poc">
       <HintPath>..\lib\Poc.dll</HintPath>
     </Reference>
+    <Reference Include="Popas">
+      <HintPath>..\lib\Popas.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -89,8 +92,6 @@
     <Compile Include="Network\NetworkMessage.cs" />
     <Compile Include="Network\TCPClient.cs" />
     <Compile Include="Network\TCPServer.cs" />
-    <Compile Include="Parameterdata.cs" />
-    <Compile Include="ParameterInterpreter.cs" />
     <Compile Include="Player\NetworkPlayer.cs" />
     <Compile Include="Statics.cs" />
     <Compile Include="WinChecker.cs" />
