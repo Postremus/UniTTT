@@ -188,7 +188,10 @@ namespace UniTTT.Logik.Game
             bool isServer = bool.Parse(bl);
             if (isServer)
             {
-                _servers.Add(received.Transmitter);
+                if (!_servers.Contains(received.Transmitter))
+                {
+                    _servers.Add(received.Transmitter);
+                }
                 OnServerListSizeChangedEvent();
             }
         }
@@ -324,12 +327,16 @@ namespace UniTTT.Logik.Game
         private void UpdateServerList()
         {
             _servers = new List<string>();
-            foreach (string nick in ((IRCClient)_client).People)
+            if (_client is IRCClient)
             {
-                if (nick != ((IRCClient)_client).MyNick)
+                _client.Send("/names");
+                foreach (string nick in ((IRCClient)_client).People)
                 {
-                    SetEnemyNick(nick);
-                    SendIsServer();
+                    if (nick != ((IRCClient)_client).MyNick)
+                    {
+                        SetEnemyNick(nick);
+                        SendIsServer();
+                    }
                 }
             }
         }
