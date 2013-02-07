@@ -18,6 +18,16 @@ namespace UniTTT.Logik
             return CreateGame(data, null);
         }
 
+        public static Logik.Game.Game CreateGame(string[] args)
+        {
+            return CreateGame(ParameterInterpreter.InterpretCommandLine(args), null);
+        }
+
+        public static Logik.Game.Game CreateGame(string[] args, Player.Player humanPlayer)
+        {
+            return CreateGame(ParameterInterpreter.InterpretCommandLine(args), humanPlayer);
+        }
+
         public static Logik.Game.Game CreateGame(Parameterdata data, Player.Player humanPlayer)
         {
             if (humanPlayer == null)
