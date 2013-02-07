@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UniTTT.Logik;
-using Popas;
 
 namespace UniTTT.Gui
 {
@@ -31,7 +30,7 @@ namespace UniTTT.Gui
         private void ok_btn_Click(object sender, EventArgs e)
         {
             string[] args = parameter_tbx.Text.Split(' ');
-            _gameMode = GameFactory.CreateGame(ParameterInterpreter.InterpretCommandLine(args));
+            _gameMode = GameFactory.CreateGame(args);
             DialogResult = DialogResult.OK;
             Close();
         }
