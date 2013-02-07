@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 using UniTTT.Logik;
+using Popas;
 
 [assembly: CLSCompliant(true)]
 namespace UniTTT.Konsole

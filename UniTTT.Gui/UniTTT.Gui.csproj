@@ -79,11 +79,18 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Popas">
+      <HintPath>..\lib\Popas.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WizardFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\WizardFramework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrettDarsteller.cs" />
@@ -148,10 +155,6 @@
     <ProjectReference Include="..\UniTTT.Logik\UniTTT.Logik.csproj">
       <Project>{780D5F11-6414-4E55-A0C3-E3832DC3FA05}</Project>
       <Name>UniTTT.Logik</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WizardFramework\WizardFramework.csproj">
-      <Project>{B0DE6FA7-7A61-476D-9345-A7FC76453207}</Project>
-      <Name>WizardFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

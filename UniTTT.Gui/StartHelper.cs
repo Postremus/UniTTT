@@ -33,16 +33,16 @@ namespace UniTTT.Gui
         public StartHelper()
         {
             InitializeComponent();
-            base._oCancelBtn = cancel_btn;
-            base._oFinishBtn = finish_btn;
-            base._oNextBtn = next_btn;
-            base._oPreviousBtn = previous_btn;
-            base._oMainTabControl = mainTabControl;
+            base.Cancel = cancel_btn;
+            base.Finish = finish_btn;
+            base.Next = next_btn;
+            base.Previous = previous_btn;
+            base.MainTabControl = mainTabControl;
             this.Load += base.WizardForm_Load;
             base.AllowTitleChange(false);
 
-            base._oNextBtn.Click += base._oNextBtn_Click;
-            base._oPreviousBtn.Click += base._oPreviousBtn_Click;
+            base.Next.Click += base.NextBtn_Click;
+            base.Previous.Click += base.PreviousBtn_Click;
             _indexes = new List<int>();
             _indexes.Add(0);
             _currIndex = 0;
