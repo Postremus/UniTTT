@@ -132,12 +132,8 @@ namespace UniTTT.Logik.Game
 
         public void SendGameSettings()
         {
-            MemoryStream st = new MemoryStream();
-            Poc.Serializer.XMLSerializer seri = new Poc.Serializer.XMLSerializer();
-            seri.Serialize<Game>(st, this);
             string settings = string.Format("FieldWidth:{0};FieldHeight:{1};YourSymbol:{2};YouStarts:{3}", Field.Width, Field.Height, Player2.Symbol, Player == Player2);
             _client.SendTo("UniTTT!GameSettings:" + settings, _enemyNick);
-            st.Close();
             OnGameReadyStanteChangedEvent(!GameReady);
         }
 
