@@ -120,11 +120,12 @@ namespace UniTTT.Logik.Game
         {
             if (!received.Content.Contains("UniTTT!GameSettings"))
                 return;
-            List<string> splited = new List<string>(received.Content.Split(';'));
-            int width = int.Parse(splited[0].SubStringBetween(":", ";"));
-            int height = int.Parse(splited[1].SubStringBetween(":", ";"));
-            char symbol = splited[2].SubStringBetween(":", ";")[0];
-            bool meStarts = bool.Parse(splited[3].SubStringBetween(":", ";"));
+            string value = received.Content.Replace("UniTTT!GameSettings:", "");
+            List<string> splited = new List<string>(value.Split(';'));
+            int width = int.Parse(splited[0].SubStringBetween(":", null));
+            int height = int.Parse(splited[1].SubStringBetween(":", null));
+            char symbol = splited[2].SubStringBetween(":", null)[0];
+            bool meStarts = bool.Parse(splited[3].SubStringBetween(":", null));
 
             base.Field.Width = width;
             base.Field.Height = height;
