@@ -220,9 +220,13 @@ namespace UniTTT.Gui
                 ((Logik.Game.NetworkGame)_gameMode).ServerListSizeChangedEvent += ServerListSizeChanged;
                 ((Logik.Game.NetworkGame)_gameMode).UpdateServerListStarter();
             }
+            if (piPageNumber == 6)
+            {
+                finish_btn.Enabled = true;
+            }
             if (piPageNumber == 7)
             {
-                finish_btn.Enabled = game_mode_lbx.SelectedIndex != 2;
+                finish_btn.Enabled = true;
             }
         }
 

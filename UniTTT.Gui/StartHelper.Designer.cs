@@ -83,6 +83,7 @@
             // 
             // finish_btn
             // 
+            this.finish_btn.Enabled = false;
             this.finish_btn.Location = new System.Drawing.Point(444, 328);
             this.finish_btn.Name = "finish_btn";
             this.finish_btn.Size = new System.Drawing.Size(75, 23);
