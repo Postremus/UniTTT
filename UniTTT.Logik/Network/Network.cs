@@ -19,6 +19,7 @@ namespace UniTTT.Logik.Network
         private string _hostname;
         private int _targetPort;
         private string _myNick;
+        private Thread _receiverThread;
         #endregion
 
         #region Propertys
@@ -94,8 +95,15 @@ namespace UniTTT.Logik.Network
 
         public virtual void Connect()
         {
-
-            new Thread(ReceiveMessages).Start();
+            if (_receiverThread == null)
+            {
+                _receiverThread = new Thread(ReceiveMessages);
+                _receiverThread.IsBackground = true;
+            }
+            if (_receiverThread.ThreadState != ThreadState.Background)
+            {
+                _receiverThread.Start();
+            }
         }
 
         private void MakeNetworkMessage(string message)
