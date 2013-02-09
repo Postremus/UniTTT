@@ -50,6 +50,8 @@ namespace UniTTT.Gui
             network_mode_lbx.SelectedIndex = 0;
             network_role_lbx.SelectedIndex = 0;
 
+            game_mode_lbx.SelectedIndex = 1;
+
             _brettDarsteller = new BrettDarsteller(3, 3);
             _field = new Logik.Fields.Brett(3, 3);
         }
