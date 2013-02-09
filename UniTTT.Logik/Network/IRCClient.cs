@@ -64,6 +64,11 @@ namespace UniTTT.Logik.Network
             base.Send(message);
         }
 
+        public void SendCommandToChannel(string message)
+        {
+            base.Send(string.Format("{0} {1}", message, channel));
+        }
+
         public override void Send(string message)
         {
             base.Send(string.Format("PRIVMSG {0} :{1}", channel, message));

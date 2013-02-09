@@ -329,7 +329,7 @@ namespace UniTTT.Logik.Game
             _servers = new List<string>();
             if (_client is IRCClient)
             {
-                _client.Send("/names");
+                ((IRCClient)_client).SendCommandToChannel("names");
                 foreach (string nick in ((IRCClient)_client).People)
                 {
                     if (nick != ((IRCClient)_client).MyNick)
