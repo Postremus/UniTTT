@@ -18,7 +18,6 @@ namespace UniTTT.Gui
         private Logik.Game.Game _game;
         private Task _playerWaitTask;
         private bool _taskTurn;
-        private bool _isGameWindowClosed;
         private bool _spieler1Anfang;
         private bool _spieler2Anfang;
         CancellationTokenSource _taskToken;
@@ -28,9 +27,6 @@ namespace UniTTT.Gui
             InitializeComponent();
             MouseClick += MouseNewStart;
             _taskToken = new CancellationTokenSource();
-            _playerWaitTask = new Task(new Action(WaitForPlayerTask), _taskToken.Token);
-            _playerWaitTask.Start();
-            _isGameWindowClosed = false;
             FormClosed += GameWindowClosedEvent;
 
             _game = new Logik.Game.Game(new Player('X'), new Player('O'), new BrettDarsteller(3, 3), new Logik.Fields.Brett(3, 3));
@@ -47,20 +43,16 @@ namespace UniTTT.Gui
 
         private void GameWindowClosedEvent(object sender, EventArgs e)
         {
-            _isGameWindowClosed = true;
             _taskToken.Cancel();
         }
 
         private void WaitForPlayerTask()
         {
-            while (!_isGameWindowClosed)
+            if (_taskTurn)
             {
-                if (_taskTurn)
-                {
-                    Vector2i zug = _game.Player.Play(_game.Field);
-                    _game.Logik(zug);
-                    _taskTurn = false;
-                }
+                Vector2i zug = _game.Player.Play(_game.Field);
+                _game.Logik(zug);
+                _taskTurn = false;
             }
         }
 
@@ -228,7 +220,12 @@ namespace UniTTT.Gui
             if (_game.Field.IsFieldEmpty(idx))
             {
                 _game.Logik(Vector2i.FromIndex(idx, 3, 3));
-                _taskTurn = _game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer;
+                if (_game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer)
+                {
+                    _taskTurn = true;
+                    _playerWaitTask = new Task(new Action(WaitForPlayerTask), _taskToken.Token);
+                    _playerWaitTask.Start();
+                }
             }
         }
 
@@ -271,6 +268,8 @@ namespace UniTTT.Gui
                 if (_game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer)
                 {
                     _taskTurn = true;
+                    _playerWaitTask = new Task(new Action(WaitForPlayerTask), _taskToken.Token);
+                    _playerWaitTask.Start();
                 }
                 if (_game is Logik.Game.NetworkGame)
                 {
@@ -301,6 +300,8 @@ namespace UniTTT.Gui
                 if (_game.Player is Logik.Player.AIPlayer || _game.Player is Logik.Player.NetworkPlayer)
                 {
                     _taskTurn = true;
+                    _playerWaitTask = new Task(new Action(WaitForPlayerTask), _taskToken.Token);
+                    _playerWaitTask.Start();
                 }
                 if (_game is Logik.Game.NetworkGame)
                 {
