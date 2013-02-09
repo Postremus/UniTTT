@@ -16,7 +16,6 @@ namespace UniTTT.Logik.Game
         private string _enemyNick;
         private int _handShakeSended;
         private bool _isHandShakeCorrect;
-        private Dictionary<string, bool> _serverCheckDic;
         private List<string> _servers;
         #endregion
 
@@ -31,7 +30,17 @@ namespace UniTTT.Logik.Game
         {
             get
             {
-                return _servers;
+                lock (_servers)
+                {
+                    return _servers;
+                }
+            }
+            private set
+            {
+                lock (_servers)
+                {
+                    _servers = value;
+                }
             }
         }
 
@@ -184,9 +193,9 @@ namespace UniTTT.Logik.Game
             bool isServer = bool.Parse(bl);
             if (isServer)
             {
-                if (!_servers.Contains(received.Transmitter))
+                if (!Servers.Contains(received.Transmitter))
                 {
-                    _servers.Add(received.Transmitter);
+                    Servers.Add(received.Transmitter);
                 }
                 OnServerListSizeChangedEvent();
             }
@@ -326,6 +335,10 @@ namespace UniTTT.Logik.Game
             if (_client is IRCClient)
             {
                 ((IRCClient)_client).SendCommandToChannel("names");
+                if (((IRCClient)_client).People == null)
+                {
+                    return;
+                }
                 foreach (string nick in ((IRCClient)_client).People)
                 {
                     if (nick != ((IRCClient)_client).MyNick)
