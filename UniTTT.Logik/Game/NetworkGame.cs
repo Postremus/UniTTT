@@ -151,6 +151,10 @@ namespace UniTTT.Logik.Game
 
             base.Field.Width = width;
             base.Field.Height = height;
+            if (!meStarts)
+            {
+                PlayerChange();
+            }
             base.Player1.Symbol = symbol;
             base.Player2.Symbol = enemySymbol;
             OnGameReadyStanteChangedEvent(!GameReady);
