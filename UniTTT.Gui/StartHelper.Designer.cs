@@ -524,6 +524,7 @@
             this.Controls.Add(this.cancel_btn);
             this.Controls.Add(this.finish_btn);
             this.Controls.Add(this.mainTabControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StartHelper";
             this.Text = "StartHelper";
             this.tabPage7.ResumeLayout(false);
