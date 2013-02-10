@@ -168,9 +168,10 @@ namespace UniTTT.Gui
             }
             else if (piPageNumber == 5)
             {
-                ((Logik.Game.NetworkGame)_gameMode).SetEnemyNick((string)listBox4.SelectedItem);
-                ((Logik.Game.NetworkGame)_gameMode).SendJoinRequest();
-                _gameMode.GameReadyStateChangedEvent += EnableFinishButton;
+                if (listBox4.SelectedItem == null)
+                {
+                    return false;
+                }
                 _indexes.Add(7);
             }
             else if (piPageNumber == 6)
@@ -228,6 +229,10 @@ namespace UniTTT.Gui
             }
             if (piPageNumber == 7)
             {
+                ((Logik.Game.NetworkGame)_gameMode).SetEnemyNick((string)listBox4.SelectedItem);
+                ((Logik.Game.NetworkGame)_gameMode).SendJoinRequest();
+                _gameMode.GameReadyStateChangedEvent += EnableFinishButton;
+
                 finish_btn.Enabled = true;
             }
         }
