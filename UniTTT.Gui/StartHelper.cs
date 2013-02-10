@@ -262,7 +262,7 @@ namespace UniTTT.Gui
 
         private void finish_btn_Click(object sender, EventArgs e)
         {
-            if (_indexes.Last() == 7)
+            if (_indexes.Last() == 6)
             {
                 if (network_server_enemy_lbx.SelectedItem == null)
                 {
@@ -278,12 +278,11 @@ namespace UniTTT.Gui
                     return;
                 }
             }
-            if (!_indexes.Contains(7))
+            if (_indexes.Contains(6) || _indexes.Contains(7))
             {
-                return;
+                DialogResult = DialogResult.OK;
+                Close();
             }
-            DialogResult = DialogResult.OK;
-            Close();
         }
 
         private void network_server_connect_btn_Click(object sender, EventArgs e)
