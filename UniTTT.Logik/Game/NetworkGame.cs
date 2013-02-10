@@ -125,11 +125,13 @@ namespace UniTTT.Logik.Game
             int width = int.Parse(splited[0].SubStringBetween(":", null));
             int height = int.Parse(splited[1].SubStringBetween(":", null));
             char symbol = splited[2].SubStringBetween(":", null)[0];
-            bool meStarts = bool.Parse(splited[3].SubStringBetween(":", null));
+            char enemySymbol = splited[3].SubStringBetween(":", null)[0];
+            bool meStarts = bool.Parse(splited[4].SubStringBetween(":", null));
 
             base.Field.Width = width;
             base.Field.Height = height;
             base.Player1.Symbol = symbol;
+            base.Player2.Symbol = enemySymbol;
             OnGameReadyStanteChangedEvent(!GameReady);
         }
 
@@ -142,7 +144,7 @@ namespace UniTTT.Logik.Game
 
         public void SendGameSettings()
         {
-            string settings = string.Format("FieldWidth:{0};FieldHeight:{1};YourSymbol:{2};YouStarts:{3}", Field.Width, Field.Height, Player2.Symbol, Player == Player2);
+            string settings = string.Format("FieldWidth:{0};FieldHeight:{1};YourSymbol:{2};MySymbol:{3};YouStarts:{4}", Field.Width, Field.Height, Player2.Symbol, Player1.Symbol, Player == Player2);
             _client.SendTo("UniTTT!GameSettings:" + settings, _enemyNick);
             OnGameReadyStanteChangedEvent(!GameReady);
         }
