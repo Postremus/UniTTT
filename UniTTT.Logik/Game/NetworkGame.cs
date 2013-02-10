@@ -17,15 +17,18 @@ namespace UniTTT.Logik.Game
         private int _handShakeSended;
         private bool _isHandShakeCorrect;
         private List<string> _servers;
+        private List<string> _joinRequests;
         #endregion
 
         public delegate void ServerListSizeChangedHandler();
+        public delegate void JoinRequestListSizeChangedHandler();
 
         public event Network.NewGameRequestReceived NewGameRequestReceivedEvent;
         public event Network.CanJoinAnswerReceivedHandler CanJoinAnswerReceivedEvent;
         public event HandShakeAnswerReceivedHandler HandShakeAnswerReceivedEvent;
         public event NewNetworkMessageForMeHandler NewNetworkMessageForMeEvent;
         public event ServerListSizeChangedHandler ServerListSizeChangedEvent;
+        public event JoinRequestListSizeChangedHandler JoinRequestListSizeChangedEvent;
         public List<string> Servers
         {
             get
@@ -43,11 +46,29 @@ namespace UniTTT.Logik.Game
                 }
             }
         }
+        public List<string> JoinRequests
+        {
+            get
+            {
+                lock (_joinRequests)
+                {
+                    return _joinRequests;
+                }
+            }
+            private set
+            {
+                lock (_joinRequests)
+                {
+                    _joinRequests = value;
+                }
+            }
+        }
 
         public NetworkGame(Logik.Player.Player p1, Logik.Player.Player p2, Logik.IBrettDarsteller bdar, Logik.Fields.Field field, ref Network.Network client, bool isServer)
             : base(p1, p2, bdar, field)
         {
             _servers = new List<string>();
+            _joinRequests = new List<string>();
             _isServer = isServer;
             _client = client;
 
@@ -153,6 +174,11 @@ namespace UniTTT.Logik.Game
         {
             if (!received.Content.Contains("UniTTT!HandShake1!"))
                 return;
+            SendHanschakeAnswer(received);
+        }
+
+        private void SendHanschakeAnswer(NetworkMessage received)
+        {
             int idx = received.Content.IndexOfLastChar("!");
             string value = received.Content.Remove(0, 18);
             _client.SendTo(string.Format("UniTTT!HandShake2!{0}", value), _enemyNick);
@@ -240,7 +266,7 @@ namespace UniTTT.Logik.Game
             if (!received.Content.Contains("UniTTT!CanJoinAnswer!"))
                 return;
             bool canJoin = bool.Parse(received.Content.Replace("UniTTT!CanJoinAnswer!", ""));
-            OnCanJoinAnswerReceivedEvent(true);
+            OnCanJoinAnswerReceivedEvent(canJoin);
         }
 
 
@@ -248,12 +274,31 @@ namespace UniTTT.Logik.Game
         {
             if (received.Content != "UniTTT!CanJoin")
                 return;
-            _client.SendTo(string.Format("UniTTT!CanJoinAnswer!{0}", !_toSomeoneConnected), received.Transmitter);
+            if (!JoinRequests.Contains(received.Transmitter))
+            {
+                JoinRequests.Add(received.Transmitter);
+                OnJoinRequestListSizeChangedEvent();
+            }
+        }
+
+        public void SendJoinAnswer()
+        {
+            if (!JoinRequests.Contains(_enemyNick))
+            {
+                return;
+            }
+            _client.SendTo(string.Format("UniTTT!CanJoinAnswer!{0}", !_toSomeoneConnected), _enemyNick);
+            foreach (string req in JoinRequests)
+            {
+                if (req != _enemyNick)
+                {
+                    _client.SendTo("UniTTT!CanJoinAnswer!False", req);
+                }
+            }
             if (!_toSomeoneConnected)
             {
                 _toSomeoneConnected = true;
             }
-            _enemyNick = received.Transmitter;
         }
 
         private void StartHandshakeAfterJoinRequest(bool canJoin)
@@ -324,6 +369,15 @@ namespace UniTTT.Logik.Game
             if (serverListSizeChangedEvent != null)
             {
                 serverListSizeChangedEvent();
+            }
+        }
+
+        public void OnJoinRequestListSizeChangedEvent()
+        {
+            JoinRequestListSizeChangedHandler joinReqeustListSizeChangedEvent = JoinRequestListSizeChangedEvent;
+            if (joinReqeustListSizeChangedEvent != null)
+            {
+                joinReqeustListSizeChangedEvent();
             }
         }
 

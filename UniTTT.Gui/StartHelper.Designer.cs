@@ -70,6 +70,7 @@
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
+            this.network_server_enemy_lbx = new System.Windows.Forms.ListBox();
             this.tabPage7.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -486,6 +487,7 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.network_server_enemy_lbx);
             this.tabPage8.Controls.Add(this.label7);
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
@@ -503,6 +505,14 @@
             this.label7.Size = new System.Drawing.Size(416, 91);
             this.label7.TabIndex = 0;
             this.label7.Text = resources.GetString("label7.Text");
+            // 
+            // network_server_enemy_lbx
+            // 
+            this.network_server_enemy_lbx.FormattingEnabled = true;
+            this.network_server_enemy_lbx.Location = new System.Drawing.Point(33, 162);
+            this.network_server_enemy_lbx.Name = "network_server_enemy_lbx";
+            this.network_server_enemy_lbx.Size = new System.Drawing.Size(120, 95);
+            this.network_server_enemy_lbx.TabIndex = 1;
             // 
             // StartHelper
             // 
@@ -579,5 +589,6 @@
         private System.Windows.Forms.Button network_server_connect_btn;
         private System.Windows.Forms.Button refresh_listbox4;
         private System.Windows.Forms.ListBox game_mode_lbx;
+        private System.Windows.Forms.ListBox network_server_enemy_lbx;
     }
 }

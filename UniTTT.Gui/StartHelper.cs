@@ -225,6 +225,7 @@ namespace UniTTT.Gui
             }
             if (piPageNumber == 6)
             {
+                ((Logik.Game.NetworkGame)_gameMode).JoinRequestListSizeChangedEvent += JoinRequestListSizeChanged;
                 finish_btn.Enabled = true;
             }
             if (piPageNumber == 7)
@@ -248,8 +249,28 @@ namespace UniTTT.Gui
             listBox4.Refresh();
         }
 
+        private void JoinRequestListSizeChanged()
+        {
+            if (network_server_enemy_lbx.InvokeRequired)
+            {
+                network_server_enemy_lbx.BeginInvoke(new MethodInvoker(JoinRequestListSizeChanged));
+                return;
+            }
+            network_server_enemy_lbx.DataSource = ((Logik.Game.NetworkGame)_gameMode).JoinRequests;
+            network_server_enemy_lbx.Refresh();
+        }
+
         private void finish_btn_Click(object sender, EventArgs e)
         {
+            if (_indexes.Last() == 7)
+            {
+                if (network_server_enemy_lbx.SelectedItem == null)
+                {
+                    return;
+                }
+                ((Logik.Game.NetworkGame)_gameMode).SetEnemyNick((string)network_server_enemy_lbx.SelectedItem);
+                ((Logik.Game.NetworkGame)_gameMode).SendJoinAnswer();
+            }
             for (int i = 0; i < _indexes.Count; i++)
             {
                 if (!ValidatePage(_indexes[i]))
