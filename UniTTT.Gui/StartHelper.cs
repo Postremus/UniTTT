@@ -216,6 +216,8 @@ namespace UniTTT.Gui
             }
             if (piPageNumber == 5)
             {
+                _p1 = new Logik.Player.Player('X');
+                _p2 = new Logik.Player.NetworkPlayer('O', ref _client);
                 _gameMode = new Logik.Game.NetworkGame(_p1, _p2, _brettDarsteller, null, ref _client, false);
                 ((Logik.Game.NetworkGame)_gameMode).ServerListSizeChangedEvent += ServerListSizeChanged;
                 ((Logik.Game.NetworkGame)_gameMode).UpdateServerListStarter();
