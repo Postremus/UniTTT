@@ -271,13 +271,6 @@ namespace UniTTT.Gui
                 ((Logik.Game.NetworkGame)_gameMode).SetEnemyNick((string)network_server_enemy_lbx.SelectedItem);
                 ((Logik.Game.NetworkGame)_gameMode).SendJoinAnswer();
             }
-            for (int i = 0; i < _indexes.Count; i++)
-            {
-                if (!ValidatePage(_indexes[i]))
-                {
-                    return;
-                }
-            }
             if (_indexes.Contains(6) || _indexes.Contains(7))
             {
                 DialogResult = DialogResult.OK;
