@@ -297,12 +297,35 @@ namespace UniTTT.Gui
                     _client = new TCPClient(network_server_adress_tbx.Text, int.Parse(network_server_port_tbx.Text), network_nick_tbx.Text);
                     _indexes.Add(7);
                 }
-                connect_to_server_lbl.Text += "  Erfolgreich";
+                if (_client is IRCClient)
+                {
+                    new System.Threading.Thread(ConnectWorker).Start();
+                }
+                else
+                {
+                    connect_to_server_lbl.Text = "  Erfolgreich";
+                }
             }
             catch (Exception)
             {
-                connect_to_server_lbl.Text += "  Konnte keine Verbindung herstellen. Sind alle Daten korrekt?";
+                connect_to_server_lbl.Text = "  Konnte keine Verbindung herstellen. Sind alle Daten korrekt?";
             }
+        }
+
+        private void ConnectWorker()
+        {
+            while (!((IRCClient)_client).IsConnected) ;
+            ConnectToServerLblTextSetter("  Erfolgreich");
+        }
+
+        private void ConnectToServerLblTextSetter(string text)
+        {
+            if (connect_to_server_lbl.InvokeRequired)
+            {
+                connect_to_server_lbl.Invoke(new NewMessageReceivedHandler(ConnectToServerLblTextSetter), new object[] { text });
+                return;
+            }
+            connect_to_server_lbl.Text += text;
         }
 
         private void EnableFinishButton(bool currState)
