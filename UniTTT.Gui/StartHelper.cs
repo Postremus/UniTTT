@@ -299,7 +299,9 @@ namespace UniTTT.Gui
                 }
                 if (_client is IRCClient)
                 {
-                    new System.Threading.Thread(ConnectWorker).Start();
+                    System.Threading.Thread t = new System.Threading.Thread(ConnectWorker);
+                    t.IsBackground = true;
+                    t.Start();
                 }
                 else
                 {
